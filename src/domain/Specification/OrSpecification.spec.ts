@@ -9,25 +9,19 @@ describe('OrSpecification', () => {
     expect(OrSpecification).toBeDefined();
   })
 
-  it.skip('should satisfy the OrSpecification', () => {
-    const username = 'elon_musk';
-    const age = 30;
-
+  it.each([
+    {_scenario: 'VALID_USERNAME', username: 'elon_musk', age: 32},
+    {_scenario: 'VALID_AGE', username: 'elon', age: 30}
+  ])('should satisfy the OrSpecification ($_scenario)', ({username, age}) => {
     const usernameSpec = new MockUserByUsernameSpecification(username);
     const ageSpec = new MockUserByAgeSpecification(age);
-    const andSpec = new OrSpecification(usernameSpec, ageSpec);
-    const user = MockUser.create({
-      username,
-      email: 'elon@x.com',
-      age
-    }, '123');
-
-    expect(andSpec.isSatisfiedBy(user)).toBe(true);
+    const orSpec = new OrSpecification(usernameSpec, ageSpec);
+    const user = MockUser.create({ username, email: 'elon@x.com', age }, '123');
+    expect(orSpec.isSatisfiedBy(user)).toBe(true);
   });
 
-  it.skip.each([
-    {_scenario: 'INVALID_USERNAME', username: 'elon', age: 30},
-    {_scenario: 'INVALID_AGE', username: 'elon_musk', age: 31}
+  it.each([
+    {_scenario: 'INVALID_USERNAME_AND_AGE', username: 'elon', age: 32},
   ])('should not satisfy the OrSpecification ($_scenario)', ({ username, age }) => {
     const usernameSpec = new MockUserByUsernameSpecification('elon_musk');
     const ageSpec = new MockUserByAgeSpecification(30);
