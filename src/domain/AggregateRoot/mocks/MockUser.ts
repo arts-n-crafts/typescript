@@ -2,7 +2,7 @@ import type { IDomainEvent } from "../../DomainEvent/DomainEvent";
 import { MockDomainEvent } from "../../DomainEvent/mocks/MockDomainEvent";
 import { AggregateRoot } from "../AggregateRoot";
 
-interface MockUserProps {
+export interface MockUserProps {
   username: string;
   email: string;
 }
