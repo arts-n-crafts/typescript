@@ -17,8 +17,8 @@ export interface IDomainEvent {
 }
 
 export abstract class DomainEvent<
-  TPayload extends object,
-  TMetadata extends Maybe<DomainEventMetadata>
+  TPayload extends IDomainEvent["payload"],
+  TMetadata extends IDomainEvent['metadata']
 > implements IDomainEvent {
   constructor(
     public readonly aggregateId: string,
