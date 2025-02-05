@@ -1,0 +1,26 @@
+{
+    "name": "@crafts-and-arts/typescript",
+    "module": "src/index.ts",
+    "type": "module",
+    "scripts": {
+        "lint": "eslint",
+        "lint:fix": "eslint --fix",
+        "test": "NODE_ENV=test vitest --watch --coverage",
+        "test:coverage": "NODE_ENV=test vitest --watch --coverage --ui",
+        "type:check": "tsc --noEmit"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.19.0",
+        "@stylistic/eslint-plugin": "^3.0.1",
+        "@types/bun": "latest",
+        "@vitest/coverage-istanbul": "3.0.5",
+        "@vitest/ui": "^3.0.5",
+        "eslint": "^9.19.0",
+        "globals": "^15.14.0",
+        "typescript-eslint": "^8.23.0",
+        "vitest": "^3.0.5"
+    },
+    "peerDependencies": {
+        "typescript": "^5.0.0"
+    }
+}
