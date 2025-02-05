@@ -25,7 +25,6 @@ export abstract class AggregateRoot<AggregateRootProps extends object>
   }
 
   markEventsCommitted(): void {
-    throw new Error("Method not implemented.");
+    this._uncommittedEvents = [];
   }
-
 }

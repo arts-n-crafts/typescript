@@ -33,4 +33,19 @@ describe("AggregateRoot", () => {
     aggregateRoot.apply(event);
     expect(aggregateRoot.uncommittedEvents).toStrictEqual([event]);
   })
+
+  it('should mark events as committed by clearing uncommittedEvents', () => {
+    const id = '123';
+    const props = { username: 'elon', email: 'elon@x.com', }
+    const aggregateRoot = MockUser.create(props, id);
+    const event = new MockDomainEvent(
+      '123',
+      {name: 'musk'},
+      {causationId: '123', timestamp: new Date()}
+    );
+    aggregateRoot.apply(event);
+    expect(aggregateRoot.uncommittedEvents).toStrictEqual([event]);
+    aggregateRoot.markEventsCommitted();
+    expect(aggregateRoot.uncommittedEvents).toStrictEqual([]);
+  })
 });
