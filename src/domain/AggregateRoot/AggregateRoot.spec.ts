@@ -2,14 +2,15 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { AggregateRoot } from "./AggregateRoot";
 import { MockUser, type MockUserProps } from "./mocks/MockUser";
 import { MockDomainEvent } from "../DomainEvent/mocks/MockDomainEvent";
+import type { IDomainEvent } from "../DomainEvent/DomainEvent";
 
 describe("AggregateRoot", () => {
   let id: string;
   let props: MockUserProps;
   let event: MockDomainEvent;
   let aggregateRoot: MockUser;
-  
-  beforeEach(() => { 
+
+  beforeEach(() => {
     id = '123';
     props = { username: 'elon', email: 'elon@x.com', }
     event = new MockDomainEvent(
@@ -19,7 +20,7 @@ describe("AggregateRoot", () => {
     );
     aggregateRoot = MockUser.create(props, id);
   })
-  
+
   it("should be defined", () => {
     expect(AggregateRoot).toBeDefined();
   });
@@ -39,5 +40,15 @@ describe("AggregateRoot", () => {
     expect(aggregateRoot.uncommittedEvents).toStrictEqual([event]);
     aggregateRoot.markEventsCommitted();
     expect(aggregateRoot.uncommittedEvents).toStrictEqual([]);
+  })
+
+  it('should do nothing on an unhandled event', () => {
+    const unhandledEvent: IDomainEvent = {
+      aggregateId: "4321",
+      payload: event.payload,
+      metadata: undefined
+    };
+    aggregateRoot.apply(unhandledEvent);
+    expect(aggregateRoot.props.username).toBe('elon');
   })
 });
