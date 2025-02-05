@@ -1,12 +1,12 @@
 import type { MockUser } from "../../AggregateRoot/mocks/MockUser";
-import type { ISpecification } from "../Specification";
+import type { Specification } from "../Specification";
 
-export class MockUserByUsernameSpecification implements ISpecification<MockUser> {
+export class MockUserByUsernameSpecification implements Specification<MockUser> {
   constructor(
     private username: string
   ) {}
 
   isSatisfiedBy(candidate: MockUser) {
-    return candidate.username === this.username;
+    return candidate.props.username === this.username;
   }
 }

@@ -5,6 +5,7 @@ import { AggregateRoot } from "../AggregateRoot";
 export interface MockUserProps {
   username: string;
   email: string;
+  age?: number;
 }
 
 export class MockUser extends AggregateRoot<MockUserProps> {
