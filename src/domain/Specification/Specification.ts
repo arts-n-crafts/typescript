@@ -1,3 +1,3 @@
-export interface Specification<T> {
+export interface Specification<T = unknown> {
   isSatisfiedBy(candidate: T): boolean;
 }

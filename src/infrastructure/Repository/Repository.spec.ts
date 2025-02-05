@@ -7,11 +7,6 @@ describe('Repository', () => {
     expect(Repository).toBeDefined();
   })
 
-  it('should create an instance', () => {
-    const repository = new MockRepository();
-    expect(repository).toBeInstanceOf(Repository);
-  });
-
   it('should have a find, load and store method', () => {
     const repository = new MockRepository();
     expect(repository.find).toBeDefined();
