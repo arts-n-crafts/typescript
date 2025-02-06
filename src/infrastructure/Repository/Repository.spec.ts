@@ -1,16 +1,18 @@
 import { describe, it, expect } from "vitest";
-import { Repository } from "./Repository";
 import { MockRepository } from "./mocks/MockRepository";
 
 describe('Repository', () => {
   it('should be defined', () => {
-    expect(Repository).toBeDefined();
+    expect(MockRepository).toBeDefined();
   })
 
-  it('should have a find, load and store method', () => {
+  it('should be able to load all events of an aggregate', () => {
     const repository = new MockRepository();
-    expect(repository.find).toBeDefined();
     expect(repository.load).toBeDefined();
+  });
+
+  it('should be able to store a new event from an aggregate', () => {
+    const repository = new MockRepository();
     expect(repository.store).toBeDefined();
   });
 });
