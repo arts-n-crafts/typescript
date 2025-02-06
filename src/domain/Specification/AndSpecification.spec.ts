@@ -17,7 +17,7 @@ describe('AndSpecification', () => {
     const ageSpec = new MockUserByAgeSpecification(age);
     const andSpec = new AndSpecification(usernameSpec, ageSpec);
     const user = MockUser.create({
-      username,
+      name: username,
       email: 'elon@x.com',
       age
     }, '123');
@@ -32,7 +32,7 @@ describe('AndSpecification', () => {
     const usernameSpec = new MockUserByUsernameSpecification('elon_musk');
     const ageSpec = new MockUserByAgeSpecification(30);
     const andSpec = new AndSpecification(usernameSpec, ageSpec);
-    const user = MockUser.create({ username, email: 'elon@x.com', age }, '123');
+    const user = MockUser.create({ name: username, email: 'elon@x.com', age }, '123');
     expect(andSpec.isSatisfiedBy(user)).toBe(false);
   });
 });

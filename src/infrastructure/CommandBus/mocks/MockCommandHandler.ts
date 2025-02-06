@@ -1,4 +1,4 @@
-import { MockDomainEvent } from "../../../domain/DomainEvent/mocks/MockDomainEvent";
+import { MockUserNameUpdatedEvent } from "../../../domain/DomainEvent/mocks/MockUserNameUpdated";
 import { CommandHandler } from "../CommandHandler";
 import type { MockCommand } from "./MockCommand";
 
@@ -10,9 +10,10 @@ export class MockCommandHandler extends CommandHandler<MockCommand> {
       causationId: '321',
       timestamp: new Date()
     }
-    const event = new MockDomainEvent(
-      aggregateId, eventPayload, eventMetadata
+    const event = new MockUserNameUpdatedEvent(
+      aggregateId, eventPayload
     )
+    event.applyMetadata(eventMetadata)
     this.eventStore.store(event)
   }
 }

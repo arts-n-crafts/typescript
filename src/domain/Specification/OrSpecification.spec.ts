@@ -16,7 +16,7 @@ describe('OrSpecification', () => {
     const usernameSpec = new MockUserByUsernameSpecification(username);
     const ageSpec = new MockUserByAgeSpecification(age);
     const orSpec = new OrSpecification(usernameSpec, ageSpec);
-    const user = MockUser.create({ username, email: 'elon@x.com', age }, '123');
+    const user = MockUser.create({ name: username, email: 'elon@x.com', age }, '123');
     expect(orSpec.isSatisfiedBy(user)).toBe(true);
   });
 
@@ -26,7 +26,7 @@ describe('OrSpecification', () => {
     const usernameSpec = new MockUserByUsernameSpecification('elon_musk');
     const ageSpec = new MockUserByAgeSpecification(30);
     const andSpec = new OrSpecification(usernameSpec, ageSpec);
-    const user = MockUser.create({ username, email: 'elon@x.com', age }, '123');
+    const user = MockUser.create({ name: username, email: 'elon@x.com', age }, '123');
     expect(andSpec.isSatisfiedBy(user)).toBe(false);
   });
 });

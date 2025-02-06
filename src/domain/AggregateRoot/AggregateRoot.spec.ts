@@ -1,22 +1,21 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { AggregateRoot } from "./AggregateRoot";
 import { MockUser, type MockUserProps } from "./mocks/MockUser";
-import { MockDomainEvent } from "../DomainEvent/mocks/MockDomainEvent";
+import { MockUserNameUpdatedEvent } from "../DomainEvent/mocks/MockUserNameUpdated";
 import type { IDomainEvent } from "../DomainEvent/DomainEvent";
 
 describe("AggregateRoot", () => {
   let id: string;
   let props: MockUserProps;
-  let event: MockDomainEvent;
+  let event: MockUserNameUpdatedEvent;
   let aggregateRoot: MockUser;
 
   beforeEach(() => {
     id = '123';
-    props = { username: 'elon', email: 'elon@x.com', }
-    event = new MockDomainEvent(
+    props = { name: 'elon', email: 'elon@x.com', }
+    event = new MockUserNameUpdatedEvent(
       '123',
       {name: 'musk'},
-      {causationId: '123', timestamp: new Date()}
     );
     aggregateRoot = MockUser.create(props, id);
   })
@@ -27,17 +26,17 @@ describe("AggregateRoot", () => {
 
   it('should apply the event given', () => {
     aggregateRoot.apply(event);
-    expect(aggregateRoot.props.username).toBe('musk');
+    expect(aggregateRoot.props.name).toBe('musk');
   });
 
   it('should push to uncommittedEvents', () => {
     aggregateRoot.apply(event);
-    expect(aggregateRoot.uncommittedEvents).toStrictEqual([event]);
+    expect(aggregateRoot.uncommittedEvents[1]).toStrictEqual(event);
   })
 
   it('should mark events as committed by clearing uncommittedEvents', () => {
     aggregateRoot.apply(event);
-    expect(aggregateRoot.uncommittedEvents).toStrictEqual([event]);
+    expect(aggregateRoot.uncommittedEvents[1]).toStrictEqual(event);
     aggregateRoot.markEventsCommitted();
     expect(aggregateRoot.uncommittedEvents).toStrictEqual([]);
   })
@@ -49,6 +48,6 @@ describe("AggregateRoot", () => {
       metadata: undefined
     };
     aggregateRoot.apply(unhandledEvent);
-    expect(aggregateRoot.props.username).toBe('elon');
+    expect(aggregateRoot.props.name).toBe('elon');
   })
 });

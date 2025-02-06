@@ -1,4 +1,4 @@
-import type { IRepository } from "../Repository/Repository";
+import type { Repository } from "../Repository/Repository";
 import { type IQuery, type Query } from "./Query";
 
 export interface IQueryHandler {
@@ -6,15 +6,12 @@ export interface IQueryHandler {
 }
 
 export abstract class QueryHandler<
-  TQuery extends Query<IQuery['payload'], IQuery['metadata']>
+  TQuery extends Query<IQuery['payload'], IQuery['metadata']>,
+  TResult
 > implements IQueryHandler {
   constructor(
-    protected repository: IRepository
+    protected repository: Repository
   ) { }
 
-  handle(_query: Query<IQuery["payload"], IQuery["metadata"]>): Promise<unknown> {
-    throw new Error("Method not implemented.");
-  }
-
-  abstract execute(command: TQuery): Promise<unknown>;
+  abstract handle(_query: TQuery): Promise<TResult>
 }

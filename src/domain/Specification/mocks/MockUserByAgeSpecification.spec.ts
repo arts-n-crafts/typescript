@@ -9,13 +9,13 @@ describe('MockUserByAgeSpecification', () => {
 
   it('should return true if the age is the same', () => {
     const spec = new MockUserByAgeSpecification(30);
-    const user = MockUser.create({ username: 'test', email: '', age: 30}, '123')
+    const user = MockUser.create({ name: 'test', email: '', age: 30}, '123')
     expect(spec.isSatisfiedBy(user)).toBe(true);
   });
 
   it('should return false if the age is not the same', () => {
     const spec = new MockUserByAgeSpecification(30);
-    const user = MockUser.create({ username: 'test', email: '', age: 31}, '123')
+    const user = MockUser.create({ name: 'test', email: '', age: 31}, '123')
     expect(spec.isSatisfiedBy(user)).toBe(false);
   });
 });

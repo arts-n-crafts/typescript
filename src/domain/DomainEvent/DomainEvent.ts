@@ -17,12 +17,31 @@ export interface IDomainEvent {
 }
 
 export abstract class DomainEvent<
-  TPayload extends IDomainEvent["payload"],
-  TMetadata extends IDomainEvent['metadata']
+  TPayload extends IDomainEvent["payload"]
 > implements IDomainEvent {
+  private readonly _aggregateId: string;
+  private readonly _payload: TPayload;
+  private _metadata?: IDomainEvent['metadata'];
+  
   constructor(
-    public readonly aggregateId: string,
-    public readonly payload: TPayload,
-    public readonly metadata: TMetadata
-  ) {}
+    aggregateId: string,
+    payload: TPayload
+  ) {
+    this._aggregateId = aggregateId;
+    this._payload = payload;
+  }
+  
+  applyMetadata(metadata: IDomainEvent['metadata']) {
+    this._metadata = metadata;
+  }
+  
+  get aggregateId() {
+    return this._aggregateId;
+  }
+  get payload() {
+    return this._payload;
+  }
+  get metadata(): IDomainEvent['metadata'] {
+    return this._metadata;
+  }
 }

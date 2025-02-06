@@ -15,10 +15,10 @@ export abstract class AggregateRoot<AggregateRootProps extends object>
 
   apply(event: IDomainEvent): void {
     this._uncommittedEvents.push(event);
-    this.applyEvent(event);
+    this._applyEvent(event);
   };
 
-  protected abstract applyEvent(event: IDomainEvent): void;
+  protected abstract _applyEvent(event: IDomainEvent): void;
 
   get uncommittedEvents(): IDomainEvent[] {
     return this._uncommittedEvents;

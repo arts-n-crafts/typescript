@@ -1,12 +1,12 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { MockDomainEvent, type MockDomainEventMetadata, type MockDomainEventProps } from "./mocks/MockDomainEvent";
-import { DomainEvent } from "./DomainEvent";
+import { MockUserNameUpdatedEvent, type MockUserNameUpdatedEventProps } from "./mocks/MockUserNameUpdated";
+import { DomainEvent, type IDomainEvent } from "./DomainEvent";
 
 describe('DomainEvent', () => {
   let aggregateId: string;
-  let payload: MockDomainEventProps;
+  let payload: MockUserNameUpdatedEventProps;
   let timestamp: Date;
-  let metadata: MockDomainEventMetadata;
+  let metadata: IDomainEvent['metadata'];
 
   beforeEach(() => {
     aggregateId = '123'
@@ -20,13 +20,15 @@ describe('DomainEvent', () => {
   })
 
   it('should create an instance', () => {
-    const command = new MockDomainEvent(aggregateId, payload, metadata);
-    expect(command).toBeInstanceOf(MockDomainEvent);
+    const event = new MockUserNameUpdatedEvent(aggregateId, payload);
+    event.applyMetadata(metadata);
+    expect(event).toBeInstanceOf(MockUserNameUpdatedEvent);
   });
 
   it('should contain the valid information', () => {
-    const command = new MockDomainEvent(aggregateId, payload, metadata);
-    expect(command.payload.name).toBe('test');
-    expect(command.metadata.causationId).toBe('321');
+    const event = new MockUserNameUpdatedEvent(aggregateId, payload);
+    event.applyMetadata(metadata);
+    expect(event.payload.name).toBe('test');
+    expect(event.metadata?.causationId).toBe('321');
   });
 });

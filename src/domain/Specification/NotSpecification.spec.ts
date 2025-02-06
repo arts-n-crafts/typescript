@@ -13,7 +13,7 @@ describe('NotSpecification', () => {
   ])('should not satisfy the NotSpecification ($_scenario)', ({username, age}) => {
     const usernameSpec = new MockUserByUsernameSpecification(username);
     const notSpec = new NotSpecification(usernameSpec);
-    const user = MockUser.create({ username, email: 'elon@x.com', age }, '123');
+    const user = MockUser.create({ name: username, email: 'elon@x.com', age }, '123');
     expect(notSpec.isSatisfiedBy(user)).toBe(false);
   });
 
@@ -22,7 +22,7 @@ describe('NotSpecification', () => {
   ])('should satisfy the NotSpecification ($_scenario)', ({ username, age }) => {
     const usernameSpec = new MockUserByUsernameSpecification('elon_musk');
     const notSpec = new NotSpecification(usernameSpec);
-    const user = MockUser.create({ username, email: 'elon@x.com', age }, '123');
+    const user = MockUser.create({ name: username, email: 'elon@x.com', age }, '123');
     expect(notSpec.isSatisfiedBy(user)).toBe(true);
   });
 });

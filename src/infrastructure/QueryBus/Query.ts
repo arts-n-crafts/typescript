@@ -17,8 +17,8 @@ export interface IQuery {
 }
 
 export abstract class Query<
-  TPayload extends object,
-  TMetadata extends Maybe<QueryMetadata>
+  TPayload extends IQuery['payload'],
+  TMetadata extends IQuery['metadata']
 > implements IQuery {
   constructor(
     public readonly payload: TPayload,

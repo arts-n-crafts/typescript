@@ -7,6 +7,6 @@ export class MockUserByUsernameSpecification implements Specification<MockUser> 
   ) {}
 
   isSatisfiedBy(candidate: MockUser) {
-    return candidate.props.username === this.username;
+    return candidate.props.name === this.username;
   }
 }

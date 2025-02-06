@@ -1,6 +1,6 @@
-import { DomainEvent } from "../../domain/DomainEvent/DomainEvent";
+import { type IDomainEvent } from "../../domain/DomainEvent/DomainEvent";
 
 export interface ProjectionHandler {
   start(): void;
-  updateProjection(event: DomainEvent): Promise<void>;
+  updateProjection(event: IDomainEvent): Promise<void>;
 }

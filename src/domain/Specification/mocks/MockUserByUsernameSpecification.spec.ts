@@ -9,13 +9,13 @@ describe('MockUserByUsernameSpecification', () => {
 
   it('should return true if the username is the same', () => {
     const spec = new MockUserByUsernameSpecification('test');
-    const user = MockUser.create({ username: 'test', email: ''}, '123')
+    const user = MockUser.create({ name: 'test', email: ''}, '123')
     expect(spec.isSatisfiedBy(user)).toBe(true);
   });
 
   it('should return false if the username is not the same', () => {
     const spec = new MockUserByUsernameSpecification('test');
-    const user = MockUser.create({ username: 'test2', email: ''}, '123')
+    const user = MockUser.create({ name: 'test2', email: ''}, '123')
     expect(spec.isSatisfiedBy(user)).toBe(false);
   });
 });

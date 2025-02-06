@@ -6,7 +6,7 @@ describe('Base Specification', () => {
   it('should be satisfied', () => {
     const candidate = 'John Doe'
     const specification = new MockUserByUsernameSpecification(candidate);
-    const user = MockUser.create({ username: candidate, email: ''}, '123');
+    const user = MockUser.create({ name: candidate, email: ''}, '123');
     expect(specification.isSatisfiedBy(user)).toBeTruthy();
   })
 });
