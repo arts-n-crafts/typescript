@@ -5,7 +5,11 @@ export class MockRepository extends Repository {
   load(_aggregateId: string): Promise<IAggregateRoot> {
     throw new Error("Method not implemented.");
   }
-  store(_aggregate: IAggregateRoot): Promise<void> {
-    throw new Error("Method not implemented.");
+
+  async store(aggregate: IAggregateRoot): Promise<void> {
+    aggregate.uncommittedEvents.forEach(event => {
+      this.eventStore.store(event);
+    });
+    aggregate.markEventsCommitted();
   }
 }
