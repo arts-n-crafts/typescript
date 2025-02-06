@@ -50,4 +50,9 @@ describe("AggregateRoot", () => {
     aggregateRoot.apply(unhandledEvent);
     expect(aggregateRoot.props.name).toBe('elon');
   })
+  
+  it('should rehydrate events', () => { 
+    const aggregate = MockUser.rehydrate(id, [event]);
+    expect(aggregate.props.name).toBe('musk');
+  })
 });

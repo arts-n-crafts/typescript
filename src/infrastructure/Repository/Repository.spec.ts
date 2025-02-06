@@ -28,10 +28,11 @@ describe('Repository', () => {
     expect(repository.load).toBeDefined();
   });
 
-  it.skip('should be able to store a new event from an aggregate', async () => {
+  it('should be able to store a new event from an aggregate', async () => {
     const repository = new MockRepository(eventStore);
     repository.store(aggregateRoot);
     const events = await eventStore.loadEvents(aggregateId)
-    expect(events).toStrictEqual([event]);
+    expect(events[1]).toStrictEqual(event);
+    expect(events).toHaveLength(2);
   });
 });
