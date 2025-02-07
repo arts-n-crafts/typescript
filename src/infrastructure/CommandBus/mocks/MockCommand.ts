@@ -1,14 +1,7 @@
-import { Command, type CommandMetadata, type ICommand } from "../Command";
+import { Command } from "../Command";
 
 export interface MockCommandProps {
   name: string;
 }
 
-export interface MockCommandMetadata extends CommandMetadata {
-  timestamp: Date
-}
-
-export class MockCommand extends Command<
-  MockCommandProps,
-  MockCommandMetadata
-> implements ICommand { }
+export class MockCommand extends Command<MockCommandProps> { }

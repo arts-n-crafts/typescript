@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { MockCommand, type MockCommandMetadata, type MockCommandProps } from "./mocks/MockCommand";
-import { Command } from "./Command";
+import { MockCommand, type MockCommandProps } from "./mocks/MockCommand";
+import { Command, type CommandMetadata } from "./Command";
 
 describe('Command', () => {
   let payload: MockCommandProps;
   let timestamp: Date;
-  let metadata: MockCommandMetadata;
+  let metadata: CommandMetadata;
 
   beforeEach(() => {
     payload = { name: 'test' }
@@ -25,6 +25,6 @@ describe('Command', () => {
   it('should contain the valid information', () => {
     const command = new MockCommand(payload, metadata);
     expect(command.payload.name).toBe('test');
-    expect(command.metadata.timestamp).toBe(timestamp);
+    expect(command.metadata?.timestamp).toBe(timestamp);
   });
 });
