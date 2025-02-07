@@ -1,9 +1,9 @@
 import { DomainEvent } from "../DomainEvent";
 
-export interface MockUserCreatedProps {
+export interface MockUserCreatedEventProps {
   name: string;
   email: string;
   age?: number;
 }
 
-export class MockUserCreatedEvent extends DomainEvent<MockUserCreatedProps> { }
+export class MockUserCreatedEvent extends DomainEvent<MockUserCreatedEventProps> { }
