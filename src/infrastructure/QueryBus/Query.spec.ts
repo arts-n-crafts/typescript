@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { MockQuery, type MockQueryMetadata, type MockQueryProps } from "./mocks/MockQuery";
-import { Query } from "./Query";
+import { MockQuery, type MockQueryProps } from "./mocks/MockQuery";
+import { Query, type QueryMetadata } from "./Query";
 
 describe('Query', () => {
   let payload: MockQueryProps;
   let timestamp: Date;
-  let metadata: MockQueryMetadata;
+  let metadata: QueryMetadata;
 
   beforeEach(() => {
     payload = { name: 'test' }
@@ -13,10 +13,10 @@ describe('Query', () => {
     metadata = { timestamp }
   })
 
-  it('should be defined', () => { 
+  it('should be defined', () => {
     expect(Query).toBeDefined();
   })
-  
+
   it('should create an instance', () => {
     const query = new MockQuery(payload, metadata);
     expect(query).toBeInstanceOf(MockQuery);
@@ -25,6 +25,6 @@ describe('Query', () => {
   it('should contain the valid information', () => {
     const query = new MockQuery(payload, metadata);
     expect(query.payload.name).toBe('test');
-    expect(query.metadata.timestamp).toBe(timestamp);
+    expect(query.metadata?.timestamp).toBe(timestamp);
   });
 });

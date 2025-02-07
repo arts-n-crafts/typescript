@@ -1,9 +1,12 @@
-import type { IAggregateRoot } from "../../domain/AggregateRoot/AggregateRoot";
-import type { Repository } from "../Repository/Repository";
-import { type IQuery, } from "./Query";
+import type { Maybe } from "../../core/types/Maybe";
+import type { CommandMetadata } from "../CommandBus/Command";
+import type { Query } from "./Query";
 import { type QueryHandler } from "./QueryHandler";
 
 export interface QueryBus {
-  register<TQuery extends IQuery, TResult>(queryType: string, handler: QueryHandler<Repository<IAggregateRoot<unknown>>, TQuery, TResult>): void;
-  execute<TQuery extends IQuery, TResult>(query: TQuery): Promise<TResult>;
+  register<TPayload, TResult>(
+    query: new (payload: TPayload, metadata: Maybe<CommandMetadata>) => Query<TPayload>,
+    handler: QueryHandler<Query<TPayload>, TResult>
+  ): void;
+  execute<TQuery, TResult>(query: TQuery): Promise<TResult>;
 }

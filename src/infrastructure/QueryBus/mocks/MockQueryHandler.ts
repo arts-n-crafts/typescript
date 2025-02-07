@@ -1,10 +1,9 @@
 import { MockUserNameUpdatedEvent } from "../../../domain/DomainEvent/mocks/MockUserNameUpdated";
-import type { MockUserRepository } from "../../Repository/mocks/MockRepository";
 import { QueryHandler } from "../QueryHandler";
 import type { MockQuery } from "./MockQuery";
 
-export class MockQueryHandler extends QueryHandler<MockUserRepository, MockQuery, unknown> {
-  async handle(query: MockQuery) {
+export class MockQueryHandler extends QueryHandler<MockQuery, unknown> {
+  async execute(query: MockQuery) {
     const aggregateId = '123'
     const eventPayload = { name: query.payload.name }
     const eventMetadata = {

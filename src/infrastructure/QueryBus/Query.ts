@@ -11,17 +11,9 @@ export interface QueryMetadata {
   traceId?: string;         // ID for request tracing/debugging
 }
 
-export interface IQuery {
-  readonly payload: object,
-  readonly metadata: Maybe<QueryMetadata>
-}
-
-export abstract class Query<
-  TPayload extends IQuery['payload'],
-  TMetadata extends IQuery['metadata']
-> implements IQuery {
+export abstract class Query<TPayload> {
   constructor(
     public readonly payload: TPayload,
-    public readonly metadata: TMetadata
+    public readonly metadata: Maybe<QueryMetadata>
   ) {}
 }

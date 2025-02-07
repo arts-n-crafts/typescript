@@ -1,19 +1,13 @@
 import type { IAggregateRoot } from "../../domain/AggregateRoot/AggregateRoot";
 import type { Repository } from "../Repository/Repository";
-import { type IQuery, type Query } from "./Query";
-
-export interface IQueryHandler {
-  handle(query: Query<IQuery['payload'], IQuery['metadata']>): Promise<unknown>;
-}
+import { Query } from "./Query";
 
 export abstract class QueryHandler<
-  TRepository extends Repository<IAggregateRoot<unknown>>,
-  TQuery extends Query<IQuery['payload'], IQuery['metadata']>,
-  TResult
-> implements IQueryHandler {
+  TQuery extends Query<unknown>,
+  TResult> {
   constructor(
-    protected repository: TRepository
+    protected repository: Repository<IAggregateRoot<unknown>>
   ) { }
 
-  abstract handle(_query: TQuery): Promise<TResult>
+  abstract execute(command: TQuery): Promise<TResult>;
 }
