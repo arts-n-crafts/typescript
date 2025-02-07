@@ -1,12 +1,12 @@
-import type { IAggregateRoot } from "../../domain/AggregateRoot/AggregateRoot";
+import { AggregateRoot } from "../../domain/AggregateRoot/AggregateRoot";
 import type { EventStore } from "../EventStore/EventStore";
 
-export abstract class Repository<TAggregate extends IAggregateRoot<TAggregate['props']>>
+export abstract class Repository<TAggregate extends AggregateRoot<TAggregate['props']>>
 {
   constructor(
     protected readonly eventStore: EventStore
   ) { }
 
-  abstract load(_aggregateId: string): Promise<IAggregateRoot<TAggregate['props']>>
-  abstract store(aggregate: IAggregateRoot<TAggregate['props']>): Promise<void>
+  abstract load(_aggregateId: string): Promise<AggregateRoot<TAggregate['props']>>
+  abstract store(aggregate: AggregateRoot<TAggregate['props']>): Promise<void>
 }
