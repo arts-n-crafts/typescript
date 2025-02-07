@@ -10,19 +10,11 @@ export interface DomainEventMetadata {
   [key: string]: unknown;   // Additional metadata
 }
 
-export interface IDomainEvent {
-  aggregateId: string
-  payload: object
-  metadata: Maybe<DomainEventMetadata>
-}
-
-export abstract class DomainEvent<
-  TPayload extends IDomainEvent["payload"]
-> implements IDomainEvent {
+export abstract class DomainEvent<TPayload> {
   private readonly _aggregateId: string;
   private readonly _payload: TPayload;
-  private _metadata?: IDomainEvent['metadata'];
-  
+  private _metadata?: Maybe<DomainEventMetadata>;
+
   constructor(
     aggregateId: string,
     payload: TPayload
@@ -30,18 +22,18 @@ export abstract class DomainEvent<
     this._aggregateId = aggregateId;
     this._payload = payload;
   }
-  
-  applyMetadata(metadata: IDomainEvent['metadata']) {
+
+  applyMetadata(metadata: Maybe<DomainEventMetadata>) {
     this._metadata = metadata;
   }
-  
+
   get aggregateId() {
     return this._aggregateId;
   }
   get payload() {
     return this._payload;
   }
-  get metadata(): IDomainEvent['metadata'] {
+  get metadata(): Maybe<DomainEventMetadata> {
     return this._metadata;
   }
 }

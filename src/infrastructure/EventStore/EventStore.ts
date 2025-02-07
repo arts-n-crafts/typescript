@@ -1,7 +1,6 @@
-import type { IDomainEvent } from "../../domain/DomainEvent/DomainEvent";
+import { DomainEvent } from "../../domain/DomainEvent/DomainEvent";
 
 export interface EventStore {
-  store(event: IDomainEvent): Promise<void>;
-  loadEvents(aggregateId: string): Promise<IDomainEvent[]>;
+  store(event: DomainEvent<unknown>): Promise<void>;
+  loadEvents(aggregateId: string): Promise<DomainEvent<unknown>[]>;
 }
- 

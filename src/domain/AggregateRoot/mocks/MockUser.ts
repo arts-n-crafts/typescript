@@ -1,4 +1,4 @@
-import type { IDomainEvent } from "../../DomainEvent/DomainEvent";
+import { DomainEvent } from "../../DomainEvent/DomainEvent";
 import { MockUserNameUpdatedEvent } from "../../DomainEvent/mocks/MockUserNameUpdated";
 import { MockUserCreatedEvent } from "../../DomainEvent/mocks/MockUserCreated";
 import { AggregateRoot } from "../AggregateRoot";
@@ -16,7 +16,7 @@ export class MockUser extends AggregateRoot<MockUserProps> {
     return aggregate;
   }
 
-  static rehydrate(aggregateId: string, events: IDomainEvent[]): MockUser {
+  static rehydrate(aggregateId: string, events: DomainEvent<unknown>[]): MockUser {
     const creationEvent = events.shift();
     if (!(creationEvent instanceof MockUserCreatedEvent)) {
       throw new Error('Invalid creation event found');
@@ -26,7 +26,7 @@ export class MockUser extends AggregateRoot<MockUserProps> {
     return aggregate;
   }
 
-  protected _applyEvent(event: IDomainEvent): void {
+  protected _applyEvent(event: DomainEvent<unknown>): void {
     if (event instanceof MockUserNameUpdatedEvent) {
       this.props.name = event.payload.name;
     }

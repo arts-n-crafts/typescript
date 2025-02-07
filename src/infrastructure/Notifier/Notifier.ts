@@ -1,7 +1,7 @@
-import { type IDomainEvent } from "../../domain/DomainEvent/DomainEvent";
+import { DomainEvent } from "../../domain/DomainEvent/DomainEvent";
 
 type NotificationChannel = "websocket" | "email" | "sms" | "push";
 
 export interface Notifier {
-  notify(event: IDomainEvent, channels: NotificationChannel[]): void;
+  notify(event: DomainEvent<unknown>, channels: NotificationChannel[]): void;
 }

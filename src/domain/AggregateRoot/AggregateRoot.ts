@@ -1,17 +1,17 @@
-import type { IDomainEvent } from "../DomainEvent/DomainEvent";
+import { DomainEvent } from "../DomainEvent/DomainEvent";
 import { Entity } from "../Entity/Entity";
 
 export abstract class AggregateRoot<TProps> extends Entity<TProps> {
-  private _uncommittedEvents: IDomainEvent[] = [];
+  private _uncommittedEvents: DomainEvent<unknown>[] = [];
 
-  apply(event: IDomainEvent): void {
+  apply(event: DomainEvent<unknown>): void {
     this._uncommittedEvents.push(event);
     this._applyEvent(event);
   };
 
-  protected abstract _applyEvent(event: IDomainEvent): void;
+  protected abstract _applyEvent(event: DomainEvent<unknown>): void;
 
-  get uncommittedEvents(): IDomainEvent[] {
+  get uncommittedEvents(): DomainEvent<unknown>[] {
     return this._uncommittedEvents;
   }
 

@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { AggregateRoot } from "./AggregateRoot";
 import { MockUser, type MockUserProps } from "./mocks/MockUser";
 import { MockUserNameUpdatedEvent } from "../DomainEvent/mocks/MockUserNameUpdated";
-import type { IDomainEvent } from "../DomainEvent/DomainEvent";
+import { DomainEvent } from "../DomainEvent/DomainEvent";
 import { MockUserCreatedEvent } from "../DomainEvent/mocks/MockUserCreated";
 
 describe("AggregateRoot", () => {
@@ -42,11 +42,8 @@ describe("AggregateRoot", () => {
   })
 
   it('should do nothing on an unhandled event', () => {
-    const unhandledEvent: IDomainEvent = {
-      aggregateId: "4321",
-      payload: mockUserNameUpdatedEvent.payload,
-      metadata: undefined
-    };
+    class UnhandledEvent extends DomainEvent<Record<string, unknown>> { }
+    const unhandledEvent = new UnhandledEvent("4321", {});
     aggregateRoot.apply(unhandledEvent);
     expect(aggregateRoot.props.name).toBe('elon');
   })

@@ -1,8 +1,10 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { InMemoryEventStore } from "./implementations/InMemoryEventStore";
-import type { IDomainEvent } from "../../domain/DomainEvent/DomainEvent";
+import { DomainEvent } from "../../domain/DomainEvent/DomainEvent";
 
 describe("InMemoryEventStore", () => {
+  class SomeDomainEvent extends DomainEvent<Record<string, unknown>> { };
+
   let eventStore: InMemoryEventStore;
 
   beforeEach(() => {
@@ -10,11 +12,7 @@ describe("InMemoryEventStore", () => {
   });
 
   it("should store and load an event", async () => {
-    const event: IDomainEvent = {
-      aggregateId: "123",
-      payload: { data: "test" },
-      metadata: { timestamp: new Date() },
-    };
+    const event = new SomeDomainEvent("123", { data: "test" });
 
     await eventStore.store(event);
     const events = await eventStore.loadEvents("123");
@@ -24,21 +22,9 @@ describe("InMemoryEventStore", () => {
   });
 
   it("should store and load multiple events", async () => {
-    const event: IDomainEvent = {
-      aggregateId: "123",
-      payload: { data: "test" },
-      metadata: { timestamp: new Date() },
-    };
-    const event2: IDomainEvent = {
-      aggregateId: "123",
-      payload: { data: "test2" },
-      metadata: { timestamp: new Date() },
-    };
-    const event3: IDomainEvent = {
-      aggregateId: "1234",
-      payload: { data: "test3" },
-      metadata: { timestamp: new Date() },
-    };
+    const event = new SomeDomainEvent("123", { data: "test" });
+    const event2 = new SomeDomainEvent("123", { data: "test2" });
+    const event3 = new SomeDomainEvent("1234", { data: "test" });
 
     await eventStore.store(event);
     await eventStore.store(event2);
