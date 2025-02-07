@@ -1,15 +1,15 @@
 import type { IDomainEvent } from "../DomainEvent/DomainEvent";
 import { Entity, type IEntity } from "../Entity/Entity";
 
-export interface IAggregateRoot extends IEntity {
+export interface IAggregateRoot<TProps> extends IEntity<TProps> {
   apply(event: IDomainEvent): void;
   uncommittedEvents: IDomainEvent[];
   markEventsCommitted(): void;
 }
 
-export abstract class AggregateRoot<AggregateRootProps extends object>
-  extends Entity<AggregateRootProps>
-  implements IAggregateRoot
+export abstract class AggregateRoot<TProps>
+  extends Entity<TProps>
+  implements AggregateRoot<TProps>
 {
   private _uncommittedEvents: IDomainEvent[] = [];
 

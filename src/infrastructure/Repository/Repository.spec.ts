@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { MockRepository } from "./mocks/MockRepository";
+import { MockUserRepository } from "./mocks/MockRepository";
 import type { EventStore } from "../EventStore/EventStore";
 import { InMemoryEventStore } from "../EventStore/implementations/InMemoryEventStore";
 import { MockUserNameUpdatedEvent } from "../../domain/DomainEvent/mocks/MockUserNameUpdated";
@@ -20,11 +20,11 @@ describe('Repository', () => {
   });
 
   it('should be defined', () => {
-    expect(MockRepository).toBeDefined();
+    expect(MockUserRepository).toBeDefined();
   });
 
   it('should be able to store a new event from an aggregate', async () => {
-    const repository = new MockRepository(eventStore);
+    const repository = new MockUserRepository(eventStore);
     repository.store(aggregateRoot);
     const events = await eventStore.loadEvents(aggregateId)
     expect(events[1]).toStrictEqual(mockUserNameUpdateEvent);
@@ -32,7 +32,7 @@ describe('Repository', () => {
   });
 
   it('should rehydrate the aggregate based on it\'s events', async () => {
-    const repository = new MockRepository(eventStore);
+    const repository = new MockUserRepository(eventStore);
     repository.store(aggregateRoot);
     const aggregate = await repository.load(aggregateId);
     expect(aggregate.props.name).toBe(mockUserNameUpdateEvent.payload.name);

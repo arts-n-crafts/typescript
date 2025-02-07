@@ -1,21 +1,21 @@
 import type { Maybe } from "../../core/types/Maybe";
 
-export interface IEntity {
+export interface IEntity<TProps> {
   readonly id: Maybe<string>;                   // The unique identifier for the entity
-  readonly props: object;                       // The properties of the entity
-  equals(other: IEntity): boolean;              // Equality based on ID
+  readonly props: TProps;                       // The properties of the entity
+  equals(other: IEntity<TProps>): boolean;              // Equality based on ID
 }
 
-export abstract class Entity<TProps extends IEntity['props']> implements IEntity {
-  readonly _id: IEntity['id'];
+export abstract class Entity<TProps> implements IEntity<TProps> {
+  readonly _id: IEntity<TProps>['id'];
   readonly _props: TProps;
 
-  protected constructor(props: TProps, id: IEntity['id']) {
+  protected constructor(props: TProps, id: IEntity<TProps>['id']) {
     this._id = id;
     this._props = props;
   }
 
-  get id(): IEntity['id'] {
+  get id(): IEntity<TProps>['id'] {
     return this._id;
   }
 
@@ -23,7 +23,7 @@ export abstract class Entity<TProps extends IEntity['props']> implements IEntity
     return this._props;
   }
 
-  equals(other: IEntity): boolean {
+  equals(other: IEntity<TProps>): boolean {
     return this.id === other.id;
   }
 }
