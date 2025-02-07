@@ -1,6 +1,6 @@
 import type { IDomainEvent } from "../../DomainEvent/DomainEvent";
 import { MockUserNameUpdatedEvent } from "../../DomainEvent/mocks/MockUserNameUpdated";
-import { MockUserCreated } from "../../DomainEvent/mocks/MockUserCreated";
+import { MockUserCreatedEvent } from "../../DomainEvent/mocks/MockUserCreated";
 import { AggregateRoot } from "../AggregateRoot";
 
 export interface MockUserProps {
@@ -12,13 +12,17 @@ export interface MockUserProps {
 export class MockUser extends AggregateRoot<MockUserProps> {
   static create(props: MockUserProps, id: string) {
     const aggregate = new MockUser(props, id);
-    aggregate.apply(new MockUserCreated(id, props))
+    aggregate.apply(new MockUserCreatedEvent(id, props))
     return aggregate;
   }
 
   static rehydrate(aggregateId: string, events: IDomainEvent[]): MockUser {
-    const aggregate = new MockUser({ name: "", email: "" }, aggregateId);
-    events.forEach(event => aggregate.apply(event));
+    const creationEvent = events.shift();
+    if (!(creationEvent instanceof MockUserCreatedEvent)) {
+      throw new Error('Invalid creation event found');
+    }
+    const aggregate = new MockUser(creationEvent.payload, aggregateId);
+    events.forEach(event => aggregate._applyEvent(event));
     return aggregate;
   }
 

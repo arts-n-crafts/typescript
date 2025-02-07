@@ -6,4 +6,4 @@ export interface MockUserCreatedProps {
   age?: number;
 }
 
-export class MockUserCreated extends DomainEvent<MockUserCreatedProps> { }
+export class MockUserCreatedEvent extends DomainEvent<MockUserCreatedProps> { }
