@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { MockUserRepository } from "./mocks/MockRepository";
+import { MockUserRepository } from "./mocks/MockUserRepository";
 import type { EventStore } from "../EventStore/EventStore";
 import { InMemoryEventStore } from "../EventStore/implementations/InMemoryEventStore";
 import { MockUserNameUpdatedEvent } from "../../domain/DomainEvent/mocks/MockUserNameUpdated";
