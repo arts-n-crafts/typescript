@@ -3,8 +3,6 @@ import { MockUserRegistrationEmailSentEvent } from "../../../domain/DomainEvent/
 import type { EventStore } from "../../EventStore/EventStore";
 import { EventHandler } from "../EventHandler";
 
-
-
 export class MockUserCreatedEventHandler
   extends EventHandler<MockUserCreatedEvent> {
   constructor(

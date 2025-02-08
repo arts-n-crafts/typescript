@@ -1,6 +1,14 @@
 import { DomainEvent } from "../../domain/DomainEvent/DomainEvent";
+import type { EventHandler } from "./EventHandler";
 
-export interface EventBus {
-  subscribe(eventType: string, handler: (event: DomainEvent<unknown>) => void): void;
-  publish(event: DomainEvent<unknown>): void;
+export class EventBus {
+  private handlers: Map<string, EventHandler<DomainEvent<unknown>>> = new Map();
+
+  subscribe(eventName: string, handler: EventHandler<DomainEvent<unknown>>): void {
+    this.handlers.set(eventName, handler);
+  }
+
+  publish(_event: DomainEvent<unknown>): void {
+    throw new Error("Method not implemented.");
+  }
 }
