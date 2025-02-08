@@ -1,19 +1,19 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { CommandBus } from "./CommandBus";
-import { MockCommand } from "./mocks/MockCommand";
-import { MockCommandHandler } from "./mocks/MockCommandHandler";
+import { MockUpdateUserNameCommand } from "./mocks/MockUpdateUserNameCommand";
+import { MockUpdateUserNameCommandHandler } from "./mocks/MockUpdateUserNameCommandHandler";
 import { InMemoryEventStore } from "../EventStore/implementations/InMemoryEventStore";
 import type { EventStore } from "../EventStore/EventStore";
 
 describe('CommandBus', () => {
   let eventStore: EventStore;
   let commandBus: CommandBus;
-  let handler: MockCommandHandler;
+  let handler: MockUpdateUserNameCommandHandler;
 
   beforeEach(() => {
     eventStore = new InMemoryEventStore();
     commandBus = new CommandBus();
-    handler = new MockCommandHandler(eventStore);
+    handler = new MockUpdateUserNameCommandHandler(eventStore);
   });
 
   it('should be defined', () => {
@@ -21,13 +21,13 @@ describe('CommandBus', () => {
   });
 
   it('should register a command handler', () => {
-    commandBus.register(MockCommand, handler);
+    commandBus.register(MockUpdateUserNameCommand, handler);
   });
 
   it('should process the command via commandBus and return the event', async () => {
-    commandBus.register(MockCommand, handler);
+    commandBus.register(MockUpdateUserNameCommand, handler);
 
-    const command: MockCommand = new MockCommand(
+    const command: MockUpdateUserNameCommand = new MockUpdateUserNameCommand(
       { name: 'test' },
       { timestamp: new Date() }
     );
@@ -39,7 +39,7 @@ describe('CommandBus', () => {
   })
   
   it('should throw an error if no handler is registered for the command type', async () => {
-    const command: MockCommand = new MockCommand(
+    const command: MockUpdateUserNameCommand = new MockUpdateUserNameCommand(
       { name: 'test' },
       { timestamp: new Date() }
     );
@@ -48,10 +48,10 @@ describe('CommandBus', () => {
   });
   
   it('should throw an error if a handler is already registered for the command type', () => {
-    commandBus.register(MockCommand, handler);
+    commandBus.register(MockUpdateUserNameCommand, handler);
 
     expect(() => {
-      commandBus.register(MockCommand, handler);
+      commandBus.register(MockUpdateUserNameCommand, handler);
     }).toThrow('Handler already registered for command type: MockCommand');
   });
 });

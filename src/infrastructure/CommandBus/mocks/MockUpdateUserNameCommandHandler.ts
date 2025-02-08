@@ -1,9 +1,9 @@
 import { MockUserNameUpdatedEvent } from "../../../domain/DomainEvent/mocks/MockUserNameUpdated";
 import { CommandHandler } from "../CommandHandler";
-import type { MockCommand } from "./MockCommand";
+import type { MockUpdateUserNameCommand } from "./MockUpdateUserNameCommand";
 
-export class MockCommandHandler extends CommandHandler<MockCommand> {
-  async execute(command: MockCommand) {
+export class MockUpdateUserNameCommandHandler extends CommandHandler<MockUpdateUserNameCommand> {
+  async execute(command: MockUpdateUserNameCommand) {
     const aggregateId = '123'
     const eventPayload = { name: command.payload.name }
     const eventMetadata = {

@@ -1,24 +1,24 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { MockCommandHandler } from "./mocks/MockCommandHandler";
+import { MockUpdateUserNameCommandHandler } from "./mocks/MockUpdateUserNameCommandHandler";
 import type { EventStore } from "../EventStore/EventStore";
 import { InMemoryEventStore } from "../EventStore/implementations/InMemoryEventStore";
-import { MockCommand } from "./mocks/MockCommand";
+import { MockUpdateUserNameCommand } from "./mocks/MockUpdateUserNameCommand";
 
 describe('CommandHandler', () => {
   let eventStore: EventStore;
-  let handler: MockCommandHandler;
+  let handler: MockUpdateUserNameCommandHandler;
 
   beforeEach(() => {
     eventStore = new InMemoryEventStore();
-    handler = new MockCommandHandler(eventStore);
+    handler = new MockUpdateUserNameCommandHandler(eventStore);
   })
 
   it('should be defined', () => {
-    expect(MockCommandHandler).toBeDefined();
+    expect(MockUpdateUserNameCommandHandler).toBeDefined();
   });
 
   it('should process the command and return an event', async () => {
-    const command: MockCommand = new MockCommand(
+    const command: MockUpdateUserNameCommand = new MockUpdateUserNameCommand(
       { name: 'test' },
       { timestamp: new Date() }
     );
