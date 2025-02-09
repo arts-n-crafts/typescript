@@ -1,6 +1,7 @@
 import { Command } from "../Command";
 
 export interface MockUpdateUserNameCommandProps {
+  aggregateId: string;
   name: string;
 }
 

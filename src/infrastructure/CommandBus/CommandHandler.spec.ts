@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, beforeAll } from "vitest";
 import { MockUpdateUserNameCommandHandler } from "./mocks/MockUpdateUserNameCommandHandler";
 import type { EventStore } from "../EventStore/EventStore";
 import { MockUpdateUserNameCommand } from "./mocks/MockUpdateUserNameCommand";
@@ -9,34 +9,26 @@ import type { AggregateRoot } from "../../domain/AggregateRoot/AggregateRoot";
 import { MockCreateUserCommand, type MockCreateUserCommandProps } from "./mocks/MockCreateUserCommand";
 import { MockCreateUserCommandHandler } from "./mocks/MockCreateUserCommandHandler";
 import { MockUserCreatedEvent } from "../../domain/DomainEvent/mocks/MockUserCreated";
+import { MockUserNameUpdatedEvent } from "../../domain/DomainEvent/mocks/MockUserNameUpdated";
 
-describe('CommandHandler', () => {
-  let aggregateId: string;
-  let eventStore: EventStore;
-  let repository: Repository<AggregateRoot<unknown>>
-  let updateUserNameHandler: MockUpdateUserNameCommandHandler;
-
-  beforeEach(async () => {
-    eventStore = new InMemoryEventStore();
-    repository = new MockUserRepository(eventStore);
-    const createUserHandler = new MockCreateUserCommandHandler(repository);
-    updateUserNameHandler = new MockUpdateUserNameCommandHandler(repository);
-
-    const props: MockCreateUserCommandProps = {
-      name: 'Elon',
-      email: 'musk@x.com',
-      age: 52
-    }
-    const command = new MockCreateUserCommand(props, null);
-    const { id } = await createUserHandler.execute(command)
-    aggregateId = id;
-  })
+describe('CommandHandler', async () => {
+  const eventStore: EventStore = new InMemoryEventStore();
+  const repository: Repository<AggregateRoot<unknown>> = new MockUserRepository(eventStore);
+  const createUserHandler = new MockCreateUserCommandHandler(repository);
+  const props: MockCreateUserCommandProps = {
+    name: 'Elon',
+    email: 'musk@x.com',
+    age: 52
+  }
+  const command = new MockCreateUserCommand(props, null);
+  const { id } = await createUserHandler.execute(command)
+  const aggregateId: string = id;
 
   it('should be defined', () => {
     expect(MockUpdateUserNameCommandHandler).toBeDefined();
   });
 
-  it('should process the command and emit the UserCreated event', async () => {
+  it('should process the MockCreateUser Command and emit the MockUserCreated Event', async () => {
     const events = await eventStore.loadEvents(aggregateId);
     const event = events[0];
     expect(events).toHaveLength(1);
@@ -44,14 +36,19 @@ describe('CommandHandler', () => {
     expect(event.aggregateId).toBe(aggregateId);
   })
 
-  it.skip('should process the command and return an event', async () => {
+  it('should process the MockUpdateUserName Command and emit the MockUserNameUpdated Event', async () => {
+    const updateUserNameHandler = new MockUpdateUserNameCommandHandler(repository);
+    const payload = { aggregateId, name: 'test' }
+    const metadata = { timestamp: new Date() }
     const command: MockUpdateUserNameCommand = new MockUpdateUserNameCommand(
-      { name: 'test' },
-      { timestamp: new Date() }
+      payload, metadata
     );
-    updateUserNameHandler.execute(command)
-    const events = await eventStore.loadEvents('123');
-    expect(events).toHaveLength(1);
-    expect(events[0].metadata?.causationId).toBe('321');
+    await updateUserNameHandler.execute(command)
+
+    const events = await eventStore.loadEvents(aggregateId);
+    const event = events[1];
+    expect(events).toHaveLength(2);
+    expect(event).toBeInstanceOf(MockUserNameUpdatedEvent);
+    expect(event.aggregateId).toBe(aggregateId);
   })
 });

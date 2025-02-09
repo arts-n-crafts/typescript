@@ -4,16 +4,10 @@ import type { MockUpdateUserNameCommand } from "./MockUpdateUserNameCommand";
 
 export class MockUpdateUserNameCommandHandler extends CommandHandler<MockUpdateUserNameCommand> {
   async execute(command: MockUpdateUserNameCommand) {
-    const aggregateId = '123'
-    const eventPayload = { name: command.payload.name }
-    const eventMetadata = {
-      causationId: '321',
-      timestamp: new Date()
-    }
-    const event = new MockUserNameUpdatedEvent(
-      aggregateId, eventPayload
-    )
-    event.applyMetadata(eventMetadata)
-    this.eventStore.store(event)
+    const { aggregateId, ...payload } = command.payload;
+    const event = new MockUserNameUpdatedEvent( aggregateId, payload );
+    const aggregate = await this.repository.load(aggregateId);
+    aggregate.apply(event)
+    await this.repository.store(aggregate);
   }
 }

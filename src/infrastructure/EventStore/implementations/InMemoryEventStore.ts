@@ -14,6 +14,6 @@ export class InMemoryEventStore implements EventStore {
   }
 
   async loadEvents(aggregateId: string): Promise<DomainEvent<unknown>[]> {
-    return this.events[aggregateId] || [];
+    return [...(this.events[aggregateId] || [])];
   }
 }
