@@ -9,4 +9,8 @@ export class MockUserByAgeSpecification implements Specification<MockUser> {
   isSatisfiedBy(candidate: MockUser) {
     return candidate.props.age === this.age;
   }
+
+  toQuery(..._args: unknown[]): string {
+    throw new Error("Method not implemented.");
+  }
 }

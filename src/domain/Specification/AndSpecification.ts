@@ -2,11 +2,15 @@ import type { Specification } from "./Specification";
 
 export class AndSpecification<T> implements Specification<T> {
   constructor(
-    private spec1: Specification<T>,
-    private spec2: Specification<T>
+    private left: Specification<T>,
+    private right: Specification<T>
   ) {}
 
   isSatisfiedBy(entity: T): boolean {
-    return this.spec1.isSatisfiedBy(entity) && this.spec2.isSatisfiedBy(entity);
+    return this.left.isSatisfiedBy(entity) && this.right.isSatisfiedBy(entity);
+  }
+  
+  toQuery(..._args: unknown[]): string {
+    throw new Error("Method not implemented.");
   }
 }
