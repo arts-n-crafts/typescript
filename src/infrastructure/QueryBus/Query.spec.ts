@@ -1,16 +1,12 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { MockQuery, type MockQueryProps } from "./mocks/MockQuery";
-import { Query, type QueryMetadata } from "./Query";
+import { MockGetUserByEmailQuery, type MockGetUserByEmailQueryProps } from "./mocks/MockGetUserByEmailQuery";
+import { Query } from "./Query";
 
 describe('Query', () => {
-  let payload: MockQueryProps;
-  let timestamp: Date;
-  let metadata: QueryMetadata;
+  let payload: MockGetUserByEmailQueryProps;
 
   beforeEach(() => {
-    payload = { name: 'test' }
-    timestamp = new Date()
-    metadata = { timestamp }
+    payload = { email: 'test' }
   })
 
   it('should be defined', () => {
@@ -18,13 +14,12 @@ describe('Query', () => {
   })
 
   it('should create an instance', () => {
-    const query = new MockQuery(payload, metadata);
-    expect(query).toBeInstanceOf(MockQuery);
+    const query = new MockGetUserByEmailQuery(payload);
+    expect(query).toBeInstanceOf(MockGetUserByEmailQuery);
   });
 
   it('should contain the valid information', () => {
-    const query = new MockQuery(payload, metadata);
-    expect(query.payload.name).toBe('test');
-    expect(query.metadata?.timestamp).toBe(timestamp);
+    const query = new MockGetUserByEmailQuery(payload);
+    expect(query.payload.email).toBe('test');
   });
 });
