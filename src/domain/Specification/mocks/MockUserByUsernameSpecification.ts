@@ -9,8 +9,8 @@ export class MockUserByUsernameSpecification implements Specification<MockUser> 
   isSatisfiedBy(candidate: MockUser) {
     return candidate.props.name === this.username;
   }
-  
-  toQuery(..._args: unknown[]): Record<string, unknown> {
-    throw new Error("Method not implemented.");
+
+  toQuery(): Record<string, unknown> {
+    return { name: this.username }
   }
 }
