@@ -4,7 +4,8 @@ import { Query } from "./Query";
 
 export abstract class QueryHandler<
   TQuery extends Query<unknown>,
-  TResult> {
+  TResult> 
+{
   constructor(
     protected repository: Repository<AggregateRoot<unknown>>
   ) { }
