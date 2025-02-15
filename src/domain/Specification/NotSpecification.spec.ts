@@ -25,4 +25,11 @@ describe('NotSpecification', () => {
     const user = MockUser.create({ name: username, email: 'elon@x.com', age }, '123');
     expect(notSpec.isSatisfiedBy(user)).toBe(true);
   });
+
+  it('should return a flat NotSpecification', () => {
+    const username = 'elon_musk';
+    const usernameSpec = new MockUserByUsernameSpecification(username);
+    const notSpec = new NotSpecification(usernameSpec);
+    expect(notSpec.toQuery()).toStrictEqual([ usernameSpec.toQuery(), ].flat());
+  });
 });

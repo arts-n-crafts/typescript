@@ -9,6 +9,6 @@ export class NotSpecification<T> implements Specification<T> {
   }
   
   toQuery(): Array<Record<string, unknown>> {
-    throw new Error("Method not implemented.");
+    return [this.spec.toQuery()].flat();
   }
 }

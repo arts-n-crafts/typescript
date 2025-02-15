@@ -29,4 +29,16 @@ describe('OrSpecification', () => {
     const user = MockUser.create({ name: username, email: 'elon@x.com', age }, '123');
     expect(andSpec.isSatisfiedBy(user)).toBe(false);
   });
+  
+  it('should return a flat OrSpecification', () => {
+    const username = 'elon_musk';
+    const age = 30;
+    const usernameSpec = new MockUserByUsernameSpecification(username);
+    const ageSpec = new MockUserByAgeSpecification(age);
+    const andSpec = new OrSpecification(usernameSpec, ageSpec);
+    expect(andSpec.toQuery()).toStrictEqual([
+      usernameSpec.toQuery(),
+      ageSpec.toQuery()
+    ].flat());
+  });
 });

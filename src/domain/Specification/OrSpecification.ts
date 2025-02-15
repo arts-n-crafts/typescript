@@ -12,6 +12,6 @@ export class OrSpecification<T> implements Specification<T> {
   }
   
   toQuery(): Array<Record<string, unknown>> {
-    throw new Error("Method not implemented.");
+    return [this.left.toQuery(), this.right.toQuery()].flat();
   }
 }
