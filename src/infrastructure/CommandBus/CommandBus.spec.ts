@@ -33,7 +33,7 @@ describe('CommandBus', () => {
     commandBus.register(MockUpdateUserNameCommand, handler);
 
     const command: MockUpdateUserNameCommand = new MockUpdateUserNameCommand(
-      { name: 'test' },
+      { aggregateId: '123', name: 'test' },
       { timestamp: new Date() }
     );
     commandBus.execute(command)
@@ -45,7 +45,7 @@ describe('CommandBus', () => {
 
   it('should throw an error if no handler is registered for the command type', async () => {
     const command: MockUpdateUserNameCommand = new MockUpdateUserNameCommand(
-      { name: 'test' },
+      { aggregateId: '123', name: 'test' },
       { timestamp: new Date() }
     );
 

@@ -8,15 +8,15 @@ describe('Command', () => {
   let metadata: CommandMetadata;
 
   beforeEach(() => {
-    payload = { name: 'test' }
+    payload = { aggregateId: '123', name: 'test' }
     timestamp = new Date()
     metadata = { timestamp }
   })
 
-  it('should be defined', () => { 
+  it('should be defined', () => {
     expect(Command).toBeDefined();
   })
-  
+
   it('should create an instance', () => {
     const command = new MockUpdateUserNameCommand(payload, metadata);
     expect(command).toBeInstanceOf(MockUpdateUserNameCommand);
