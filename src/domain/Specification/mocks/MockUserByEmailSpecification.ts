@@ -1,3 +1,4 @@
+import type { FilledArray } from "../../../core/types/FilledArray";
 import type { MockUser } from "../../AggregateRoot/mocks/MockUser";
 import type { Specification } from "../Specification";
 
@@ -10,7 +11,7 @@ export class MockUserByEmailSpecification implements Specification<MockUser> {
     return candidate.props.email === this.email;
   }
 
-  toQuery(): Array<Record<string, unknown>> {
+  toQuery(): FilledArray {
     return [{ email: this.email }]
   }
 }

@@ -1,3 +1,4 @@
+import type { FilledArray } from "../../core/types/FilledArray";
 import type { Specification } from "./Specification";
 
 export class AndSpecification<T> implements Specification<T> {
@@ -10,7 +11,7 @@ export class AndSpecification<T> implements Specification<T> {
     return this.left.isSatisfiedBy(entity) && this.right.isSatisfiedBy(entity);
   }
   
-  toQuery(): Array<Record<string, unknown>> {
-    return [this.left.toQuery(), this.right.toQuery()].flat();
+  toQuery(): FilledArray {
+    return [...this.left.toQuery(), ...this.right.toQuery()];
   }
 }

@@ -1,3 +1,4 @@
+import type { FilledArray } from "../../../core/types/FilledArray";
 import type { MockUser } from "../../AggregateRoot/mocks/MockUser";
 import type { Specification } from "../Specification";
 
@@ -10,7 +11,7 @@ export class MockUserByUsernameSpecification implements Specification<MockUser> 
     return candidate.props.name === this.username;
   }
 
-  toQuery(): Array<Record<string, unknown>> {
+  toQuery(): FilledArray {
     return [{ name: this.username }]
   }
 }

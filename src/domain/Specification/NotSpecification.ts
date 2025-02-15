@@ -1,3 +1,4 @@
+import type { FilledArray } from "../../core/types/FilledArray";
 import type { Specification } from "./Specification";
 
 export class NotSpecification<T> implements Specification<T> {
@@ -8,7 +9,7 @@ export class NotSpecification<T> implements Specification<T> {
     return !this.spec.isSatisfiedBy(candidate);
   }
   
-  toQuery(): Array<Record<string, unknown>> {
-    return [this.spec.toQuery()].flat();
+  toQuery(): FilledArray {
+    return [...this.spec.toQuery()];
   }
 }
