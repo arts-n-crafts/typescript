@@ -3,19 +3,26 @@ import { MockUserByAgeSpecification } from "./MockUserByAgeSpecification";
 import { MockUser } from "../../AggregateRoot/mocks/MockUser";
 
 describe('MockUserByAgeSpecification', () => {
+  const candidate = 30
+  const specification = new MockUserByAgeSpecification(candidate);
+
   it('should be defined', () => {
     expect(MockUserByAgeSpecification).toBeDefined();
   })
 
   it('should return true if the age is the same', () => {
-    const spec = new MockUserByAgeSpecification(30);
-    const user = MockUser.create({ name: 'test', email: '', age: 30}, '123')
-    expect(spec.isSatisfiedBy(user)).toBe(true);
+
+    const user = MockUser.create({ name: 'test', email: '', age: candidate}, '123')
+    expect(specification.isSatisfiedBy(user)).toBe(true);
   });
 
   it('should return false if the age is not the same', () => {
-    const spec = new MockUserByAgeSpecification(30);
     const user = MockUser.create({ name: 'test', email: '', age: 31}, '123')
-    expect(spec.isSatisfiedBy(user)).toBe(false);
+    expect(specification.isSatisfiedBy(user)).toBe(false);
+  });
+
+  it('should return the correct filter for lookups', () => {
+    const query = specification.toQuery();
+    expect(query).toStrictEqual({ age: candidate })
   });
 });
