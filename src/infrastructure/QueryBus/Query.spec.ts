@@ -6,7 +6,7 @@ describe('Query', () => {
   let payload: MockGetUserByEmailQueryProps;
 
   beforeEach(() => {
-    payload = { email: 'test' }
+    payload = { aggregateId: '123', email: 'test' }
   })
 
   it('should be defined', () => {
