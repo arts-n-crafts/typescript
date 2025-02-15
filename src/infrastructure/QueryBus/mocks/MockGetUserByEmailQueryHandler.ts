@@ -2,9 +2,14 @@ import { MockUserByEmailSpecification } from "../../../domain/Specification/mock
 import { QueryHandler } from "../QueryHandler";
 import type { MockGetUserByEmailQuery } from "./MockGetUserByEmailQuery";
 
-export class MockGetUserByEmailQueryHandler extends QueryHandler<MockGetUserByEmailQuery, unknown> {
-  async execute(query: MockGetUserByEmailQuery) {
+interface MockGetUserByEmailQueryResult {
+  id: string;
+  email: string;
+}
+
+export class MockGetUserByEmailQueryHandler extends QueryHandler<MockGetUserByEmailQuery, MockGetUserByEmailQueryResult[]> {
+  async execute(query: MockGetUserByEmailQuery): Promise<MockGetUserByEmailQueryResult[]> {
     const specification = new MockUserByEmailSpecification(query.payload.email);
-    this.database.query('users', specification);
+    return this.database.query<MockGetUserByEmailQueryResult>('users', specification);
   }
 }

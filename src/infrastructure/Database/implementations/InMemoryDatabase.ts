@@ -9,11 +9,12 @@ export class InMemoryDatabase implements Database {
     const data = this.datasource.get(tableName);
     if (!data) throw new Error(`Table ${tableName.toString()} not found`);
 
-    const [key, value] = Object.values(spec.toQuery()[0]);
+    const entry = spec.toQuery()[0]
+    const [key, value] = Object.entries(entry).flat();
 
     // @TODO: fix type casting here
     return data.filter((record: DatabaseRecord) => {
-      return record[key as keyof typeof record] === value
+      return record[key as unknown as keyof typeof record] === value
     }) as T[];
   }
 

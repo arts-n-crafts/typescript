@@ -1,7 +1,7 @@
 import type { Database } from "../Database/Database";
 import { Query } from "./Query";
 
-export abstract class QueryHandler< TQuery extends Query<unknown>, TResult>  {
+export abstract class QueryHandler<TQuery extends Query, TResult>  {
   constructor(
     protected database: Database
   ) { }
