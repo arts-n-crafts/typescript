@@ -7,18 +7,27 @@ import type { EventStore } from "../EventStore/EventStore";
 import { MockUserRepository } from "../Repository/mocks/MockUserRepository";
 import type { AggregateRoot } from "../../domain/AggregateRoot/AggregateRoot";
 import type { Repository } from "../Repository/Repository";
+import { MockCreateUserCommandHandler } from "./mocks/MockCreateUserCommandHandler";
+import { MockCreateUserCommand } from "./mocks/MockCreateUserCommand";
+import type { MockUserNameUpdatedEvent } from "../../domain/DomainEvent/mocks/MockUserNameUpdated";
 
 describe('CommandBus', () => {
   let eventStore: EventStore;
   let repository: Repository<AggregateRoot<unknown>>
   let commandBus: CommandBus;
   let handler: MockUpdateUserNameCommandHandler;
+  let id: string;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     eventStore = new InMemoryEventStore();
     repository = new MockUserRepository(eventStore);
     commandBus = new CommandBus();
     handler = new MockUpdateUserNameCommandHandler(repository);
+
+    const createUserHandler = new MockCreateUserCommandHandler(repository);
+    const command = new MockCreateUserCommand({ name: 'Elon', email: 'musk@x.com', age: 52 }, null);
+    const result = await createUserHandler.execute(command)
+    id = result.id
   });
 
   it('should be defined', () => {
@@ -29,18 +38,19 @@ describe('CommandBus', () => {
     commandBus.register(MockUpdateUserNameCommand, handler);
   });
 
-  it.skip('should process the command via commandBus and return the event', async () => {
+  it('should process the command via commandBus and return the event', async () => {
     commandBus.register(MockUpdateUserNameCommand, handler);
 
     const command: MockUpdateUserNameCommand = new MockUpdateUserNameCommand(
-      { aggregateId: '123', name: 'test' },
+      { aggregateId: id, name: 'test' },
       { timestamp: new Date() }
     );
-    commandBus.execute(command)
+    await commandBus.execute(command)
 
-    const events = await eventStore.loadEvents('123');
-    expect(events).toHaveLength(1);
-    expect(events[0].metadata?.causationId).toBe('321');
+    const events = await eventStore.loadEvents(id);
+    const event = events.at(-1) as MockUserNameUpdatedEvent;
+    expect(events).toHaveLength(2);
+    expect(event.payload.name).toBe('test');
   })
 
   it('should throw an error if no handler is registered for the command type', async () => {

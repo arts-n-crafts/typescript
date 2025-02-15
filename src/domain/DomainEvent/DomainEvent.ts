@@ -30,7 +30,7 @@ export abstract class DomainEvent<TPayload> {
   get aggregateId() {
     return this._aggregateId;
   }
-  get payload() {
+  get payload(): TPayload {
     return this._payload;
   }
   get metadata(): Maybe<DomainEventMetadata> {
