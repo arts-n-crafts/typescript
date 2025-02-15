@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { EventBus } from "./EventBus";
-import { MockUserCreatedEvent } from "../../domain/DomainEvent/mocks/MockUserCreated";
 import { MockUserCreatedEventHandler } from "./mocks/MockUserCreatedEventHandler";
 import type { EventStore } from "../EventStore/EventStore";
 import { InMemoryEventStore } from "../EventStore/implementations/InMemoryEventStore";
@@ -21,6 +20,6 @@ describe("EventBus", () => {
   });
 
   it('should be able subscribe to events', () => {
-    eventBus.subscribe(MockUserCreatedEvent.constructor.name, mockUserCreatedEventHandler);
+    eventBus.subscribe(mockUserCreatedEventHandler);
   });
 });
