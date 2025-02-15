@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, beforeAll } from "vitest";
+import { describe, it, expect } from "vitest";
 import { MockUpdateUserNameCommandHandler } from "./mocks/MockUpdateUserNameCommandHandler";
 import type { EventStore } from "../EventStore/EventStore";
 import { MockUpdateUserNameCommand } from "./mocks/MockUpdateUserNameCommand";

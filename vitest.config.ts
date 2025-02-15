@@ -2,6 +2,9 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
+    watch: false,
+    globals: true,
+    reporters: ['verbose'],
     include:  ['src/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
     exclude: [
       '**/node_modules/**',
@@ -12,6 +15,12 @@ export default defineConfig({
     coverage: {
       provider: 'istanbul',
       reporter: ['text', 'json', 'html'],
+      thresholds: {
+        lines: 100,
+        statements: 100,
+        functions: 100,
+        branches: 100,
+      },
     },
   },
 })

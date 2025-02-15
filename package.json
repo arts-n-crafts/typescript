@@ -1,27 +1,29 @@
 {
-    "name": "@crafts-and-arts/typescript",
-    "module": "src/index.ts",
-    "type": "module",
-    "scripts": {
-        "lint": "eslint",
-        "lint:fix": "eslint --fix",
-        "test": "NODE_ENV=test vitest --coverage",
-        "test:watch": "NODE_ENV=test vitest --watch",
-        "test:coverage": "NODE_ENV=test vitest --watch --coverage --ui",
-        "typecheck": "tsc --noEmit"
-    },
-    "devDependencies": {
-        "@eslint/js": "^9.19.0",
-        "@stylistic/eslint-plugin": "^3.0.1",
-        "@types/bun": "latest",
-        "@vitest/coverage-istanbul": "3.0.5",
-        "@vitest/ui": "^3.0.5",
-        "eslint": "^9.19.0",
-        "globals": "^15.14.0",
-        "typescript-eslint": "^8.23.0",
-        "vitest": "^3.0.5"
-    },
-    "peerDependencies": {
-        "typescript": "^5.0.0"
-    }
+  "name": "@crafts-and-arts/typescript",
+  "module": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "prepare": "husky",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "test": "NODE_ENV=test vitest --coverage",
+    "test:watch": "NODE_ENV=test vitest --watch",
+    "test:ui": "NODE_ENV=test vitest --watch --coverage --ui",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@stylistic/eslint-plugin": "^3.0.1",
+    "@types/bun": "latest",
+    "@vitest/coverage-istanbul": "3.0.5",
+    "@vitest/ui": "^3.0.5",
+    "eslint": "^9.19.0",
+    "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "typescript-eslint": "^8.23.0",
+    "vitest": "^3.0.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
 }
