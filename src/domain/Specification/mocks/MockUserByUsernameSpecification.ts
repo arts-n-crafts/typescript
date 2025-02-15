@@ -10,7 +10,7 @@ export class MockUserByUsernameSpecification implements Specification<MockUser> 
     return candidate.props.name === this.username;
   }
 
-  toQuery(): Record<string, unknown> {
-    return { name: this.username }
+  toQuery(): Array<Record<string, unknown>> {
+    return [{ name: this.username }]
   }
 }

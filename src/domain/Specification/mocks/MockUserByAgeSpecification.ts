@@ -10,7 +10,7 @@ export class MockUserByAgeSpecification implements Specification<MockUser> {
     return candidate.props.age === this.age;
   }
 
-  toQuery(): Record<string, unknown> {
-    return { age: this.age }
+  toQuery(): Array<Record<string, unknown>> {
+    return [{ age: this.age }]
   }
 }

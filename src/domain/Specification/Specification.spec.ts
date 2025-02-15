@@ -18,6 +18,6 @@ describe('Base Specification', () => {
 
   it('should return the correct filter for lookups', () => {
     const query = specification.toQuery();
-    expect(query).toStrictEqual({ name: candidate })
+    expect(query).toStrictEqual([{ name: candidate }])
   });
 });

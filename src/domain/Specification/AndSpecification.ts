@@ -10,7 +10,7 @@ export class AndSpecification<T> implements Specification<T> {
     return this.left.isSatisfiedBy(entity) && this.right.isSatisfiedBy(entity);
   }
   
-  toQuery(): Record<string, unknown> {
+  toQuery(): Array<Record<string, unknown>> {
     throw new Error("Method not implemented.");
   }
 }
