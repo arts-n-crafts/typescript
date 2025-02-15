@@ -8,7 +8,7 @@ export class NotSpecification<T> implements Specification<T> {
     return !this.spec.isSatisfiedBy(candidate);
   }
   
-  toQuery(..._args: unknown[]): string {
+  toQuery(): Record<string, unknown> {
     throw new Error("Method not implemented.");
   }
 }

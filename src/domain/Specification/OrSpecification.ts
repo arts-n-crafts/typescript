@@ -11,7 +11,7 @@ export class OrSpecification<T> implements Specification<T> {
       || this.right.isSatisfiedBy(entity);
   }
   
-  toQuery(..._args: unknown[]): string {
+  toQuery(): Record<string, unknown> {
     throw new Error("Method not implemented.");
   }
 }
