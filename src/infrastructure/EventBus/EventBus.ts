@@ -2,13 +2,17 @@ import { DomainEvent } from "../../domain/DomainEvent/DomainEvent";
 import type { EventHandler } from "./EventHandler";
 
 export class EventBus {
-  private handlers: Set<EventHandler<DomainEvent<unknown>>> = new Set();
+  private handlers: Array<EventHandler<DomainEvent<unknown>>> = [];
 
   subscribe(handler: EventHandler<DomainEvent<unknown>>): void {
-    this.handlers.add(handler);
+    this.handlers.push(handler);
   }
 
-  publish(_event: DomainEvent<unknown>): void {
-    throw new Error("Method not implemented.");
+  async publish(event: DomainEvent<unknown>): Promise<void> {
+    await Promise.all(
+      this.handlers.map(
+        (handler) => handler.handle(event)
+      )
+    )
   }
 }

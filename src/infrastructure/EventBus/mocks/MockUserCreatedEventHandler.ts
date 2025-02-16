@@ -16,6 +16,10 @@ export class MockUserCreatedEventHandler
       event.aggregateId,
       { status: 'SUCCESS' }
     );
+    emailSentEvent.applyMetadata({
+      causationId: event.metadata?.eventId,
+      correlationId: event.metadata?.correlationId
+    });
     this.eventStore.store(emailSentEvent)
   }
 }
