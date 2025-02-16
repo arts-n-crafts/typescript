@@ -1,18 +1,16 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { MockUserNameUpdatedEvent, type MockUserNameUpdatedEventProps } from "./mocks/MockUserNameUpdated";
-import { DomainEvent, type DomainEventMetadata } from "./DomainEvent";
+import { DomainEvent, type DomainEventMetadataProps } from "./DomainEvent";
 
 describe('DomainEvent', () => {
   let aggregateId: string;
   let payload: MockUserNameUpdatedEventProps;
-  let timestamp: Date;
-  let metadata: DomainEventMetadata;
+  let metadata: DomainEventMetadataProps;
 
   beforeEach(() => {
     aggregateId = '123'
     payload = { name: 'test' }
-    timestamp = new Date()
-    metadata = { timestamp, causationId: '321' }
+    metadata = { causationId: '321' }
   })
 
   it('should be defined', () => {
