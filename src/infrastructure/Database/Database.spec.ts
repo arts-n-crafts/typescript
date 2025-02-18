@@ -3,7 +3,7 @@ import { randomUUID } from "crypto";
 import { InMemoryDatabase } from "./implementations/InMemoryDatabase";
 import { Operation } from "./Database";
 import { MockUserByUsernameSpecification } from "../../domain/Specification/mocks/MockUserByUsernameSpecification";
-import { DuplicateRecordException, RecordNotFoundException } from "./Database.exceptions";
+import { DuplicateRecordException, RecordNotFoundException, TableDoesNotExistException } from "./Database.exceptions";
 
 describe('Database', () => {
   const store = 'users';
@@ -18,6 +18,14 @@ describe('Database', () => {
 
   it('should be defined', () => {
     expect(InMemoryDatabase).toBeDefined();
+  });
+
+  describe('SELECT', () => {
+    it('should return TableDoesNotExistException if the table does not exist', async () => {
+      const spec = new MockUserByUsernameSpecification(user.name);
+      const query = database.query('nonexistent', spec);
+      await expect(query).rejects.toBeInstanceOf(TableDoesNotExistException);
+    });
   });
 
   describe('CREATE', () => {

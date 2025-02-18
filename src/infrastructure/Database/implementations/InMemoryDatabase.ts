@@ -1,13 +1,13 @@
 import type { Specification } from "../../../domain/Specification/Specification";
 import { Operation, type Database, type DatabaseRecord, type Statement } from "../Database";
-import { DuplicateRecordException, RecordNotFoundException } from "../Database.exceptions";
+import { DuplicateRecordException, RecordNotFoundException, TableDoesNotExistException } from "../Database.exceptions";
 
 export class InMemoryDatabase implements Database {
   private readonly datasource = new Map<string, DatabaseRecord[]>();
 
   async query<T>(tableName: string, spec: Specification): Promise<T[]> {
     const data = this.datasource.get(tableName);
-    if (!data) throw new Error(`Table ${tableName.toString()} not found`);
+    if (!data) throw new TableDoesNotExistException(`Table ${tableName.toString()} not found`);
 
     const entry = spec.toQuery()[0]
     const [key, value] = Object.entries(entry).flat();
