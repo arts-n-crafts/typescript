@@ -10,7 +10,7 @@
         "test": "NODE_ENV=test vitest",
         "test:watch": "NODE_ENV=test vitest --coverage --watch",
         "test:ui": "NODE_ENV=test vitest --watch --coverage --ui",
-        "test:coverage": "NODE_ENV=test vitest --coverage",
+        "coverage": "NODE_ENV=test vitest --coverage",
         "typecheck": "tsc --noEmit"
     },
     "config": {
