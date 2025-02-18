@@ -2,7 +2,7 @@ import { MockUserByEmailSpecification } from "../../../domain/Specification/mock
 import { QueryHandler } from "../QueryHandler";
 import type { MockGetUserByEmailQuery } from "./MockGetUserByEmailQuery";
 
-interface MockGetUserByEmailQueryResult {
+export interface MockGetUserByEmailQueryResult {
   id: string;
   email: string;
 }

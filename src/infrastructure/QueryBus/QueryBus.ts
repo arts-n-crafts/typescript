@@ -15,13 +15,17 @@ export class QueryBus implements IQueryBus {
   private handlers: Map<string, QueryHandler<Query<unknown>, unknown>> = new Map();
 
   register<TPayload, TResult>(
-    _query: new (payload: TPayload, metadata: Maybe<CommandMetadata>) => Query<TPayload>,
-    _handler: QueryHandler<Query<TPayload>, TResult>
+    query: new (payload: TPayload, metadata: Maybe<CommandMetadata>) => Query<TPayload>,
+    handler: QueryHandler<Query<TPayload>, TResult>
   ): void {
-    throw new Error("Method not implemented.");
+    console.log(query.name)
+    if (this.handlers.has(query.name)) {
+      throw new Error(`Handler already registered for query type: ${query.name}`);
+    }
+    this.handlers.set(query.name, handler);
   }
 
-  async execute(query: Query<unknown>): Promise<unknown> {
+  async execute<TResult>(query: Query<unknown>): Promise<TResult> {
     const handler = this.handlers.get(query.constructor.name)
     if (!handler) {
       throw new Error(`No handler found for query type: ${query.constructor.name}`);
