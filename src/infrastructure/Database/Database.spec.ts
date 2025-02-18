@@ -3,7 +3,7 @@ import { randomUUID } from "crypto";
 import { InMemoryDatabase } from "./implementations/InMemoryDatabase";
 import { Operation } from "./Database";
 import { MockUserByUsernameSpecification } from "../../domain/Specification/mocks/MockUserByUsernameSpecification";
-import { DuplicateRecordException, RecordNotFoundException, TableDoesNotExistException } from "./Database.exceptions";
+import { DuplicateRecordException, OperationNotSupported, RecordNotFoundException, TableDoesNotExistException } from "./Database.exceptions";
 
 describe('Database', () => {
   const store = 'users';
@@ -81,6 +81,16 @@ describe('Database', () => {
       const statement = database.execute(store, { operation: Operation.DELETE, payload: deletedUser });
 
       await expect(statement).rejects.toBeInstanceOf(RecordNotFoundException);
+    });
+  });
+
+  describe('OPERATION NOT SUPPORTED', () => {
+    it('should throw an error if the operation is not supported', async () => {
+      const unsupportedOperation = { operation: 'unsupported' as Operation, payload: user };
+
+      const statement = database.execute(store, unsupportedOperation);
+
+      await expect(statement).rejects.toBeInstanceOf(OperationNotSupported);
     });
   });
 });

@@ -15,3 +15,9 @@ export class DuplicateRecordException extends Error {
     super(`Duplicate record found for id: ${id}`);
   }
 }
+
+export class OperationNotSupported extends Error {
+  constructor(operation: string) {
+    super(`Operation not supported: ${operation}`);
+  }
+}

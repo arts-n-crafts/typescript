@@ -1,6 +1,6 @@
 import type { Specification } from "../../../domain/Specification/Specification";
 import { Operation, type Database, type DatabaseRecord, type Statement } from "../Database";
-import { DuplicateRecordException, RecordNotFoundException, TableDoesNotExistException } from "../Database.exceptions";
+import { DuplicateRecordException, OperationNotSupported, RecordNotFoundException, TableDoesNotExistException } from "../Database.exceptions";
 
 export class InMemoryDatabase implements Database {
   private readonly datasource = new Map<string, DatabaseRecord[]>();
@@ -40,5 +40,8 @@ export class InMemoryDatabase implements Database {
       table.splice(index, 1);
       return;
     }
+    
+    throw new OperationNotSupported(statement.operation);
+    
   }
 }
