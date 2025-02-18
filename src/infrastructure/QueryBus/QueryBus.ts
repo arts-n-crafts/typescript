@@ -18,7 +18,6 @@ export class QueryBus implements IQueryBus {
     query: new (payload: TPayload, metadata: Maybe<CommandMetadata>) => Query<TPayload>,
     handler: QueryHandler<Query<TPayload>, TResult>
   ): void {
-    console.log(query.name)
     if (this.handlers.has(query.name)) {
       throw new Error(`Handler already registered for query type: ${query.name}`);
     }
@@ -30,6 +29,6 @@ export class QueryBus implements IQueryBus {
     if (!handler) {
       throw new Error(`No handler found for query type: ${query.constructor.name}`);
     }
-    throw new Error("Method not implemented.");
+    return handler.execute(query) as TResult;
   }
 }

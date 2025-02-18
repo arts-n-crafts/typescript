@@ -39,6 +39,18 @@ describe("QueryBus", () => {
     expect(() => bus.register(MockGetUserByEmailQuery, handler)).toThrow(`Handler already registered for query type: ${MockGetUserByEmailQuery.name}`);
   });
 
+  it('should execute a query', async () => {
+    const query = new MockGetUserByEmailQuery(payload)
+    const handler = new MockGetUserByEmailQueryHandler(database)
+    const bus = new QueryBus();
+    bus.register(MockGetUserByEmailQuery, handler)
+
+    const results = await bus.execute<MockGetUserByEmailQueryResult[]>(query)
+
+    expect(results[0]?.id).toEqual(user.id);
+    expect(results).toHaveLength(1);
+  });
+
   it('should throw an error if the query handler is not registered', async () => {
     const query = new MockGetUserByEmailQuery(payload)
     const bus = new QueryBus();
