@@ -6,6 +6,5 @@ export abstract class ProjectionHandler {
     private readonly database: Database
   ) {}
 
-  abstract start(): void
-  abstract updateProjection(event: DomainEvent<unknown>): Promise<void>
+  abstract update(event: DomainEvent<unknown>): Promise<void>
 }
