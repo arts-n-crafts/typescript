@@ -15,6 +15,6 @@ export interface CommandMetadata {
 export abstract class Command<TPayload> {
   constructor(
     public readonly payload: TPayload,
-    public readonly metadata: Maybe<CommandMetadata>
+    public readonly metadata?: Maybe<CommandMetadata>
   ) {}
 }

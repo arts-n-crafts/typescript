@@ -1,6 +1,11 @@
 import { DomainEvent } from "../../domain/DomainEvent/DomainEvent";
+import type { EventBus } from "../EventBus/EventBus";
 
-export interface EventStore {
-  store(event: DomainEvent<unknown>): Promise<void>;
-  loadEvents(aggregateId: string): Promise<DomainEvent<unknown>[]>;
+export abstract class EventStore {
+  constructor(
+    protected readonly eventBus: EventBus
+  ) {}
+
+  abstract store(event: DomainEvent<unknown>): Promise<void>;
+  abstract loadEvents(aggregateId: string): Promise<DomainEvent<unknown>[]>;
 }

@@ -10,9 +10,11 @@ import { MockCreateUserCommand, type MockCreateUserCommandProps } from "./mocks/
 import { MockCreateUserCommandHandler } from "./mocks/MockCreateUserCommandHandler";
 import { MockUserCreatedEvent } from "../../domain/DomainEvent/mocks/MockUserCreated";
 import { MockUserNameUpdatedEvent } from "../../domain/DomainEvent/mocks/MockUserNameUpdated";
+import { EventBus } from "../EventBus/EventBus";
 
 describe('CommandHandler', async () => {
-  const eventStore: EventStore = new InMemoryEventStore();
+  const eventBus: EventBus = new EventBus();
+  const eventStore: EventStore = new InMemoryEventStore(eventBus);
   const repository: Repository<AggregateRoot<unknown>> = new MockUserRepository(eventStore);
   const createUserHandler = new MockCreateUserCommandHandler(repository);
   const props: MockCreateUserCommandProps = {

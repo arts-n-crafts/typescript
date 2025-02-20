@@ -10,8 +10,10 @@ import type { Repository } from "../Repository/Repository";
 import { MockCreateUserCommandHandler } from "./mocks/MockCreateUserCommandHandler";
 import { MockCreateUserCommand } from "./mocks/MockCreateUserCommand";
 import type { MockUserNameUpdatedEvent } from "../../domain/DomainEvent/mocks/MockUserNameUpdated";
+import { EventBus } from "../EventBus/EventBus";
 
 describe('CommandBus', () => {
+  let eventBus: EventBus;
   let eventStore: EventStore;
   let repository: Repository<AggregateRoot<unknown>>
   let commandBus: CommandBus;
@@ -19,7 +21,8 @@ describe('CommandBus', () => {
   let id: string;
 
   beforeEach(async () => {
-    eventStore = new InMemoryEventStore();
+    eventBus = new EventBus();
+    eventStore = new InMemoryEventStore(eventBus);
     repository = new MockUserRepository(eventStore);
     commandBus = new CommandBus();
     handler = new MockUpdateUserNameCommandHandler(repository);

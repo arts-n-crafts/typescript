@@ -1,14 +1,17 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { InMemoryEventStore } from "./implementations/InMemoryEventStore";
 import { DomainEvent } from "../../domain/DomainEvent/DomainEvent";
+import { EventBus } from "../EventBus/EventBus";
 
 describe("InMemoryEventStore", () => {
   class SomeDomainEvent extends DomainEvent<Record<string, unknown>> { };
 
+  let eventBus: EventBus;
   let eventStore: InMemoryEventStore;
 
   beforeEach(() => {
-    eventStore = new InMemoryEventStore();
+    eventBus = new EventBus();
+    eventStore = new InMemoryEventStore(eventBus);
   });
 
   it("should store and load an event", async () => {

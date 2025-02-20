@@ -15,14 +15,11 @@ describe("EventBus", () => {
 
   beforeEach(() => {
     eventBus = new EventBus();
-    eventStore = new InMemoryEventStore();
+    eventStore = new InMemoryEventStore(eventBus);
     handler = new MockUserCreatedEventHandler(eventStore);
     aggregateId = '123'
     payload = { name: 'test', email: 'musk@x.com' }
   })
-
-  beforeEach(() => {
-  });
 
   it("should be defined", () => {
     expect(EventBus).toBeDefined()

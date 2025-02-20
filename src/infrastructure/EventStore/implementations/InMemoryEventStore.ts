@@ -1,7 +1,7 @@
 import { DomainEvent } from "../../../domain/DomainEvent/DomainEvent";
-import type { EventStore } from "../EventStore";
+import { EventStore } from "../EventStore";
 
-export class InMemoryEventStore implements EventStore {
+export class InMemoryEventStore extends EventStore {
   private events: Record<string, DomainEvent<unknown>[]> = {};
 
   async store(event: DomainEvent<unknown>): Promise<void> {
@@ -11,6 +11,7 @@ export class InMemoryEventStore implements EventStore {
       return;
     }
     this.events[key].push(event);
+    await this.eventBus.publish(event);
   }
 
   async loadEvents(aggregateId: string): Promise<DomainEvent<unknown>[]> {

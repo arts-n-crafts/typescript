@@ -31,7 +31,7 @@ export class InMemoryDatabase implements Database {
     if (statement.operation === Operation.UPDATE) {
       const index = table.findIndex((item) => item.id === statement.payload.id);
       if (index === -1) throw new RecordNotFoundException(statement.payload.id);
-      table[index] = statement.payload
+      table[index] = {...table[index], ...statement.payload}
       return;
     }
     if (statement.operation === Operation.DELETE) {

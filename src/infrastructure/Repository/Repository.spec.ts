@@ -4,16 +4,19 @@ import type { EventStore } from "../EventStore/EventStore";
 import { InMemoryEventStore } from "../EventStore/implementations/InMemoryEventStore";
 import { MockUserNameUpdatedEvent } from "../../domain/DomainEvent/mocks/MockUserNameUpdated";
 import { MockUser } from "../../domain/AggregateRoot/mocks/MockUser";
+import { EventBus } from "../EventBus/EventBus";
 
 describe('Repository', () => {
   let aggregateId: string;
+  let eventBus: EventBus;
   let eventStore: EventStore;
   let mockUserNameUpdateEvent: MockUserNameUpdatedEvent;
   let aggregateRoot: MockUser;
 
   beforeEach(() => {
     aggregateId = '123';
-    eventStore = new InMemoryEventStore();
+    eventBus = new EventBus();
+    eventStore = new InMemoryEventStore(eventBus);
     mockUserNameUpdateEvent = new MockUserNameUpdatedEvent( '123', { name: 'musk' }, );
     aggregateRoot = MockUser.create({ name: 'elon', email: 'elon@x.com', }, aggregateId);
     aggregateRoot.apply(mockUserNameUpdateEvent);

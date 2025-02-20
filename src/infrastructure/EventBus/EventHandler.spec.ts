@@ -5,15 +5,18 @@ import { MockUserCreatedEvent, type MockUserCreatedEventProps } from "../../doma
 import { InMemoryEventStore } from "../EventStore/implementations/InMemoryEventStore";
 import type { EventStore } from "../EventStore/EventStore";
 import { MockUserRegistrationEmailSentEvent } from "../../domain/DomainEvent/mocks/MockUserRegistrationEmailSent";
+import { EventBus } from "./EventBus";
 
 describe('EventHandler', () => {
+  let eventBus: EventBus;
   let eventStore: EventStore;
   let handler: MockUserCreatedEventHandler;
   let aggregateId: string;
   let payload: MockUserCreatedEventProps;
 
   beforeEach(() => {
-    eventStore = new InMemoryEventStore();
+    eventBus = new EventBus();
+    eventStore = new InMemoryEventStore(eventBus);
     handler = new MockUserCreatedEventHandler(eventStore);
     aggregateId = '123'
     payload = { name: 'test', email: 'musk@x.com' }
