@@ -1,7 +1,7 @@
-import { DomainEvent } from "../DomainEvent";
+import { DomainEvent } from '../DomainEvent'
 
 export interface MockUserNameUpdatedEventProps {
-  name: string;
+  name: string
 }
 
 export class MockUserNameUpdatedEvent extends DomainEvent<MockUserNameUpdatedEventProps> { }

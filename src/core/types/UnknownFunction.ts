@@ -1,1 +1,1 @@
-export type UnknownFunction = (...args: unknown[]) => unknown;
+export type UnknownFunction = (...args: unknown[]) => unknown

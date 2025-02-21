@@ -1,7 +1,7 @@
-import { Query } from "../Query";
+import { Query } from '../Query'
 
 export interface MockGetUserByEmailQueryProps {
-  email: string;
+  email: string
 }
 
 export class MockGetUserByEmailQuery extends Query<MockGetUserByEmailQueryProps> { }

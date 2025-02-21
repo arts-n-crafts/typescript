@@ -1,40 +1,41 @@
 {
-    "name": "@crafts-and-arts/typescript",
-    "module": "src/index.ts",
-    "type": "module",
-    "scripts": {
-        "prepare": "husky",
-        "commit": "cz",
-        "lint": "eslint",
-        "lint:fix": "eslint --fix",
-        "test": "NODE_ENV=test vitest",
-        "test:watch": "NODE_ENV=test vitest --coverage --watch",
-        "test:ui": "NODE_ENV=test vitest --watch --coverage --ui",
-        "coverage": "NODE_ENV=test vitest --coverage",
-        "typecheck": "tsc --noEmit"
-    },
-    "config": {
-        "commitizen": {
-            "path": "./node_modules/cz-conventional-changelog"
-        }
-    },
-    "devDependencies": {
-        "@commitlint/cli": "^19.7.1",
-        "@commitlint/config-conventional": "^19.7.1",
-        "@eslint/js": "^9.19.0",
-        "@stylistic/eslint-plugin": "^3.0.1",
-        "@types/bun": "latest",
-        "@vitest/coverage-istanbul": "3.0.5",
-        "@vitest/ui": "^3.0.5",
-        "commitizen": "^4.3.1",
-        "cz-conventional-changelog": "^3.3.0",
-        "eslint": "^9.19.0",
-        "globals": "^15.14.0",
-        "husky": "^9.1.7",
-        "typescript-eslint": "^8.23.0",
-        "vitest": "^3.0.5"
-    },
-    "peerDependencies": {
-        "typescript": "^5.0.0"
+  "name": "@crafts-and-arts/typescript",
+  "type": "module",
+  "module": "src/index.ts",
+  "scripts": {
+    "prepare": "husky",
+    "commit": "cz",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "test": "NODE_ENV=test vitest",
+    "test:watch": "NODE_ENV=test vitest --coverage --watch",
+    "test:ui": "NODE_ENV=test vitest --watch --coverage --ui",
+    "coverage": "NODE_ENV=test vitest --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.3.0",
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
+    "@eslint/js": "^9.19.0",
+    "@stylistic/eslint-plugin": "^3.0.1",
+    "@types/bun": "latest",
+    "@vitest/coverage-istanbul": "3.0.5",
+    "@vitest/ui": "^3.0.5",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^9.19.0",
+    "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "typescript-eslint": "^8.23.0",
+    "vitest": "^3.0.5"
+  }
 }

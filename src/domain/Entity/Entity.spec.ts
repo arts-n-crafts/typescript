@@ -1,36 +1,36 @@
-import { describe, expect, it } from "vitest";
-import { MockUser } from "./mocks/MockUser";
+import { describe, expect, it } from 'vitest'
+import { MockUser } from './mocks/MockUser'
 
-describe('MockUser', () => {
+describe('mockUser', () => {
   it('should be defined', () => {
-    expect(MockUser).toBeDefined();
-  });
+    expect(MockUser).toBeDefined()
+  })
 
   it('should succeed to create a MockUser', () => {
-    const id = '123';
+    const id = '123'
     const props = {
       username: 'elon',
       email: 'elon@x.com',
     }
-    const mockUser = MockUser.create(props, id);
-    expect(mockUser).toBeInstanceOf(MockUser);
-    expect(mockUser.id).toBe(id);
-    expect(mockUser.props).toEqual(props);
-  });
+    const mockUser = MockUser.create(props, id)
+    expect(mockUser).toBeInstanceOf(MockUser)
+    expect(mockUser.id).toBe(id)
+    expect(mockUser.props).toEqual(props)
+  })
 
   it('should succeed to compare two MockUsers', () => {
-    const id = '123';
-    const props = { username: 'elon', email: 'elon@x.com', };
-    const mockUser1 = MockUser.create(props, id);
-    const mockUser2 = MockUser.create(props, id);
-    expect(mockUser1.equals(mockUser2)).toBe(true);
-  });
+    const id = '123'
+    const props = { username: 'elon', email: 'elon@x.com' }
+    const mockUser1 = MockUser.create(props, id)
+    const mockUser2 = MockUser.create(props, id)
+    expect(mockUser1.equals(mockUser2)).toBe(true)
+  })
 
   it('should fail to compare two MockUsers', () => {
-    const id = '123';
-    const props = { username: 'elon', email: 'elon@x.com', };
-    const mockUser1 = MockUser.create(props, id);
-    const mockUser2 = MockUser.create(props, '124');
-    expect(mockUser1.equals(mockUser2)).toBe(false);
-  });
-});
+    const id = '123'
+    const props = { username: 'elon', email: 'elon@x.com' }
+    const mockUser1 = MockUser.create(props, id)
+    const mockUser2 = MockUser.create(props, '124')
+    expect(mockUser1.equals(mockUser2)).toBe(false)
+  })
+})

@@ -1,25 +1,25 @@
-import type { MockUserCreatedEvent } from "../../../domain/DomainEvent/mocks/MockUserCreated";
-import { MockUserRegistrationEmailSentEvent } from "../../../domain/DomainEvent/mocks/MockUserRegistrationEmailSent";
-import type { EventStore } from "../../EventStore/EventStore";
-import { EventHandler } from "../EventHandler";
+import type { MockUserCreatedEvent } from '../../../domain/DomainEvent/mocks/MockUserCreated'
+import type { EventStore } from '../../EventStore/EventStore'
+import { MockUserRegistrationEmailSentEvent } from '../../../domain/DomainEvent/mocks/MockUserRegistrationEmailSent'
+import { EventHandler } from '../EventHandler'
 
 export class MockUserCreatedEventHandler
   extends EventHandler<MockUserCreatedEvent> {
   constructor(
-    private readonly eventStore: EventStore
+    private readonly eventStore: EventStore,
   ) {
-    super();
+    super()
   }
 
   async handle(event: MockUserCreatedEvent): Promise<void> {
     const emailSentEvent = new MockUserRegistrationEmailSentEvent(
       event.aggregateId,
-      { status: 'SUCCESS' }
-    );
+      { status: 'SUCCESS' },
+    )
     emailSentEvent.applyMetadata({
       causationId: event.metadata?.eventId,
-      correlationId: event.metadata?.correlationId
-    });
-    this.eventStore.store(emailSentEvent)
+      correlationId: event.metadata?.correlationId,
+    })
+    await this.eventStore.store(emailSentEvent)
   }
 }

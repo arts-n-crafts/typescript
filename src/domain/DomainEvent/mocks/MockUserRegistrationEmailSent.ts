@@ -1,7 +1,7 @@
-import { DomainEvent } from "../DomainEvent";
+import { DomainEvent } from '../DomainEvent'
 
 export interface MockUserRegistrationEmailSentProps {
-  status: 'SUCCESS' | 'FAILED';
+  status: 'SUCCESS' | 'FAILED'
 }
 
 export class MockUserRegistrationEmailSentEvent

@@ -1,22 +1,22 @@
-import type { Specification } from "../../domain/Specification/Specification";
+import type { Specification } from '../../domain/Specification/Specification'
 
 export interface Database {
-  query<T>(tableName: string, query: Specification): Promise<T[]>;
-  execute(tableName: string, statement: Statement): Promise<void>;
+  query: <T>(tableName: string, query: Specification) => Promise<T[]>
+  execute: (tableName: string, statement: Statement) => Promise<void>
 }
 
 export interface DatabaseRecord {
-  id: string;
-  [key: string]: unknown;
+  id: string
+  [key: string]: unknown
 }
 
 export enum Operation {
   CREATE = 'CREATE',
   UPDATE = 'UPDATE',
-  DELETE = 'DELETE'
+  DELETE = 'DELETE',
 }
 
 export interface Statement {
-  operation: Operation;
+  operation: Operation
   payload: DatabaseRecord
 }
