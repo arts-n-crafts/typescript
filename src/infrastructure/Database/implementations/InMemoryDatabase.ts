@@ -14,7 +14,6 @@ export class InMemoryDatabase implements Database {
     const entry = spec.toQuery()[0]
     const [key, value] = Object.entries(entry).flat()
 
-    // @TODO: fix type casting here
     return data.filter((record: DatabaseRecord) => {
       return record[key as keyof typeof record] === value
     }) as T[]

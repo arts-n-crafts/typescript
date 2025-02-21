@@ -35,7 +35,7 @@ export abstract class DomainEvent<TPayload> {
     this._metadata = { ...this._metadata, ...metadata }
   }
 
-  get aggregateId() {
+  get aggregateId(): string {
     return this._aggregateId
   }
 

@@ -1,10 +1,19 @@
 import type { DomainEvent } from '../../domain/DomainEvent/DomainEvent'
 import type { Database } from '../Database/Database'
+import type { EventBus } from '../EventBus/EventBus'
+import type { EventHandler } from '../EventBus/EventHandler'
 
-export abstract class ProjectionHandler {
+export abstract class ProjectionHandler implements EventHandler<DomainEvent<unknown>> {
   constructor(
-    private readonly database: Database,
-  ) {}
+    protected eventBus: EventBus,
+    protected database: Database,
+  ) { }
 
-  abstract update(event: DomainEvent<unknown>): Promise<void>
+  abstract start(): void
+
+  abstract update<TPayload>(event: DomainEvent<TPayload>): Promise<void>
+
+  async handle(event: DomainEvent<unknown>): Promise<void> {
+    await this.update(event)
+  }
 }
