@@ -7,6 +7,7 @@ import { CommandBus } from '../CommandBus/CommandBus'
 import { MockUpdateUserNameCommand } from '../CommandBus/mocks/MockUpdateUserNameCommand'
 import { EventBus } from '../EventBus/EventBus'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
+import { MockGetUserByEmailQuery } from '../QueryBus/mocks/MockGetUserByEmailQuery'
 import { QueryBus } from '../QueryBus/QueryBus'
 import { MockModule } from './mocks/Mock.module'
 import { ScenarioTest } from './ScenarioTest'
@@ -44,6 +45,26 @@ describe('scenario test', () => {
         .then(
           new MockUserNameUpdatedEvent(id, { name: 'Donald' }),
         )
+    })
+  })
+
+  describe('query', () => {
+    it('should have executed the query with the expected result in the then step', async () => {
+      await scenarioTest
+        .given(
+          new MockUserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          new MockUserNameUpdatedEvent(id, { name: 'Donald' }),
+        )
+        .when(
+          new MockGetUserByEmailQuery({ email: 'musk@theboringcompany.com' }),
+        )
+        .then([
+          {
+            id,
+            name: 'Donald',
+            email: 'musk@theboringcompany.com',
+          },
+        ])
     })
   })
 })
