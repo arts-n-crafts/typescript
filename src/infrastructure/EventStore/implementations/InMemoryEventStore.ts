@@ -7,8 +7,7 @@ export class InMemoryEventStore extends EventStore {
   async store(event: DomainEvent<unknown>): Promise<void> {
     const key = event.aggregateId
     if (!(key in this.events)) {
-      this.events[key] = [event]
-      return
+      this.events[key] = []
     }
     this.events[key].push(event)
     await this.eventBus.publish(event)
