@@ -31,4 +31,9 @@ describe('domainEvent', () => {
     expect(event.payload.name).toBe('test')
     expect(event.metadata?.causationId).toBe('321')
   })
+
+  it('should have a type', () => {
+    const event = new MockUserNameUpdatedEvent(aggregateId, payload)
+    expect(event.type).toBe('event')
+  })
 })

@@ -46,4 +46,8 @@ export abstract class DomainEvent<TPayload> {
   get metadata(): Maybe<DomainEventMetadata> {
     return this._metadata
   }
+
+  get type(): string {
+    return 'event'
+  }
 }
