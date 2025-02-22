@@ -11,13 +11,14 @@ import { MockUserProjectionHandler } from './mocks/MockUserProjection'
 import { ProjectionHandler } from './ProjectionHandler'
 
 describe('projectionHandler', () => {
-  let id: UUID
+  const id: UUID = randomUUID()
+  const payload = { name: 'Elon', email: 'musk@x.com' }
   const database: Database = new InMemoryDatabase()
-  const eventBus: EventBus = new EventBus()
+  let eventBus: EventBus
   let handler: ProjectionHandler
 
   beforeEach(async () => {
-    id = randomUUID()
+    eventBus = new EventBus()
     handler = new MockUserProjectionHandler(eventBus, database)
     handler.start()
   })
@@ -27,7 +28,6 @@ describe('projectionHandler', () => {
   })
 
   it('should update projection with create event', async () => {
-    const payload = { name: 'Elon', email: 'musk@x.com' }
     const event = new MockUserCreatedEvent(id, payload)
     await eventBus.publish(event)
     const spec = new MockUserByUsernameSpecification(payload.name)
@@ -36,13 +36,13 @@ describe('projectionHandler', () => {
     expect(results.at(0)).toStrictEqual({ id, ...payload })
   })
 
-  it.skip('should update projection with update event', async () => {
-    const payload = { name: 'Donald' }
-    const event = new MockUserNameUpdatedEvent(id, payload)
+  it('should update projection with update event', async () => {
+    const updatePayload = { name: 'Donald' }
+    const event = new MockUserNameUpdatedEvent(id, updatePayload)
     await eventBus.publish(event)
-    const spec = new MockUserByUsernameSpecification(payload.name)
+    const spec = new MockUserByUsernameSpecification(updatePayload.name)
 
     const results = await database.query('users', spec)
-    expect(results.at(0)).toStrictEqual({ id, ...payload })
+    expect(results.at(0)).toStrictEqual({ id, ...payload, ...updatePayload })
   })
 })
