@@ -7,6 +7,7 @@ import type { QueryBus } from '../QueryBus/QueryBus'
 
 export class ScenarioTest {
   private events: DomainEvent<unknown>[] = []
+  private command: Command<unknown> | undefined
 
   constructor(
     private readonly eventStore: EventStore,
@@ -20,16 +21,17 @@ export class ScenarioTest {
     return this
   }
 
-  async when(command: Command<unknown>): Promise<ScenarioTest> {
-    for (const event of this.events) {
-      await this.eventStore.store(event)
-    }
-    await this.commandBus.execute(command)
+  when(command: Command<unknown>): ScenarioTest {
+    this.command = command
     return this
   }
 
-  // async then(event: DomainEvent<unknown>): Promise<void> {
-  //   const actualEvents = await this.eventStore.loadEvents(event.aggregateId)
-  //   expect(actualEvents[-1]).toEqual(event)
-  // }
+  async then(event?: DomainEvent<unknown>): Promise<void> {
+    await Promise.all([
+      ...this.events.map(async event => this.eventStore.store(event)),
+      (this.command && this.commandBus.execute(this.command)),
+    ])
+    // const actualEvents = await this.eventStore.loadEvents(event.aggregateId)
+    // expect(actualEvents[-1]).toEqual(event)
+  }
 }

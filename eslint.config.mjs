@@ -11,7 +11,7 @@ export default antfu(
   {
     rules: {
       'no-console': 'warn',
-      'no-unused-vars': 'off',
+      'unused-imports/no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {

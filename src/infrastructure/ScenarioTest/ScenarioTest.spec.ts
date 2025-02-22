@@ -31,7 +31,7 @@ describe('scenario test', () => {
     expect(ScenarioTest).toBeDefined()
   })
 
-  it('should execute the command in the when step', async () => {
+  it('should execute the command in the then step', async () => {
     await scenarioTest
       .given(
         new MockUserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
@@ -39,6 +39,7 @@ describe('scenario test', () => {
       .when(
         new MockUpdateUserNameCommand({ aggregateId: id, name: 'Donald' }),
       )
+      .then()
     expect(await eventStore.loadEvents(id)).toHaveLength(3)
   })
 })
