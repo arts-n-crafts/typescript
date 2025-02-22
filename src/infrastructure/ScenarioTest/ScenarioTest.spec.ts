@@ -3,12 +3,15 @@ import { randomUUID } from 'node:crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { MockUserCreatedEvent } from '../../domain/DomainEvent/mocks/MockUserCreated'
 import { CommandBus } from '../CommandBus/CommandBus'
+import { MockUpdateUserNameCommand } from '../CommandBus/mocks/MockUpdateUserNameCommand'
 import { EventBus } from '../EventBus/EventBus'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
 import { QueryBus } from '../QueryBus/QueryBus'
+import { MockModule } from './mocks/Mock.module'
 import { ScenarioTest } from './ScenarioTest'
 
 describe('scenario test', () => {
+  const id = randomUUID()
   let eventStore: EventStore
   let eventBus: EventBus
   let commandBus: CommandBus
@@ -21,17 +24,21 @@ describe('scenario test', () => {
     commandBus = new CommandBus()
     queryBus = new QueryBus()
     scenarioTest = new ScenarioTest(eventStore, eventBus, commandBus, queryBus)
+    new MockModule(eventStore, eventBus, commandBus, queryBus).registerModule()
   })
 
   it('should be defined', async () => {
     expect(ScenarioTest).toBeDefined()
   })
 
-  it('should add the events provided to the given step to the eventStore', async () => {
-    const id = randomUUID()
-    await scenarioTest.given(
-      new MockUserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
-    )
-    expect(await eventStore.loadEvents(id)).toHaveLength(1)
+  it('should execute the command in the when step', async () => {
+    await scenarioTest
+      .given(
+        new MockUserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+      )
+      .when(
+        new MockUpdateUserNameCommand({ aggregateId: id, name: 'Donald' }),
+      )
+    expect(await eventStore.loadEvents(id)).toHaveLength(3)
   })
 })
