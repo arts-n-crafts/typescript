@@ -23,9 +23,6 @@ export class MockUserProjectionHandler extends ProjectionHandler {
         await this.database.execute('users', { operation: Operation.UPDATE, payload: updatePayload })
         break
       }
-      default:{
-        throw new Error('Not implemented')
-      }
     }
   }
 }
