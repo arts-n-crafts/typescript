@@ -1,5 +1,6 @@
-import type { MockUserCreatedEvent } from '../../../domain/DomainEvent/mocks/MockUserCreated'
+import type { DomainEvent } from '../../../domain/DomainEvent/DomainEvent'
 import type { EventStore } from '../../EventStore/EventStore'
+import { MockUserCreatedEvent } from '../../../domain/DomainEvent/mocks/MockUserCreated'
 import { MockUserRegistrationEmailSentEvent } from '../../../domain/DomainEvent/mocks/MockUserRegistrationEmailSent'
 import { EventHandler } from '../EventHandler'
 
@@ -11,15 +12,17 @@ export class MockUserCreatedEventHandler
     super()
   }
 
-  async handle(event: MockUserCreatedEvent): Promise<void> {
-    const emailSentEvent = new MockUserRegistrationEmailSentEvent(
-      event.aggregateId,
-      { status: 'SUCCESS' },
-    )
-    emailSentEvent.applyMetadata({
-      causationId: event.metadata?.eventId,
-      correlationId: event.metadata?.correlationId,
-    })
-    await this.eventStore.store(emailSentEvent)
+  async handle(event: DomainEvent<unknown>): Promise<void> {
+    if (event instanceof MockUserCreatedEvent) {
+      const emailSentEvent = new MockUserRegistrationEmailSentEvent(
+        event.aggregateId,
+        { status: 'SUCCESS' },
+      )
+      emailSentEvent.applyMetadata({
+        causationId: event.metadata?.eventId,
+        correlationId: event.metadata?.correlationId,
+      })
+      await this.eventStore.store(emailSentEvent)
+    }
   }
 }
