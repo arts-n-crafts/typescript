@@ -23,4 +23,9 @@ describe('query', () => {
     const query = new MockGetUserByEmailQuery(payload)
     expect(query.payload.email).toBe('test')
   })
+
+  it('should have a type', () => {
+    const query = new MockGetUserByEmailQuery(payload)
+    expect(query.type).toBe('query')
+  })
 })
