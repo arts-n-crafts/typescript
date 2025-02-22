@@ -17,4 +17,8 @@ export abstract class Command<TPayload> {
     public readonly payload: TPayload,
     public readonly metadata?: Maybe<CommandMetadata>,
   ) {}
+
+  get type(): string {
+    return 'command'
+  }
 }

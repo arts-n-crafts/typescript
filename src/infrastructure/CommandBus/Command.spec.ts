@@ -29,4 +29,9 @@ describe('command', () => {
     expect(command.payload.name).toBe('test')
     expect(command.metadata?.timestamp).toBe(timestamp)
   })
+
+  it('should have a type', () => {
+    const command = new MockUpdateUserNameCommand(payload, metadata)
+    expect(command.type).toBe('command')
+  })
 })
