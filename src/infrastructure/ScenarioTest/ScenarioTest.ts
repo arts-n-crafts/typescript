@@ -26,7 +26,7 @@ export class ScenarioTest {
     return this
   }
 
-  async then(event?: DomainEvent<unknown>): Promise<void> {
+  async then(_event?: DomainEvent<unknown>): Promise<void> {
     await Promise.all([
       ...this.events.map(async event => this.eventStore.store(event)),
       (this.command && this.commandBus.execute(this.command)),
