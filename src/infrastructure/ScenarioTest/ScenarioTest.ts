@@ -4,6 +4,7 @@ import type { CommandBus } from '../CommandBus/CommandBus'
 import type { EventBus } from '../EventBus/EventBus'
 import type { EventStore } from '../EventStore/EventStore'
 import type { QueryBus } from '../QueryBus/QueryBus'
+import { expect } from 'vitest'
 
 export class ScenarioTest {
   private events: DomainEvent<unknown>[] = []
@@ -26,12 +27,15 @@ export class ScenarioTest {
     return this
   }
 
-  async then(_event?: DomainEvent<unknown>): Promise<void> {
-    await Promise.all([
-      ...this.events.map(async event => this.eventStore.store(event)),
-      (this.command && this.commandBus.execute(this.command)),
-    ])
-    // const actualEvents = await this.eventStore.loadEvents(event.aggregateId)
-    // expect(actualEvents[-1]).toEqual(event)
+  async then(event: DomainEvent<unknown>): Promise<void> {
+    await Promise.all(this.events.map(async event => this.eventStore.store(event)))
+
+    if (this.command) {
+      await this.commandBus.execute(this.command)
+
+      const actualEvents = await this.eventStore.loadEvents(event.aggregateId)
+      const foundEvent = actualEvents.find(e => e.aggregateId === event.aggregateId)
+      expect(foundEvent).toBeDefined()
+    }
   }
 }

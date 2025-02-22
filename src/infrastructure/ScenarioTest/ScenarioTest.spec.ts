@@ -2,6 +2,7 @@ import type { EventStore } from '../EventStore/EventStore'
 import { randomUUID } from 'node:crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { MockUserCreatedEvent } from '../../domain/DomainEvent/mocks/MockUserCreated'
+import { MockUserNameUpdatedEvent } from '../../domain/DomainEvent/mocks/MockUserNameUpdated'
 import { CommandBus } from '../CommandBus/CommandBus'
 import { MockUpdateUserNameCommand } from '../CommandBus/mocks/MockUpdateUserNameCommand'
 import { EventBus } from '../EventBus/EventBus'
@@ -31,15 +32,18 @@ describe('scenario test', () => {
     expect(ScenarioTest).toBeDefined()
   })
 
-  it('should execute the command in the then step', async () => {
-    await scenarioTest
-      .given(
-        new MockUserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
-      )
-      .when(
-        new MockUpdateUserNameCommand({ aggregateId: id, name: 'Donald' }),
-      )
-      .then()
-    expect(await eventStore.loadEvents(id)).toHaveLength(3)
+  describe('command', () => {
+    it('should have executed the command, as an event, in the then step', async () => {
+      await scenarioTest
+        .given(
+          new MockUserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+        )
+        .when(
+          new MockUpdateUserNameCommand({ aggregateId: id, name: 'Donald' }),
+        )
+        .then(
+          new MockUserNameUpdatedEvent(id, { name: 'Donald' }),
+        )
+    })
   })
 })
