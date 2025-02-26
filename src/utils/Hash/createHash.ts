@@ -1,6 +1,26 @@
-export async function createHash(candidate: unknown) {
-  const msgUint8 = new TextEncoder().encode(JSON.stringify(candidate))
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8)
-  const hashArray = Array.from(new Uint8Array(hashBuffer))
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+import crypto from 'node:crypto'
+
+export function createHash(value: unknown): string {
+  let stringValue: string
+
+  if (value === null || value === undefined) {
+    stringValue = String(value)
+  }
+  else if (typeof value === 'object' && value instanceof RegExp) {
+    stringValue = value.toString()
+  }
+  else if (typeof value === 'symbol') {
+    stringValue = value.toString()
+  }
+  else if (typeof value === 'object' && value instanceof Date) {
+    stringValue = value.toISOString()
+  }
+  else if (typeof value === 'object') {
+    stringValue = JSON.stringify(value)
+  }
+  else {
+    stringValue = String(value)
+  }
+
+  return crypto.createHash('sha256').update(stringValue).digest('hex')
 }

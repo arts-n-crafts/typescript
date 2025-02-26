@@ -11,9 +11,9 @@ export abstract class ValueObject<TValue> {
     throw new Error('Method not implemented')
   }
 
-  async equals(other: ValueObject<TValue>): Promise<boolean> {
-    const subject = await createHash(this._value)
-    const candidate = await createHash(other._value)
+  equals(other: ValueObject<TValue>): boolean {
+    const subject = createHash(this._value)
+    const candidate = createHash(other._value)
     return subject === candidate
   }
 }
