@@ -1,0 +1,38 @@
+{
+  "$schema": "https://unpkg.com/release-it/schema/release-it.json",
+  "hooks": {
+    "before:init": ["bun run typecheck", "bun run lint", "bun run test"]
+  },
+  "git": {
+    "tagName": "v${version}",
+    "commitMessage": "chore(release): v${version}",
+    "tagAnnotation": "v${version}"
+  },
+  "github": {
+    "release": true,
+    "releaseName": "Release ${version}"
+  },
+  "npm": {
+    "publish": false
+  },
+  "plugins": {
+    "@release-it/bumper": {
+      "in": {
+        "file": "VERSION",
+        "type": "text/plain"
+      },
+      "out": {
+        "file": "VERSION",
+        "type": "text/plain"
+      }
+    },
+    "release-it-changelogen": {
+      "disableVersion": true,
+      "templates": {
+        "commitMessage": "chore(release): v{{newVersion}}",
+        "tagMessage": "v{{newVersion}}",
+        "tagBody": "v{{newVersion}}"
+      }
+    }
+  }
+}
