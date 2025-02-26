@@ -2,8 +2,8 @@ import { randomUUID } from 'node:crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { Operation } from '../Database/Database'
 import { InMemoryDatabase } from '../Database/implementations/InMemoryDatabase'
-import { MockGetUserByEmailQuery } from './mocks/MockGetUserByEmailQuery'
-import { MockGetUserByEmailQueryHandler } from './mocks/MockGetUserByEmailQueryHandler'
+import { GetUserByEmailQuery } from './examples/GetUserByEmailQuery'
+import { GetUserByEmailQueryHandler } from './examples/GetUserByEmailQueryHandler'
 import { QueryHandler } from './QueryHandler'
 
 describe('queryHandler', () => {
@@ -22,8 +22,8 @@ describe('queryHandler', () => {
   })
 
   it('should return the requested data', async () => {
-    const query = new MockGetUserByEmailQuery({ email: user.email })
-    const handler = new MockGetUserByEmailQueryHandler(database)
+    const query = new GetUserByEmailQuery({ email: user.email })
+    const handler = new GetUserByEmailQueryHandler(database)
 
     const results = await handler.execute(query)
     expect(results[0]?.id).toEqual(user.id)

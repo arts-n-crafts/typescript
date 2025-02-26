@@ -1,24 +1,24 @@
-import type { MockUserCreatedEventProps } from '../../domain/DomainEvent/mocks/MockUserCreated'
+import type { UserCreatedEventProps } from '../../domain/DomainEvent/examples/UserCreated'
 import type { EventStore } from '../EventStore/EventStore'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { MockUserCreatedEvent } from '../../domain/DomainEvent/mocks/MockUserCreated'
-import { MockUserRegistrationEmailSentEvent } from '../../domain/DomainEvent/mocks/MockUserRegistrationEmailSent'
+import { UserCreatedEvent } from '../../domain/DomainEvent/examples/UserCreated'
+import { UserRegistrationEmailSentEvent } from '../../domain/DomainEvent/examples/UserRegistrationEmailSent'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
 import { EventBus } from './EventBus'
 import { EventHandler } from './EventHandler'
-import { MockUserCreatedEventHandler } from './mocks/MockUserCreatedEventHandler'
+import { UserCreatedEventHandler } from './examples/UserCreatedEventHandler'
 
 describe('eventHandler', () => {
   let eventBus: EventBus
   let eventStore: EventStore
-  let handler: MockUserCreatedEventHandler
+  let handler: UserCreatedEventHandler
   let aggregateId: string
-  let payload: MockUserCreatedEventProps
+  let payload: UserCreatedEventProps
 
   beforeEach(() => {
     eventBus = new EventBus()
     eventStore = new InMemoryEventStore(eventBus)
-    handler = new MockUserCreatedEventHandler(eventStore)
+    handler = new UserCreatedEventHandler(eventStore)
     aggregateId = '123'
     payload = { name: 'test', email: 'musk@x.com' }
   })
@@ -28,11 +28,11 @@ describe('eventHandler', () => {
   })
 
   it('should process the MockUserCreated event and dispatch the MockUserRegistrationEmailSentEvent', async () => {
-    const event = new MockUserCreatedEvent(aggregateId, payload)
+    const event = new UserCreatedEvent(aggregateId, payload)
     await handler.handle(event)
     const events = await eventStore.loadEvents(aggregateId)
-    const sentEvent = events[0] as MockUserRegistrationEmailSentEvent
-    expect(sentEvent).toBeInstanceOf(MockUserRegistrationEmailSentEvent)
+    const sentEvent = events[0] as UserRegistrationEmailSentEvent
+    expect(sentEvent).toBeInstanceOf(UserRegistrationEmailSentEvent)
     expect(sentEvent.payload?.status).toBe('SUCCESS')
   })
 })

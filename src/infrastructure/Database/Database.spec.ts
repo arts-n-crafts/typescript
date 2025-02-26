@@ -1,9 +1,9 @@
 import { randomUUID } from 'node:crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { MockUserByUsernameSpecification } from '../../domain/Specification/mocks/MockUserByUsernameSpecification'
+import { UserByUsernameSpecification } from '../../domain/Specification/examples/UserByUsernameSpecification'
 import { Operation } from './Database'
-import { DuplicateRecordException, OperationNotSupported, RecordNotFoundException, TableDoesNotExistException } from './Database.exceptions'
 import { InMemoryDatabase } from './implementations/InMemoryDatabase'
+import { DuplicateRecordException, OperationNotSupported, RecordNotFoundException, TableDoesNotExistException } from './implementations/InMemoryDatabase.exceptions'
 
 describe('database', () => {
   const store = 'users'
@@ -22,7 +22,7 @@ describe('database', () => {
 
   describe('sELECT', () => {
     it('should return TableDoesNotExistException if the table does not exist', async () => {
-      const spec = new MockUserByUsernameSpecification(user.name)
+      const spec = new UserByUsernameSpecification(user.name)
       const query = database.query('nonexistent', spec)
       await expect(query).rejects.toBeInstanceOf(TableDoesNotExistException)
     })
@@ -30,7 +30,7 @@ describe('database', () => {
 
   describe('cREATE', () => {
     it('should have executed the CREATE statement', async () => {
-      const spec = new MockUserByUsernameSpecification(user.name)
+      const spec = new UserByUsernameSpecification(user.name)
 
       const query = database.query(store, spec)
       await expect(query).resolves.toEqual([user])
@@ -48,7 +48,7 @@ describe('database', () => {
   describe('uPDATE', () => {
     it('should execute the UPDATE statement', async () => {
       const updatedUser = { id: user.id, name: 'Jane Doe' }
-      const spec = new MockUserByUsernameSpecification(updatedUser.name)
+      const spec = new UserByUsernameSpecification(updatedUser.name)
 
       await database.execute(store, { operation: Operation.UPDATE, payload: updatedUser })
 
@@ -67,7 +67,7 @@ describe('database', () => {
 
   describe('dELETE', () => {
     it('should executed the DELETE statement', async () => {
-      const spec = new MockUserByUsernameSpecification(user.name)
+      const spec = new UserByUsernameSpecification(user.name)
 
       await database.execute(store, { operation: Operation.DELETE, payload: user })
 

@@ -1,11 +1,11 @@
 import type { CommandMetadata } from './Command'
-import type { MockUpdateUserNameCommandProps } from './mocks/MockUpdateUserNameCommand'
+import type { UpdateUserNameCommandProps } from './examples/UpdateUserNameCommand'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { Command } from './Command'
-import { MockUpdateUserNameCommand } from './mocks/MockUpdateUserNameCommand'
+import { UpdateUserNameCommand } from './examples/UpdateUserNameCommand'
 
 describe('command', () => {
-  let payload: MockUpdateUserNameCommandProps
+  let payload: UpdateUserNameCommandProps
   let timestamp: Date
   let metadata: CommandMetadata
 
@@ -20,18 +20,18 @@ describe('command', () => {
   })
 
   it('should create an instance', () => {
-    const command = new MockUpdateUserNameCommand(payload, metadata)
-    expect(command).toBeInstanceOf(MockUpdateUserNameCommand)
+    const command = new UpdateUserNameCommand(payload, metadata)
+    expect(command).toBeInstanceOf(UpdateUserNameCommand)
   })
 
   it('should contain the valid information', () => {
-    const command = new MockUpdateUserNameCommand(payload, metadata)
+    const command = new UpdateUserNameCommand(payload, metadata)
     expect(command.payload.name).toBe('test')
     expect(command.metadata?.timestamp).toBe(timestamp)
   })
 
   it('should have a type', () => {
-    const command = new MockUpdateUserNameCommand(payload, metadata)
+    const command = new UpdateUserNameCommand(payload, metadata)
     expect(command.type).toBe('command')
   })
 })

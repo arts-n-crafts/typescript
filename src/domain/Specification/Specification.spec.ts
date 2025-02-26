@@ -1,18 +1,18 @@
 import { describe, expect, it } from 'vitest'
-import { MockUser } from '../AggregateRoot/mocks/MockUser'
-import { MockUserByUsernameSpecification } from './mocks/MockUserByUsernameSpecification'
+import { User } from '../AggregateRoot/examples/User'
+import { UserByUsernameSpecification } from './examples/UserByUsernameSpecification'
 import { Specification } from './Specification'
 
 describe('base Specification', () => {
   const candidate = 'John Doe'
-  const specification = new MockUserByUsernameSpecification(candidate)
+  const specification = new UserByUsernameSpecification(candidate)
 
   it('should be defined', () => {
     expect(Specification).toBeDefined()
   })
 
   it('should be satisfied', () => {
-    const user = MockUser.create({ name: candidate, email: '' }, '123')
+    const user = User.create({ name: candidate, email: '' }, '123')
     expect(specification.isSatisfiedBy(user)).toBeTruthy()
   })
 

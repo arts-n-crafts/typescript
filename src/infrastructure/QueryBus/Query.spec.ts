@@ -1,10 +1,10 @@
-import type { MockGetUserByEmailQueryProps } from './mocks/MockGetUserByEmailQuery'
+import type { GetUserByEmailQueryProps } from './examples/GetUserByEmailQuery'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { MockGetUserByEmailQuery } from './mocks/MockGetUserByEmailQuery'
+import { GetUserByEmailQuery } from './examples/GetUserByEmailQuery'
 import { Query } from './Query'
 
 describe('query', () => {
-  let payload: MockGetUserByEmailQueryProps
+  let payload: GetUserByEmailQueryProps
 
   beforeEach(() => {
     payload = { email: 'test' }
@@ -15,17 +15,17 @@ describe('query', () => {
   })
 
   it('should create an instance', () => {
-    const query = new MockGetUserByEmailQuery(payload)
-    expect(query).toBeInstanceOf(MockGetUserByEmailQuery)
+    const query = new GetUserByEmailQuery(payload)
+    expect(query).toBeInstanceOf(GetUserByEmailQuery)
   })
 
   it('should contain the valid information', () => {
-    const query = new MockGetUserByEmailQuery(payload)
+    const query = new GetUserByEmailQuery(payload)
     expect(query.payload.email).toBe('test')
   })
 
   it('should have a type', () => {
-    const query = new MockGetUserByEmailQuery(payload)
+    const query = new GetUserByEmailQuery(payload)
     expect(query.type).toBe('query')
   })
 })

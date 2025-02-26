@@ -1,24 +1,24 @@
-import type { MockUserProps } from './mocks/MockUser'
+import type { UserProps } from './examples/User'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { DomainEvent } from '../DomainEvent/DomainEvent'
-import { MockUserCreatedEvent } from '../DomainEvent/mocks/MockUserCreated'
-import { MockUserNameUpdatedEvent } from '../DomainEvent/mocks/MockUserNameUpdated'
+import { UserCreatedEvent } from '../DomainEvent/examples/UserCreated'
+import { UserNameUpdatedEvent } from '../DomainEvent/examples/UserNameUpdated'
 import { AggregateRoot } from './AggregateRoot'
-import { MockUser } from './mocks/MockUser'
+import { User } from './examples/User'
 
 describe('aggregateRoot', () => {
   let id: string
-  let props: MockUserProps
-  let mockUserCreatedEvent: MockUserCreatedEvent
-  let mockUserNameUpdatedEvent: MockUserNameUpdatedEvent
-  let aggregateRoot: MockUser
+  let props: UserProps
+  let mockUserCreatedEvent: UserCreatedEvent
+  let mockUserNameUpdatedEvent: UserNameUpdatedEvent
+  let aggregateRoot: User
 
   beforeEach(() => {
     id = '123'
     props = { name: 'elon', email: 'elon@x.com' }
-    mockUserCreatedEvent = new MockUserCreatedEvent('123', props)
-    mockUserNameUpdatedEvent = new MockUserNameUpdatedEvent('123', { name: 'musk' })
-    aggregateRoot = MockUser.create(props, id)
+    mockUserCreatedEvent = new UserCreatedEvent('123', props)
+    mockUserNameUpdatedEvent = new UserNameUpdatedEvent('123', { name: 'musk' })
+    aggregateRoot = User.create(props, id)
   })
 
   it('should be defined', () => {
@@ -50,11 +50,11 @@ describe('aggregateRoot', () => {
   })
 
   it('should rehydrate events', () => {
-    const aggregate = MockUser.rehydrate(id, [mockUserCreatedEvent, mockUserNameUpdatedEvent])
+    const aggregate = User.rehydrate(id, [mockUserCreatedEvent, mockUserNameUpdatedEvent])
     expect(aggregate.props.name).toBe('musk')
   })
 
   it('should not rehydrate if there is no creation event', () => {
-    expect(() => MockUser.rehydrate(id, [mockUserNameUpdatedEvent])).toThrow()
+    expect(() => User.rehydrate(id, [mockUserNameUpdatedEvent])).toThrow()
   })
 })

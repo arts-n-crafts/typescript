@@ -1,12 +1,12 @@
 import type { DomainEventMetadataProps } from './DomainEvent'
-import type { MockUserNameUpdatedEventProps } from './mocks/MockUserNameUpdated'
+import type { UserNameUpdatedEventProps } from './examples/UserNameUpdated'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { DomainEvent } from './DomainEvent'
-import { MockUserNameUpdatedEvent } from './mocks/MockUserNameUpdated'
+import { UserNameUpdatedEvent } from './examples/UserNameUpdated'
 
 describe('domainEvent', () => {
   let aggregateId: string
-  let payload: MockUserNameUpdatedEventProps
+  let payload: UserNameUpdatedEventProps
   let metadata: DomainEventMetadataProps
 
   beforeEach(() => {
@@ -20,20 +20,20 @@ describe('domainEvent', () => {
   })
 
   it('should create an instance', () => {
-    const event = new MockUserNameUpdatedEvent(aggregateId, payload)
+    const event = new UserNameUpdatedEvent(aggregateId, payload)
     event.applyMetadata(metadata)
-    expect(event).toBeInstanceOf(MockUserNameUpdatedEvent)
+    expect(event).toBeInstanceOf(UserNameUpdatedEvent)
   })
 
   it('should contain the valid information', () => {
-    const event = new MockUserNameUpdatedEvent(aggregateId, payload)
+    const event = new UserNameUpdatedEvent(aggregateId, payload)
     event.applyMetadata(metadata)
     expect(event.payload.name).toBe('test')
     expect(event.metadata?.causationId).toBe('321')
   })
 
   it('should have a type', () => {
-    const event = new MockUserNameUpdatedEvent(aggregateId, payload)
+    const event = new UserNameUpdatedEvent(aggregateId, payload)
     expect(event.type).toBe('event')
   })
 })

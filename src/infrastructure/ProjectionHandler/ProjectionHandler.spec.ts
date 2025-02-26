@@ -2,12 +2,12 @@ import type { UUID } from 'node:crypto'
 import type { Database } from '../Database/Database'
 import { randomUUID } from 'node:crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { MockUserCreatedEvent } from '../../domain/DomainEvent/mocks/MockUserCreated'
-import { MockUserNameUpdatedEvent } from '../../domain/DomainEvent/mocks/MockUserNameUpdated'
-import { MockUserByUsernameSpecification } from '../../domain/Specification/mocks/MockUserByUsernameSpecification'
+import { UserCreatedEvent } from '../../domain/DomainEvent/examples/UserCreated'
+import { UserNameUpdatedEvent } from '../../domain/DomainEvent/examples/UserNameUpdated'
+import { UserByUsernameSpecification } from '../../domain/Specification/examples/UserByUsernameSpecification'
 import { InMemoryDatabase } from '../Database/implementations/InMemoryDatabase'
 import { EventBus } from '../EventBus/EventBus'
-import { MockUserProjectionHandler } from './mocks/MockUserProjection'
+import { UserProjectionHandler } from './examples/UserProjection'
 import { ProjectionHandler } from './ProjectionHandler'
 
 describe('projectionHandler', () => {
@@ -19,7 +19,7 @@ describe('projectionHandler', () => {
 
   beforeEach(async () => {
     eventBus = new EventBus()
-    handler = new MockUserProjectionHandler(eventBus, database)
+    handler = new UserProjectionHandler(eventBus, database)
     handler.start()
   })
 
@@ -28,9 +28,9 @@ describe('projectionHandler', () => {
   })
 
   it('should update projection with create event', async () => {
-    const event = new MockUserCreatedEvent(id, payload)
+    const event = new UserCreatedEvent(id, payload)
     await eventBus.publish(event)
-    const spec = new MockUserByUsernameSpecification(payload.name)
+    const spec = new UserByUsernameSpecification(payload.name)
 
     const results = await database.query('users', spec)
     expect(results.at(0)).toStrictEqual({ id, ...payload })
@@ -38,9 +38,9 @@ describe('projectionHandler', () => {
 
   it('should update projection with update event', async () => {
     const updatePayload = { name: 'Donald' }
-    const event = new MockUserNameUpdatedEvent(id, updatePayload)
+    const event = new UserNameUpdatedEvent(id, updatePayload)
     await eventBus.publish(event)
-    const spec = new MockUserByUsernameSpecification(updatePayload.name)
+    const spec = new UserByUsernameSpecification(updatePayload.name)
 
     const results = await database.query('users', spec)
     expect(results.at(0)).toStrictEqual({ id, ...payload, ...updatePayload })

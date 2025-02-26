@@ -1,7 +1,7 @@
 import type { Specification } from '../../../domain/Specification/Specification'
 import type { Database, DatabaseRecord, Statement } from '../Database'
 import { Operation } from '../Database'
-import { DuplicateRecordException, OperationNotSupported, RecordNotFoundException, TableDoesNotExistException } from '../Database.exceptions'
+import { DuplicateRecordException, OperationNotSupported, RecordNotFoundException, TableDoesNotExistException } from './InMemoryDatabase.exceptions'
 
 export class InMemoryDatabase implements Database {
   private readonly datasource = new Map<string, DatabaseRecord[]>()

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { MockUser } from '../AggregateRoot/mocks/MockUser'
+import { User } from '../AggregateRoot/examples/User'
 import { AndSpecification } from './AndSpecification'
-import { MockUserByAgeSpecification } from './mocks/MockUserByAgeSpecification'
-import { MockUserByUsernameSpecification } from './mocks/MockUserByUsernameSpecification'
+import { UserByAgeSpecification } from './examples/UserByAgeSpecification'
+import { UserByUsernameSpecification } from './examples/UserByUsernameSpecification'
 
 describe('andSpecification', () => {
   it('should be defined', () => {
@@ -13,10 +13,10 @@ describe('andSpecification', () => {
     const username = 'elon_musk'
     const age = 30
 
-    const usernameSpec = new MockUserByUsernameSpecification(username)
-    const ageSpec = new MockUserByAgeSpecification(age)
+    const usernameSpec = new UserByUsernameSpecification(username)
+    const ageSpec = new UserByAgeSpecification(age)
     const andSpec = new AndSpecification(usernameSpec, ageSpec)
-    const user = MockUser.create({
+    const user = User.create({
       name: username,
       email: 'elon@x.com',
       age,
@@ -29,18 +29,18 @@ describe('andSpecification', () => {
     { _scenario: 'INVALID_USERNAME', username: 'elon', age: 30 },
     { _scenario: 'INVALID_AGE', username: 'elon_musk', age: 31 },
   ])('should not satisfy the AndSpecification ($_scenario)', ({ username, age }) => {
-    const usernameSpec = new MockUserByUsernameSpecification('elon_musk')
-    const ageSpec = new MockUserByAgeSpecification(30)
+    const usernameSpec = new UserByUsernameSpecification('elon_musk')
+    const ageSpec = new UserByAgeSpecification(30)
     const andSpec = new AndSpecification(usernameSpec, ageSpec)
-    const user = MockUser.create({ name: username, email: 'elon@x.com', age }, '123')
+    const user = User.create({ name: username, email: 'elon@x.com', age }, '123')
     expect(andSpec.isSatisfiedBy(user)).toBe(false)
   })
 
   it('should return a flat AndSpecification', () => {
     const username = 'elon_musk'
     const age = 30
-    const usernameSpec = new MockUserByUsernameSpecification(username)
-    const ageSpec = new MockUserByAgeSpecification(age)
+    const usernameSpec = new UserByUsernameSpecification(username)
+    const ageSpec = new UserByAgeSpecification(age)
     const andSpec = new AndSpecification(usernameSpec, ageSpec)
     expect(andSpec.toQuery()).toStrictEqual([
       usernameSpec.toQuery(),

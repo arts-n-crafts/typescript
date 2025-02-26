@@ -1,13 +1,13 @@
 import type { FilledArray } from '../../../core/types/FilledArray'
-import type { MockUser } from '../../AggregateRoot/mocks/MockUser'
+import type { User } from '../../AggregateRoot/examples/User'
 import type { Specification } from '../Specification'
 
-export class MockUserByEmailSpecification implements Specification<MockUser> {
+export class UserByEmailSpecification implements Specification<User> {
   constructor(
     private email: string,
   ) {}
 
-  isSatisfiedBy(candidate: MockUser) {
+  isSatisfiedBy(candidate: User) {
     return candidate.props.email === this.email
   }
 

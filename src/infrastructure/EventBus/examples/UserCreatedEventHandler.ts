@@ -1,11 +1,11 @@
 import type { DomainEvent } from '../../../domain/DomainEvent/DomainEvent'
 import type { EventStore } from '../../EventStore/EventStore'
-import { MockUserCreatedEvent } from '../../../domain/DomainEvent/mocks/MockUserCreated'
-import { MockUserRegistrationEmailSentEvent } from '../../../domain/DomainEvent/mocks/MockUserRegistrationEmailSent'
+import { UserCreatedEvent } from '../../../domain/DomainEvent/examples/UserCreated'
+import { UserRegistrationEmailSentEvent } from '../../../domain/DomainEvent/examples/UserRegistrationEmailSent'
 import { EventHandler } from '../EventHandler'
 
-export class MockUserCreatedEventHandler
-  extends EventHandler<MockUserCreatedEvent> {
+export class UserCreatedEventHandler
+  extends EventHandler<UserCreatedEvent> {
   constructor(
     private readonly eventStore: EventStore,
   ) {
@@ -13,8 +13,8 @@ export class MockUserCreatedEventHandler
   }
 
   async handle(event: DomainEvent<unknown>): Promise<void> {
-    if (event instanceof MockUserCreatedEvent) {
-      const emailSentEvent = new MockUserRegistrationEmailSentEvent(
+    if (event instanceof UserCreatedEvent) {
+      const emailSentEvent = new UserRegistrationEmailSentEvent(
         event.aggregateId,
         { status: 'SUCCESS' },
       )

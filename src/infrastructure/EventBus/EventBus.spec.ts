@@ -1,23 +1,23 @@
-import type { MockUserCreatedEventProps } from '../../domain/DomainEvent/mocks/MockUserCreated'
+import type { UserCreatedEventProps } from '../../domain/DomainEvent/examples/UserCreated'
 import type { EventStore } from '../EventStore/EventStore'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { MockUserCreatedEvent } from '../../domain/DomainEvent/mocks/MockUserCreated'
-import { MockUserRegistrationEmailSentEvent } from '../../domain/DomainEvent/mocks/MockUserRegistrationEmailSent'
+import { UserCreatedEvent } from '../../domain/DomainEvent/examples/UserCreated'
+import { UserRegistrationEmailSentEvent } from '../../domain/DomainEvent/examples/UserRegistrationEmailSent'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
 import { EventBus } from './EventBus'
-import { MockUserCreatedEventHandler } from './mocks/MockUserCreatedEventHandler'
+import { UserCreatedEventHandler } from './examples/UserCreatedEventHandler'
 
 describe('eventBus', () => {
   let eventBus: EventBus
   let eventStore: EventStore
-  let handler: MockUserCreatedEventHandler
+  let handler: UserCreatedEventHandler
   let aggregateId: string
-  let payload: MockUserCreatedEventProps
+  let payload: UserCreatedEventProps
 
   beforeEach(() => {
     eventBus = new EventBus()
     eventStore = new InMemoryEventStore(eventBus)
-    handler = new MockUserCreatedEventHandler(eventStore)
+    handler = new UserCreatedEventHandler(eventStore)
     aggregateId = '123'
     payload = { name: 'test', email: 'musk@x.com' }
   })
@@ -32,12 +32,12 @@ describe('eventBus', () => {
 
   it('should be able publish events', async () => {
     eventBus.subscribe(handler)
-    const createdEvent = new MockUserCreatedEvent(aggregateId, payload)
+    const createdEvent = new UserCreatedEvent(aggregateId, payload)
     await eventBus.publish(createdEvent)
 
     const events = await eventStore.loadEvents(aggregateId)
     const sentEventCausedByCreatedEventIndex = events.findIndex(event => event.metadata?.causationId === createdEvent.metadata?.eventId)
     expect(sentEventCausedByCreatedEventIndex !== -1).toBeTruthy()
-    expect(events[sentEventCausedByCreatedEventIndex]).toBeInstanceOf(MockUserRegistrationEmailSentEvent)
+    expect(events[sentEventCausedByCreatedEventIndex]).toBeInstanceOf(UserRegistrationEmailSentEvent)
   })
 })

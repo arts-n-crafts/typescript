@@ -1,15 +1,15 @@
 import type { EventStore } from '../EventStore/EventStore'
 import { randomUUID } from 'node:crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { MockUserCreatedEvent } from '../../domain/DomainEvent/mocks/MockUserCreated'
-import { MockUserNameUpdatedEvent } from '../../domain/DomainEvent/mocks/MockUserNameUpdated'
+import { UserCreatedEvent } from '../../domain/DomainEvent/examples/UserCreated'
+import { UserNameUpdatedEvent } from '../../domain/DomainEvent/examples/UserNameUpdated'
 import { CommandBus } from '../CommandBus/CommandBus'
-import { MockUpdateUserNameCommand } from '../CommandBus/mocks/MockUpdateUserNameCommand'
+import { UpdateUserNameCommand } from '../CommandBus/examples/UpdateUserNameCommand'
 import { EventBus } from '../EventBus/EventBus'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
-import { MockGetUserByEmailQuery } from '../QueryBus/mocks/MockGetUserByEmailQuery'
+import { GetUserByEmailQuery } from '../QueryBus/examples/GetUserByEmailQuery'
 import { QueryBus } from '../QueryBus/QueryBus'
-import { MockModule } from './mocks/Mock.module'
+import { UserModule } from './examples/User.module'
 import { ScenarioTest } from './ScenarioTest'
 
 describe('scenario test', () => {
@@ -26,7 +26,7 @@ describe('scenario test', () => {
     commandBus = new CommandBus()
     queryBus = new QueryBus()
     scenarioTest = new ScenarioTest(eventStore, eventBus, commandBus, queryBus)
-    new MockModule(eventStore, eventBus, commandBus, queryBus).registerModule()
+    new UserModule(eventStore, eventBus, commandBus, queryBus).registerModule()
   })
 
   it('should be defined', async () => {
@@ -37,13 +37,13 @@ describe('scenario test', () => {
     it('should have executed the command, as an event, in the then step', async () => {
       await scenarioTest
         .given(
-          new MockUserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .when(
-          new MockUpdateUserNameCommand({ aggregateId: id, name: 'Donald' }),
+          new UpdateUserNameCommand({ aggregateId: id, name: 'Donald' }),
         )
         .then(
-          new MockUserNameUpdatedEvent(id, { name: 'Donald' }),
+          new UserNameUpdatedEvent(id, { name: 'Donald' }),
         )
     })
   })
@@ -52,11 +52,11 @@ describe('scenario test', () => {
     it('should have executed the query with the expected result in the then step', async () => {
       await scenarioTest
         .given(
-          new MockUserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
-          new MockUserNameUpdatedEvent(id, { name: 'Donald' }),
+          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          new UserNameUpdatedEvent(id, { name: 'Donald' }),
         )
         .when(
-          new MockGetUserByEmailQuery({ email: 'musk@theboringcompany.com' }),
+          new GetUserByEmailQuery({ email: 'musk@theboringcompany.com' }),
         )
         .then([
           {
