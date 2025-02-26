@@ -7,12 +7,12 @@ describe('valueObject', () => {
     expect(ValueObject).toBeDefined()
   })
 
-  it('should implement IValueObject', () => {
+  it('should implement the abstract ValueObject', () => {
     expect('value' in ValueObject.prototype).toBeTruthy()
     expect('equals' in ValueObject.prototype).toBeTruthy()
   })
 
-  it.each([
+  describe.each([
     { __scenario: 'normal string', input: { value: 'this is a string' } },
     { __scenario: 'very long string', input: { value: 'this is a very very very very very very very very very long string' } },
     { __scenario: 'empty string', input: { value: '' } },
@@ -33,15 +33,22 @@ describe('valueObject', () => {
     { __scenario: 'symbol', input: { value: Symbol('symbol') } },
     { __scenario: 'undefined', input: { value: undefined } },
     { __scenario: 'null', input: { value: null } },
-  ])('should equal based on hash if its value is equal [$__scenario]', (props) => {
-    const candidate = SampleValueObject.create(props.input.value)
-    const other = SampleValueObject.create(props.input.value)
+  ])('should succeed [$__scenario]', (props) => {
+    it('should return the value given', () => {
+      const candidate = SampleValueObject.create(props.input.value)
+      expect(candidate.value).toEqual(props.input.value)
+    })
 
-    const isEqual = candidate.equals(other)
-    expect(isEqual).toBeTruthy()
+    it('should equal based on hash if its value is equal', () => {
+      const candidate = SampleValueObject.create(props.input.value)
+      const other = SampleValueObject.create(props.input.value)
+
+      const isEqual = candidate.equals(other)
+      expect(isEqual).toBeTruthy()
+    })
   })
 
-  it.each([
+  describe.each([
     { __scenario: 'different normal strings', candidate: { value: 'this is a string' }, other: { value: 'this is another string' } },
     { __scenario: 'different very long strings', candidate: { value: 'this is a very very very very very very very very very long string' }, other: { value: 'this is a very very very very very very very very very different long string' } },
     { __scenario: 'string vs empty string', candidate: { value: 'non-empty string' }, other: { value: '' } },
@@ -62,11 +69,13 @@ describe('valueObject', () => {
     { __scenario: 'different regex objects', candidate: { value: /abc/ }, other: { value: /def/ } },
     { __scenario: 'symbol vs different symbol', candidate: { value: Symbol('symbol1') }, other: { value: Symbol('symbol2') } },
     { __scenario: 'undefined vs null', candidate: { value: undefined }, other: { value: null } },
-  ])('should not equal based on hash if its value is not equal [$__scenario]', (props) => {
-    const candidate = SampleValueObject.create(props.candidate.value)
-    const other = SampleValueObject.create(props.other.value)
+  ])('should fail [$__scenario]', (props) => {
+    it('should not equal based on hash if its value is not equal', () => {
+      const candidate = SampleValueObject.create(props.candidate.value)
+      const other = SampleValueObject.create(props.other.value)
 
-    const isEqual = candidate.equals(other)
-    expect(isEqual).toBeFalsy()
+      const isEqual = candidate.equals(other)
+      expect(isEqual).toBeFalsy()
+    })
   })
 })

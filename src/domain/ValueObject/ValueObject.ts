@@ -8,7 +8,7 @@ export abstract class ValueObject<TValue> {
   }
 
   get value(): TValue {
-    throw new Error('Method not implemented')
+    return this._value
   }
 
   equals(other: ValueObject<TValue>): boolean {
