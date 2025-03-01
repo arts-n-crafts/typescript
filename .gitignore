@@ -94,6 +94,10 @@ web_modules/
 
 *.tgz
 
+# npmrc
+
+.npmrc
+
 # Yarn Integrity file
 
 .yarn-integrity
