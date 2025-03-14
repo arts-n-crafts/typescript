@@ -7,5 +7,5 @@ export abstract class EventStore {
   ) {}
 
   abstract store(event: DomainEvent<unknown>): Promise<void>
-  abstract loadEvents(aggregateId: string): Promise<DomainEvent<unknown>[]>
+  abstract loadEvents<TProps>(aggregateId: string): Promise<DomainEvent<TProps>[]>
 }

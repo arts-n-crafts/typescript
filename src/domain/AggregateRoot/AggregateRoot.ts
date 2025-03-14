@@ -4,6 +4,14 @@ import { Entity } from '../Entity/Entity'
 export abstract class AggregateRoot<TProps> extends Entity<TProps> {
   private _uncommittedEvents: DomainEvent<unknown>[] = []
 
+  static create(_props: unknown, _id: string): AggregateRoot<unknown> {
+    throw new Error('Method not implemented.')
+  }
+
+  static rehydrate(_id: string, _events: DomainEvent<unknown>[]): AggregateRoot<unknown> {
+    throw new Error('Method not implemented.')
+  }
+
   apply(event: DomainEvent<unknown>): void {
     this._uncommittedEvents.push(event)
     this._applyEvent(event)

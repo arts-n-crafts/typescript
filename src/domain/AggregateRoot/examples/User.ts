@@ -10,13 +10,13 @@ export interface UserProps {
 }
 
 export class User extends AggregateRoot<UserProps> {
-  static create(props: UserProps, id: string) {
+  static override create(props: UserProps, id: string) {
     const aggregate = new User(props, id)
     aggregate.apply(new UserCreatedEvent(id, props))
     return aggregate
   }
 
-  static rehydrate(aggregateId: string, events: DomainEvent<unknown>[]): User {
+  static override rehydrate(aggregateId: string, events: DomainEvent<unknown>[]): User {
     const creationEvent = events.shift()
     if (!(creationEvent instanceof UserCreatedEvent)) {
       throw new TypeError('Invalid creation event found')

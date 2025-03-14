@@ -2,7 +2,7 @@ import type { DomainEvent } from '../../../domain/DomainEvent/DomainEvent'
 import { EventStore } from '../EventStore'
 
 export class InMemoryEventStore extends EventStore {
-  private events: Record<string, DomainEvent<unknown>[]> = {}
+  private events: Record<string, DomainEvent<any>[]> = {}
 
   async store(event: DomainEvent<unknown>): Promise<void> {
     const key = event.aggregateId
@@ -13,7 +13,7 @@ export class InMemoryEventStore extends EventStore {
     await this.eventBus.publish(event)
   }
 
-  async loadEvents(aggregateId: string): Promise<DomainEvent<unknown>[]> {
+  async loadEvents<TProps>(aggregateId: string): Promise<DomainEvent<TProps>[]> {
     const events = this.events[aggregateId]
     return [...(Array.isArray(events) ? events : [])]
   }
