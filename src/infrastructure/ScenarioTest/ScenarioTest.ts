@@ -34,8 +34,12 @@ export class ScenarioTest {
     if (this.isCommand(this.action) && !Array.isArray(outcome) && this.isEvent(outcome)) {
       await this.commandBus.execute(this.action)
       const actualEvents = await this.eventStore.loadEvents(outcome.aggregateId)
-      const foundEvent = actualEvents.find(event => event.aggregateId === outcome.aggregateId)
+      const foundEvent = actualEvents.find(event => event.aggregateId === outcome.aggregateId && event.constructor.name === outcome.constructor.name)
+      if (!foundEvent) {
+        throw new Error(`Event ${outcome.constructor.name} not found in the EventStore`)
+      }
       expect(foundEvent).toBeDefined()
+      expect(outcome.constructor.name === foundEvent.constructor.name).toBeTruthy()
     }
 
     if (this.isQuery(this.action)) {
