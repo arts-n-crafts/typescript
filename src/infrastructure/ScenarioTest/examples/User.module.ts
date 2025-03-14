@@ -1,3 +1,4 @@
+import type { Module } from '../../../core/Module.interface'
 import type { CommandBus } from '../../CommandBus/CommandBus'
 import type { Database } from '../../Database/Database'
 import type { EventBus } from '../../EventBus/EventBus'
@@ -13,10 +14,6 @@ import { UserProjectionHandler } from '../../ProjectionHandler/examples/UserProj
 import { GetUserByEmailQuery } from '../../QueryBus/examples/GetUserByEmailQuery'
 import { GetUserByEmailQueryHandler } from '../../QueryBus/examples/GetUserByEmailQueryHandler'
 import { UserRepository } from '../../Repository/examples/UserRepository'
-
-export interface Module {
-  registerModule: () => void
-}
 
 export class UserModule implements Module {
   private readonly repository: UserRepository
