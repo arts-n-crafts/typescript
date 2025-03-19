@@ -1,3 +1,4 @@
+import type { UUID } from 'node:crypto'
 import { Command } from '../Command'
 
 export interface CreateUserCommandProps {
@@ -6,4 +7,4 @@ export interface CreateUserCommandProps {
   age?: number
 }
 
-export class CreateUserCommand extends Command<CreateUserCommandProps> { }
+export class CreateUserCommand extends Command<CreateUserCommandProps, UUID> { }

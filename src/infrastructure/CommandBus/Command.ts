@@ -12,8 +12,9 @@ export interface CommandMetadata {
   [key: string]: unknown // Additional metadata
 }
 
-export abstract class Command<TPayload> {
+export abstract class Command<TPayload, TId> {
   constructor(
+    public readonly aggregateId: TId,
     public readonly payload: TPayload,
     public readonly metadata?: Maybe<CommandMetadata>,
   ) {}

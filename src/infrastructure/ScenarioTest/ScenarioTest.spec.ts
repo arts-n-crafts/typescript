@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { UserCreatedEvent } from '../../domain/DomainEvent/examples/UserCreated'
 import { UserNameUpdatedEvent } from '../../domain/DomainEvent/examples/UserNameUpdated'
 import { CommandBus } from '../CommandBus/CommandBus'
+import { CreateUserCommand } from '../CommandBus/examples/CreateUserCommand'
 import { UpdateUserNameCommand } from '../CommandBus/examples/UpdateUserNameCommand'
 import { EventBus } from '../EventBus/EventBus'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
@@ -33,14 +34,26 @@ describe('scenario test', () => {
     expect(ScenarioTest).toBeDefined()
   })
 
-  describe('command', () => {
+  describe('create command', () => {
+    it('should have executed the command, as an event, in the then step', async () => {
+      await scenarioTest
+        .when(
+          new CreateUserCommand(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+        )
+        .then(
+          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+        )
+    })
+  })
+
+  describe('update command', () => {
     it('should have executed the command, as an event, in the then step', async () => {
       await scenarioTest
         .given(
           new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .when(
-          new UpdateUserNameCommand({ aggregateId: id, name: 'Donald' }),
+          new UpdateUserNameCommand(id, { name: 'Donald' }),
         )
         .then(
           new UserNameUpdatedEvent(id, { name: 'Donald' }),

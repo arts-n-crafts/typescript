@@ -1,8 +1,8 @@
+import type { UUID } from 'node:crypto'
 import { Command } from '../Command'
 
 export interface UpdateUserNameCommandProps {
-  aggregateId: string
   name: string
 }
 
-export class UpdateUserNameCommand extends Command<UpdateUserNameCommandProps> { }
+export class UpdateUserNameCommand extends Command<UpdateUserNameCommandProps, UUID> { }

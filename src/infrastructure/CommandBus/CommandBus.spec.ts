@@ -1,7 +1,9 @@
+import type { UUID } from 'node:crypto'
 import type { AggregateRoot } from '../../domain/AggregateRoot/AggregateRoot'
 import type { UserNameUpdatedEvent } from '../../domain/DomainEvent/examples/UserNameUpdated'
 import type { EventStore } from '../EventStore/EventStore'
 import type { Repository } from '../Repository/Repository'
+import { randomUUID } from 'node:crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { EventBus } from '../EventBus/EventBus'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
@@ -13,14 +15,15 @@ import { UpdateUserNameCommand } from './examples/UpdateUserNameCommand'
 import { UpdateUserNameCommandHandler } from './examples/UpdateUserNameCommandHandler'
 
 describe('commandBus', () => {
+  let id: UUID
   let eventBus: EventBus
   let eventStore: EventStore
   let repository: Repository<AggregateRoot<unknown>>
   let commandBus: CommandBus
   let handler: UpdateUserNameCommandHandler
-  let id: string
 
   beforeEach(async () => {
+    id = randomUUID()
     eventBus = new EventBus()
     eventStore = new InMemoryEventStore(eventBus)
     repository = new UserRepository(eventStore)
@@ -28,9 +31,8 @@ describe('commandBus', () => {
     handler = new UpdateUserNameCommandHandler(repository)
 
     const createUserHandler = new CreateUserCommandHandler(repository)
-    const command = new CreateUserCommand({ name: 'Elon', email: 'musk@x.com', age: 52 }, null)
-    const result = await createUserHandler.execute(command)
-    id = result.id
+    const command = new CreateUserCommand(id, { name: 'Elon', email: 'musk@x.com', age: 52 }, null)
+    await createUserHandler.execute(command)
   })
 
   it('should be defined', () => {
@@ -44,10 +46,7 @@ describe('commandBus', () => {
   it('should process the command via commandBus and return the event', async () => {
     commandBus.register(UpdateUserNameCommand, handler)
 
-    const command: UpdateUserNameCommand = new UpdateUserNameCommand(
-      { aggregateId: id, name: 'test' },
-      { timestamp: new Date() },
-    )
+    const command: UpdateUserNameCommand = new UpdateUserNameCommand(id, { name: 'test' }, { timestamp: new Date() })
     await commandBus.execute(command)
 
     const events = await eventStore.loadEvents(id)
@@ -57,10 +56,7 @@ describe('commandBus', () => {
   })
 
   it('should throw an error if no handler is registered for the command type', async () => {
-    const command: UpdateUserNameCommand = new UpdateUserNameCommand(
-      { aggregateId: '123', name: 'test' },
-      { timestamp: new Date() },
-    )
+    const command: UpdateUserNameCommand = new UpdateUserNameCommand(id, { name: 'test' }, { timestamp: new Date() })
 
     await expect(commandBus.execute(command)).rejects.toThrow('No handler found for command type: UpdateUserNameCommand')
   })

@@ -9,7 +9,7 @@ import { expect } from 'vitest'
 
 export class ScenarioTest {
   private events: DomainEvent<unknown>[] = []
-  private action: Command<unknown> | Query<unknown> | undefined
+  private action: Command<unknown, unknown> | Query<unknown> | undefined
 
   constructor(
     private readonly eventStore: EventStore,
@@ -23,7 +23,7 @@ export class ScenarioTest {
     return this
   }
 
-  when(action: Command<unknown> | Query<unknown>): ScenarioTest {
+  when(action: Command<unknown, unknown> | Query<unknown>): ScenarioTest {
     this.action = action
     return this
   }
@@ -31,8 +31,18 @@ export class ScenarioTest {
   async then(outcome: DomainEvent<unknown> | Record<string, unknown>[]): Promise<void> {
     await Promise.all(this.events.map(async event => this.eventStore.store(event)))
 
-    if (this.isCommand(this.action) && !Array.isArray(outcome) && this.isEvent(outcome)) {
+    if (!this.action) {
+      throw new Error('No action provided')
+    }
+
+    if (this.isCommand(this.action)) {
       await this.commandBus.execute(this.action)
+      if (Array.isArray(outcome)) {
+        throw new TypeError(`Expected an event, but got Array`)
+      }
+      if (!this.isEvent(outcome)) {
+        throw new TypeError(`Expected an event, but got ${typeof outcome}`)
+      }
       const actualEvents = await this.eventStore.loadEvents(outcome.aggregateId)
       const foundEvent = actualEvents.find(event => event.aggregateId === outcome.aggregateId && event.constructor.name === outcome.constructor.name)
       if (!foundEvent) {
@@ -48,11 +58,11 @@ export class ScenarioTest {
     }
   }
 
-  private isCommand(action?: Command<unknown> | Query<unknown>): action is Command<unknown> {
+  private isCommand(action?: Command<unknown, unknown> | Query<unknown>): action is Command<unknown, unknown> {
     return Boolean(action && action.type === 'command')
   }
 
-  private isQuery(action?: Command<unknown> | Query<unknown>): action is Query<unknown> {
+  private isQuery(action?: Command<unknown, unknown> | Query<unknown>): action is Query<unknown> {
     return Boolean(action && action.type === 'query')
   }
 

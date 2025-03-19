@@ -4,7 +4,7 @@ import { CommandHandler } from '../CommandHandler'
 
 export class UpdateUserNameCommandHandler extends CommandHandler<UpdateUserNameCommand> {
   async execute(command: UpdateUserNameCommand) {
-    const { aggregateId, ...payload } = command.payload
+    const { aggregateId, payload } = command
     const event = new UserNameUpdatedEvent(aggregateId, payload)
     const aggregate = await this.repository.load(aggregateId)
     aggregate.apply(event)
