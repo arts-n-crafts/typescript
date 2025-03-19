@@ -38,7 +38,7 @@ export class ScenarioTest {
     if (this.isCommand(this.action)) {
       await this.commandBus.execute(this.action)
       if (Array.isArray(outcome)) {
-        throw new TypeError(`Expected an event, but got Array`)
+        throw new TypeError(`Expected an event in then-step, but got Array`)
       }
       if (!this.isEvent(outcome)) {
         throw new TypeError(`Expected an event, but got ${typeof outcome}`)

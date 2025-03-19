@@ -80,4 +80,35 @@ describe('scenario test', () => {
         ])
     })
   })
+
+  describe('failing cases', () => {
+    it('should throw an error if no action (when-step) is provided', async () => {
+      await expect(scenarioTest
+        .given(
+          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          new UserNameUpdatedEvent(id, { name: 'Donald' }),
+        )
+        .then([
+          {
+            id,
+            name: 'Donald',
+            email: 'musk@theboringcompany.com',
+          },
+        ]),
+      ).rejects.toThrowError('No action provided')
+    })
+
+    it('should throw an error if the when is an command and then is an array', async () => {
+      await expect(scenarioTest
+        .given(
+          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          new UserNameUpdatedEvent(id, { name: 'Donald' }),
+        )
+        .when(
+          new UpdateUserNameCommand(id, { name: 'Donald' }),
+        )
+        .then([]),
+      ).rejects.toThrowError('Expected an event in then-step, but got Array')
+    })
+  })
 })
