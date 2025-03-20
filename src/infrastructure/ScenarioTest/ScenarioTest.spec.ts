@@ -12,6 +12,7 @@ import { GetUserByEmailQuery } from '../QueryBus/examples/GetUserByEmailQuery'
 import { QueryBus } from '../QueryBus/QueryBus'
 import { UserModule } from './examples/User.module'
 import { ScenarioTest } from './ScenarioTest'
+import { UserRegistrationEmailSentEvent } from '../../domain/DomainEvent/examples/UserRegistrationEmailSent'
 
 describe('scenario test', () => {
   const id = randomUUID()
@@ -34,8 +35,8 @@ describe('scenario test', () => {
     expect(ScenarioTest).toBeDefined()
   })
 
-  describe('create command', () => {
-    it('should have executed the command, as an event, in the then step', async () => {
+  describe('command', () => {
+    it('should have published the create command, as an event, in the then step', async () => {
       await scenarioTest
         .when(
           new CreateUserCommand(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
@@ -44,10 +45,8 @@ describe('scenario test', () => {
           new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
     })
-  })
 
-  describe('update command', () => {
-    it('should have executed the command, as an event, in the then step', async () => {
+    it('should have published the update command, as an event, in the then step', async () => {
       await scenarioTest
         .given(
           new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
@@ -81,6 +80,18 @@ describe('scenario test', () => {
     })
   })
 
+  describe('event', () => {
+    it('should have dispatched an event based on listening to an event', async () => {
+      await scenarioTest
+        .when(
+          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+        )
+        .then(
+          new UserRegistrationEmailSentEvent(id, { status: 'SUCCESS' }),
+        )
+    })
+  })
+
   describe('failing cases', () => {
     it('should throw an error if no action (when-step) is provided', async () => {
       await expect(scenarioTest
@@ -108,7 +119,7 @@ describe('scenario test', () => {
           new UpdateUserNameCommand(id, { name: 'Donald' }),
         )
         .then([]),
-      ).rejects.toThrowError('In the ScenarioTest, when triggering a command, then an event is expected, but got Array')
+      ).rejects.toThrowError('In the ScenarioTest, when triggering a command, then an event is expected')
     })
 
     it('should throw an error when a command is given and then the expected event is not triggered', async () => {

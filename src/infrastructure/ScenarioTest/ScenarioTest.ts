@@ -7,28 +7,32 @@ import type { Query } from '../QueryBus/Query'
 import type { QueryBus } from '../QueryBus/QueryBus'
 import { expect } from 'vitest'
 
+type GivenInput = DomainEvent<unknown>[]
+type WhenInput = Command<unknown, unknown> | Query<unknown> | DomainEvent<unknown>
+type ThenInput = DomainEvent<unknown> | Record<string, unknown>[]
+
 export class ScenarioTest {
-  private events: DomainEvent<unknown>[] = []
-  private action: Command<unknown, unknown> | Query<unknown> | undefined
+  private events: GivenInput = []
+  private action: WhenInput | undefined
 
   constructor(
     private readonly eventStore: EventStore,
-    private readonly _eventBus: EventBus,
+    private readonly eventBus: EventBus,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {}
 
-  given(...events: DomainEvent<unknown>[]): ScenarioTest {
+  given(...events: GivenInput): ScenarioTest {
     this.events = events
     return this
   }
 
-  when(action: Command<unknown, unknown> | Query<unknown>): ScenarioTest {
+  when(action: WhenInput): ScenarioTest {
     this.action = action
     return this
   }
 
-  async then(outcome: DomainEvent<unknown> | Record<string, unknown>[]): Promise<void> {
+  async then(outcome: ThenInput): Promise<void> {
     await Promise.all(this.events.map(async event => this.eventStore.store(event)))
 
     if (!this.action) {
@@ -37,12 +41,11 @@ export class ScenarioTest {
 
     if (this.isCommand(this.action)) {
       await this.commandBus.execute(this.action)
-      if (Array.isArray(outcome)) {
-        throw new TypeError(`In the ScenarioTest, when triggering a command, then an event is expected, but got Array`)
+      if (!this.isEvent(outcome)) {
+        throw new TypeError(`In the ScenarioTest, when triggering a command, then an event is expected`)
       }
       const actualEvents = await this.eventStore.loadEvents(outcome.aggregateId)
       const foundEvent = actualEvents.findLast(event => event.aggregateId === outcome.aggregateId && event.constructor.name === outcome.constructor.name)
-      console.log(foundEvent)
       if (!foundEvent) {
         throw new Error(`In the ScenarioTest, the expected then event (${outcome.constructor.name}) was not triggered`)
       }
@@ -54,17 +57,36 @@ export class ScenarioTest {
       const queryResult = await this.queryBus.execute(this.action)
       expect(queryResult).toStrictEqual(outcome)
     }
+
+    if (this.isEvent(this.action)) {
+      await this.eventBus.publish(this.action)
+      if (!this.isEvent(outcome)) {
+        throw new TypeError(`In the ScenarioTest, when triggering from event, then an event is expected`)
+      }
+
+      const actualEvents = await this.eventStore.loadEvents(outcome.aggregateId)
+      const foundEvent = actualEvents.findLast(event => event.aggregateId === outcome.aggregateId && event.constructor.name === outcome.constructor.name)
+      if (!foundEvent) {
+        throw new Error(`In the ScenarioTest, the expected then event (${outcome.constructor.name}) was not triggered`)
+      }
+      expect(foundEvent).toBeDefined()
+      expect(outcome.constructor.name === foundEvent.constructor.name).toBeTruthy()
+    }
   }
 
-  private isCommand(action?: Command<unknown, unknown> | Query<unknown>): action is Command<unknown, unknown> {
+  private isCommand(action?: WhenInput): action is Command<unknown, unknown> {
     return Boolean(action && action.type === 'command')
   }
 
-  private isQuery(action?: Command<unknown, unknown> | Query<unknown>): action is Query<unknown> {
+  private isQuery(action?: WhenInput): action is Query<unknown> {
     return Boolean(action && action.type === 'query')
   }
 
-  private isEvent(outcome?: DomainEvent<unknown> | Record<string, unknown>): outcome is DomainEvent<unknown> {
-    return Boolean(outcome && outcome.type === 'event')
+  private isEvent(action?: WhenInput | ThenInput): action is DomainEvent<unknown> {
+    if (!action)
+      return false
+    if (!('type' in action))
+      return false
+    return Boolean(action.type === 'event')
   }
 }
