@@ -74,19 +74,19 @@ export class ScenarioTest {
     }
   }
 
-  private isCommand(action?: WhenInput): action is Command<unknown, unknown> {
-    return Boolean(action && action.type === 'command')
+  private isCommand(candidate?: WhenInput): candidate is Command<unknown, unknown> {
+    return Boolean(candidate && candidate.type === 'command')
   }
 
-  private isQuery(action?: WhenInput): action is Query<unknown> {
-    return Boolean(action && action.type === 'query')
+  private isQuery(candidate?: WhenInput): candidate is Query<unknown> {
+    return Boolean(candidate && candidate.type === 'query')
   }
 
-  private isEvent(action?: WhenInput | ThenInput): action is DomainEvent<unknown> {
-    if (!action)
+  private isEvent(candidate?: WhenInput | ThenInput): candidate is DomainEvent<unknown> {
+    if (!candidate)
       return false
-    if (!('type' in action))
+    if (!('type' in candidate))
       return false
-    return Boolean(action.type === 'event')
+    return Boolean(candidate.type === 'event')
   }
 }

@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { UserCreatedEvent } from '../../domain/DomainEvent/examples/UserCreated'
 import { UserNameUpdatedEvent } from '../../domain/DomainEvent/examples/UserNameUpdated'
+import { UserRegistrationEmailSentEvent } from '../../domain/DomainEvent/examples/UserRegistrationEmailSent'
 import { CommandBus } from '../CommandBus/CommandBus'
 import { CreateUserCommand } from '../CommandBus/examples/CreateUserCommand'
 import { UpdateUserNameCommand } from '../CommandBus/examples/UpdateUserNameCommand'
@@ -12,7 +13,6 @@ import { GetUserByEmailQuery } from '../QueryBus/examples/GetUserByEmailQuery'
 import { QueryBus } from '../QueryBus/QueryBus'
 import { UserModule } from './examples/User.module'
 import { ScenarioTest } from './ScenarioTest'
-import { UserRegistrationEmailSentEvent } from '../../domain/DomainEvent/examples/UserRegistrationEmailSent'
 
 describe('scenario test', () => {
   const id = randomUUID()
@@ -109,7 +109,7 @@ describe('scenario test', () => {
       ).rejects.toThrowError('In the ScenarioTest, "when" cannot be empty')
     })
 
-    it('should throw an error if the when is an command and then is an array', async () => {
+    it('should throw an error if the when is an command and then is not an event', async () => {
       await expect(scenarioTest
         .given(
           new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
@@ -120,6 +120,15 @@ describe('scenario test', () => {
         )
         .then([]),
       ).rejects.toThrowError('In the ScenarioTest, when triggering a command, then an event is expected')
+    })
+
+    it('should throw an error if the when is an event and then is not an event', async () => {
+      await expect(scenarioTest
+        .when(
+          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+        )
+        .then([]),
+      ).rejects.toThrowError('In the ScenarioTest, when triggering from event, then an event is expected')
     })
 
     it('should throw an error when a command is given and then the expected event is not triggered', async () => {
