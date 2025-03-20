@@ -32,21 +32,19 @@ export class ScenarioTest {
     await Promise.all(this.events.map(async event => this.eventStore.store(event)))
 
     if (!this.action) {
-      throw new Error('No action provided')
+      throw new Error('In the ScenarioTest, "when" cannot be empty')
     }
 
     if (this.isCommand(this.action)) {
       await this.commandBus.execute(this.action)
       if (Array.isArray(outcome)) {
-        throw new TypeError(`Expected an event in then-step, but got Array`)
-      }
-      if (!this.isEvent(outcome)) {
-        throw new TypeError(`Expected an event, but got ${typeof outcome}`)
+        throw new TypeError(`In the ScenarioTest, when triggering a command, then an event is expected, but got Array`)
       }
       const actualEvents = await this.eventStore.loadEvents(outcome.aggregateId)
-      const foundEvent = actualEvents.find(event => event.aggregateId === outcome.aggregateId && event.constructor.name === outcome.constructor.name)
+      const foundEvent = actualEvents.findLast(event => event.aggregateId === outcome.aggregateId && event.constructor.name === outcome.constructor.name)
+      console.log(foundEvent)
       if (!foundEvent) {
-        throw new Error(`Event ${outcome.constructor.name} not found in the EventStore`)
+        throw new Error(`In the ScenarioTest, the expected then event (${outcome.constructor.name}) was not triggered`)
       }
       expect(foundEvent).toBeDefined()
       expect(outcome.constructor.name === foundEvent.constructor.name).toBeTruthy()

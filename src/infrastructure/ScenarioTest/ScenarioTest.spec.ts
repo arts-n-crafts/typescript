@@ -95,7 +95,7 @@ describe('scenario test', () => {
             email: 'musk@theboringcompany.com',
           },
         ]),
-      ).rejects.toThrowError('No action provided')
+      ).rejects.toThrowError('In the ScenarioTest, "when" cannot be empty')
     })
 
     it('should throw an error if the when is an command and then is an array', async () => {
@@ -108,7 +108,21 @@ describe('scenario test', () => {
           new UpdateUserNameCommand(id, { name: 'Donald' }),
         )
         .then([]),
-      ).rejects.toThrowError('Expected an event in then-step, but got Array')
+      ).rejects.toThrowError('In the ScenarioTest, when triggering a command, then an event is expected, but got Array')
+    })
+
+    it('should throw an error when a command is given and then the expected event is not triggered', async () => {
+      await expect(scenarioTest
+        .given(
+          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+        )
+        .when(
+          new UpdateUserNameCommand(id, { name: 'Donald' }),
+        )
+        .then(
+          new UserNameUpdatedEvent(randomUUID(), { name: 'Donald' }),
+        ),
+      ).rejects.toThrowError(`In the ScenarioTest, the expected then event (${UserNameUpdatedEvent.name}) was not triggered`)
     })
   })
 })
