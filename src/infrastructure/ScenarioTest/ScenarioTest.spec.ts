@@ -126,6 +126,17 @@ describe('scenario test', () => {
         .then([]),
       ).rejects.toThrowError('In the ScenarioTest, when triggering from event, then an event is expected')
     })
+
+    it('should throw an error if the when is an event and then is not found', async () => {
+      await expect(scenarioTest
+        .when(
+          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+        )
+        .then(
+          new UserRegistrationEmailSentEvent(randomUUID(), { status: 'SUCCESS' }),
+        ),
+      ).rejects.toThrowError(`In the ScenarioTest, the expected then event (UserRegistrationEmailSentEvent) was not triggered`)
+    })
   })
 
   describe('failing cases', () => {
