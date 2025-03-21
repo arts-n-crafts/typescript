@@ -58,6 +58,33 @@ describe('scenario test', () => {
           new UserNameUpdatedEvent(id, { name: 'Donald' }),
         )
     })
+
+    it('should throw an error if the when is an command and then is not an event', async () => {
+      await expect(scenarioTest
+        .given(
+          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          new UserNameUpdatedEvent(id, { name: 'Donald' }),
+        )
+        .when(
+          new UpdateUserNameCommand(id, { name: 'Donald' }),
+        )
+        .then([]),
+      ).rejects.toThrowError('In the ScenarioTest, when triggering a command, then an event is expected')
+    })
+
+    it('should throw an error when a command is given and then the expected event is not triggered', async () => {
+      await expect(scenarioTest
+        .given(
+          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+        )
+        .when(
+          new UpdateUserNameCommand(id, { name: 'Donald' }),
+        )
+        .then(
+          new UserNameUpdatedEvent(randomUUID(), { name: 'Donald' }),
+        ),
+      ).rejects.toThrowError(`In the ScenarioTest, the expected then event (${UserNameUpdatedEvent.name}) was not triggered`)
+    })
   })
 
   describe('query', () => {
@@ -90,6 +117,15 @@ describe('scenario test', () => {
           new UserRegistrationEmailSentEvent(id, { status: 'SUCCESS' }),
         )
     })
+
+    it('should throw an error if the when is an event and then is not an event', async () => {
+      await expect(scenarioTest
+        .when(
+          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+        )
+        .then([]),
+      ).rejects.toThrowError('In the ScenarioTest, when triggering from event, then an event is expected')
+    })
   })
 
   describe('failing cases', () => {
@@ -107,42 +143,6 @@ describe('scenario test', () => {
           },
         ]),
       ).rejects.toThrowError('In the ScenarioTest, "when" cannot be empty')
-    })
-
-    it('should throw an error if the when is an command and then is not an event', async () => {
-      await expect(scenarioTest
-        .given(
-          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
-          new UserNameUpdatedEvent(id, { name: 'Donald' }),
-        )
-        .when(
-          new UpdateUserNameCommand(id, { name: 'Donald' }),
-        )
-        .then([]),
-      ).rejects.toThrowError('In the ScenarioTest, when triggering a command, then an event is expected')
-    })
-
-    it('should throw an error if the when is an event and then is not an event', async () => {
-      await expect(scenarioTest
-        .when(
-          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
-        )
-        .then([]),
-      ).rejects.toThrowError('In the ScenarioTest, when triggering from event, then an event is expected')
-    })
-
-    it('should throw an error when a command is given and then the expected event is not triggered', async () => {
-      await expect(scenarioTest
-        .given(
-          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
-        )
-        .when(
-          new UpdateUserNameCommand(id, { name: 'Donald' }),
-        )
-        .then(
-          new UserNameUpdatedEvent(randomUUID(), { name: 'Donald' }),
-        ),
-      ).rejects.toThrowError(`In the ScenarioTest, the expected then event (${UserNameUpdatedEvent.name}) was not triggered`)
     })
   })
 })
