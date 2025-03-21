@@ -82,9 +82,7 @@ export class ScenarioTest {
     return Boolean(candidate && candidate.type === 'query')
   }
 
-  private isEvent(candidate?: WhenInput | ThenInput): candidate is DomainEvent<unknown> {
-    if (!candidate)
-      return false
+  private isEvent(candidate: WhenInput | ThenInput): candidate is DomainEvent<unknown> {
     if (!('type' in candidate))
       return false
     return Boolean(candidate.type === 'event')
