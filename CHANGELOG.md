@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.3
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v0.0.2...v0.0.3)
+
+### 🏡 Chore
+
+- Rename package to arts-and-crafts ([9e9c56a](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/9e9c56a))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v0.0.2
 
 
