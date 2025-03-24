@@ -1,4 +1,4 @@
-# @crafts-and-arts/typescript
+# @arts-and-crafts/typescript
 
 To install dependencies:
 

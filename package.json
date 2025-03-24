@@ -1,9 +1,9 @@
 {
-  "name": "@jvhellemondt/crafts-and-arts.ts",
+  "name": "@jvhellemondt/arts-and-crafts.ts",
   "type": "module",
   "version": "0.0.2",
   "repository": {
-    "url": "git+https://github.com/jvhellemondt/crafts-and-arts.ts.git"
+    "url": "git+https://github.com/jvhellemondt/arts-and-crafts.ts.git"
   },
   "main": "src/index.js",
   "module": "src/index.ts",
