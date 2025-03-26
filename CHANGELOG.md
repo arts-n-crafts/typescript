@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v0.0.4
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v0.0.3...v0.0.4)
+
+### 💅 Refactors
+
+- **AggregateRoot:** Move id to first argument ([6d70b9c](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/6d70b9c))
+
+### 🤖 CI
+
+- Add github action to verify latest changes ([b4f464b](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/b4f464b))
+- Update release-it to use coverage ([d569101](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/d569101))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v0.0.3
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v0.0.2...v0.0.3)
