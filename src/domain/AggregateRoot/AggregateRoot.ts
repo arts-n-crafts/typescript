@@ -4,7 +4,7 @@ import { Entity } from '../Entity/Entity'
 export abstract class AggregateRoot<TProps> extends Entity<TProps> {
   private _uncommittedEvents: DomainEvent<unknown>[] = []
 
-  static create(_props: unknown, _id: string): AggregateRoot<unknown> {
+  static create(_id: string, _props: unknown): AggregateRoot<unknown> {
     throw new Error('Method not implemented.')
   }
 

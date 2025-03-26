@@ -18,7 +18,7 @@ describe('repository', () => {
     eventBus = new EventBus()
     eventStore = new InMemoryEventStore(eventBus)
     mockUserNameUpdateEvent = new UserNameUpdatedEvent('123', { name: 'musk' })
-    aggregateRoot = User.create({ name: 'elon', email: 'elon@x.com' }, aggregateId)
+    aggregateRoot = User.create(aggregateId, { name: 'elon', email: 'elon@x.com' })
     aggregateRoot.apply(mockUserNameUpdateEvent)
   })
 

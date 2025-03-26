@@ -6,7 +6,7 @@ interface UserProps {
 }
 
 export class User extends Entity<UserProps> {
-  static create(props: UserProps, id: string) {
-    return new User(props, id)
+  static create(id: string, props: UserProps) {
+    return new User(id, props)
   }
 }

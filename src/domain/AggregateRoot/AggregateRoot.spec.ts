@@ -19,7 +19,7 @@ describe('aggregateRoot', () => {
       props = { name: 'elon', email: 'elon@x.com' }
       mockUserCreatedEvent = new UserCreatedEvent('123', props)
       mockUserNameUpdatedEvent = new UserNameUpdatedEvent('123', { name: 'musk' })
-      aggregateRoot = User.create(props, id)
+      aggregateRoot = User.create(id, props)
     })
 
     it('should be defined', () => {
@@ -68,7 +68,7 @@ describe('aggregateRoot', () => {
     }
 
     it('should throw a "method not implemented" error if create static is not overridden', () => {
-      expect(() => NotProperlyImplemented.create({}, '1234')).toThrow('Method not implemented')
+      expect(() => NotProperlyImplemented.create('1234', {})).toThrow('Method not implemented')
     })
     it('should throw a "method not implemented" error if rehydrate static is not overridden', () => {
       expect(() => NotProperlyImplemented.rehydrate('1234', [])).toThrow('Method not implemented')

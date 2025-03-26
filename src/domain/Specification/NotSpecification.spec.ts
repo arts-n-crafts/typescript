@@ -13,7 +13,7 @@ describe('notSpecification', () => {
   ])('should not satisfy the NotSpecification ($_scenario)', ({ username, age }) => {
     const usernameSpec = new UserByUsernameSpecification(username)
     const notSpec = new NotSpecification(usernameSpec)
-    const user = User.create({ name: username, email: 'elon@x.com', age }, '123')
+    const user = User.create('123', { name: username, email: 'elon@x.com', age })
     expect(notSpec.isSatisfiedBy(user)).toBe(false)
   })
 
@@ -22,7 +22,7 @@ describe('notSpecification', () => {
   ])('should satisfy the NotSpecification ($_scenario)', ({ username, age }) => {
     const usernameSpec = new UserByUsernameSpecification('elon_musk')
     const notSpec = new NotSpecification(usernameSpec)
-    const user = User.create({ name: username, email: 'elon@x.com', age }, '123')
+    const user = User.create('123', { name: username, email: 'elon@x.com', age })
     expect(notSpec.isSatisfiedBy(user)).toBe(true)
   })
 

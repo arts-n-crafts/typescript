@@ -12,7 +12,7 @@ describe('user', () => {
       username: 'elon',
       email: 'elon@x.com',
     }
-    const mockUser = User.create(props, id)
+    const mockUser = User.create(id, props)
     expect(mockUser).toBeInstanceOf(User)
     expect(mockUser.id).toBe(id)
     expect(mockUser.props).toEqual(props)
@@ -21,16 +21,16 @@ describe('user', () => {
   it('should succeed to compare two Users', () => {
     const id = '123'
     const props = { username: 'elon', email: 'elon@x.com' }
-    const mockUser1 = User.create(props, id)
-    const mockUser2 = User.create(props, id)
+    const mockUser1 = User.create(id, props)
+    const mockUser2 = User.create(id, props)
     expect(mockUser1.equals(mockUser2)).toBe(true)
   })
 
   it('should fail to compare two Users', () => {
     const id = '123'
     const props = { username: 'elon', email: 'elon@x.com' }
-    const mockUser1 = User.create(props, id)
-    const mockUser2 = User.create(props, '124')
+    const mockUser1 = User.create(id, props)
+    const mockUser2 = User.create('1234', props)
     expect(mockUser1.equals(mockUser2)).toBe(false)
   })
 })

@@ -4,7 +4,7 @@ import { CommandHandler } from '../CommandHandler'
 
 export class CreateUserCommandHandler extends CommandHandler<CreateUserCommand> {
   async execute(command: CreateUserCommand) {
-    const aggregate = User.create(command.payload, command.aggregateId)
+    const aggregate = User.create(command.aggregateId, command.payload)
     await this.repository.store(aggregate)
     return { id: aggregate.id }
   }

@@ -12,7 +12,7 @@ describe('base Specification', () => {
   })
 
   it('should be satisfied', () => {
-    const user = User.create({ name: candidate, email: '' }, '123')
+    const user = User.create('123', { name: candidate, email: '' })
     expect(specification.isSatisfiedBy(user)).toBeTruthy()
   })
 

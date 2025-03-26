@@ -16,7 +16,7 @@ describe('orSpecification', () => {
     const usernameSpec = new UserByUsernameSpecification(username)
     const ageSpec = new UserByAgeSpecification(age)
     const orSpec = new OrSpecification(usernameSpec, ageSpec)
-    const user = User.create({ name: username, email: 'elon@x.com', age }, '123')
+    const user = User.create('123', { name: username, email: 'elon@x.com', age })
     expect(orSpec.isSatisfiedBy(user)).toBe(true)
   })
 
@@ -26,7 +26,7 @@ describe('orSpecification', () => {
     const usernameSpec = new UserByUsernameSpecification('elon_musk')
     const ageSpec = new UserByAgeSpecification(30)
     const andSpec = new OrSpecification(usernameSpec, ageSpec)
-    const user = User.create({ name: username, email: 'elon@x.com', age }, '123')
+    const user = User.create('123', { name: username, email: 'elon@x.com', age })
     expect(andSpec.isSatisfiedBy(user)).toBe(false)
   })
 

@@ -11,12 +11,12 @@ describe('userByUsernameSpecification', () => {
   })
 
   it('should return true if the username is the same', () => {
-    const user = User.create({ name: candidate, email: '' }, '123')
+    const user = User.create('123', { name: candidate, email: '' })
     expect(specification.isSatisfiedBy(user)).toBe(true)
   })
 
   it('should return false if the username is not the same', () => {
-    const user = User.create({ name: 'test2', email: '' }, '123')
+    const user = User.create('123', { name: 'test2', email: '' })
     expect(specification.isSatisfiedBy(user)).toBe(false)
   })
 
