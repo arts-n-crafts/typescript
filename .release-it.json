@@ -1,7 +1,7 @@
 {
   "$schema": "https://unpkg.com/release-it/schema/release-it.json",
   "hooks": {
-    "before:init": ["bun run typecheck", "bun run lint", "bun run test"]
+    "before:init": ["bun run typecheck", "bun run lint", "bun run coverage"]
   },
   "git": {
     "tagName": "v${version}",
