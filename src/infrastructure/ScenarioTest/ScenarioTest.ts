@@ -5,7 +5,6 @@ import type { EventBus } from '../EventBus/EventBus'
 import type { EventStore } from '../EventStore/EventStore'
 import type { Query } from '../QueryBus/Query'
 import type { QueryBus } from '../QueryBus/QueryBus'
-import { expect } from 'vitest'
 
 type GivenInput = DomainEvent<unknown>[]
 type WhenInput = Command<unknown, unknown> | Query<unknown> | DomainEvent<unknown>

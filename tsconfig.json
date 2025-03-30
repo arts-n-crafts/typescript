@@ -9,6 +9,8 @@
 
     // Bundler mode
     "moduleResolution": "bundler",
+
+    "types": ["vitest/globals"],
     "allowImportingTsExtensions": true,
     "allowJs": true,
 
