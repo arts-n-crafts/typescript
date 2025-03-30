@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.0.5
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v0.0.4...v0.0.5)
+
+### 🏡 Chore
+
+- Add repository type ([282b78a](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/282b78a))
+- Add vitest/globals to tsconfig ([fec28be](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/fec28be))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v0.0.4
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v0.0.3...v0.0.4)
