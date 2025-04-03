@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.8
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v0.0.7...v0.0.8)
+
+### 🏡 Chore
+
+- Remove unused Notifier ([8ed462d](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/8ed462d))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v0.0.7
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v0.0.6...v0.0.7)
