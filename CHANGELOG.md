@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.6
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v0.0.5...v0.0.6)
+
+### 🚀 Enhancements
+
+- Add Event ([0c544e5](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/0c544e5))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v0.0.5
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v0.0.4...v0.0.5)
