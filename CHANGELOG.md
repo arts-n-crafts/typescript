@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.7
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v0.0.6...v0.0.7)
+
+### 🏡 Chore
+
+- Export event ([c2de03b](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/c2de03b))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v0.0.6
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v0.0.5...v0.0.6)
