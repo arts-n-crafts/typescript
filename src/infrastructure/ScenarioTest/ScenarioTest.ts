@@ -84,6 +84,6 @@ export class ScenarioTest {
   private isEvent(candidate: WhenInput | ThenInput): candidate is DomainEvent<unknown> {
     if (!('type' in candidate))
       return false
-    return Boolean(candidate.type === 'event')
+    return Boolean(['event', 'domainEvent'].includes(candidate.type))
   }
 }
