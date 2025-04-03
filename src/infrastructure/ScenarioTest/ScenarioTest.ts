@@ -50,6 +50,8 @@ export class ScenarioTest {
       }
       expect(foundEvent).toBeDefined()
       expect(outcome.constructor.name === foundEvent.constructor.name).toBeTruthy()
+      expect(outcome.aggregateId).toEqual(foundEvent.aggregateId)
+      expect(outcome.payload).toStrictEqual(foundEvent.payload)
     }
 
     if (this.isQuery(this.action)) {
@@ -70,6 +72,8 @@ export class ScenarioTest {
       }
       expect(foundEvent).toBeDefined()
       expect(outcome.constructor.name === foundEvent.constructor.name).toBeTruthy()
+      expect(outcome.aggregateId).toEqual(foundEvent.aggregateId)
+      expect(outcome.payload).toStrictEqual(foundEvent.payload)
     }
   }
 
