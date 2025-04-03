@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.9
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v0.0.8...v0.0.9)
+
+### 🩹 Fixes
+
+- Match scenariotest on props and id ([c0bbf06](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/c0bbf06))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v0.0.8
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v0.0.7...v0.0.8)
