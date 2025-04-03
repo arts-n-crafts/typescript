@@ -1,4 +1,4 @@
-import type { DomainEvent } from '../../domain/DomainEvent/DomainEvent'
+import type { DomainEvent } from '../../domain'
 import type { EventHandler } from './EventHandler'
 
 export class EventBus {

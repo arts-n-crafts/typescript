@@ -1,4 +1,4 @@
-import type { EventMetadataProps } from '../../infrastructure/EventBus/Event'
+import type { DomainEventMetadataProps } from './DomainEvent'
 import type { UserNameUpdatedEventProps } from './examples/UserNameUpdated'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { DomainEvent } from './DomainEvent'
@@ -7,7 +7,7 @@ import { UserNameUpdatedEvent } from './examples/UserNameUpdated'
 describe('domainEvent', () => {
   let aggregateId: string
   let payload: UserNameUpdatedEventProps
-  let metadata: EventMetadataProps
+  let metadata: DomainEventMetadataProps
 
   beforeEach(() => {
     aggregateId = '123'
@@ -34,6 +34,6 @@ describe('domainEvent', () => {
 
   it('should have a type', () => {
     const event = new UserNameUpdatedEvent(aggregateId, payload)
-    expect(event.type).toBe('domainEvent')
+    expect(event.type).toBe('event')
   })
 })

@@ -1,4 +1,4 @@
-import type { DomainEvent } from '../../domain/DomainEvent/DomainEvent'
+import type { DomainEvent } from '../../domain'
 import type { Command } from '../CommandBus/Command'
 import type { CommandBus } from '../CommandBus/CommandBus'
 import type { EventBus } from '../EventBus/EventBus'
@@ -84,6 +84,6 @@ export class ScenarioTest {
   private isEvent(candidate: WhenInput | ThenInput): candidate is DomainEvent<unknown> {
     if (!('type' in candidate))
       return false
-    return Boolean(['event', 'domainEvent'].includes(candidate.type))
+    return Boolean(['event'].includes(candidate.type))
   }
 }
