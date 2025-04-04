@@ -1,8 +1,8 @@
 import type { ContractSignedPayload } from './examples/ContractSigned'
 import type { IntegrationEventMetadata } from './IntegrationEvent'
 import { randomUUID } from 'node:crypto'
-import { createIntegrationEvent } from './createIntegrationEvent'
 import { ContractSigned } from './examples/ContractSigned'
+import { createIntegrationEvent } from './utils/createIntegrationEvent'
 
 describe('integrationEvent', () => {
   let metadata: IntegrationEventMetadata

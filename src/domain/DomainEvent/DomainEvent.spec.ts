@@ -3,10 +3,10 @@ import type { UserCreatedPayload } from './examples/UserCreated'
 import type { UserNameUpdatedPayload } from './examples/UserNameUpdated'
 import type { UserRegistrationEmailSentPayload } from './examples/UserRegistrationEmailSent'
 import { randomUUID } from 'node:crypto'
-import { createDomainEvent } from './createDomainEvent'
 import { UserCreated } from './examples/UserCreated'
 import { UserNameUpdated } from './examples/UserNameUpdated'
 import { UserRegistrationEmailSent } from './examples/UserRegistrationEmailSent'
+import { createDomainEvent } from './utils/createDomainEvent'
 
 describe('domainEvent', () => {
   let aggregateId: string

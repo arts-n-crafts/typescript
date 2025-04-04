@@ -1,5 +1,5 @@
 import type { IntegrationEventMetadata } from '../IntegrationEvent'
-import { createIntegrationEvent } from '../createIntegrationEvent'
+import { createIntegrationEvent } from '../utils/createIntegrationEvent'
 
 export interface ContractSignedPayload {
   userId: string

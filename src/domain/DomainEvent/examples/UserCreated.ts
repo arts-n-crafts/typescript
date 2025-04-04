@@ -1,5 +1,5 @@
 import type { DomainEventMetadata } from '../DomainEvent'
-import { createDomainEvent } from '../createDomainEvent'
+import { createDomainEvent } from '../utils/createDomainEvent'
 
 export interface UserCreatedPayload {
   name: string
