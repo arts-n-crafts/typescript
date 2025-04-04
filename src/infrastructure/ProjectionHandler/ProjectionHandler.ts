@@ -1,4 +1,4 @@
-import type { DomainEvent } from '../../domain/DomainEvent/DomainEvent'
+import type { DomainEvent } from '../../domain/DomainEvent_v1/DomainEvent'
 import type { Database } from '../Database/Database'
 import type { EventBus } from '../EventBus/EventBus'
 import type { EventHandler } from '../EventBus/EventHandler'

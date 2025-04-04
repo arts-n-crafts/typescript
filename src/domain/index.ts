@@ -1,5 +1,5 @@
 export * from './AggregateRoot/AggregateRoot'
-export * from './DomainEvent/DomainEvent'
+export * from './DomainEvent_v1/DomainEvent'
 export * from './Entity/Entity'
 export * from './Specification/AndSpecification'
 export * from './Specification/NotSpecification'

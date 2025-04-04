@@ -1,7 +1,7 @@
-import type { DomainEvent } from '../../../domain/DomainEvent/DomainEvent'
+import type { DomainEvent } from '../../../domain/DomainEvent_v1/DomainEvent'
 import type { EventStore } from '../../EventStore/EventStore'
-import { UserCreatedEvent } from '../../../domain/DomainEvent/examples/UserCreated'
-import { UserRegistrationEmailSentEvent } from '../../../domain/DomainEvent/examples/UserRegistrationEmailSent'
+import { UserCreatedEvent } from '../../../domain/DomainEvent_v1/examples/UserCreated'
+import { UserRegistrationEmailSentEvent } from '../../../domain/DomainEvent_v1/examples/UserRegistrationEmailSent'
 import { EventHandler } from '../EventHandler'
 
 export class UserCreatedEventHandler

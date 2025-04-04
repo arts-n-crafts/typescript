@@ -1,6 +1,6 @@
 import type { UUID } from 'node:crypto'
 import type { AggregateRoot } from '../../domain/AggregateRoot/AggregateRoot'
-import type { UserNameUpdatedEvent } from '../../domain/DomainEvent/examples/UserNameUpdated'
+import type { UserNameUpdatedEvent } from '../../domain/DomainEvent_v1/examples/UserNameUpdated'
 import type { EventStore } from '../EventStore/EventStore'
 import type { Repository } from '../Repository/Repository'
 import { randomUUID } from 'node:crypto'

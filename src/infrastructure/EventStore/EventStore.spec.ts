@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { DomainEvent } from '../../domain/DomainEvent/DomainEvent'
+import { DomainEvent } from '../../domain/DomainEvent_v1/DomainEvent'
 import { EventBus } from '../EventBus/EventBus'
 import { InMemoryEventStore } from './implementations/InMemoryEventStore'
 

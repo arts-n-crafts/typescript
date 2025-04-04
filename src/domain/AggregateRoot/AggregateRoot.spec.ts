@@ -1,8 +1,8 @@
 import type { UserProps } from './examples/User'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { DomainEvent } from '../DomainEvent/DomainEvent'
-import { UserCreatedEvent } from '../DomainEvent/examples/UserCreated'
-import { UserNameUpdatedEvent } from '../DomainEvent/examples/UserNameUpdated'
+import { DomainEvent } from '../DomainEvent_v1/DomainEvent'
+import { UserCreatedEvent } from '../DomainEvent_v1/examples/UserCreated'
+import { UserNameUpdatedEvent } from '../DomainEvent_v1/examples/UserNameUpdated'
 import { AggregateRoot } from './AggregateRoot'
 import { User } from './examples/User'
 

@@ -1,6 +1,6 @@
-import type { DomainEvent } from '../../DomainEvent/DomainEvent'
-import { UserCreatedEvent } from '../../DomainEvent/examples/UserCreated'
-import { UserNameUpdatedEvent } from '../../DomainEvent/examples/UserNameUpdated'
+import type { DomainEvent } from '../../DomainEvent_v1/DomainEvent'
+import { UserCreatedEvent } from '../../DomainEvent_v1/examples/UserCreated'
+import { UserNameUpdatedEvent } from '../../DomainEvent_v1/examples/UserNameUpdated'
 import { AggregateRoot } from '../AggregateRoot'
 
 export interface UserProps {

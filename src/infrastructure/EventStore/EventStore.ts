@@ -1,4 +1,4 @@
-import type { DomainEvent } from '../../domain/DomainEvent/DomainEvent'
+import type { DomainEvent } from '../../domain/DomainEvent_v1/DomainEvent'
 import type { EventBus } from '../EventBus/EventBus'
 
 export abstract class EventStore {

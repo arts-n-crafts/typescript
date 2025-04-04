@@ -1,4 +1,4 @@
-import type { DomainEvent } from '../../../domain/DomainEvent/DomainEvent'
+import type { DomainEvent } from '../../../domain/DomainEvent_v1/DomainEvent'
 import { EventStore } from '../EventStore'
 
 export class InMemoryEventStore extends EventStore {

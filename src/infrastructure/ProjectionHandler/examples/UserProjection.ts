@@ -1,8 +1,8 @@
-import type { DomainEvent } from '../../../domain/DomainEvent/DomainEvent'
-import type { UserCreatedEventProps } from '../../../domain/DomainEvent/examples/UserCreated'
-import type { UserNameUpdatedEventProps } from '../../../domain/DomainEvent/examples/UserNameUpdated'
-import { UserCreatedEvent } from '../../../domain/DomainEvent/examples/UserCreated'
-import { UserNameUpdatedEvent } from '../../../domain/DomainEvent/examples/UserNameUpdated'
+import type { DomainEvent } from '../../../domain/DomainEvent_v1/DomainEvent'
+import type { UserCreatedEventProps } from '../../../domain/DomainEvent_v1/examples/UserCreated'
+import type { UserNameUpdatedEventProps } from '../../../domain/DomainEvent_v1/examples/UserNameUpdated'
+import { UserCreatedEvent } from '../../../domain/DomainEvent_v1/examples/UserCreated'
+import { UserNameUpdatedEvent } from '../../../domain/DomainEvent_v1/examples/UserNameUpdated'
 import { Operation } from '../../Database/Database'
 import { ProjectionHandler } from '../ProjectionHandler'
 

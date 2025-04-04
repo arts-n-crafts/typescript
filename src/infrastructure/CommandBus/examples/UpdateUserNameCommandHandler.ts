@@ -1,5 +1,5 @@
 import type { UpdateUserNameCommand } from './UpdateUserNameCommand'
-import { UserNameUpdatedEvent } from '../../../domain/DomainEvent/examples/UserNameUpdated'
+import { UserNameUpdatedEvent } from '../../../domain/DomainEvent_v1/examples/UserNameUpdated'
 import { CommandHandler } from '../CommandHandler'
 
 export class UpdateUserNameCommandHandler extends CommandHandler<UpdateUserNameCommand> {
