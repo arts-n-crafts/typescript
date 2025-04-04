@@ -1,11 +1,11 @@
+import { randomUUID } from 'node:crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { DomainEvent } from '../../domain/DomainEvent_v1/DomainEvent'
+import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
+import { UserNameUpdated } from '../../domain/DomainEvent/examples/UserNameUpdated'
 import { EventBus } from '../EventBus/EventBus'
 import { InMemoryEventStore } from './implementations/InMemoryEventStore'
 
 describe('inMemoryEventStore', () => {
-  class SomeDomainEvent extends DomainEvent<Record<string, unknown>> { };
-
   let eventBus: EventBus
   let eventStore: InMemoryEventStore
 
@@ -15,24 +15,25 @@ describe('inMemoryEventStore', () => {
   })
 
   it('should store and load an event', async () => {
-    const event = new SomeDomainEvent('123', { data: 'test' })
+    const aggregateId = randomUUID()
+    const event = UserCreated(aggregateId, { name: 'elon', email: 'musk@x.com' })
 
     await eventStore.store(event)
-    const events = await eventStore.loadEvents('123')
-
+    const events = await eventStore.loadEvents(aggregateId)
     expect(events).toHaveLength(1)
     expect(events[0]).toEqual(event)
   })
 
   it('should store and load multiple events', async () => {
-    const event = new SomeDomainEvent('123', { data: 'test' })
-    const event2 = new SomeDomainEvent('123', { data: 'test2' })
-    const event3 = new SomeDomainEvent('1234', { data: 'test' })
+    const aggregateId = randomUUID()
+    const event = UserCreated(aggregateId, { name: 'elon', email: 'musk@x.com' })
+    const event2 = UserNameUpdated(aggregateId, { name: 'Donald' })
+    const event3 = UserCreated(randomUUID(), { name: 'Donald', email: 'potus@x.com' })
 
     await eventStore.store(event)
     await eventStore.store(event2)
     await eventStore.store(event3)
-    const events = await eventStore.loadEvents('123')
+    const events = await eventStore.loadEvents(aggregateId)
 
     expect(events).toHaveLength(2)
     expect(events[0]).toEqual(event)

@@ -1,8 +1,9 @@
-import type { UserCreatedEventProps } from '../../domain/DomainEvent_v1/examples/UserCreated'
+import type { DomainEvent } from '../../domain/DomainEvent/DomainEvent'
+import type { UserCreatedPayload } from '../../domain/DomainEvent/examples/UserCreated'
+import type { UserRegistrationEmailSentPayload } from '../../domain/DomainEvent/examples/UserRegistrationEmailSent'
 import type { EventStore } from '../EventStore/EventStore'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { UserCreatedEvent } from '../../domain/DomainEvent_v1/examples/UserCreated'
-import { UserRegistrationEmailSentEvent } from '../../domain/DomainEvent_v1/examples/UserRegistrationEmailSent'
+import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
 import { EventBus } from './EventBus'
 import { EventHandler } from './EventHandler'
@@ -13,7 +14,7 @@ describe('eventHandler', () => {
   let eventStore: EventStore
   let handler: UserCreatedEventHandler
   let aggregateId: string
-  let payload: UserCreatedEventProps
+  let payload: UserCreatedPayload
 
   beforeEach(() => {
     eventBus = new EventBus()
@@ -28,11 +29,11 @@ describe('eventHandler', () => {
   })
 
   it('should process the MockUserCreated event and dispatch the MockUserRegistrationEmailSentEvent', async () => {
-    const event = new UserCreatedEvent(aggregateId, payload)
+    const event = UserCreated(aggregateId, payload)
     await handler.handle(event)
     const events = await eventStore.loadEvents(aggregateId)
-    const sentEvent = events[0] as UserRegistrationEmailSentEvent
-    expect(sentEvent).toBeInstanceOf(UserRegistrationEmailSentEvent)
-    expect(sentEvent.payload?.status).toBe('SUCCESS')
+    const sentEvent = events[0] as DomainEvent<UserRegistrationEmailSentPayload>
+    expect(sentEvent.type).toBe('UserRegistrationEmailSent')
+    expect(sentEvent.payload.status).toBe('SUCCESS')
   })
 })

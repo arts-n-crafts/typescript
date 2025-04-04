@@ -1,15 +1,15 @@
 export interface IntegrationEventMetadata {
-  eventId?: string
   correlationId?: string
   causationId?: string
   [key: string]: unknown
 }
 
 export interface IntegrationEvent<T = unknown> {
+  id: string
   type: string
   payload: T
   metadata: {
     timestamp: string
-    eventId: string
   } & Partial<IntegrationEventMetadata>
+  version: number
 }

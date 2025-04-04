@@ -4,8 +4,7 @@ import type { Repository } from '../Repository/Repository'
 import type { CreateUserCommandProps } from './examples/CreateUserCommand'
 import { randomUUID } from 'node:crypto'
 import { describe, expect, it } from 'vitest'
-import { UserCreatedEvent } from '../../domain/DomainEvent_v1/examples/UserCreated'
-import { UserNameUpdatedEvent } from '../../domain/DomainEvent_v1/examples/UserNameUpdated'
+import { isDomainEvent } from '../../domain/DomainEvent/utils/isDomainEvent'
 import { EventBus } from '../EventBus/EventBus'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
 import { UserRepository } from '../Repository/examples/UserRepository'
@@ -36,8 +35,8 @@ describe('commandHandler', async () => {
     const events = await eventStore.loadEvents(aggregateId)
     const event = events[0]
     expect(events).toHaveLength(1)
-    expect(event).toBeInstanceOf(UserCreatedEvent)
-    expect(event.aggregateId).toBe(aggregateId)
+    expect(event.type).toBe('UserCreated')
+    expect(isDomainEvent(event) && event.aggregateId).toBe(aggregateId)
   })
 
   it('should process the MockUpdateUserName Command and emit the MockUserNameUpdated Event', async () => {
@@ -50,7 +49,7 @@ describe('commandHandler', async () => {
     const events = await eventStore.loadEvents(aggregateId)
     const event = events[1]
     expect(events).toHaveLength(2)
-    expect(event).toBeInstanceOf(UserNameUpdatedEvent)
-    expect(event.aggregateId).toBe(aggregateId)
+    expect(event.type).toBe('UserNameUpdated')
+    expect(isDomainEvent(event) && event.aggregateId).toBe(aggregateId)
   })
 })

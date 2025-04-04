@@ -1,8 +1,8 @@
-import type { UserCreatedEventProps } from '../../domain/DomainEvent_v1/examples/UserCreated'
+import type { UserCreatedPayload } from '../../domain/DomainEvent/examples/UserCreated'
 import type { EventStore } from '../EventStore/EventStore'
+import { randomUUID } from 'node:crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { UserCreatedEvent } from '../../domain/DomainEvent_v1/examples/UserCreated'
-import { UserRegistrationEmailSentEvent } from '../../domain/DomainEvent_v1/examples/UserRegistrationEmailSent'
+import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
 import { EventBus } from './EventBus'
 import { UserCreatedEventHandler } from './examples/UserCreatedEventHandler'
@@ -12,13 +12,13 @@ describe('eventBus', () => {
   let eventStore: EventStore
   let handler: UserCreatedEventHandler
   let aggregateId: string
-  let payload: UserCreatedEventProps
+  let payload: UserCreatedPayload
 
   beforeEach(() => {
     eventBus = new EventBus()
     eventStore = new InMemoryEventStore(eventBus)
     handler = new UserCreatedEventHandler(eventStore)
-    aggregateId = '123'
+    aggregateId = randomUUID()
     payload = { name: 'test', email: 'musk@x.com' }
   })
 
@@ -32,12 +32,12 @@ describe('eventBus', () => {
 
   it('should be able publish events', async () => {
     eventBus.subscribe(handler)
-    const createdEvent = new UserCreatedEvent(aggregateId, payload)
+    const createdEvent = UserCreated(aggregateId, payload)
     await eventBus.publish(createdEvent)
 
     const events = await eventStore.loadEvents(aggregateId)
-    const sentEventCausedByCreatedEventIndex = events.findIndex(event => event.metadata?.causationId === createdEvent.metadata?.eventId)
+    const sentEventCausedByCreatedEventIndex = events.findIndex(event => event.metadata.causationId === createdEvent.id)
     expect(sentEventCausedByCreatedEventIndex !== -1).toBeTruthy()
-    expect(events[sentEventCausedByCreatedEventIndex]).toBeInstanceOf(UserRegistrationEmailSentEvent)
+    expect(events[sentEventCausedByCreatedEventIndex].type).toBe('UserRegistrationEmailSent')
   })
 })

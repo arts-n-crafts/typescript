@@ -1,7 +1,7 @@
 import type { EventStore } from '../EventStore/EventStore'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { User } from '../../domain/AggregateRoot/examples/User'
-import { UserNameUpdatedEvent } from '../../domain/DomainEvent_v1/examples/UserNameUpdated'
+import { UserNameUpdated } from '../../domain/DomainEvent/examples/UserNameUpdated'
 import { EventBus } from '../EventBus/EventBus'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
 import { UserRepository } from './examples/UserRepository'
@@ -10,14 +10,14 @@ describe('repository', () => {
   let aggregateId: string
   let eventBus: EventBus
   let eventStore: EventStore
-  let mockUserNameUpdateEvent: UserNameUpdatedEvent
+  let mockUserNameUpdateEvent: ReturnType<typeof UserNameUpdated>
   let aggregateRoot: User
 
   beforeEach(() => {
     aggregateId = '123'
     eventBus = new EventBus()
     eventStore = new InMemoryEventStore(eventBus)
-    mockUserNameUpdateEvent = new UserNameUpdatedEvent('123', { name: 'musk' })
+    mockUserNameUpdateEvent = UserNameUpdated('123', { name: 'musk' })
     aggregateRoot = User.create(aggregateId, { name: 'elon', email: 'elon@x.com' })
     aggregateRoot.apply(mockUserNameUpdateEvent)
   })

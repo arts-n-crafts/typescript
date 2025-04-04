@@ -1,14 +1,14 @@
-import type { DomainEvent } from '../../domain'
+import type { Event } from './Event'
 import type { EventHandler } from './EventHandler'
 
 export class EventBus {
-  private handlers: Array<EventHandler<DomainEvent<unknown>>> = []
+  private handlers: Array<EventHandler<Event>> = []
 
-  subscribe(handler: EventHandler<DomainEvent<unknown>>): void {
+  subscribe(handler: EventHandler<Event>): void {
     this.handlers.push(handler)
   }
 
-  async publish(event: DomainEvent<unknown>): Promise<void> {
+  async publish(event: Event): Promise<void> {
     await Promise.all(
       this.handlers.map(
         async handler => handler.handle(event),

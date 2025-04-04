@@ -1,11 +1,11 @@
-import type { DomainEvent } from '../../../domain/DomainEvent_v1/DomainEvent'
+import type { DomainEvent } from '../../../domain/DomainEvent/DomainEvent'
+import type { UserCreated } from '../../../domain/DomainEvent/examples/UserCreated'
 import type { EventStore } from '../../EventStore/EventStore'
-import { UserCreatedEvent } from '../../../domain/DomainEvent_v1/examples/UserCreated'
-import { UserRegistrationEmailSentEvent } from '../../../domain/DomainEvent_v1/examples/UserRegistrationEmailSent'
+import { UserRegistrationEmailSent } from '../../../domain/DomainEvent/examples/UserRegistrationEmailSent'
 import { EventHandler } from '../EventHandler'
 
 export class UserCreatedEventHandler
-  extends EventHandler<UserCreatedEvent> {
+  extends EventHandler<ReturnType<typeof UserCreated>> {
   constructor(
     private readonly eventStore: EventStore,
   ) {
@@ -13,15 +13,13 @@ export class UserCreatedEventHandler
   }
 
   async handle(event: DomainEvent<unknown>): Promise<void> {
-    if (event instanceof UserCreatedEvent) {
-      const emailSentEvent = new UserRegistrationEmailSentEvent(
+    if (event.type === 'UserCreated') {
+      const emailSentEvent = UserRegistrationEmailSent(
         event.aggregateId,
         { status: 'SUCCESS' },
+        { causationId: event.id },
       )
-      emailSentEvent.applyMetadata({
-        causationId: event.metadata?.eventId,
-        correlationId: event.metadata?.correlationId,
-      })
+
       await this.eventStore.store(emailSentEvent)
     }
   }

@@ -1,20 +1,17 @@
-import type { DomainEvent } from '../../../domain/DomainEvent_v1/DomainEvent'
+import type { DomainEvent } from '../../../domain'
+import type { Event } from '../../EventBus/Event'
+import { isDomainEvent } from '../../../domain/DomainEvent/utils/isDomainEvent'
 import { EventStore } from '../EventStore'
 
 export class InMemoryEventStore extends EventStore {
-  private events: Record<string, DomainEvent<any>[]> = {}
+  private events: Event[] = []
 
-  async store(event: DomainEvent<unknown>): Promise<void> {
-    const key = event.aggregateId
-    if (!(key in this.events)) {
-      this.events[key] = []
-    }
-    this.events[key].push(event)
+  async store(event: Event): Promise<void> {
+    this.events.push(event)
     await this.eventBus.publish(event)
   }
 
-  async loadEvents<TProps>(aggregateId: string): Promise<DomainEvent<TProps>[]> {
-    const events = this.events[aggregateId]
-    return [...(Array.isArray(events) ? events : [])]
+  async loadEvents(aggregateId: string): Promise<DomainEvent[]> {
+    return this.events.filter(event => isDomainEvent(event) && event.aggregateId === aggregateId) as DomainEvent[]
   }
 }

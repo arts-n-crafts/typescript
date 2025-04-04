@@ -2,8 +2,8 @@ import type { UUID } from 'node:crypto'
 import type { Database } from '../Database/Database'
 import { randomUUID } from 'node:crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { UserCreatedEvent } from '../../domain/DomainEvent_v1/examples/UserCreated'
-import { UserNameUpdatedEvent } from '../../domain/DomainEvent_v1/examples/UserNameUpdated'
+import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
+import { UserNameUpdated } from '../../domain/DomainEvent/examples/UserNameUpdated'
 import { UserByUsernameSpecification } from '../../domain/Specification/examples/UserByUsernameSpecification'
 import { InMemoryDatabase } from '../Database/implementations/InMemoryDatabase'
 import { EventBus } from '../EventBus/EventBus'
@@ -28,7 +28,7 @@ describe('projectionHandler', () => {
   })
 
   it('should update projection with create event', async () => {
-    const event = new UserCreatedEvent(id, payload)
+    const event = UserCreated(id, payload)
     await eventBus.publish(event)
     const spec = new UserByUsernameSpecification(payload.name)
 
@@ -38,7 +38,7 @@ describe('projectionHandler', () => {
 
   it('should update projection with update event', async () => {
     const updatePayload = { name: 'Donald' }
-    const event = new UserNameUpdatedEvent(id, updatePayload)
+    const event = UserNameUpdated(id, updatePayload)
     await eventBus.publish(event)
     const spec = new UserByUsernameSpecification(updatePayload.name)
 

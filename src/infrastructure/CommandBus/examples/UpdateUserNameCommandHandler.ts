@@ -1,11 +1,11 @@
 import type { UpdateUserNameCommand } from './UpdateUserNameCommand'
-import { UserNameUpdatedEvent } from '../../../domain/DomainEvent_v1/examples/UserNameUpdated'
+import { UserNameUpdated } from '../../../domain/DomainEvent/examples/UserNameUpdated'
 import { CommandHandler } from '../CommandHandler'
 
 export class UpdateUserNameCommandHandler extends CommandHandler<UpdateUserNameCommand> {
   async execute(command: UpdateUserNameCommand) {
     const { aggregateId, payload } = command
-    const event = new UserNameUpdatedEvent(aggregateId, payload)
+    const event = UserNameUpdated(aggregateId, payload)
     const aggregate = await this.repository.load(aggregateId)
     aggregate.apply(event)
     await this.repository.store(aggregate)

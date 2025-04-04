@@ -1,6 +1,6 @@
 import type { UUID } from 'node:crypto'
 import type { AggregateRoot } from '../../domain/AggregateRoot/AggregateRoot'
-import type { UserNameUpdatedEvent } from '../../domain/DomainEvent_v1/examples/UserNameUpdated'
+import type { UserNameUpdated } from '../../domain/DomainEvent/examples/UserNameUpdated'
 import type { EventStore } from '../EventStore/EventStore'
 import type { Repository } from '../Repository/Repository'
 import { randomUUID } from 'node:crypto'
@@ -50,7 +50,7 @@ describe('commandBus', () => {
     await commandBus.execute(command)
 
     const events = await eventStore.loadEvents(id)
-    const event = events.at(-1) as UserNameUpdatedEvent
+    const event = events.at(-1) as ReturnType<typeof UserNameUpdated>
     expect(events).toHaveLength(2)
     expect(event.payload.name).toBe('test')
   })

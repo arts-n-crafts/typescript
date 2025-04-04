@@ -1,8 +1,9 @@
+import type { DomainEvent } from '../DomainEvent/DomainEvent'
 import type { UserProps } from './examples/User'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { DomainEvent } from '../DomainEvent_v1/DomainEvent'
-import { UserCreatedEvent } from '../DomainEvent_v1/examples/UserCreated'
-import { UserNameUpdatedEvent } from '../DomainEvent_v1/examples/UserNameUpdated'
+import { UserCreated } from '../DomainEvent/examples/UserCreated'
+import { UserNameUpdated } from '../DomainEvent/examples/UserNameUpdated'
+import { createDomainEvent } from '../DomainEvent/utils/createDomainEvent'
 import { AggregateRoot } from './AggregateRoot'
 import { User } from './examples/User'
 
@@ -10,15 +11,15 @@ describe('aggregateRoot', () => {
   describe('properly implemented', () => {
     let id: string
     let props: UserProps
-    let mockUserCreatedEvent: UserCreatedEvent
-    let mockUserNameUpdatedEvent: UserNameUpdatedEvent
+    let mockUserCreatedEvent: ReturnType<typeof UserCreated>
+    let mockUserNameUpdatedEvent: ReturnType<typeof UserNameUpdated>
     let aggregateRoot: User
 
     beforeEach(() => {
       id = '123'
       props = { name: 'elon', email: 'elon@x.com' }
-      mockUserCreatedEvent = new UserCreatedEvent('123', props)
-      mockUserNameUpdatedEvent = new UserNameUpdatedEvent('123', { name: 'musk' })
+      mockUserCreatedEvent = UserCreated('123', props)
+      mockUserNameUpdatedEvent = UserNameUpdated('123', { name: 'musk' })
       aggregateRoot = User.create(id, props)
     })
 
@@ -44,8 +45,7 @@ describe('aggregateRoot', () => {
     })
 
     it('should do nothing on an unhandled event', () => {
-      class UnhandledEvent extends DomainEvent<Record<string, unknown>> { }
-      const unhandledEvent = new UnhandledEvent('4321', {})
+      const unhandledEvent = createDomainEvent('UnhandledEvent', '4321', {})
       aggregateRoot.apply(unhandledEvent)
       expect(aggregateRoot.props.name).toBe('elon')
     })
@@ -62,7 +62,7 @@ describe('aggregateRoot', () => {
 
   describe('not properly implemented', () => {
     class NotProperlyImplemented extends AggregateRoot<UserProps> {
-      protected _applyEvent(_event: DomainEvent<unknown>): void {
+      protected _applyEvent(_event: DomainEvent): void {
         throw new Error('Method not implemented.')
       }
     }

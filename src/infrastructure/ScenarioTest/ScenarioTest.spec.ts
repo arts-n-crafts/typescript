@@ -1,9 +1,8 @@
 import type { EventStore } from '../EventStore/EventStore'
 import { randomUUID } from 'node:crypto'
-import { beforeEach, describe, expect, it } from 'vitest'
-import { UserCreatedEvent } from '../../domain/DomainEvent_v1/examples/UserCreated'
-import { UserNameUpdatedEvent } from '../../domain/DomainEvent_v1/examples/UserNameUpdated'
-import { UserRegistrationEmailSentEvent } from '../../domain/DomainEvent_v1/examples/UserRegistrationEmailSent'
+import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
+import { UserNameUpdated } from '../../domain/DomainEvent/examples/UserNameUpdated'
+import { UserRegistrationEmailSent } from '../../domain/DomainEvent/examples/UserRegistrationEmailSent'
 import { CommandBus } from '../CommandBus/CommandBus'
 import { CreateUserCommand } from '../CommandBus/examples/CreateUserCommand'
 import { UpdateUserNameCommand } from '../CommandBus/examples/UpdateUserNameCommand'
@@ -42,28 +41,28 @@ describe('scenario test', () => {
           new CreateUserCommand(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .then(
-          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
     })
 
     it('should have published the update command, as an event, in the then step', async () => {
       await scenarioTest
         .given(
-          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .when(
           new UpdateUserNameCommand(id, { name: 'Donald' }),
         )
         .then(
-          new UserNameUpdatedEvent(id, { name: 'Donald' }),
+          UserNameUpdated(id, { name: 'Donald' }),
         )
     })
 
     it('should throw an error if the when is an command and then is not an event', async () => {
       await expect(scenarioTest
         .given(
-          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
-          new UserNameUpdatedEvent(id, { name: 'Donald' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserNameUpdated(id, { name: 'Donald' }),
         )
         .when(
           new UpdateUserNameCommand(id, { name: 'Donald' }),
@@ -75,15 +74,15 @@ describe('scenario test', () => {
     it('should throw an error when a command is given and then the expected event is not triggered', async () => {
       await expect(scenarioTest
         .given(
-          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .when(
           new UpdateUserNameCommand(id, { name: 'Donald' }),
         )
         .then(
-          new UserNameUpdatedEvent(randomUUID(), { name: 'Donald' }),
+          UserNameUpdated(randomUUID(), { name: 'Donald' }),
         ),
-      ).rejects.toThrowError(`In the ScenarioTest, the expected then event (${UserNameUpdatedEvent.name}) was not triggered`)
+      ).rejects.toThrowError(`In the ScenarioTest, the expected then event (UserNameUpdated) was not triggered`)
     })
   })
 
@@ -91,8 +90,8 @@ describe('scenario test', () => {
     it('should have executed the query with the expected result in the then step', async () => {
       await scenarioTest
         .given(
-          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
-          new UserNameUpdatedEvent(id, { name: 'Donald' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserNameUpdated(id, { name: 'Donald' }),
         )
         .when(
           new GetUserByEmailQuery({ email: 'musk@theboringcompany.com' }),
@@ -111,17 +110,17 @@ describe('scenario test', () => {
     it('should have dispatched an event based on listening to an event', async () => {
       await scenarioTest
         .when(
-          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .then(
-          new UserRegistrationEmailSentEvent(id, { status: 'SUCCESS' }),
+          UserRegistrationEmailSent(id, { status: 'SUCCESS' }),
         )
     })
 
     it('should throw an error if the when is an event and then is not an event', async () => {
       await expect(scenarioTest
         .when(
-          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .then([]),
       ).rejects.toThrowError('In the ScenarioTest, when triggering from event, then an event is expected')
@@ -130,12 +129,12 @@ describe('scenario test', () => {
     it('should throw an error if the when is an event and then is not found', async () => {
       await expect(scenarioTest
         .when(
-          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .then(
-          new UserRegistrationEmailSentEvent(randomUUID(), { status: 'SUCCESS' }),
+          UserRegistrationEmailSent(randomUUID(), { status: 'SUCCESS' }),
         ),
-      ).rejects.toThrowError(`In the ScenarioTest, the expected then event (UserRegistrationEmailSentEvent) was not triggered`)
+      ).rejects.toThrowError(`In the ScenarioTest, the expected then event (UserRegistrationEmailSent) was not triggered`)
     })
   })
 
@@ -143,8 +142,8 @@ describe('scenario test', () => {
     it('should throw an error if no action (when-step) is provided', async () => {
       await expect(scenarioTest
         .given(
-          new UserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
-          new UserNameUpdatedEvent(id, { name: 'Donald' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserNameUpdated(id, { name: 'Donald' }),
         )
         .then([
           {
