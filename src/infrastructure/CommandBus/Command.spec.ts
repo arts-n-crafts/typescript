@@ -2,7 +2,6 @@ import type { UUID } from 'node:crypto'
 import type { CommandMetadata } from './Command'
 import type { UpdateUserNameCommandProps } from './examples/UpdateUserNameCommand'
 import { randomUUID } from 'node:crypto'
-import { beforeEach, describe, expect, it } from 'vitest'
 import { Command } from './Command'
 import { UpdateUserNameCommand } from './examples/UpdateUserNameCommand'
 

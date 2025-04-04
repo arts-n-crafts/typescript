@@ -1,6 +1,5 @@
 import type { DomainEvent } from '../DomainEvent/DomainEvent'
 import type { UserProps } from './examples/User'
-import { beforeEach, describe, expect, it } from 'vitest'
 import { UserCreated } from '../DomainEvent/examples/UserCreated'
 import { UserNameUpdated } from '../DomainEvent/examples/UserNameUpdated'
 import { createDomainEvent } from '../DomainEvent/utils/createDomainEvent'

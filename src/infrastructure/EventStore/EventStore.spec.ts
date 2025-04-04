@@ -1,5 +1,4 @@
 import { randomUUID } from 'node:crypto'
-import { beforeEach, describe, expect, it } from 'vitest'
 import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
 import { UserNameUpdated } from '../../domain/DomainEvent/examples/UserNameUpdated'
 import { EventBus } from '../EventBus/EventBus'

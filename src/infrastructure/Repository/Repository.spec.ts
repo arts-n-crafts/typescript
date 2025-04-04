@@ -1,5 +1,4 @@
 import type { EventStore } from '../EventStore/EventStore'
-import { beforeEach, describe, expect, it } from 'vitest'
 import { User } from '../../domain/AggregateRoot/examples/User'
 import { UserNameUpdated } from '../../domain/DomainEvent/examples/UserNameUpdated'
 import { EventBus } from '../EventBus/EventBus'

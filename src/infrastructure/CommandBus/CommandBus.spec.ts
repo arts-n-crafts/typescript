@@ -4,7 +4,6 @@ import type { UserNameUpdated } from '../../domain/DomainEvent/examples/UserName
 import type { EventStore } from '../EventStore/EventStore'
 import type { Repository } from '../Repository/Repository'
 import { randomUUID } from 'node:crypto'
-import { beforeEach, describe, expect, it } from 'vitest'
 import { EventBus } from '../EventBus/EventBus'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
 import { UserRepository } from '../Repository/examples/UserRepository'

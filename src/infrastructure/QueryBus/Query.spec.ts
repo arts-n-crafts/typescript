@@ -1,5 +1,4 @@
 import type { GetUserByEmailQueryProps } from './examples/GetUserByEmailQuery'
-import { beforeEach, describe, expect, it } from 'vitest'
 import { GetUserByEmailQuery } from './examples/GetUserByEmailQuery'
 import { Query } from './Query'
 

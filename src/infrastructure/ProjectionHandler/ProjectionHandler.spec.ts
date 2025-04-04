@@ -1,7 +1,6 @@
 import type { UUID } from 'node:crypto'
 import type { Database } from '../Database/Database'
 import { randomUUID } from 'node:crypto'
-import { beforeEach, describe, expect, it } from 'vitest'
 import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
 import { UserNameUpdated } from '../../domain/DomainEvent/examples/UserNameUpdated'
 import { UserByUsernameSpecification } from '../../domain/Specification/examples/UserByUsernameSpecification'

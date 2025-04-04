@@ -1,7 +1,6 @@
 import type { GetUserByEmailQueryProps } from './examples/GetUserByEmailQuery'
 import type { GetUserByEmailQueryResult } from './examples/GetUserByEmailQueryHandler'
 import { randomUUID } from 'node:crypto'
-import { beforeEach, describe, expect, it } from 'vitest'
 import { Operation } from '../Database/Database'
 import { InMemoryDatabase } from '../Database/implementations/InMemoryDatabase'
 import { GetUserByEmailQuery } from './examples/GetUserByEmailQuery'

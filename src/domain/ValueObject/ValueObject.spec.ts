@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest'
 import { SampleValueObject } from './examples/SampleValueObject'
 import { ValueObject } from './ValueObject'
 

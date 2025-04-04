@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest'
 import { User } from '../AggregateRoot/examples/User'
 import { UserByUsernameSpecification } from './examples/UserByUsernameSpecification'
 import { Specification } from './Specification'

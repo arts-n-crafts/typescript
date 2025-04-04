@@ -1,7 +1,6 @@
 import type { UserCreatedPayload } from '../../domain/DomainEvent/examples/UserCreated'
 import type { EventStore } from '../EventStore/EventStore'
 import { randomUUID } from 'node:crypto'
-import { beforeEach, describe, expect, it } from 'vitest'
 import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
 import { EventBus } from './EventBus'
