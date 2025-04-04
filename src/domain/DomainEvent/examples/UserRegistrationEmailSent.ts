@@ -1,8 +1,10 @@
-import { DomainEvent } from '../DomainEvent'
+import type { DomainEventMetadata } from '../DomainEvent'
+import { createDomainEvent } from '../createDomainEvent'
 
-export interface UserRegistrationEmailSentProps {
+export interface UserRegistrationEmailSentPayload {
   status: 'SUCCESS' | 'FAILED'
 }
 
-export class UserRegistrationEmailSentEvent
-  extends DomainEvent<UserRegistrationEmailSentProps> { }
+export function UserRegistrationEmailSent(aggregateId: string, props: UserRegistrationEmailSentPayload, metadata?: Partial<DomainEventMetadata>) {
+  return createDomainEvent('UserRegistrationEmailSent', aggregateId, props, metadata)
+}

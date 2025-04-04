@@ -1,7 +1,10 @@
-import { DomainEvent } from '../DomainEvent'
+import type { DomainEventMetadata } from '../DomainEvent'
+import { createDomainEvent } from '../createDomainEvent'
 
-export interface UserNameUpdatedEventProps {
+export interface UserNameUpdatedPayload {
   name: string
 }
 
-export class UserNameUpdatedEvent extends DomainEvent<UserNameUpdatedEventProps> { }
+export function UserNameUpdated(aggregateId: string, props: UserNameUpdatedPayload, metadata?: Partial<DomainEventMetadata>) {
+  return createDomainEvent('UserNameUpdated', aggregateId, props, metadata, 2)
+}
