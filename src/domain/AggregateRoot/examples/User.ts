@@ -4,14 +4,19 @@ import type { UserNameUpdatedPayload } from '../../DomainEvent/examples/UserName
 import { UserCreated } from '../../DomainEvent/examples/UserCreated'
 import { AggregateRoot } from '../AggregateRoot'
 
-export interface UserProps {
+export interface UserInputProps {
   name: string
   email: string
   age?: number
 }
 
+export interface UserProps extends UserInputProps {
+  contractSigned: boolean
+}
+
 export class User extends AggregateRoot<UserProps> {
-  static override create(id: string, props: UserProps) {
+  static override create(id: string, input: UserInputProps) {
+    const props = { ...input, contractSigned: false }
     const aggregate = new User(id, props)
     aggregate.apply(UserCreated(id, props))
     return aggregate
@@ -30,6 +35,9 @@ export class User extends AggregateRoot<UserProps> {
   protected _applyEvent(event: DomainEvent): void {
     if (event.type === 'UserNameUpdated') {
       this.props.name = (event as DomainEvent<UserNameUpdatedPayload>).payload.name
+    }
+    if (event.type === 'UserContractSigned') {
+      this.props.contractSigned = true
     }
   }
 }

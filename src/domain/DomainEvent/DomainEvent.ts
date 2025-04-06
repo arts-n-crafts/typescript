@@ -1,16 +1,24 @@
-export interface DomainEventMetadata {
-  correlationId?: string
-  causationId?: string
-  [key: string]: unknown
-}
+import type { BaseEvent, BaseEventMetadata } from '../../infrastructure/EventBus/Event'
 
-export interface DomainEvent<T = unknown> {
-  id: string
-  type: string
+export interface DomainEventMetadata
+  extends BaseEventMetadata { }
+
+/**
+ * DomainEvent represents an event coming from an external source.
+ *
+ * To create DomainEvents, use the helper functions:
+ * - createDomainEvent()
+ *
+ * To check if a value is an DomainEvent, use the helper function:
+ * - isDomainEvent()
+ *
+ * These helpers ensure correct typing, structure, and metadata assignment.
+ */
+export interface DomainEvent<T = unknown>
+  extends Omit<BaseEvent<T>, 'metadata'> {
   aggregateId: string
-  payload: T
   metadata: {
+    source: 'internal'
     timestamp: string
   } & Partial<DomainEventMetadata>
-  version: number
 }

@@ -1,12 +1,12 @@
 import type { DomainEvent } from '../../../domain'
-import type { Event } from '../../EventBus/Event'
+import type { BaseEvent } from '../../EventBus/Event'
 import { isDomainEvent } from '../../../domain/DomainEvent/utils/isDomainEvent'
 import { EventStore } from '../EventStore'
 
 export class InMemoryEventStore extends EventStore {
-  private events: Event[] = []
+  private events: BaseEvent[] = []
 
-  async store(event: Event): Promise<void> {
+  async store(event: BaseEvent): Promise<void> {
     this.events.push(event)
     await this.eventBus.publish(event)
   }

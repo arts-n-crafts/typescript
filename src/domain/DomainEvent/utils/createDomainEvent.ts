@@ -9,6 +9,7 @@ export function createDomainEvent<T>(type: string, aggregateId: string, payload:
     payload,
     metadata: {
       ...metadata,
+      source: 'internal',
       timestamp: new Date().toISOString(),
     },
     version,

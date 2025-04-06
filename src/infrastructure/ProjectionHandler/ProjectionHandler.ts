@@ -1,9 +1,9 @@
 import type { Database } from '../Database/Database'
-import type { Event } from '../EventBus/Event'
+import type { BaseEvent } from '../EventBus/Event'
 import type { EventBus } from '../EventBus/EventBus'
 import type { EventHandler } from '../EventBus/EventHandler'
 
-export abstract class ProjectionHandler implements EventHandler<Event> {
+export abstract class ProjectionHandler implements EventHandler<BaseEvent> {
   constructor(
     protected eventBus: EventBus,
     protected database: Database,
@@ -11,9 +11,9 @@ export abstract class ProjectionHandler implements EventHandler<Event> {
 
   abstract start(): void
 
-  abstract update(event: Event): Promise<void>
+  abstract update(event: BaseEvent): Promise<void>
 
-  async handle(event: Event): Promise<void> {
+  async handle(event: BaseEvent): Promise<void> {
     await this.update(event)
   }
 }

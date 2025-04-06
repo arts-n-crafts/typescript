@@ -8,6 +8,7 @@ export function createIntegrationEvent<T>(type: string, payload: T, metadata?: P
     payload,
     metadata: {
       ...metadata,
+      source: 'external',
       timestamp: new Date().toISOString(),
     },
     version,

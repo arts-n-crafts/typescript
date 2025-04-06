@@ -28,10 +28,6 @@ describe('domainEvent', () => {
     expect(isDomainEvent(event)).toBeTruthy()
   })
 
-  it.each(['', [], null])('should not consider the event as a domainEvent', (input) => {
-    expect(isDomainEvent(input)).toBeFalsy()
-  })
-
   it('should create the UserCreated event', () => {
     const payload: UserCreatedPayload = {
       name: 'Elon',

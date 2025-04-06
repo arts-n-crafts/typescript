@@ -1,11 +1,8 @@
+import type { BaseEvent } from '../../../infrastructure/EventBus/Event'
 import type { DomainEvent } from '../DomainEvent'
+import { isEvent } from '../../../infrastructure/EventBus/utils/isEvent'
 
-export function isDomainEvent(event: unknown): event is DomainEvent {
-  if (typeof event !== 'object')
-    return false
-  if (Array.isArray(event))
-    return false
-  if (event === null)
-    return false
-  return 'aggregateId' in event
+export function isDomainEvent<T = unknown>(event: BaseEvent<T>): event is DomainEvent<T> {
+  return isEvent(event)
+    && event.metadata.source === 'internal'
 }

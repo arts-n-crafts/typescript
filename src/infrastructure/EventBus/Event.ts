@@ -1,4 +1,16 @@
-import type { DomainEvent } from '../../domain/DomainEvent/DomainEvent'
-import type { IntegrationEvent } from '../EventBus/IntegrationEvent'
+export interface BaseEventMetadata {
+  correlationId?: string
+  causationId?: string
+  [key: string]: unknown
+}
 
-export type Event = DomainEvent | IntegrationEvent
+export interface BaseEvent<T = unknown> {
+  version: number
+  id: string
+  type: string
+  payload: T
+  metadata: {
+    timestamp: string
+    source: 'internal' | 'external'
+  } & Partial<BaseEventMetadata>
+}

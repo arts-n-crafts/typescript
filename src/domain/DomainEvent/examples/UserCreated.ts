@@ -5,6 +5,7 @@ export interface UserCreatedPayload {
   name: string
   email: string
   age?: number
+  contractSigned: boolean
 }
 
 export function UserCreated(aggregateId: string, props: UserCreatedPayload, metadata?: Partial<DomainEventMetadata>) {
