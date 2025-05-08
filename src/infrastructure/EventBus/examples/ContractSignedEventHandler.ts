@@ -1,6 +1,6 @@
 import type { CommandBus } from '../../CommandBus/CommandBus'
 import type { ContractSigned } from './ContractSigned'
-import { UserContractSignedCommand } from '../../CommandBus/examples/UserContractSignedCommand'
+import { ActivateUserCommand } from '../../CommandBus/examples/ActivateUserCommand'
 import { EventHandler } from '../EventHandler'
 
 type ContractSignedEvent = ReturnType<typeof ContractSigned>
@@ -15,8 +15,8 @@ export class ContractSignedEventHandler
 
   async handle(event: ContractSignedEvent): Promise<void> {
     if (event.type === 'ContractSigned') {
-      const command = new UserContractSignedCommand(event.payload.userId, {})
-      // this.commandBus()
+      const command = new ActivateUserCommand(event.payload.userId, {})
+      await this.commandBus.execute(command)
     }
   }
 }

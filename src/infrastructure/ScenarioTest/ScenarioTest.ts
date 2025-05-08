@@ -37,7 +37,11 @@ export class ScenarioTest {
   }
 
   async then(outcome: ThenInput): Promise<void> {
-    await Promise.all(this.events.map(async event => this.eventStore.store(event)))
+    await Promise.all(this.events.map(async (event) => {
+      if (this.isIntegrationEvent(event))
+        return this.eventBus.publish(event)
+      return this.eventStore.store(event)
+    }))
 
     if (!this.action) {
       throw new Error('In the ScenarioTest, "when" cannot be empty')
@@ -103,12 +107,8 @@ export class ScenarioTest {
 
   private async handleEvent(event: BaseEvent, outcome: ThenInput) {
     await this.eventBus.publish(event)
-    if (!this.isEvent(outcome)) {
+    if (!this.isDomainEvent(outcome)) {
       throw new TypeError(`In the ScenarioTest, when triggering from event, then an event is expected`)
-    }
-
-    if (!this.isDomainEvent(outcome) || !this.isDomainEvent(event)) {
-      throw new Error('IntegrationEvent not yet supported')
     }
 
     const actualEvents = await this.eventStore.loadEvents(outcome.aggregateId)

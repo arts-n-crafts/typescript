@@ -5,10 +5,10 @@ export interface UserCreatedPayload {
   name: string
   email: string
   age?: number
-  prospect?: boolean
+  prospect: boolean
 }
 
-export function UserCreated(aggregateId: string, payload: UserCreatedPayload, metadata?: Partial<DomainEventMetadata>) {
+export function UserCreated(aggregateId: string, payload: Omit<UserCreatedPayload, 'prospect'>, metadata?: Partial<DomainEventMetadata>) {
   const props: UserCreatedPayload = { prospect: true, ...payload }
   return createDomainEvent('UserCreated', aggregateId, props, metadata)
 }

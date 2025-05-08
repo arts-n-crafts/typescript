@@ -16,7 +16,7 @@ describe('aggregateRoot', () => {
 
     beforeEach(() => {
       id = '123'
-      props = { name: 'elon', email: 'elon@x.com' }
+      props = { name: 'elon', email: 'elon@x.com', prospect: true }
       mockUserCreatedEvent = UserCreated('123', props)
       mockUserNameUpdatedEvent = UserNameUpdated('123', { name: 'musk' })
       aggregateRoot = User.create(id, props)

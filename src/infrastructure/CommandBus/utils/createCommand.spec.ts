@@ -1,3 +1,5 @@
+/* eslint ts/no-unsafe-assignment: 0 */ // expect.objectContaining has any type, unfortunately
+
 import { randomUUID } from 'node:crypto'
 import { createCommand } from './createCommand'
 

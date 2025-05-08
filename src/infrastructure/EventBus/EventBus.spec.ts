@@ -18,7 +18,7 @@ describe('eventBus', () => {
     eventStore = new InMemoryEventStore(eventBus)
     handler = new UserCreatedEventHandler(eventStore)
     aggregateId = randomUUID()
-    payload = { name: 'test', email: 'musk@x.com' }
+    payload = { name: 'test', email: 'musk@x.com', prospect: true }
   })
 
   it('should be defined', () => {

@@ -20,7 +20,7 @@ describe('eventHandler', () => {
     eventStore = new InMemoryEventStore(eventBus)
     handler = new UserCreatedEventHandler(eventStore)
     aggregateId = '123'
-    payload = { name: 'test', email: 'musk@x.com' }
+    payload = { name: 'test', email: 'musk@x.com', prospect: true }
   })
 
   it('should be defined', () => {

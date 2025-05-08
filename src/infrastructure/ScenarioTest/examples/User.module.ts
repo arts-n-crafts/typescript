@@ -4,11 +4,14 @@ import type { Database } from '../../Database/Database'
 import type { EventBus } from '../../EventBus/EventBus'
 import type { EventStore } from '../../EventStore/EventStore'
 import type { QueryBus } from '../../QueryBus/QueryBus'
+import { ActivateUserCommand } from '../../CommandBus/examples/ActivateUserCommand'
+import { ActivateUserCommandHandler } from '../../CommandBus/examples/ActivateUserCommandHandler'
 import { CreateUserCommand } from '../../CommandBus/examples/CreateUserCommand'
 import { CreateUserCommandHandler } from '../../CommandBus/examples/CreateUserCommandHandler'
 import { UpdateUserNameCommand } from '../../CommandBus/examples/UpdateUserNameCommand'
 import { UpdateUserNameCommandHandler } from '../../CommandBus/examples/UpdateUserNameCommandHandler'
 import { InMemoryDatabase } from '../../Database/implementations/InMemoryDatabase'
+import { ContractSignedEventHandler } from '../../EventBus/examples/ContractSignedEventHandler'
 import { UserCreatedEventHandler } from '../../EventBus/examples/UserCreatedEventHandler'
 import { UserProjectionHandler } from '../../ProjectionHandler/examples/UserProjection'
 import { GetUserByEmailQuery } from '../../QueryBus/examples/GetUserByEmailQuery'
@@ -41,7 +44,9 @@ export class UserModule implements Module {
     new UserProjectionHandler(this.eventBus, this.database).start()
     this.commandBus.register(CreateUserCommand, new CreateUserCommandHandler(this.repository))
     this.commandBus.register(UpdateUserNameCommand, new UpdateUserNameCommandHandler(this.repository))
+    this.commandBus.register(ActivateUserCommand, new ActivateUserCommandHandler(this.repository))
     this.eventBus.subscribe(new UserCreatedEventHandler(this.eventStore))
+    this.eventBus.subscribe(new ContractSignedEventHandler(this.commandBus))
     this.queryBus.register(GetUserByEmailQuery, new GetUserByEmailQueryHandler(this.database))
   }
 };

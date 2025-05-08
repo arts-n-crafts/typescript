@@ -1,5 +1,6 @@
 import type { EventStore } from '../EventStore/EventStore'
 import { randomUUID } from 'node:crypto'
+import { UserActivated } from '../../domain/DomainEvent/examples/UserActivated'
 import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
 import { UserNameUpdated } from '../../domain/DomainEvent/examples/UserNameUpdated'
 import { UserRegistrationEmailSent } from '../../domain/DomainEvent/examples/UserRegistrationEmailSent'
@@ -8,12 +9,12 @@ import { CreateUserCommand } from '../CommandBus/examples/CreateUserCommand'
 import { UpdateUserNameCommand } from '../CommandBus/examples/UpdateUserNameCommand'
 import { EventBus } from '../EventBus/EventBus'
 import { ContractSigned } from '../EventBus/examples/ContractSigned'
+import { ProductCreated } from '../EventBus/examples/ProductCreated'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
 import { GetUserByEmailQuery } from '../QueryBus/examples/GetUserByEmailQuery'
 import { QueryBus } from '../QueryBus/QueryBus'
 import { UserModule } from './examples/User.module'
 import { ScenarioTest } from './ScenarioTest'
-import { UserActivated } from '../../domain/DomainEvent/examples/UserActivated'
 
 describe('scenario test', () => {
   const id = randomUUID()
@@ -156,7 +157,23 @@ describe('scenario test', () => {
           ContractSigned({ userId: id, product: '1' }),
         )
         .then(
-          UserActivated(id, { status: 'SUCCESS' }),
+          UserActivated(id, { }),
+        )
+    })
+
+    it('should allow integration events', async () => {
+      await scenarioTest
+        .given(
+          ProductCreated({
+            productId: '1',
+            name: 'Product 1',
+          }),
+        )
+        .when(
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+        )
+        .then(
+          UserRegistrationEmailSent(id, { status: 'SUCCESS' }),
         )
     })
   })
