@@ -48,7 +48,7 @@ export class ScenarioTest {
     }
 
     if (this.isQuery(this.action)) {
-      await this.handleQUery(this.action, outcome)
+      await this.handleQuery(this.action, outcome)
     }
 
     if (this.isEvent(this.action)) {
@@ -96,7 +96,7 @@ export class ScenarioTest {
     expect(outcome.payload).toStrictEqual(foundEvent.payload)
   }
 
-  private async handleQUery(query: Query<unknown>, outcome: ThenInput) {
+  private async handleQuery(query: Query<unknown>, outcome: ThenInput) {
     const queryResult = await this.queryBus.execute(query)
     expect(queryResult).toStrictEqual(outcome)
   }

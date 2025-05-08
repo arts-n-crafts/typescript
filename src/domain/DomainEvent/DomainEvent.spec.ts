@@ -33,12 +33,13 @@ describe('domainEvent', () => {
       name: 'Elon',
       email: 'musk@x.com',
       age: 52,
+      prospect: true,
     }
     const event = UserCreated(aggregateId, payload, metadata)
     expect(event.type).toBe('UserCreated')
     expect(event.id).toBeDefined()
     expect(event.aggregateId).toBe(aggregateId)
-    expect(event.payload).toBe(payload)
+    expect(event.payload).toStrictEqual(payload)
     expect(event.metadata).toHaveProperty('timestamp')
     expect(event.version).toBe(1)
   })

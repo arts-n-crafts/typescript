@@ -32,7 +32,7 @@ describe('projectionHandler', () => {
     const spec = new UserByUsernameSpecification(payload.name)
 
     const results = await database.query('users', spec)
-    expect(results.at(0)).toStrictEqual({ id, ...payload })
+    expect(results.at(0)).toStrictEqual({ id, ...payload, prospect: true })
   })
 
   it('should update projection with update event', async () => {
@@ -42,6 +42,6 @@ describe('projectionHandler', () => {
     const spec = new UserByUsernameSpecification(updatePayload.name)
 
     const results = await database.query('users', spec)
-    expect(results.at(0)).toStrictEqual({ id, ...payload, ...updatePayload })
+    expect(results.at(0)).toStrictEqual({ id, ...payload, ...updatePayload, prospect: true })
   })
 })

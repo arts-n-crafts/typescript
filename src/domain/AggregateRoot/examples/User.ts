@@ -11,12 +11,12 @@ export interface UserInputProps {
 }
 
 export interface UserProps extends UserInputProps {
-  contractSigned: boolean
+  prospect: boolean
 }
 
 export class User extends AggregateRoot<UserProps> {
   static override create(id: string, input: UserInputProps) {
-    const props = { ...input, contractSigned: false }
+    const props = { ...input, prospect: true }
     const aggregate = new User(id, props)
     aggregate.apply(UserCreated(id, props))
     return aggregate
@@ -36,8 +36,8 @@ export class User extends AggregateRoot<UserProps> {
     if (event.type === 'UserNameUpdated') {
       this.props.name = (event as DomainEvent<UserNameUpdatedPayload>).payload.name
     }
-    if (event.type === 'UserContractSigned') {
-      this.props.contractSigned = true
+    if (event.type === 'UserActivated') {
+      this.props.prospect = false
     }
   }
 }
