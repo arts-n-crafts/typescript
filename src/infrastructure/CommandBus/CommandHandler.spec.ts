@@ -1,33 +1,33 @@
 import type { AggregateRoot } from '../../domain/AggregateRoot/AggregateRoot'
 import type { EventStore } from '../EventStore/EventStore'
 import type { Repository } from '../Repository/Repository'
-import type { CreateUserCommandProps } from './examples/CreateUserCommand'
+import type { CreateUserProps } from './examples/CreateUser'
 import { randomUUID } from 'node:crypto'
 import { isDomainEvent } from '../../domain/DomainEvent/utils/isDomainEvent'
 import { EventBus } from '../EventBus/EventBus'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
 import { UserRepository } from '../Repository/examples/UserRepository'
-import { CreateUserCommand } from './examples/CreateUserCommand'
-import { CreateUserCommandHandler } from './examples/CreateUserCommandHandler'
-import { UpdateUserNameCommand } from './examples/UpdateUserNameCommand'
-import { UpdateUserNameCommandHandler } from './examples/UpdateUserNameCommandHandler'
+import { CreateUser } from './examples/CreateUser'
+import { CreateUserHandler } from './examples/CreateUserHandler'
+import { UpdateUserName } from './examples/UpdateUserName'
+import { UpdateUserNameHandler } from './examples/UpdateUserNameHandler'
 
 describe('commandHandler', async () => {
   const aggregateId = randomUUID()
   const eventBus: EventBus = new EventBus()
   const eventStore: EventStore = new InMemoryEventStore(eventBus)
   const repository: Repository<AggregateRoot<unknown>> = new UserRepository(eventStore)
-  const createUserHandler = new CreateUserCommandHandler(repository)
-  const props: CreateUserCommandProps = {
+  const createUserHandler = new CreateUserHandler(repository)
+  const props: CreateUserProps = {
     name: 'Elon',
     email: 'musk@x.com',
     age: 52,
   }
-  const command = new CreateUserCommand(aggregateId, props, null)
+  const command = CreateUser(aggregateId, props)
   await createUserHandler.execute(command)
 
   it('should be defined', () => {
-    expect(UpdateUserNameCommandHandler).toBeDefined()
+    expect(UpdateUserNameHandler).toBeDefined()
   })
 
   it('should process the MockCreateUser Command and emit the MockUserCreated Event', async () => {
@@ -39,10 +39,10 @@ describe('commandHandler', async () => {
   })
 
   it('should process the MockUpdateUserName Command and emit the MockUserNameUpdated Event', async () => {
-    const updateUserNameHandler = new UpdateUserNameCommandHandler(repository)
+    const updateUserNameHandler = new UpdateUserNameHandler(repository)
     const payload = { aggregateId, name: 'test' }
     const metadata = { timestamp: new Date() }
-    const command: UpdateUserNameCommand = new UpdateUserNameCommand(aggregateId, payload, metadata)
+    const command = UpdateUserName(aggregateId, payload, metadata)
     await updateUserNameHandler.execute(command)
 
     const events = await eventStore.loadEvents(aggregateId)

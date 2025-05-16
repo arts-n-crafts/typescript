@@ -1,25 +1,16 @@
-import type { Maybe } from '../../core/types/Maybe'
-
 export interface CommandMetadata {
-  traceId?: string // ID for request tracing/debugging
-  correlationId?: string // For distributed tracing
-  userId?: string // ID of the user initiating the command
-  timestamp?: Date // Time the command was issued
-  ipAddress?: string // IP address of the requester
-  userAgent?: string // User agent of the requester
-  locale?: string // Locale of the requester
-  tenantId?: string // ID of the tenant in a multi-tenant environment
-  [key: string]: unknown // Additional metadata
+  correlationId?: string
+  causationId?: string
+  [key: string]: unknown
 }
 
-export abstract class Command<TPayload, TId> {
-  constructor(
-    public readonly aggregateId: TId,
-    public readonly payload: TPayload,
-    public readonly metadata?: Maybe<CommandMetadata>,
-  ) {}
-
-  get type(): string {
-    return 'command'
-  }
+export interface Command<TPayload, TId> {
+  version: number
+  type: string
+  aggregateId: TId
+  payload: TPayload
+  metadata: {
+    timestamp: string
+    kind: 'command'
+  } & CommandMetadata
 }

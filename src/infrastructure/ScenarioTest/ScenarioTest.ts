@@ -61,7 +61,13 @@ export class ScenarioTest {
   }
 
   private isCommand(candidate?: WhenInput): candidate is Command<unknown, unknown> {
-    return Boolean(candidate && candidate.type === 'command')
+    if (!candidate)
+      return false
+    if (!('metadata' in candidate))
+      return false
+    if (!('kind' in candidate.metadata))
+      return false
+    return Boolean(candidate.metadata?.kind === 'command')
   }
 
   private isQuery(candidate?: WhenInput): candidate is Query<unknown> {
@@ -81,10 +87,11 @@ export class ScenarioTest {
   }
 
   private async handleCommand(command: Command<unknown, unknown>, outcome: ThenInput) {
-    await this.commandBus.execute(command)
     if (!this.isDomainEvent(outcome)) {
-      throw new TypeError(`In the ScenarioTest, when triggering a command, then an event is expected`)
+      throw new TypeError(`In the ScenarioTest, when triggering a command, then a domain event is expected`)
     }
+
+    await this.commandBus.execute(command)
     const actualEvents = await this.eventStore.loadEvents(outcome.aggregateId)
     const foundEvent = actualEvents.findLast(event =>
       this.isDomainEvent(event)

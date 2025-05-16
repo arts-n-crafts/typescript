@@ -1,4 +1,4 @@
-import type { Command } from '../ICommand'
+import type { Command } from '../Command'
 import { isCommand } from './isCommand'
 
 describe('isCommand util', () => {

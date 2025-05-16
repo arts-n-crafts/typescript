@@ -1,4 +1,4 @@
-import type { Command } from '../ICommand'
+import type { Command } from '../Command'
 
 export function isCommand(candidate: unknown): candidate is Command<unknown, unknown> {
   if (candidate === null)

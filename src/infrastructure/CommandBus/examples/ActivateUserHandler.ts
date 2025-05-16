@@ -1,9 +1,12 @@
-import type { ActivateUserCommand } from './ActivateUserCommand'
+import type { Command } from '../Command'
+import type { ActivateUserProps } from './ActivateUser'
 import { UserActivated } from '../../../domain/DomainEvent/examples/UserActivated'
 import { CommandHandler } from '../CommandHandler'
 
-export class ActivateUserCommandHandler extends CommandHandler<ActivateUserCommand> {
-  async execute(command: ActivateUserCommand) {
+type CommandType = Command<ActivateUserProps, string>
+
+export class ActivateUserHandler extends CommandHandler<CommandType> {
+  async execute(command: CommandType) {
     const { aggregateId, payload } = command
     const event = UserActivated(aggregateId, payload)
     const aggregate = await this.repository.load(aggregateId)

@@ -5,8 +5,8 @@ import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
 import { UserNameUpdated } from '../../domain/DomainEvent/examples/UserNameUpdated'
 import { UserRegistrationEmailSent } from '../../domain/DomainEvent/examples/UserRegistrationEmailSent'
 import { CommandBus } from '../CommandBus/CommandBus'
-import { CreateUserCommand } from '../CommandBus/examples/CreateUserCommand'
-import { UpdateUserNameCommand } from '../CommandBus/examples/UpdateUserNameCommand'
+import { CreateUser } from '../CommandBus/examples/CreateUser'
+import { UpdateUserName } from '../CommandBus/examples/UpdateUserName'
 import { EventBus } from '../EventBus/EventBus'
 import { ContractSigned } from '../EventBus/examples/ContractSigned'
 import { ProductCreated } from '../EventBus/examples/ProductCreated'
@@ -46,7 +46,7 @@ describe('scenario test', () => {
     it('should have published the create command, as an event, in the then step', async () => {
       await scenarioTest
         .when(
-          new CreateUserCommand(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          CreateUser(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .then(
           UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
@@ -59,7 +59,7 @@ describe('scenario test', () => {
           UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .when(
-          new UpdateUserNameCommand(id, { name: 'Donald' }),
+          UpdateUserName(id, { name: 'Donald' }),
         )
         .then(
           UserNameUpdated(id, { name: 'Donald' }),
@@ -73,10 +73,10 @@ describe('scenario test', () => {
           UserNameUpdated(id, { name: 'Donald' }),
         )
         .when(
-          new UpdateUserNameCommand(id, { name: 'Donald' }),
+          UpdateUserName(id, { name: 'Donald' }),
         )
         .then([]),
-      ).rejects.toThrowError('In the ScenarioTest, when triggering a command, then an event is expected')
+      ).rejects.toThrowError('In the ScenarioTest, when triggering a command, then a domain event is expected')
     })
 
     it('should throw an error when a command is given and then the expected event is not triggered', async () => {
@@ -85,7 +85,7 @@ describe('scenario test', () => {
           UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .when(
-          new UpdateUserNameCommand(id, { name: 'Donald' }),
+          UpdateUserName(id, { name: 'Donald' }),
         )
         .then(
           UserNameUpdated(randomUUID(), { name: 'Donald' }),

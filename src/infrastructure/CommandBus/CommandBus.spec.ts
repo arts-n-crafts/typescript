@@ -8,10 +8,10 @@ import { EventBus } from '../EventBus/EventBus'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
 import { UserRepository } from '../Repository/examples/UserRepository'
 import { CommandBus } from './CommandBus'
-import { CreateUserCommand } from './examples/CreateUserCommand'
-import { CreateUserCommandHandler } from './examples/CreateUserCommandHandler'
-import { UpdateUserNameCommand } from './examples/UpdateUserNameCommand'
-import { UpdateUserNameCommandHandler } from './examples/UpdateUserNameCommandHandler'
+import { CreateUser } from './examples/CreateUser'
+import { CreateUserHandler } from './examples/CreateUserHandler'
+import { UpdateUserName } from './examples/UpdateUserName'
+import { UpdateUserNameHandler } from './examples/UpdateUserNameHandler'
 
 describe('commandBus', () => {
   let id: UUID
@@ -19,7 +19,7 @@ describe('commandBus', () => {
   let eventStore: EventStore
   let repository: Repository<AggregateRoot<unknown>>
   let commandBus: CommandBus
-  let handler: UpdateUserNameCommandHandler
+  let handler: UpdateUserNameHandler
 
   beforeEach(async () => {
     id = randomUUID()
@@ -27,10 +27,10 @@ describe('commandBus', () => {
     eventStore = new InMemoryEventStore(eventBus)
     repository = new UserRepository(eventStore)
     commandBus = new CommandBus()
-    handler = new UpdateUserNameCommandHandler(repository)
+    handler = new UpdateUserNameHandler(repository)
 
-    const createUserHandler = new CreateUserCommandHandler(repository)
-    const command = new CreateUserCommand(id, { name: 'Elon', email: 'musk@x.com', age: 52 }, null)
+    const createUserHandler = new CreateUserHandler(repository)
+    const command = CreateUser(id, { name: 'Elon', email: 'musk@x.com', age: 52 })
     await createUserHandler.execute(command)
   })
 
@@ -39,13 +39,13 @@ describe('commandBus', () => {
   })
 
   it('should register a command handler', () => {
-    commandBus.register(UpdateUserNameCommand, handler)
+    commandBus.register('UpdateUserName', handler)
   })
 
   it('should process the command via commandBus and return the event', async () => {
-    commandBus.register(UpdateUserNameCommand, handler)
+    commandBus.register('UpdateUserName', handler)
 
-    const command: UpdateUserNameCommand = new UpdateUserNameCommand(id, { name: 'test' }, { timestamp: new Date() })
+    const command = UpdateUserName(id, { name: 'test' }, { timestamp: new Date() })
     await commandBus.execute(command)
 
     const events = await eventStore.loadEvents(id)
@@ -55,16 +55,16 @@ describe('commandBus', () => {
   })
 
   it('should throw an error if no handler is registered for the command type', async () => {
-    const command: UpdateUserNameCommand = new UpdateUserNameCommand(id, { name: 'test' }, { timestamp: new Date() })
+    const command = UpdateUserName(id, { name: 'test' }, { timestamp: new Date() })
 
-    await expect(commandBus.execute(command)).rejects.toThrow('No handler found for command type: UpdateUserNameCommand')
+    await expect(commandBus.execute(command)).rejects.toThrow('No handler found for command type: UpdateUserName')
   })
 
   it('should throw an error if a handler is already registered for the command type', () => {
-    commandBus.register(UpdateUserNameCommand, handler)
+    commandBus.register('UpdateUserName', handler)
 
     expect(() => {
-      commandBus.register(UpdateUserNameCommand, handler)
-    }).toThrow('Handler already registered for command type: UpdateUserNameCommand')
+      commandBus.register('UpdateUserName', handler)
+    }).toThrow('Handler already registered for command type: UpdateUserName')
   })
 })
