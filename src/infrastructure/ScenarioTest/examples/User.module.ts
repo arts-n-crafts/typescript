@@ -11,8 +11,7 @@ import { InMemoryDatabase } from '../../Database/implementations/InMemoryDatabas
 import { ContractSignedHandler } from '../../EventBus/examples/ContractSignedHandler'
 import { UserCreatedEventHandler } from '../../EventBus/examples/UserCreatedEventHandler'
 import { UserProjectionHandler } from '../../ProjectionHandler/examples/UserProjection'
-import { GetUserByEmailQuery } from '../../QueryBus/examples/GetUserByEmailQuery'
-import { GetUserByEmailQueryHandler } from '../../QueryBus/examples/GetUserByEmailQueryHandler'
+import { GetUserByEmailHandler } from '../../QueryBus/examples/GetUserByEmailHandler'
 import { UserRepository } from '../../Repository/examples/UserRepository'
 
 export class UserModule implements Module {
@@ -44,6 +43,6 @@ export class UserModule implements Module {
     this.commandBus.register('ActivateUser', new ActivateUserHandler(this.repository))
     this.eventBus.subscribe(new UserCreatedEventHandler(this.eventStore))
     this.eventBus.subscribe(new ContractSignedHandler(this.commandBus))
-    this.queryBus.register(GetUserByEmailQuery, new GetUserByEmailQueryHandler(this.database))
+    this.queryBus.register('GetUserByEmail', new GetUserByEmailHandler(this.database))
   }
 };

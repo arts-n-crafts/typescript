@@ -11,7 +11,7 @@ import { EventBus } from '../EventBus/EventBus'
 import { ContractSigned } from '../EventBus/examples/ContractSigned'
 import { ProductCreated } from '../EventBus/examples/ProductCreated'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
-import { GetUserByEmailQuery } from '../QueryBus/examples/GetUserByEmailQuery'
+import { GetUserByEmail } from '../QueryBus/examples/GetUserByEmail'
 import { QueryBus } from '../QueryBus/QueryBus'
 import { UserModule } from './examples/User.module'
 import { ScenarioTest } from './ScenarioTest'
@@ -102,7 +102,7 @@ describe('scenario test', () => {
           UserNameUpdated(id, { name: 'Donald' }),
         )
         .when(
-          new GetUserByEmailQuery({ email: 'musk@theboringcompany.com' }),
+          GetUserByEmail({ email: 'musk@theboringcompany.com' }),
         )
         .then([
           {

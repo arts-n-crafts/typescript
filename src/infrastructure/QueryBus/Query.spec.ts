@@ -1,30 +1,33 @@
-import type { GetUserByEmailQueryProps } from './examples/GetUserByEmailQuery'
-import { GetUserByEmailQuery } from './examples/GetUserByEmailQuery'
-import { Query } from './Query'
+import type { GetUserByEmailProps } from './examples/GetUserByEmail'
+import type { Query } from './Query'
+import { GetUserByEmail } from './examples/GetUserByEmail'
+import { createQuery } from './utils/createQuery'
 
 describe('query', () => {
-  let payload: GetUserByEmailQueryProps
+  let payload: GetUserByEmailProps
+  let query: Query
 
   beforeEach(() => {
     payload = { email: 'test' }
+    query = createQuery('testQuery', payload)
   })
 
   it('should be defined', () => {
-    expect(Query).toBeDefined()
+    expect(query).toBeDefined()
   })
 
   it('should create an instance', () => {
-    const query = new GetUserByEmailQuery(payload)
-    expect(query).toBeInstanceOf(GetUserByEmailQuery)
+    const query = GetUserByEmail(payload)
+    expect(query.type).toBe('GetUserByEmail')
   })
 
   it('should contain the valid information', () => {
-    const query = new GetUserByEmailQuery(payload)
+    const query = GetUserByEmail(payload)
     expect(query.payload.email).toBe('test')
   })
 
   it('should have a type', () => {
-    const query = new GetUserByEmailQuery(payload)
-    expect(query.type).toBe('query')
+    const query = GetUserByEmail(payload)
+    expect(query.metadata.kind).toBe('query')
   })
 })

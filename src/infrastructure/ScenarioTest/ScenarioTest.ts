@@ -8,8 +8,10 @@ import type { EventStore } from '../EventStore/EventStore'
 import type { Query } from '../QueryBus/Query'
 import type { QueryBus } from '../QueryBus/QueryBus'
 import { isDomainEvent } from '../../domain/DomainEvent/utils/isDomainEvent'
+import { isCommand } from '../CommandBus/utils/isCommand'
 import { isEvent } from '../EventBus/utils/isEvent'
 import { isIntegrationEvent } from '../EventBus/utils/isIntegrationEvent'
+import { isQuery } from '../QueryBus/utils/isQuery'
 
 type GivenInput = BaseEvent[]
 type WhenInput = Command<unknown, unknown> | Query<unknown> | BaseEvent
@@ -47,43 +49,25 @@ export class ScenarioTest {
       throw new Error('In the ScenarioTest, "when" cannot be empty')
     }
 
-    if (this.isCommand(this.action)) {
+    if (isCommand(this.action)) {
       await this.handleCommand(this.action, outcome)
     }
 
-    if (this.isQuery(this.action)) {
+    if (isQuery(this.action)) {
       await this.handleQuery(this.action, outcome)
     }
 
-    if (this.isEvent(this.action)) {
+    if (isEvent(this.action)) {
       await this.handleEvent(this.action, outcome)
     }
   }
 
-  private isCommand(candidate?: WhenInput): candidate is Command<unknown, unknown> {
-    if (!candidate)
-      return false
-    if (!('metadata' in candidate))
-      return false
-    if (!('kind' in candidate.metadata))
-      return false
-    return Boolean(candidate.metadata?.kind === 'command')
-  }
-
-  private isQuery(candidate?: WhenInput): candidate is Query<unknown> {
-    return Boolean(candidate && candidate.type === 'query')
-  }
-
-  private isEvent(candidate: WhenInput | ThenInput): candidate is BaseEvent {
-    return isEvent(candidate)
-  }
-
   private isDomainEvent(candidate: WhenInput | ThenInput): candidate is DomainEvent {
-    return this.isEvent(candidate) && isDomainEvent(candidate)
+    return isEvent(candidate) && isDomainEvent(candidate)
   }
 
   private isIntegrationEvent(candidate: WhenInput | ThenInput): candidate is IntegrationEvent {
-    return this.isEvent(candidate) && isIntegrationEvent(candidate)
+    return isEvent(candidate) && isIntegrationEvent(candidate)
   }
 
   private async handleCommand(command: Command<unknown, unknown>, outcome: ThenInput) {
@@ -120,11 +104,11 @@ export class ScenarioTest {
 
     const actualEvents = await this.eventStore.loadEvents(outcome.aggregateId)
     const foundEvent = actualEvents.findLast(event =>
-      this.isEvent(event)
+      isEvent(event)
       && event.aggregateId === outcome.aggregateId
       && event.type === outcome.type,
     )
-    if (!foundEvent || !this.isEvent(foundEvent)) {
+    if (!foundEvent || !isEvent(foundEvent)) {
       throw new Error(`In the ScenarioTest, the expected then event (${outcome.type}) was not triggered`)
     }
     expect(foundEvent).toBeDefined()

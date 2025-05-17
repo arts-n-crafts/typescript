@@ -1,9 +1,13 @@
-export abstract class Query<TPayload = unknown> {
-  constructor(
-    public readonly payload: TPayload,
-  ) {}
+export interface QueryMetadata {
+  [key: string]: unknown
+}
 
-  get type(): string {
-    return 'query'
-  }
+export interface Query<TPayload = unknown> {
+  version: number
+  type: string
+  payload: TPayload
+  metadata: {
+    timestamp: string
+    kind: 'query'
+  } & QueryMetadata
 }

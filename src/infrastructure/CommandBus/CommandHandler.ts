@@ -1,6 +1,6 @@
 import type { AggregateRoot } from '../../domain/AggregateRoot/AggregateRoot'
 import type { Repository } from '../Repository/Repository'
-import type { Command } from './ICommand'
+import type { Command } from './Command'
 
 export type CommandHandlerResult = { id: string } | void
 
