@@ -1,6 +1,41 @@
 # Changelog
 
 
+## v1.0.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v0.0.9...v1.0.0)
+
+### 🚀 Enhancements
+
+- DomainEvent plain object ([d94e038](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/d94e038))
+- IntegrationEvent ([2742c25](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/2742c25))
+- Introduce BaseEvent ([bd13f58](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/bd13f58))
+- **CommandBus:** ICommand ([08b30b1](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/08b30b1))
+- **EventBus:** UserActivated event ([961fce1](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/961fce1))
+- **EventBus:** Integration event handling ([eff74be](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/eff74be))
+- **CommandBus:** Convert to plain command instead of class ([c5bb1a8](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/c5bb1a8))
+- **QueryBus:** Add utils ([08a473f](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/08a473f))
+- **QueryBus:** Convert to plain object Queries ([82dd847](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/82dd847))
+
+### 💅 Refactors
+
+- Rename DomainEvent to v1 ([1c39ad5](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/1c39ad5))
+- Move createXEvent to utils ([fcedf2e](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/fcedf2e))
+- Replace DomainEvent with object DomainEvent and IntegrationEvent ([62519b2](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/62519b2))
+
+### 🏡 Chore
+
+- Remove unnecessary vitest imports ([25bc983](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/25bc983))
+- Update deps ([b8413a2](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/b8413a2))
+
+### ✅ Tests
+
+- **EventBus:** Add tests to isEvent util ([e0a0294](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/e0a0294))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v0.0.9
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v0.0.8...v0.0.9)
