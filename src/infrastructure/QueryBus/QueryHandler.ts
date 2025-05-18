@@ -6,5 +6,5 @@ export abstract class QueryHandler<TQuery extends Query, TResult> {
     protected database: Database,
   ) { }
 
-  abstract execute(command: TQuery): Promise<TResult>
+  abstract execute(query: TQuery): Promise<TResult>
 }
