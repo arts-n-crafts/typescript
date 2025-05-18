@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.2.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.1.0...v1.2.0)
+
+### 🚀 Enhancements
+
+- **Database:** Remove requirement of index string in DatabaseRecord ([d6be1a4](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/d6be1a4))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v1.1.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.0.1...v1.1.0)
