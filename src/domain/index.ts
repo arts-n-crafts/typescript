@@ -1,5 +1,7 @@
 export * from './AggregateRoot/AggregateRoot'
 export * from './DomainEvent/DomainEvent'
+export * from './DomainEvent/utils/createDomainEvent'
+export * from './DomainEvent/utils/isDomainEvent'
 export * from './Entity/Entity'
 export * from './Specification/AndSpecification'
 export * from './Specification/NotSpecification'
