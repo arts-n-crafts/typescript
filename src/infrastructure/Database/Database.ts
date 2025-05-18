@@ -7,7 +7,6 @@ export interface Database {
 
 export interface DatabaseRecord {
   id: string
-  [key: string]: unknown
 }
 
 export enum Operation {
