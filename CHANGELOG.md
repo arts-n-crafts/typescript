@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.1.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.0.1...v1.1.0)
+
+### 🚀 Enhancements
+
+- **DomainEvent:** IsDomainEvent allows unknown events ([b23793d](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/b23793d))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v1.0.1
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.0.0...v1.0.1)
