@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v1.3.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.2.0...v1.3.0)
+
+### 🚀 Enhancements
+
+- **AggregateRoot:** Implement sequenceNumber ([1079fac](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/1079fac))
+
+### 💅 Refactors
+
+- QueryHandler argument should be named query ([bae29aa](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/bae29aa))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v1.2.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.1.0...v1.2.0)
