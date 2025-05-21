@@ -1,1 +1,1 @@
-export * from './Hash/createHash'
+export * from './hash/createHash'

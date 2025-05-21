@@ -4,7 +4,7 @@ import { Repository } from '../Repository'
 export class UserRepository extends Repository<User> {
   async load(aggregateId: string): Promise<User> {
     const events = await this.eventStore.loadEvents(aggregateId)
-    const aggregate = User.rehydrate(aggregateId, events)
+    const aggregate = User.fromEvents(aggregateId, events)
     return aggregate
   }
 

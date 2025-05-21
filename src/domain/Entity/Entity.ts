@@ -2,9 +2,9 @@ export abstract class Entity<TProps> {
   readonly _id: string
   readonly _props: TProps
 
-  protected constructor(id: string, props: TProps) {
+  protected constructor(id: string, initialProps: TProps) {
     this._id = id
-    this._props = props
+    this._props = initialProps
   }
 
   get id(): string {

@@ -2,67 +2,60 @@ import type { DomainEvent } from '../DomainEvent/DomainEvent'
 import type { UserProps } from './examples/User'
 import { UserCreated } from '../DomainEvent/examples/UserCreated'
 import { UserNameUpdated } from '../DomainEvent/examples/UserNameUpdated'
-import { createDomainEvent } from '../DomainEvent/utils/createDomainEvent'
 import { AggregateRoot } from './AggregateRoot'
 import { User } from './examples/User'
 
 describe('aggregateRoot', () => {
+  it('should be defined', () => {
+    expect(AggregateRoot).toBeDefined()
+  })
+
   describe('properly implemented', () => {
     let id: string
     let props: UserProps
     let mockUserCreatedEvent: ReturnType<typeof UserCreated>
     let mockUserNameUpdatedEvent: ReturnType<typeof UserNameUpdated>
-    let aggregateRoot: User
+    let aggregate: User
 
     beforeEach(() => {
       id = '123'
       props = { name: 'elon', email: 'elon@x.com', prospect: true }
       mockUserCreatedEvent = UserCreated('123', 1, props)
       mockUserNameUpdatedEvent = UserNameUpdated('123', 2, { name: 'musk' })
-      aggregateRoot = User.create(id, props)
-    })
-
-    it('should be defined', () => {
-      expect(AggregateRoot).toBeDefined()
+      aggregate = User.create(id, props)
     })
 
     it('should apply the event given', () => {
-      aggregateRoot.apply(mockUserNameUpdatedEvent)
-      expect(aggregateRoot.props.name).toBe('musk')
+      aggregate.changeName('musk')
+      expect(aggregate.props.name).toBe('musk')
     })
 
     it('should push to uncommittedEvents', () => {
-      aggregateRoot.apply(mockUserNameUpdatedEvent)
-      expect(aggregateRoot.uncommittedEvents[1]).toStrictEqual(mockUserNameUpdatedEvent)
+      aggregate.changeName('musk')
+      expect(aggregate.uncommittedEvents[1].type).toBe('UserNameUpdated')
     })
 
     it('should mark events as committed by clearing uncommittedEvents', () => {
-      aggregateRoot.apply(mockUserNameUpdatedEvent)
-      expect(aggregateRoot.uncommittedEvents[1]).toStrictEqual(mockUserNameUpdatedEvent)
-      aggregateRoot.markEventsCommitted()
-      expect(aggregateRoot.uncommittedEvents).toStrictEqual([])
-    })
-
-    it('should do nothing on an unhandled event', () => {
-      const unhandledEvent = createDomainEvent('UnhandledEvent', '4321', 1, {})
-      aggregateRoot.apply(unhandledEvent)
-      expect(aggregateRoot.props.name).toBe('elon')
+      aggregate.changeName('musk')
+      expect(aggregate.uncommittedEvents[1].type).toBe('UserNameUpdated')
+      aggregate.markEventsCommitted()
+      expect(aggregate.uncommittedEvents).toStrictEqual([])
     })
 
     it('should rehydrate events', () => {
-      const aggregate = User.rehydrate(id, [mockUserCreatedEvent, mockUserNameUpdatedEvent])
+      const aggregate = User.fromEvents(id, [mockUserCreatedEvent, mockUserNameUpdatedEvent])
       expect(aggregate.props.name).toBe('musk')
     })
 
     it('should not rehydrate if there is no creation event', () => {
-      expect(() => User.rehydrate(id, [mockUserNameUpdatedEvent])).toThrow()
+      expect(() => User.fromEvents(id, [mockUserNameUpdatedEvent])).toThrow()
     })
   })
 
   describe('not properly implemented', () => {
     class NotProperlyImplemented extends AggregateRoot<UserProps> {
       protected sequenceNumber: number = 0
-      protected applyEvent(_event: DomainEvent): void {
+      protected apply(_event: DomainEvent): void {
         throw new Error('Method not implemented.')
       }
     }
@@ -71,7 +64,7 @@ describe('aggregateRoot', () => {
       expect(() => NotProperlyImplemented.create('1234', {})).toThrow('Method not implemented')
     })
     it('should throw a "method not implemented" error if rehydrate static is not overridden', () => {
-      expect(() => NotProperlyImplemented.rehydrate('1234', [])).toThrow('Method not implemented')
+      expect(() => NotProperlyImplemented.fromEvents('1234', [])).toThrow('Method not implemented')
     })
   })
 })
