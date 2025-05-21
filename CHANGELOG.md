@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.4.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.3.0...v1.4.0)
+
+### 💅 Refactors
+
+- **AggregateRoot:** All aggregate state goes through eventing (apply) ([07cfb54](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/07cfb54))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v1.3.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.2.0...v1.3.0)
