@@ -31,7 +31,7 @@ describe('eventBus', () => {
 
   it('should be able publish events', async () => {
     eventBus.subscribe(handler)
-    const createdEvent = UserCreated(aggregateId, payload)
+    const createdEvent = UserCreated(aggregateId, 1, payload)
     await eventBus.publish(createdEvent)
 
     const events = await eventStore.loadEvents(aggregateId)

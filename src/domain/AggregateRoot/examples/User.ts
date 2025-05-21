@@ -1,7 +1,9 @@
 import type { DomainEvent } from '../../DomainEvent/DomainEvent'
 import type { UserCreatedPayload } from '../../DomainEvent/examples/UserCreated'
 import type { UserNameUpdatedPayload } from '../../DomainEvent/examples/UserNameUpdated'
+import { UserActivated } from '../../DomainEvent/examples/UserActivated'
 import { UserCreated } from '../../DomainEvent/examples/UserCreated'
+import { UserNameUpdated } from '../../DomainEvent/examples/UserNameUpdated'
 import { AggregateRoot } from '../AggregateRoot'
 
 export interface UserInputProps {
@@ -15,10 +17,12 @@ export interface UserProps extends UserInputProps {
 }
 
 export class User extends AggregateRoot<UserProps> {
+  protected sequenceNumber: number = 0
+
   static override create(id: string, input: UserInputProps) {
     const props = { ...input, prospect: true }
     const aggregate = new User(id, props)
-    aggregate.apply(UserCreated(id, props))
+    aggregate.apply(UserCreated(id, 1, props))
     return aggregate
   }
 
@@ -28,16 +32,25 @@ export class User extends AggregateRoot<UserProps> {
       throw new TypeError('Invalid creation event found')
     }
     const aggregate = new User(aggregateId, (creationEvent as DomainEvent<UserCreatedPayload>).payload)
-    events.forEach(event => aggregate._applyEvent(event))
+    events.forEach(event => aggregate.applyEvent(event))
     return aggregate
   }
 
-  protected _applyEvent(event: DomainEvent): void {
+  protected applyEvent(event: DomainEvent): void {
     if (event.type === 'UserNameUpdated') {
       this.props.name = (event as DomainEvent<UserNameUpdatedPayload>).payload.name
     }
     if (event.type === 'UserActivated') {
       this.props.prospect = false
     }
+    this.sequenceNumber = event.sequenceNumber
+  }
+
+  public changeName(name: string) {
+    this.apply(UserNameUpdated(this.id, this.nextSequenceNumber, { name }))
+  }
+
+  public activateUser() {
+    this.apply(UserActivated(this.id, this.nextSequenceNumber, {}))
   }
 }

@@ -1,4 +1,4 @@
-import type { BaseEvent, BaseEventMetadata } from '../../infrastructure/EventBus/Event'
+import type { BaseEvent, BaseEventMetadata } from '../../infrastructure/EventBus/BaseEvent'
 
 export interface DomainEventMetadata
   extends BaseEventMetadata { }
@@ -17,6 +17,7 @@ export interface DomainEventMetadata
 export interface DomainEvent<T = unknown>
   extends Omit<BaseEvent<T>, 'metadata'> {
   aggregateId: string
+  sequenceNumber: number
   metadata: {
     source: 'internal'
     timestamp: string

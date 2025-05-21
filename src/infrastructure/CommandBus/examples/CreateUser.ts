@@ -8,5 +8,5 @@ export interface CreateUserProps {
 }
 
 export function CreateUser(aggregateId: string, payload: CreateUserProps, metadata?: Partial<CommandMetadata>) {
-  return createCommand('CreateUser', aggregateId, payload, metadata, 1)
+  return createCommand('CreateUser', aggregateId, payload, metadata)
 }

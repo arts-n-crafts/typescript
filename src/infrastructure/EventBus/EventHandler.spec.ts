@@ -28,7 +28,7 @@ describe('eventHandler', () => {
   })
 
   it('should process the MockUserCreated event and dispatch the MockUserRegistrationEmailSentEvent', async () => {
-    const event = UserCreated(aggregateId, payload)
+    const event = UserCreated(aggregateId, 1, payload)
     await handler.handle(event)
     const events = await eventStore.loadEvents(aggregateId)
     const sentEvent = events[0] as DomainEvent<UserRegistrationEmailSentPayload>

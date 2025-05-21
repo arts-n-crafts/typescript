@@ -17,8 +17,8 @@ describe('aggregateRoot', () => {
     beforeEach(() => {
       id = '123'
       props = { name: 'elon', email: 'elon@x.com', prospect: true }
-      mockUserCreatedEvent = UserCreated('123', props)
-      mockUserNameUpdatedEvent = UserNameUpdated('123', { name: 'musk' })
+      mockUserCreatedEvent = UserCreated('123', 1, props)
+      mockUserNameUpdatedEvent = UserNameUpdated('123', 2, { name: 'musk' })
       aggregateRoot = User.create(id, props)
     })
 
@@ -44,7 +44,7 @@ describe('aggregateRoot', () => {
     })
 
     it('should do nothing on an unhandled event', () => {
-      const unhandledEvent = createDomainEvent('UnhandledEvent', '4321', {})
+      const unhandledEvent = createDomainEvent('UnhandledEvent', '4321', 1, {})
       aggregateRoot.apply(unhandledEvent)
       expect(aggregateRoot.props.name).toBe('elon')
     })
@@ -61,7 +61,8 @@ describe('aggregateRoot', () => {
 
   describe('not properly implemented', () => {
     class NotProperlyImplemented extends AggregateRoot<UserProps> {
-      protected _applyEvent(_event: DomainEvent): void {
+      protected sequenceNumber: number = 0
+      protected applyEvent(_event: DomainEvent): void {
         throw new Error('Method not implemented.')
       }
     }

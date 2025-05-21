@@ -23,7 +23,6 @@ describe('createCommand util', () => {
           value: 'test',
         },
         type: 'testCommand',
-        version: 1,
       }),
     )
   })

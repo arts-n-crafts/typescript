@@ -1,7 +1,7 @@
 import type { DomainEvent } from '../../domain'
 import type { Command } from '../CommandBus/Command'
 import type { CommandBus } from '../CommandBus/CommandBus'
-import type { BaseEvent } from '../EventBus/Event'
+import type { BaseEvent } from '../EventBus/BaseEvent'
 import type { EventBus } from '../EventBus/EventBus'
 import type { IntegrationEvent } from '../EventBus/IntegrationEvent'
 import type { EventStore } from '../EventStore/EventStore'
@@ -88,6 +88,7 @@ export class ScenarioTest {
     expect(foundEvent).toBeDefined()
     expect(outcome.type === foundEvent.type).toBeTruthy()
     expect(outcome.aggregateId).toEqual(foundEvent.aggregateId)
+    expect(outcome.sequenceNumber).toEqual(foundEvent.sequenceNumber)
     expect(outcome.payload).toStrictEqual(foundEvent.payload)
   }
 
@@ -114,6 +115,7 @@ export class ScenarioTest {
     expect(foundEvent).toBeDefined()
     expect(outcome.type === foundEvent.type).toBeTruthy()
     expect(outcome.aggregateId).toEqual(foundEvent.aggregateId)
+    expect(outcome.sequenceNumber).toEqual(foundEvent.sequenceNumber)
     expect(outcome.payload).toStrictEqual(foundEvent.payload)
   }
 }

@@ -1,4 +1,4 @@
-import type { BaseEvent } from '../Event'
+import type { BaseEvent } from '../BaseEvent'
 import type { IntegrationEvent } from '../IntegrationEvent'
 import { isEvent } from './isEvent'
 

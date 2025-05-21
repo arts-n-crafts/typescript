@@ -24,7 +24,7 @@ describe('domainEvent', () => {
 
   it('should consider the event as a domainEvent', () => {
     const payload: UserNameUpdatedPayload = { name: '' }
-    const event = UserNameUpdated(aggregateId, payload, metadata)
+    const event = UserNameUpdated(aggregateId, 1, payload, metadata)
     expect(isDomainEvent(event)).toBeTruthy()
   })
 
@@ -35,34 +35,34 @@ describe('domainEvent', () => {
       age: 52,
       prospect: true,
     }
-    const event = UserCreated(aggregateId, payload, metadata)
+    const event = UserCreated(aggregateId, 1, payload, metadata)
     expect(event.type).toBe('UserCreated')
     expect(event.id).toBeDefined()
     expect(event.aggregateId).toBe(aggregateId)
     expect(event.payload).toStrictEqual(payload)
     expect(event.metadata).toHaveProperty('timestamp')
-    expect(event.version).toBe(1)
+    expect(event.sequenceNumber).toBe(1)
   })
 
   it('should create the UserNameUpdated event', () => {
     const payload: UserNameUpdatedPayload = { name: '' }
-    const event = UserNameUpdated(aggregateId, payload, metadata)
+    const event = UserNameUpdated(aggregateId, 2, payload, metadata)
     expect(event.id).toBeDefined()
     expect(event.type).toBe('UserNameUpdated')
     expect(event.aggregateId).toBe(aggregateId)
     expect(event.payload).toBe(payload)
-    expect(event.version).toBe(2)
+    expect(event.sequenceNumber).toBe(2)
     expect(event.metadata).toHaveProperty('timestamp')
   })
 
   it('should create the UserRegistrationEmailSent event', () => {
     const payload: UserRegistrationEmailSentPayload = { status: 'SUCCESS' }
-    const event = UserRegistrationEmailSent(aggregateId, payload, metadata)
+    const event = UserRegistrationEmailSent(aggregateId, 1, payload, metadata)
     expect(event.id).toBeDefined()
     expect(event.type).toBe('UserRegistrationEmailSent')
     expect(event.aggregateId).toBe(aggregateId)
     expect(event.payload).toBe(payload)
-    expect(event.version).toBe(1)
+    expect(event.sequenceNumber).toBe(1)
     expect(event.metadata).toHaveProperty('timestamp')
   })
 })

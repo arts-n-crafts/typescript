@@ -1,6 +1,4 @@
-import type { AggregateRoot } from '../../domain/AggregateRoot/AggregateRoot'
 import type { EventStore } from '../EventStore/EventStore'
-import type { Repository } from '../Repository/Repository'
 import type { CreateUserProps } from './examples/CreateUser'
 import { randomUUID } from 'node:crypto'
 import { isDomainEvent } from '../../domain/DomainEvent/utils/isDomainEvent'
@@ -16,7 +14,7 @@ describe('commandHandler', async () => {
   const aggregateId = randomUUID()
   const eventBus: EventBus = new EventBus()
   const eventStore: EventStore = new InMemoryEventStore(eventBus)
-  const repository: Repository<AggregateRoot<unknown>> = new UserRepository(eventStore)
+  const repository = new UserRepository(eventStore)
   const createUserHandler = new CreateUserHandler(repository)
   const props: CreateUserProps = {
     name: 'Elon',

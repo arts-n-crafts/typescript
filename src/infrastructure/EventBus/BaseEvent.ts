@@ -5,7 +5,6 @@ export interface BaseEventMetadata {
 }
 
 export interface BaseEvent<T = unknown> {
-  version: number
   id: string
   type: string
   payload: T

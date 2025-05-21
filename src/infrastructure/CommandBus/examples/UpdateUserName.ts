@@ -6,5 +6,5 @@ export interface UpdateUserNameProps {
 }
 
 export function UpdateUserName(aggregateId: string, payload: UpdateUserNameProps, metadata?: Partial<CommandMetadata>) {
-  return createCommand('UpdateUserName', aggregateId, payload, metadata, 1)
+  return createCommand('UpdateUserName', aggregateId, payload, metadata)
 }

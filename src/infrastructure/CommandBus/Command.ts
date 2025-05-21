@@ -5,7 +5,6 @@ export interface CommandMetadata {
 }
 
 export interface Command<TPayload, TId> {
-  version: number
   type: string
   aggregateId: TId
   payload: TPayload

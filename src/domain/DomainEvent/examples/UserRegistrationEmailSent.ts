@@ -5,6 +5,6 @@ export interface UserRegistrationEmailSentPayload {
   status: 'SUCCESS' | 'FAILED'
 }
 
-export function UserRegistrationEmailSent(aggregateId: string, props: UserRegistrationEmailSentPayload, metadata?: Partial<DomainEventMetadata>) {
-  return createDomainEvent('UserRegistrationEmailSent', aggregateId, props, metadata)
+export function UserRegistrationEmailSent(aggregateId: string, sequenceNumber: number, props: UserRegistrationEmailSentPayload, metadata?: Partial<DomainEventMetadata>) {
+  return createDomainEvent('UserRegistrationEmailSent', aggregateId, sequenceNumber, props, metadata)
 }

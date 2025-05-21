@@ -1,5 +1,5 @@
 import type { Database } from '../Database/Database'
-import type { BaseEvent } from '../EventBus/Event'
+import type { BaseEvent } from '../EventBus/BaseEvent'
 import type { EventBus } from '../EventBus/EventBus'
 import type { EventHandler } from '../EventBus/EventHandler'
 

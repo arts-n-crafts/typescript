@@ -6,6 +6,6 @@ export abstract class Repository<TAggregate extends AggregateRoot<TAggregate['pr
     protected readonly eventStore: EventStore,
   ) { }
 
-  abstract load(_aggregateId: string): Promise<AggregateRoot<TAggregate['props']>>
-  abstract store(aggregate: AggregateRoot<TAggregate['props']>): Promise<void>
+  abstract load(_aggregateId: string): Promise<TAggregate>
+  abstract store(aggregate: TAggregate): Promise<void>
 }

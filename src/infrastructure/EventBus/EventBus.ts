@@ -1,4 +1,4 @@
-import type { BaseEvent } from './Event'
+import type { BaseEvent } from './BaseEvent'
 import type { EventHandler } from './EventHandler'
 
 export class EventBus {

@@ -1,12 +1,13 @@
+import type { AggregateRoot } from '../../domain/AggregateRoot/AggregateRoot'
 import type { Command } from './Command'
 import type { CommandHandler, CommandHandlerResult } from './CommandHandler'
 
 export class CommandBus {
-  private handlers: Map<string, CommandHandler<Command<unknown, unknown>>> = new Map()
+  private handlers: Map<string, CommandHandler<AggregateRoot<unknown>, Command<unknown, unknown>>> = new Map()
 
   register<TId, TPayload>(
     aTypeOfCommand: string,
-    anHandler: CommandHandler<Command<TPayload, TId>>,
+    anHandler: CommandHandler<AggregateRoot<unknown>, Command<TPayload, TId>>,
   ): void {
     if (this.handlers.has(aTypeOfCommand)) {
       throw new Error(`Handler already registered for command type: ${aTypeOfCommand}`)

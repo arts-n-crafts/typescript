@@ -1,5 +1,5 @@
 import type { UUID } from 'node:crypto'
-import type { AggregateRoot } from '../../domain/AggregateRoot/AggregateRoot'
+import type { User } from '../../domain/AggregateRoot/examples/User'
 import type { UserNameUpdated } from '../../domain/DomainEvent/examples/UserNameUpdated'
 import type { EventStore } from '../EventStore/EventStore'
 import type { Repository } from '../Repository/Repository'
@@ -17,7 +17,7 @@ describe('commandBus', () => {
   let id: UUID
   let eventBus: EventBus
   let eventStore: EventStore
-  let repository: Repository<AggregateRoot<unknown>>
+  let repository: Repository<User>
   let commandBus: CommandBus
   let handler: UpdateUserNameHandler
 

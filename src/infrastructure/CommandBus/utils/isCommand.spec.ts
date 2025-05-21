@@ -8,7 +8,6 @@ describe('isCommand util', () => {
 
   it('should confirm that the candidate is a command', () => {
     const command: Command<object, string> = {
-      version: 0,
       type: 'TestCommand',
       aggregateId: '123',
       payload: {},
@@ -26,7 +25,6 @@ describe('isCommand util', () => {
     {
       __scenario: 'CANDIDATE_IS_MISSING_TYPE',
       input: {
-        version: 0,
         aggregateId: '123',
         payload: {},
         metadata: {
@@ -38,7 +36,6 @@ describe('isCommand util', () => {
     {
       __scenario: 'CANDIDATE_METADATA_KIND_IS_NOT_COMMAND',
       input: {
-        version: 0,
         type: 'TestCommand',
         aggregateId: '123',
         payload: {},
@@ -51,7 +48,6 @@ describe('isCommand util', () => {
     {
       __scenario: 'CANDIDATE_IS_MISSING_METADATA_KIND',
       input: {
-        version: 0,
         type: 'TestCommand',
         aggregateId: '123',
         payload: {},
@@ -63,7 +59,6 @@ describe('isCommand util', () => {
     {
       __scenario: 'CANDIDATE_IS_MISSING_METADATA',
       input: {
-        version: 0,
         type: 'TestCommand',
         aggregateId: '123',
         payload: {},
@@ -72,7 +67,6 @@ describe('isCommand util', () => {
     {
       __scenario: 'CANDIDATE_IS_MISSING_METADATA',
       input: {
-        version: 0,
         type: 'TestCommand',
         aggregateId: '123',
         payload: {},
@@ -82,7 +76,6 @@ describe('isCommand util', () => {
     {
       __scenario: 'CANDIDATE_IS_MISSING_METADATA',
       input: {
-        version: 0,
         type: 'TestCommand',
         aggregateId: '123',
         payload: {},

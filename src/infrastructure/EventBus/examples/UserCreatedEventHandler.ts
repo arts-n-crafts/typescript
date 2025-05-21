@@ -17,6 +17,7 @@ export class UserCreatedEventHandler extends EventHandler<EventType> {
     if (event.type === 'UserCreated') {
       const emailSentEvent = UserRegistrationEmailSent(
         event.aggregateId,
+        1,
         { status: 'SUCCESS' },
         { causationId: event.id },
       )

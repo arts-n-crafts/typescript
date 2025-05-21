@@ -1,4 +1,4 @@
-import type { BaseEvent } from '../Event'
+import type { BaseEvent } from '../BaseEvent'
 
 export function isEvent<T = unknown>(event: unknown): event is BaseEvent<T> {
   if (typeof event !== 'object')
