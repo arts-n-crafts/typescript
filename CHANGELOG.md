@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.5.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.4.0...v1.5.0)
+
+### 💅 Refactors
+
+- Make everything based on interfaces instead of abstracts ([4f6c59a](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/4f6c59a))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v1.4.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.3.0...v1.4.0)
