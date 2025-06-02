@@ -1,4 +1,4 @@
-import { createHash } from '../../utils/hash/createHash'
+import { createHash } from '../../utils'
 
 export abstract class ValueObject<TValue> {
   private readonly _value: TValue
