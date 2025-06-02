@@ -1,4 +1,7 @@
-import type { EventStore } from '../EventStore/EventStore'
+import type { ICommandBus } from '../CommandBus/ICommandBus'
+import type { IEventBus } from '../EventBus/IEventBus'
+import type { IEventStore } from '../EventStore/IEventStore'
+import type { IQueryBus } from '../QueryBus/IQueryBus'
 import { randomUUID } from 'node:crypto'
 import { UserActivated } from '../../domain/DomainEvent/examples/UserActivated'
 import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
@@ -18,10 +21,10 @@ import { ScenarioTest } from './ScenarioTest'
 
 describe('scenario test', () => {
   const id = randomUUID()
-  let eventStore: EventStore
-  let eventBus: EventBus
-  let commandBus: CommandBus
-  let queryBus: QueryBus
+  let eventStore: IEventStore
+  let eventBus: IEventBus
+  let commandBus: ICommandBus
+  let queryBus: IQueryBus
   let scenarioTest: ScenarioTest
 
   beforeEach(() => {

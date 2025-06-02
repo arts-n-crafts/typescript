@@ -1,10 +1,11 @@
 import type { BaseEvent } from './BaseEvent'
-import type { EventHandler } from './EventHandler'
+import type { IEventBus } from './IEventBus'
+import type { IEventHandler } from './IEventHandler'
 
-export class EventBus {
-  private handlers: Array<EventHandler<BaseEvent>> = []
+export class EventBus implements IEventBus {
+  private handlers: Array<IEventHandler<any>> = []
 
-  subscribe(handler: EventHandler<BaseEvent>): void {
+  subscribe(handler: IEventHandler<any>): void {
     this.handlers.push(handler)
   }
 

@@ -1,9 +1,9 @@
 import type { UUID } from 'node:crypto'
-import type { User } from '../../domain/AggregateRoot/examples/User'
+import type { IRepository } from '../../domain'
 import type { UserNameUpdated } from '../../domain/DomainEvent/examples/UserNameUpdated'
-import type { EventStore } from '../EventStore/EventStore'
-import type { Repository } from '../Repository/Repository'
+import type { IEventStore } from '../EventStore/IEventStore'
 import { randomUUID } from 'node:crypto'
+import { User } from '../../domain/AggregateRoot/examples/User'
 import { EventBus } from '../EventBus/EventBus'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
 import { UserRepository } from '../Repository/examples/UserRepository'
@@ -16,8 +16,8 @@ import { UpdateUserNameHandler } from './examples/UpdateUserNameHandler'
 describe('commandBus', () => {
   let id: UUID
   let eventBus: EventBus
-  let eventStore: EventStore
-  let repository: Repository<User>
+  let eventStore: IEventStore
+  let repository: IRepository<User>
   let commandBus: CommandBus
   let handler: UpdateUserNameHandler
 
@@ -25,7 +25,7 @@ describe('commandBus', () => {
     id = randomUUID()
     eventBus = new EventBus()
     eventStore = new InMemoryEventStore(eventBus)
-    repository = new UserRepository(eventStore)
+    repository = new UserRepository(eventStore, User)
     commandBus = new CommandBus()
     handler = new UpdateUserNameHandler(repository)
 

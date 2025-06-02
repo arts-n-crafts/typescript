@@ -1,15 +1,15 @@
 import type { Command, CommandMetadata } from '../Command'
 import { randomUUID } from 'node:crypto'
 
-export function createCommand<TPayload, TId>(type: string, aggregateId: TId, payload: TPayload, metadata?: Partial<CommandMetadata>): Command<TPayload, TId> {
+export function createCommand<TPayload>(type: string, aggregateId: string, payload: TPayload, metadata?: Partial<CommandMetadata>): Command<TPayload> {
   return Object.freeze({
     id: randomUUID(),
     type,
-    aggregateId,
+    aggregateId: String(aggregateId),
     payload,
     metadata: {
       ...metadata,
-      kind: 'command',
+      kind: 'command' as const,
       timestamp: new Date().toISOString(),
     },
   })

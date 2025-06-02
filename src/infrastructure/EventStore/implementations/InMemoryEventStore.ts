@@ -1,17 +1,21 @@
 import type { DomainEvent } from '../../../domain'
-import type { BaseEvent } from '../../EventBus/BaseEvent'
+import type { IEventBus } from '../../EventBus/IEventBus'
+import type { IEventStore } from '../IEventStore'
 import { isDomainEvent } from '../../../domain/DomainEvent/utils/isDomainEvent'
-import { EventStore } from '../EventStore'
 
-export class InMemoryEventStore extends EventStore {
-  private events: BaseEvent[] = []
+export class InMemoryEventStore implements IEventStore {
+  private events: DomainEvent[] = []
 
-  async store(event: BaseEvent): Promise<void> {
+  constructor(
+    protected readonly eventBus: IEventBus,
+  ) {}
+
+  async store(event: DomainEvent): Promise<void> {
     this.events.push(event)
     await this.eventBus.publish(event)
   }
 
   async loadEvents(aggregateId: string): Promise<DomainEvent[]> {
-    return this.events.filter(event => isDomainEvent(event) && event.aggregateId === aggregateId) as DomainEvent[]
+    return this.events.filter(event => isDomainEvent(event) && event.aggregateId === aggregateId)
   }
 }

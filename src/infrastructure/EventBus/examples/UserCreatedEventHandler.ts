@@ -1,25 +1,27 @@
-import type { DomainEvent } from '../../../domain/DomainEvent/DomainEvent'
+import type { DomainEvent } from '../../../domain'
 import type { UserCreatedPayload } from '../../../domain/DomainEvent/examples/UserCreated'
-import type { EventStore } from '../../EventStore/EventStore'
+import type { IEventStore } from '../../EventStore/IEventStore'
+import type { BaseEvent } from '../BaseEvent'
+import type { IEventHandler } from '../IEventHandler'
+import { isDomainEvent } from '../../../domain'
 import { UserRegistrationEmailSent } from '../../../domain/DomainEvent/examples/UserRegistrationEmailSent'
-import { EventHandler } from '../EventHandler'
 
-type EventType = DomainEvent<UserCreatedPayload>
-
-export class UserCreatedEventHandler extends EventHandler<EventType> {
+export class UserCreatedEventHandler implements IEventHandler {
   constructor(
-    private readonly eventStore: EventStore,
-  ) {
-    super()
+    private readonly eventStore: IEventStore,
+  ) { }
+
+  private isUserCreatedEvent(anEvent: BaseEvent): anEvent is DomainEvent<UserCreatedPayload> {
+    return isDomainEvent(anEvent) && anEvent.type === 'UserCreated'
   }
 
-  async handle(event: EventType): Promise<void> {
-    if (event.type === 'UserCreated') {
+  async handle(anEvent: BaseEvent): Promise<void> {
+    if (this.isUserCreatedEvent(anEvent)) {
       const emailSentEvent = UserRegistrationEmailSent(
-        event.aggregateId,
+        anEvent.aggregateId,
         1,
         { status: 'SUCCESS' },
-        { causationId: event.id },
+        { causationId: anEvent.id },
       )
 
       await this.eventStore.store(emailSentEvent)

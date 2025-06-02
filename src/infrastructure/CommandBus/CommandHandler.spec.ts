@@ -1,6 +1,7 @@
-import type { EventStore } from '../EventStore/EventStore'
+import type { IEventStore } from '../EventStore/IEventStore'
 import type { CreateUserProps } from './examples/CreateUser'
 import { randomUUID } from 'node:crypto'
+import { User } from '../../domain/AggregateRoot/examples/User'
 import { isDomainEvent } from '../../domain/DomainEvent/utils/isDomainEvent'
 import { EventBus } from '../EventBus/EventBus'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
@@ -13,8 +14,8 @@ import { UpdateUserNameHandler } from './examples/UpdateUserNameHandler'
 describe('commandHandler', async () => {
   const aggregateId = randomUUID()
   const eventBus: EventBus = new EventBus()
-  const eventStore: EventStore = new InMemoryEventStore(eventBus)
-  const repository = new UserRepository(eventStore)
+  const eventStore: IEventStore = new InMemoryEventStore(eventBus)
+  const repository = new UserRepository(eventStore, User)
   const createUserHandler = new CreateUserHandler(repository)
   const props: CreateUserProps = {
     name: 'Elon',

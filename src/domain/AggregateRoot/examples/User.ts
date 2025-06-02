@@ -1,6 +1,7 @@
 import type { DomainEvent } from '../../DomainEvent/DomainEvent'
 import type { UserCreatedPayload } from '../../DomainEvent/examples/UserCreated'
 import type { UserNameUpdatedPayload } from '../../DomainEvent/examples/UserNameUpdated'
+import type { IAggregateRoot } from '../IAggregateRoot'
 import { fail } from '../../../utils/fail/fail'
 import { invariant } from '../../../utils/invariant/invariant'
 import { UserActivated } from '../../DomainEvent/examples/UserActivated'
@@ -18,7 +19,7 @@ export interface UserProps extends UserInputProps {
   prospect: boolean
 }
 
-export class User extends AggregateRoot<UserProps> {
+export class User extends AggregateRoot<UserProps> implements IAggregateRoot {
   protected sequenceNumber: number = 0
 
   private static readonly DEFAULT_PROPS: UserProps = {

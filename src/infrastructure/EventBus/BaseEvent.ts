@@ -4,10 +4,10 @@ export interface BaseEventMetadata {
   [key: string]: unknown
 }
 
-export interface BaseEvent<T = unknown> {
+export interface BaseEvent<TPayload = object> {
   id: string
   type: string
-  payload: T
+  payload: TPayload
   metadata: {
     timestamp: string
     source: 'internal' | 'external'

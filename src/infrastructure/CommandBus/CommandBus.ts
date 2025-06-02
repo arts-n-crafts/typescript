@@ -1,13 +1,13 @@
-import type { AggregateRoot } from '../../domain/AggregateRoot/AggregateRoot'
 import type { Command } from './Command'
-import type { CommandHandler, CommandHandlerResult } from './CommandHandler'
+import type { ICommandBus } from './ICommandBus'
+import type { CommandHandlerResult, ICommandHandler } from './ICommandHandler'
 
-export class CommandBus {
-  private handlers: Map<string, CommandHandler<AggregateRoot<unknown>, Command<unknown, unknown>>> = new Map()
+export class CommandBus implements ICommandBus {
+  private handlers: Map<string, ICommandHandler<any>> = new Map()
 
-  register<TId, TPayload>(
+  register(
     aTypeOfCommand: string,
-    anHandler: CommandHandler<AggregateRoot<unknown>, Command<TPayload, TId>>,
+    anHandler: ICommandHandler<any>,
   ): void {
     if (this.handlers.has(aTypeOfCommand)) {
       throw new Error(`Handler already registered for command type: ${aTypeOfCommand}`)
@@ -15,7 +15,7 @@ export class CommandBus {
     this.handlers.set(aTypeOfCommand, anHandler)
   }
 
-  async execute(aCommand: Command<unknown, unknown>): Promise<CommandHandlerResult> {
+  async execute(aCommand: Command): Promise<CommandHandlerResult> {
     const handler = this.handlers.get(aCommand.type)
     if (!handler) {
       throw new Error(`No handler found for command type: ${aCommand.type}`)

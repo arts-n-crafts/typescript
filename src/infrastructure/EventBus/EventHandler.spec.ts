@@ -1,16 +1,16 @@
 import type { DomainEvent } from '../../domain/DomainEvent/DomainEvent'
 import type { UserCreatedPayload } from '../../domain/DomainEvent/examples/UserCreated'
 import type { UserRegistrationEmailSentPayload } from '../../domain/DomainEvent/examples/UserRegistrationEmailSent'
-import type { EventStore } from '../EventStore/EventStore'
+import type { IEventStore } from '../EventStore/IEventStore'
 import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
 import { EventBus } from './EventBus'
-import { EventHandler } from './EventHandler'
+import { ContractSignedHandler } from './examples/ContractSignedHandler'
 import { UserCreatedEventHandler } from './examples/UserCreatedEventHandler'
 
 describe('eventHandler', () => {
   let eventBus: EventBus
-  let eventStore: EventStore
+  let eventStore: IEventStore
   let handler: UserCreatedEventHandler
   let aggregateId: string
   let payload: UserCreatedPayload
@@ -24,7 +24,7 @@ describe('eventHandler', () => {
   })
 
   it('should be defined', () => {
-    expect(EventHandler).toBeDefined()
+    expect(ContractSignedHandler).toBeDefined()
   })
 
   it('should process the MockUserCreated event and dispatch the MockUserRegistrationEmailSentEvent', async () => {

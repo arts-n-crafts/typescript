@@ -3,7 +3,6 @@ import { Operation } from '../Database/Database'
 import { InMemoryDatabase } from '../Database/implementations/InMemoryDatabase'
 import { GetUserByEmail } from './examples/GetUserByEmail'
 import { GetUserByEmailHandler } from './examples/GetUserByEmailHandler'
-import { QueryHandler } from './QueryHandler'
 
 describe('queryHandler', () => {
   const store = 'users'
@@ -17,7 +16,7 @@ describe('queryHandler', () => {
   })
 
   it('should be defined', () => {
-    expect(QueryHandler).toBeDefined()
+    expect(GetUserByEmailHandler).toBeDefined()
   })
 
   it('should return the requested data', async () => {

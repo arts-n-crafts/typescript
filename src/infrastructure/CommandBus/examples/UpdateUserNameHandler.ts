@@ -1,12 +1,15 @@
+import type { IRepository } from '../../../domain'
 import type { User } from '../../../domain/AggregateRoot/examples/User'
 import type { Command } from '../Command'
+import type { ICommandHandler } from '../ICommandHandler'
 import type { UpdateUserNameProps } from './UpdateUserName'
-import { CommandHandler } from '../CommandHandler'
 
-type CommandType = Command<UpdateUserNameProps, string>
+export class UpdateUserNameHandler implements ICommandHandler<UpdateUserNameProps> {
+  constructor(
+    private readonly repository: IRepository<User>,
+  ) { }
 
-export class UpdateUserNameHandler extends CommandHandler<User, CommandType> {
-  async execute(command: CommandType) {
+  async execute(command: Command<UpdateUserNameProps>) {
     const { aggregateId, payload } = command
     const aggregate = await this.repository.load(aggregateId)
     aggregate.changeName(payload.name)

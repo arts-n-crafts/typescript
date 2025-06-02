@@ -1,5 +1,6 @@
 import type { UUID } from 'node:crypto'
 import type { Database } from '../Database/Database'
+import type { IProjectionHandler } from './IProjectionHandler'
 import { randomUUID } from 'node:crypto'
 import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
 import { UserNameUpdated } from '../../domain/DomainEvent/examples/UserNameUpdated'
@@ -7,14 +8,13 @@ import { UserByUsernameSpecification } from '../../domain/Specification/examples
 import { InMemoryDatabase } from '../Database/implementations/InMemoryDatabase'
 import { EventBus } from '../EventBus/EventBus'
 import { UserProjectionHandler } from './examples/UserProjection'
-import { ProjectionHandler } from './ProjectionHandler'
 
 describe('projectionHandler', () => {
   const id: UUID = randomUUID()
   const payload = { name: 'Elon', email: 'musk@x.com' }
   const database: Database = new InMemoryDatabase()
   let eventBus: EventBus
-  let handler: ProjectionHandler
+  let handler: IProjectionHandler
 
   beforeEach(async () => {
     eventBus = new EventBus()
@@ -23,7 +23,7 @@ describe('projectionHandler', () => {
   })
 
   it('should be defined', () => {
-    expect(ProjectionHandler).toBeDefined()
+    expect(UserProjectionHandler).toBeDefined()
   })
 
   it('should update projection with create event', async () => {

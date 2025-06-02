@@ -14,7 +14,7 @@ export interface IntegrationEventMetadata
  *
  * These helpers ensure correct typing, structure, and metadata assignment.
  */
-export interface IntegrationEvent<T = unknown>
+export interface IntegrationEvent<T = object>
   extends Omit<BaseEvent<T>, 'metadata'> {
   metadata: {
     source: 'external'

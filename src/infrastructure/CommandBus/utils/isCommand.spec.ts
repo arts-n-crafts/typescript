@@ -7,10 +7,10 @@ describe('isCommand util', () => {
   })
 
   it('should confirm that the candidate is a command', () => {
-    const command: Command<object, string> = {
+    const command: Command = {
       type: 'TestCommand',
       aggregateId: '123',
-      payload: {},
+      payload: { foo: 'bar' },
       metadata: {
         kind: 'command',
         timestamp: new Date().toISOString(),

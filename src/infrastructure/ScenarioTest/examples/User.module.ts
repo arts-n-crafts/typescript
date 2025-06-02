@@ -1,9 +1,10 @@
 import type { Module } from '../../../core/Module.interface'
-import type { CommandBus } from '../../CommandBus/CommandBus'
+import type { ICommandBus } from '../../CommandBus/ICommandBus'
 import type { Database } from '../../Database/Database'
-import type { EventBus } from '../../EventBus/EventBus'
-import type { EventStore } from '../../EventStore/EventStore'
-import type { QueryBus } from '../../QueryBus/QueryBus'
+import type { IEventBus } from '../../EventBus/IEventBus'
+import type { IEventStore } from '../../EventStore/IEventStore'
+import type { IQueryBus } from '../../QueryBus/IQueryBus'
+import { User } from '../../../domain/AggregateRoot/examples/User'
 import { ActivateUserHandler } from '../../CommandBus/examples/ActivateUserHandler'
 import { CreateUserHandler } from '../../CommandBus/examples/CreateUserHandler'
 import { UpdateUserNameHandler } from '../../CommandBus/examples/UpdateUserNameHandler'
@@ -16,23 +17,23 @@ import { UserRepository } from '../../Repository/examples/UserRepository'
 
 export class UserModule implements Module {
   private readonly repository: UserRepository
-  private readonly eventStore: EventStore
-  private readonly eventBus: EventBus
-  private readonly commandBus: CommandBus
-  private readonly queryBus: QueryBus
+  private readonly eventStore: IEventStore
+  private readonly eventBus: IEventBus
+  private readonly commandBus: ICommandBus
+  private readonly queryBus: IQueryBus
   private readonly database: Database
 
   constructor(
-    eventStore: EventStore,
-    eventBus: EventBus,
-    commandBus: CommandBus,
-    queryBus: QueryBus,
+    eventStore: IEventStore,
+    eventBus: IEventBus,
+    commandBus: ICommandBus,
+    queryBus: IQueryBus,
   ) {
     this.eventStore = eventStore
     this.eventBus = eventBus
     this.commandBus = commandBus
     this.queryBus = queryBus
-    this.repository = new UserRepository(eventStore)
+    this.repository = new UserRepository(eventStore, User)
     this.database = new InMemoryDatabase()
   }
 

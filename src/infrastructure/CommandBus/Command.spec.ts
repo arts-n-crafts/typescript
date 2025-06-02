@@ -8,7 +8,7 @@ describe('command', () => {
   let aggregateId: UUID
   let payload: UpdateUserNameProps
   let metadata: CommandMetadata
-  let command: Command<unknown, unknown>
+  let command: Command
 
   beforeEach(() => {
     aggregateId = randomUUID()

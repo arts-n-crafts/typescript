@@ -4,9 +4,9 @@ export interface CommandMetadata {
   [key: string]: unknown
 }
 
-export interface Command<TPayload, TId> {
+export interface Command<TPayload = object> {
   type: string
-  aggregateId: TId
+  aggregateId: string
   payload: TPayload
   metadata: {
     timestamp: string

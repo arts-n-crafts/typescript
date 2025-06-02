@@ -1,5 +1,5 @@
 import type { UserCreatedPayload } from '../../domain/DomainEvent/examples/UserCreated'
-import type { EventStore } from '../EventStore/EventStore'
+import type { IEventStore } from '../EventStore/IEventStore'
 import { randomUUID } from 'node:crypto'
 import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
@@ -8,7 +8,7 @@ import { UserCreatedEventHandler } from './examples/UserCreatedEventHandler'
 
 describe('eventBus', () => {
   let eventBus: EventBus
-  let eventStore: EventStore
+  let eventStore: IEventStore
   let handler: UserCreatedEventHandler
   let aggregateId: string
   let payload: UserCreatedPayload
