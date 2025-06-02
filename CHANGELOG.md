@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v1.5.1
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.5.0...v1.5.1)
+
+### 🤖 CI
+
+- Fix pipeline ([5128f77](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/5128f77))
+- Rename utils revert ([38a5a77](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/38a5a77))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v1.5.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.4.0...v1.5.0)
