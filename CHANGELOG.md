@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v1.6.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.5.1...v1.6.0)
+
+### 🚀 Enhancements
+
+- Remove sequenceNumber from eventing ([34b10eb](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/34b10eb))
+- Move event source and query/command kind to root ([4012091](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/4012091))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v1.5.1
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.5.0...v1.5.1)
