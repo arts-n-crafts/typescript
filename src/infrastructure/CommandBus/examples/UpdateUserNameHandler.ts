@@ -9,7 +9,7 @@ export class UpdateUserNameHandler implements ICommandHandler<UpdateUserNameProp
     private readonly repository: IRepository<User>,
   ) { }
 
-  async execute(command: Command<UpdateUserNameProps>) {
+  async execute(command: Command<string, UpdateUserNameProps>) {
     const { aggregateId, payload } = command
     const aggregate = await this.repository.load(aggregateId)
     aggregate.changeName(payload.name)

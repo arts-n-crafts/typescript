@@ -20,8 +20,8 @@ describe('aggregateRoot', () => {
     beforeEach(() => {
       id = '123'
       props = { name: 'elon', email: 'elon@x.com', prospect: true }
-      mockUserCreatedEvent = UserCreated('123', 1, props)
-      mockUserNameUpdatedEvent = UserNameUpdated('123', 2, { name: 'musk' })
+      mockUserCreatedEvent = UserCreated('123', props)
+      mockUserNameUpdatedEvent = UserNameUpdated('123', { name: 'musk' })
       aggregate = User.create(id, props)
     })
 
@@ -54,7 +54,6 @@ describe('aggregateRoot', () => {
 
   describe('not properly implemented', () => {
     class NotProperlyImplemented extends AggregateRoot<UserProps> {
-      protected sequenceNumber: number = 0
       protected apply(_event: DomainEvent): void {
         throw new Error('Method not implemented.')
       }

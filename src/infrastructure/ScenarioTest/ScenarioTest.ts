@@ -12,7 +12,7 @@ import { isEvent } from '../EventBus/utils/isEvent'
 import { isQuery } from '../QueryBus/utils/isQuery'
 
 type GivenInput = BaseEvent[]
-type WhenInput = Command | Query | BaseEvent
+type WhenInput = Command<string, unknown> | Query | BaseEvent
 type ThenInput = BaseEvent | Record<string, unknown>[]
 
 export class ScenarioTest {
@@ -64,7 +64,7 @@ export class ScenarioTest {
     return isEvent(candidate) && isDomainEvent(candidate)
   }
 
-  private async handleCommand(command: Command, outcome: ThenInput) {
+  private async handleCommand(command: Command<string, unknown>, outcome: ThenInput) {
     if (!this.isDomainEvent(outcome)) {
       throw new TypeError(`In the ScenarioTest, when triggering a command, then a domain event is expected`)
     }
@@ -82,7 +82,6 @@ export class ScenarioTest {
     expect(foundEvent).toBeDefined()
     expect(outcome.type === foundEvent.type).toBeTruthy()
     expect(outcome.aggregateId).toEqual(foundEvent.aggregateId)
-    expect(outcome.sequenceNumber).toEqual(foundEvent.sequenceNumber)
     expect(outcome.payload).toStrictEqual(foundEvent.payload)
   }
 
@@ -109,7 +108,6 @@ export class ScenarioTest {
     expect(foundEvent).toBeDefined()
     expect(outcome.type === foundEvent.type).toBeTruthy()
     expect(outcome.aggregateId).toEqual(foundEvent.aggregateId)
-    expect(outcome.sequenceNumber).toEqual(foundEvent.sequenceNumber)
     expect(outcome.payload).toStrictEqual(foundEvent.payload)
   }
 }

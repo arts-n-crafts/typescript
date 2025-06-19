@@ -8,7 +8,7 @@ export class ActivateUserHandler implements ICommandHandler {
     private readonly repository: IRepository<User>,
   ) {}
 
-  async execute(command: Command) {
+  async execute(command: Command<string, unknown>) {
     const { aggregateId } = command
     const aggregate = await this.repository.load(aggregateId)
     aggregate.activateUser()

@@ -19,8 +19,6 @@ export interface UserProps extends UserInputProps {
 }
 
 export class User extends AggregateRoot<UserProps> implements IAggregateRoot {
-  protected sequenceNumber: number = 0
-
   private static readonly DEFAULT_PROPS: UserProps = {
     name: '',
     email: '',
@@ -33,7 +31,7 @@ export class User extends AggregateRoot<UserProps> implements IAggregateRoot {
   }
 
   static override create(id: string, input: UserInputProps) {
-    const event = UserCreated(id, 1, input)
+    const event = UserCreated(id, input)
     const aggregate = User.fromEvents(id, [event])
     aggregate.addToUncommittedEvents(event)
     return aggregate
@@ -71,17 +69,16 @@ export class User extends AggregateRoot<UserProps> implements IAggregateRoot {
       default:
         fail(new Error(`Unhandled event type: ${event.type}`))
     }
-    this.sequenceNumber = event.sequenceNumber
   }
 
   public changeName(name: string) {
-    const event = UserNameUpdated(this.id, this.nextSequenceNumber, { name })
+    const event = UserNameUpdated(this.id, { name })
     this.apply(event)
     this.addToUncommittedEvents(event)
   }
 
   public activateUser() {
-    const event = UserActivated(this.id, this.nextSequenceNumber, {})
+    const event = UserActivated(this.id, {})
     this.apply(event)
     this.addToUncommittedEvents(event)
   }

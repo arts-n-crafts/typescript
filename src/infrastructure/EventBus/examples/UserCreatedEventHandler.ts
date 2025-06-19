@@ -19,7 +19,6 @@ export class UserCreatedEventHandler implements IEventHandler {
     if (this.isUserCreatedEvent(anEvent)) {
       const emailSentEvent = UserRegistrationEmailSent(
         anEvent.aggregateId,
-        1,
         { status: 'SUCCESS' },
         { causationId: anEvent.id },
       )

@@ -2,8 +2,6 @@ import type { DomainEvent } from '../DomainEvent/DomainEvent'
 import { Entity } from '../Entity/Entity'
 
 export abstract class AggregateRoot<TProps> extends Entity<TProps> {
-  protected abstract sequenceNumber: number
-
   private _uncommittedEvents: DomainEvent[] = []
 
   protected constructor(id: string, initialProps: TProps) {
@@ -30,9 +28,5 @@ export abstract class AggregateRoot<TProps> extends Entity<TProps> {
 
   markEventsCommitted(): void {
     this._uncommittedEvents = []
-  }
-
-  protected get nextSequenceNumber(): number {
-    return this.sequenceNumber + 1
   }
 }

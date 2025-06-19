@@ -15,7 +15,7 @@ export class CommandBus implements ICommandBus {
     this.handlers.set(aTypeOfCommand, anHandler)
   }
 
-  async execute(aCommand: Command): Promise<CommandHandlerResult> {
+  async execute(aCommand: Command<string, unknown>): Promise<CommandHandlerResult> {
     const handler = this.handlers.get(aCommand.type)
     if (!handler) {
       throw new Error(`No handler found for command type: ${aCommand.type}`)

@@ -27,7 +27,7 @@ describe('projectionHandler', () => {
   })
 
   it('should update projection with create event', async () => {
-    const event = UserCreated(id, 1, payload)
+    const event = UserCreated(id, payload)
     await eventBus.publish(event)
     const spec = new UserByUsernameSpecification(payload.name)
 
@@ -37,7 +37,7 @@ describe('projectionHandler', () => {
 
   it('should update projection with update event', async () => {
     const updatePayload = { name: 'Donald' }
-    const event = UserNameUpdated(id, 2, updatePayload)
+    const event = UserNameUpdated(id, updatePayload)
     await eventBus.publish(event)
     const spec = new UserByUsernameSpecification(updatePayload.name)
 

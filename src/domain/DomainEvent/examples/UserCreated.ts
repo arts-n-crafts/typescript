@@ -8,7 +8,7 @@ export interface UserCreatedPayload {
   prospect: boolean
 }
 
-export function UserCreated(aggregateId: string, sequenceNumber: number, payload: Omit<UserCreatedPayload, 'prospect'>, metadata?: Partial<DomainEventMetadata>) {
+export function UserCreated(aggregateId: string, payload: Omit<UserCreatedPayload, 'prospect'>, metadata?: Partial<DomainEventMetadata>) {
   const props: UserCreatedPayload = { prospect: true, ...payload }
-  return createDomainEvent('UserCreated', aggregateId, sequenceNumber, props, metadata)
+  return createDomainEvent('UserCreated', aggregateId, props, metadata)
 }

@@ -9,7 +9,7 @@ export class CreateUserHandler implements ICommandHandler<CreateUserProps> {
     private readonly repository: IRepository<User>,
   ) {}
 
-  async execute(command: Command<CreateUserProps>) {
+  async execute(command: Command<string, CreateUserProps>) {
     const aggregate = User.create(command.aggregateId, command.payload)
     await this.repository.store(aggregate)
     return { id: aggregate.id }

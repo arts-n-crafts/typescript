@@ -7,7 +7,7 @@ describe('isCommand util', () => {
   })
 
   it('should confirm that the candidate is a command', () => {
-    const command: Command = {
+    const command: Command<string, unknown> = {
       type: 'TestCommand',
       aggregateId: '123',
       payload: { foo: 'bar' },

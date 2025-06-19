@@ -3,5 +3,5 @@ import type { CommandHandlerResult, ICommandHandler } from './ICommandHandler'
 
 export interface ICommandBus {
   register: (aTypeOfCommand: string, anHandler: ICommandHandler<any>) => void
-  execute: (aCommand: Command) => Promise<CommandHandlerResult>
+  execute: (aCommand: Command<string, unknown>) => Promise<CommandHandlerResult>
 }

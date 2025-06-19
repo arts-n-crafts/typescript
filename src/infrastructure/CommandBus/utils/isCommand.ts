@@ -1,6 +1,6 @@
 import type { Command } from '../Command'
 
-export function isCommand(candidate: unknown): candidate is Command {
+export function isCommand(candidate: unknown): candidate is Command<string, unknown> {
   if (candidate === null)
     return false
   if (typeof candidate !== 'object')

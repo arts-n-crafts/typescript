@@ -17,7 +17,6 @@ export interface DomainEventMetadata
 export interface DomainEvent<TPayload = object>
   extends Omit<BaseEvent<TPayload>, 'metadata'> {
   aggregateId: string
-  sequenceNumber: number
   metadata: {
     source: 'internal'
     timestamp: string

@@ -15,7 +15,7 @@ describe('inMemoryEventStore', () => {
 
   it('should store and load an event', async () => {
     const aggregateId = randomUUID()
-    const event = UserCreated(aggregateId, 1, { name: 'elon', email: 'musk@x.com' })
+    const event = UserCreated(aggregateId, { name: 'elon', email: 'musk@x.com' })
 
     await eventStore.store(event)
     const events = await eventStore.loadEvents(aggregateId)
@@ -25,9 +25,9 @@ describe('inMemoryEventStore', () => {
 
   it('should store and load multiple events', async () => {
     const aggregateId = randomUUID()
-    const event = UserCreated(aggregateId, 1, { name: 'elon', email: 'musk@x.com' })
-    const event2 = UserNameUpdated(aggregateId, 2, { name: 'Donald' })
-    const event3 = UserCreated(randomUUID(), 1, { name: 'Donald', email: 'potus@x.com' })
+    const event = UserCreated(aggregateId, { name: 'elon', email: 'musk@x.com' })
+    const event2 = UserNameUpdated(aggregateId, { name: 'Donald' })
+    const event3 = UserCreated(randomUUID(), { name: 'Donald', email: 'potus@x.com' })
 
     await eventStore.store(event)
     await eventStore.store(event2)

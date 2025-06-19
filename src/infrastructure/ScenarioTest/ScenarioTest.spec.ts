@@ -52,28 +52,28 @@ describe('scenario test', () => {
           CreateUser(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .then(
-          UserCreated(id, 1, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
     })
 
     it('should have published the update command, as an event, in the then step', async () => {
       await scenarioTest
         .given(
-          UserCreated(id, 1, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .when(
           UpdateUserName(id, { name: 'Donald' }),
         )
         .then(
-          UserNameUpdated(id, 2, { name: 'Donald' }),
+          UserNameUpdated(id, { name: 'Donald' }),
         )
     })
 
     it('should throw an error if the when is an command and then is not an event', async () => {
       await expect(scenarioTest
         .given(
-          UserCreated(id, 1, { name: 'Elon', email: 'musk@theboringcompany.com' }),
-          UserNameUpdated(id, 2, { name: 'Donald' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserNameUpdated(id, { name: 'Donald' }),
         )
         .when(
           UpdateUserName(id, { name: 'Donald' }),
@@ -85,13 +85,13 @@ describe('scenario test', () => {
     it('should throw an error when a command is given and then the expected event is not triggered', async () => {
       await expect(scenarioTest
         .given(
-          UserCreated(id, 1, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .when(
           UpdateUserName(id, { name: 'Donald' }),
         )
         .then(
-          UserNameUpdated(randomUUID(), 2, { name: 'Donald' }),
+          UserNameUpdated(randomUUID(), { name: 'Donald' }),
         ),
       ).rejects.toThrowError(`In the ScenarioTest, the expected then event (UserNameUpdated) was not triggered`)
     })
@@ -101,8 +101,8 @@ describe('scenario test', () => {
     it('should have executed the query with the expected result in the then step', async () => {
       await scenarioTest
         .given(
-          UserCreated(id, 1, { name: 'Elon', email: 'musk@theboringcompany.com' }),
-          UserNameUpdated(id, 2, { name: 'Donald' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserNameUpdated(id, { name: 'Donald' }),
         )
         .when(
           GetUserByEmail({ email: 'musk@theboringcompany.com' }),
@@ -122,17 +122,17 @@ describe('scenario test', () => {
     it('should have dispatched an event based on listening to an event', async () => {
       await scenarioTest
         .when(
-          UserCreated(id, 1, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .then(
-          UserRegistrationEmailSent(id, 1, { status: 'SUCCESS' }),
+          UserRegistrationEmailSent(id, { status: 'SUCCESS' }),
         )
     })
 
     it('should throw an error if the when is an event and then is not an event', async () => {
       await expect(scenarioTest
         .when(
-          UserCreated(id, 1, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .then([]),
       ).rejects.toThrowError('In the ScenarioTest, when triggering from event, then an event is expected')
@@ -141,10 +141,10 @@ describe('scenario test', () => {
     it('should throw an error if the when is an event and then is not found', async () => {
       await expect(scenarioTest
         .when(
-          UserCreated(id, 1, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .then(
-          UserRegistrationEmailSent(randomUUID(), 2, { status: 'SUCCESS' }),
+          UserRegistrationEmailSent(randomUUID(), { status: 'SUCCESS' }),
         ),
       ).rejects.toThrowError(`In the ScenarioTest, the expected then event (UserRegistrationEmailSent) was not triggered`)
     })
@@ -154,13 +154,13 @@ describe('scenario test', () => {
     it('should have dispatched an event based on listening to an event', async () => {
       await scenarioTest
         .given(
-          UserCreated(id, 1, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .when(
           ContractSigned({ userId: id, product: '1' }),
         )
         .then(
-          UserActivated(id, 2, { }),
+          UserActivated(id, { }),
         )
     })
 
@@ -173,10 +173,10 @@ describe('scenario test', () => {
           }),
         )
         .when(
-          UserCreated(id, 1, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
         )
         .then(
-          UserRegistrationEmailSent(id, 1, { status: 'SUCCESS' }),
+          UserRegistrationEmailSent(id, { status: 'SUCCESS' }),
         )
     })
   })
@@ -185,8 +185,8 @@ describe('scenario test', () => {
     it('should throw an error if no action (when-step) is provided', async () => {
       await expect(scenarioTest
         .given(
-          UserCreated(id, 1, { name: 'Elon', email: 'musk@theboringcompany.com' }),
-          UserNameUpdated(id, 2, { name: 'Donald' }),
+          UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
+          UserNameUpdated(id, { name: 'Donald' }),
         )
         .then([
           {
