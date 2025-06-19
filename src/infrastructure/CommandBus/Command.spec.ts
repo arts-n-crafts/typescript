@@ -34,6 +34,6 @@ describe('command', () => {
 
   it('should have a kind', () => {
     const command = UpdateUserName(aggregateId, payload, metadata)
-    expect(command.metadata.kind).toBe('command')
+    expect(command.kind).toBe('command')
   })
 })

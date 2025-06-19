@@ -7,11 +7,5 @@ export function isEvent<T = unknown>(event: unknown): event is BaseEvent<T> {
     return false
   if (!('type' in event))
     return false
-  if (!('metadata' in event))
-    return false
-  if (event.metadata === null)
-    return false
-  if (typeof event.metadata !== 'object')
-    return false
-  return 'source' in event.metadata
+  return 'source' in event
 }

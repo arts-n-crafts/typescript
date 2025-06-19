@@ -6,9 +6,9 @@ export function createIntegrationEvent<TPayload>(type: string, payload: TPayload
     id: randomUUID(),
     type,
     payload,
+    source: 'external',
     metadata: {
       ...metadata,
-      source: 'external',
       timestamp: new Date().toISOString(),
     },
   })

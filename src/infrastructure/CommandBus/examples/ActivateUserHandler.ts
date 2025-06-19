@@ -2,8 +2,9 @@ import type { IRepository } from '../../../domain'
 import type { User } from '../../../domain/AggregateRoot/examples/User'
 import type { Command } from '../Command'
 import type { ICommandHandler } from '../ICommandHandler'
+import type { ActivateUserProps } from './ActivateUser.ts'
 
-export class ActivateUserHandler implements ICommandHandler {
+export class ActivateUserHandler implements ICommandHandler<ActivateUserProps> {
   constructor(
     private readonly repository: IRepository<User>,
   ) {}

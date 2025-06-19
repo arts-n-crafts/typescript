@@ -16,8 +16,8 @@ export interface IntegrationEventMetadata
  */
 export interface IntegrationEvent<T = object>
   extends Omit<BaseEvent<T>, 'metadata'> {
+  source: 'external'
   metadata: {
-    source: 'external'
     timestamp: string
   } & Partial<IntegrationEventMetadata>
 }

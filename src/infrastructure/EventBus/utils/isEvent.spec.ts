@@ -11,8 +11,8 @@ describe('isEvent util', () => {
       id: '123',
       type: 'TestEvent',
       payload: {},
+      source: 'internal',
       metadata: {
-        source: 'internal',
         timestamp: new Date().toISOString(),
       },
     }
@@ -27,8 +27,8 @@ describe('isEvent util', () => {
       input: {
         id: '123',
         payload: {},
+        source: 'internal',
         metadata: {
-          source: 'internal',
           timestamp: new Date().toISOString(),
         },
       },

@@ -17,8 +17,8 @@ export interface DomainEventMetadata
 export interface DomainEvent<TPayload = object>
   extends Omit<BaseEvent<TPayload>, 'metadata'> {
   aggregateId: string
+  source: 'internal'
   metadata: {
-    source: 'internal'
     timestamp: string
   } & Partial<DomainEventMetadata>
 }
