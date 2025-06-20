@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v2.0.0-0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.6.0...v2.0.0-0)
+
+### 🚀 Enhancements
+
+- Implement Decider interface ([1c0b8d9](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/1c0b8d9))
+- Implement decider, update accordingly and reorganize folder structure ([dbb093f](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/dbb093f))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v1.6.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.5.1...v1.6.0)
