@@ -1,7 +1,5 @@
-import type { Specification } from '../../domain/Specification/Specification'
-
 export interface Database {
-  query: <T>(tableName: string, query: Specification) => Promise<T[]>
+  query: <T>(tableName: string, query: Record<string, string>[]) => Promise<T[]>
   execute: (tableName: string, statement: Statement) => Promise<void>
 }
 

@@ -1,39 +1,36 @@
-import type { Module } from '../../../core/Module.interface'
-import type { ICommandBus } from '../../CommandBus/ICommandBus'
+import type { Module } from '../../../core'
+import type { UserEvent } from '../../../domain/examples/User.ts'
+import type { CommandBus } from '../../CommandBus/CommandBus.ts'
 import type { Database } from '../../Database/Database'
-import type { IEventBus } from '../../EventBus/IEventBus'
-import type { IEventStore } from '../../EventStore/IEventStore'
-import type { IQueryBus } from '../../QueryBus/IQueryBus'
-import { User } from '../../../domain/AggregateRoot/examples/User'
-import { ActivateUserHandler } from '../../CommandBus/examples/ActivateUserHandler'
-import { CreateUserHandler } from '../../CommandBus/examples/CreateUserHandler'
-import { UpdateUserNameHandler } from '../../CommandBus/examples/UpdateUserNameHandler'
+import type { EventBus } from '../../EventBus/EventBus.ts'
+import type { EventStore } from '../../EventStore/EventStore.ts'
+import type { QueryBus } from '../../QueryBus/QueryBus.ts'
+import { ActivateUserHandler } from '../../../core/examples/ActivateUserHandler.ts'
+import { ContractSignedHandler } from '../../../core/examples/ContractSignedHandler.ts'
+import { CreateUserHandler } from '../../../core/examples/CreateUserHandler.ts'
+import { GetUserByEmailHandler } from '../../../core/examples/GetUserByEmailHandler.ts'
+import { UpdateUserNameHandler } from '../../../core/examples/UpdateUserNameHandler.ts'
+import { UserCreatedEventHandler } from '../../../core/examples/UserCreatedEventHandler.ts'
+import { UserProjectionHandler } from '../../../core/examples/UserProjection.ts'
 import { InMemoryDatabase } from '../../Database/implementations/InMemoryDatabase'
-import { ContractSignedHandler } from '../../EventBus/examples/ContractSignedHandler'
-import { UserCreatedEventHandler } from '../../EventBus/examples/UserCreatedEventHandler'
-import { UserProjectionHandler } from '../../ProjectionHandler/examples/UserProjection'
-import { GetUserByEmailHandler } from '../../QueryBus/examples/GetUserByEmailHandler'
 import { UserRepository } from '../../Repository/examples/UserRepository'
 
 export class UserModule implements Module {
   private readonly repository: UserRepository
-  private readonly eventStore: IEventStore
-  private readonly eventBus: IEventBus
-  private readonly commandBus: ICommandBus
-  private readonly queryBus: IQueryBus
+
   private readonly database: Database
 
   constructor(
-    eventStore: IEventStore,
-    eventBus: IEventBus,
-    commandBus: ICommandBus,
-    queryBus: IQueryBus,
+    private readonly eventStore: EventStore<UserEvent>,
+    private readonly eventBus: EventBus<UserEvent>,
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
   ) {
     this.eventStore = eventStore
     this.eventBus = eventBus
     this.commandBus = commandBus
     this.queryBus = queryBus
-    this.repository = new UserRepository(eventStore, User)
+    this.repository = new UserRepository(eventStore)
     this.database = new InMemoryDatabase()
   }
 

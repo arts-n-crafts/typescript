@@ -1,17 +1,14 @@
-import type { DomainEvent } from '../../domain'
-import type { Command } from '../CommandBus/Command'
-import type { ICommandBus } from '../CommandBus/ICommandBus'
-import type { BaseEvent } from '../EventBus/BaseEvent'
-import type { IEventBus } from '../EventBus/IEventBus'
-import type { IEventStore } from '../EventStore/IEventStore'
-import type { IQueryBus } from '../QueryBus/IQueryBus'
-import type { Query } from '../QueryBus/Query'
-import { isDomainEvent } from '../../domain/DomainEvent/utils/isDomainEvent'
-import { isCommand } from '../CommandBus/utils/isCommand'
-import { isEvent } from '../EventBus/utils/isEvent'
-import { isQuery } from '../QueryBus/utils/isQuery'
+import type { Command, DomainEvent, Query } from '../../domain'
+import type { BaseEvent } from '../../domain/BaseEvent.ts'
+import type { UserEvent } from '../../domain/examples/User.ts'
+import type { CommandBus } from '../CommandBus/CommandBus.ts'
+import type { EventBus } from '../EventBus/EventBus.ts'
+import type { IntegrationEvent } from '../EventBus/IntegrationEvent.ts'
+import type { EventStore } from '../EventStore/EventStore.ts'
+import type { QueryBus } from '../QueryBus/QueryBus.ts'
+import { isCommand, isDomainEvent, isEvent, isQuery } from '../../domain'
 
-type GivenInput = BaseEvent[]
+type GivenInput = (DomainEvent<any> | IntegrationEvent<any>)[]
 type WhenInput = Command<string, unknown> | Query | BaseEvent
 type ThenInput = BaseEvent | Record<string, unknown>[]
 
@@ -20,10 +17,10 @@ export class ScenarioTest {
   private action: WhenInput | undefined
 
   constructor(
-    private readonly eventStore: IEventStore,
-    private readonly eventBus: IEventBus,
-    private readonly commandBus: ICommandBus,
-    private readonly queryBus: IQueryBus,
+    private readonly eventStore: EventStore<UserEvent>,
+    private readonly eventBus: EventBus<UserEvent>,
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
   ) {}
 
   given(...events: GivenInput): ScenarioTest {
@@ -40,7 +37,8 @@ export class ScenarioTest {
     await Promise.all(this.events.map(async (event) => {
       if (this.isDomainEvent(event))
         return this.eventStore.store(event)
-      return this.eventBus.publish(event)
+      // eslint-disable-next-line ts/no-unsafe-argument
+      return this.eventBus.publish(event as any)
     }))
 
     if (!this.action) {
@@ -60,7 +58,7 @@ export class ScenarioTest {
     }
   }
 
-  private isDomainEvent(candidate: WhenInput | ThenInput): candidate is DomainEvent {
+  private isDomainEvent(candidate: WhenInput | ThenInput): candidate is DomainEvent<any> {
     return isEvent(candidate) && isDomainEvent(candidate)
   }
 
@@ -91,7 +89,8 @@ export class ScenarioTest {
   }
 
   private async handleEvent(event: BaseEvent, outcome: ThenInput) {
-    await this.eventBus.publish(event)
+    // eslint-disable-next-line ts/no-unsafe-argument
+    await this.eventBus.publish(event as any)
     if (!this.isDomainEvent(outcome)) {
       throw new TypeError(`In the ScenarioTest, when triggering from event, then an event is expected`)
     }

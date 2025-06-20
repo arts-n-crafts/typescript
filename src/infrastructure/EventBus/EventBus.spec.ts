@@ -1,28 +1,30 @@
-import type { UserCreatedPayload } from '../../domain/DomainEvent/examples/UserCreated'
-import type { IEventStore } from '../EventStore/IEventStore'
+import type { UserEvent } from '../../domain/examples/User.ts'
+import type { UserCreatedPayload } from '../../domain/examples/UserCreated.ts'
+import type { EventStore } from '../EventStore/EventStore.ts'
+import type { EventBus } from './EventBus.ts'
 import { randomUUID } from 'node:crypto'
-import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
-import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
-import { EventBus } from './EventBus'
-import { UserCreatedEventHandler } from './examples/UserCreatedEventHandler'
+import { UserCreatedEventHandler } from '../../core/examples/UserCreatedEventHandler.ts'
+import { UserCreated } from '../../domain/examples/UserCreated.ts'
+import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore.ts'
+import { InMemoryEventBus } from './implementations/InMemoryEventBus.ts'
 
 describe('eventBus', () => {
-  let eventBus: EventBus
-  let eventStore: IEventStore
+  let eventBus: EventBus<UserEvent>
+  let eventStore: EventStore<UserEvent>
   let handler: UserCreatedEventHandler
   let aggregateId: string
   let payload: UserCreatedPayload
 
   beforeEach(() => {
-    eventBus = new EventBus()
-    eventStore = new InMemoryEventStore(eventBus)
+    eventBus = new InMemoryEventBus<UserEvent>()
+    eventStore = new InMemoryEventStore<UserEvent>(eventBus)
     handler = new UserCreatedEventHandler(eventStore)
     aggregateId = randomUUID()
     payload = { name: 'test', email: 'musk@x.com', prospect: true }
   })
 
   it('should be defined', () => {
-    expect(EventBus).toBeDefined()
+    expect(InMemoryEventBus).toBeDefined()
   })
 
   it('should be able subscribe to events', () => {

@@ -1,8 +1,8 @@
-import type { IRepository } from '../../../domain'
-import type { User } from '../../../domain/AggregateRoot/examples/User'
+import type { Repository } from '../../../domain'
+import type { UserEvent } from '../../../domain/examples/User.ts'
 import { InMemoryRepository } from '../implementations/InMemoryRepository'
 
 export class UserRepository
-  extends InMemoryRepository<User, User['props']>
-  implements IRepository<User> {
+  extends InMemoryRepository<UserEvent>
+  implements Repository<UserEvent> {
 }

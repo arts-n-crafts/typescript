@@ -1,41 +1,40 @@
 import type { UUID } from 'node:crypto'
-import type { IRepository } from '../../domain'
-import type { UserNameUpdated } from '../../domain/DomainEvent/examples/UserNameUpdated'
-import type { IEventStore } from '../EventStore/IEventStore'
+import type { Repository } from '../../domain'
+import type { UserEvent } from '../../domain/examples/User.ts'
+import type { UserNameUpdated } from '../../domain/examples/UserNameUpdated.ts'
 import { randomUUID } from 'node:crypto'
-import { User } from '../../domain/AggregateRoot/examples/User'
-import { EventBus } from '../EventBus/EventBus'
-import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
-import { UserRepository } from '../Repository/examples/UserRepository'
-import { CommandBus } from './CommandBus'
-import { CreateUser } from './examples/CreateUser'
-import { CreateUserHandler } from './examples/CreateUserHandler'
-import { UpdateUserName } from './examples/UpdateUserName'
-import { UpdateUserNameHandler } from './examples/UpdateUserNameHandler'
+import { CreateUserHandler } from '../../core/examples/CreateUserHandler.ts'
+import { UpdateUserNameHandler } from '../../core/examples/UpdateUserNameHandler.ts'
+import { CreateUser } from '../../domain/examples/CreateUser.ts'
+import { UpdateUserName } from '../../domain/examples/UpdateUserName.ts'
+import { InMemoryCommandBus } from './implementations/InMemoryCommandBus.ts'
 
 describe('commandBus', () => {
   let id: UUID
-  let eventBus: EventBus
-  let eventStore: IEventStore
-  let repository: IRepository<User>
-  let commandBus: CommandBus
+  let events: UserEvent[] = []
+  const repository: Repository<UserEvent> = {
+    async load() {
+      return events
+    },
+    async store(e) {
+      events = [...events, ...e]
+    },
+  }
+  let commandBus: InMemoryCommandBus
   let handler: UpdateUserNameHandler
 
   beforeEach(async () => {
     id = randomUUID()
-    eventBus = new EventBus()
-    eventStore = new InMemoryEventStore(eventBus)
-    repository = new UserRepository(eventStore, User)
-    commandBus = new CommandBus()
+    commandBus = new InMemoryCommandBus()
     handler = new UpdateUserNameHandler(repository)
-
+    events = []
     const createUserHandler = new CreateUserHandler(repository)
     const command = CreateUser(id, { name: 'Elon', email: 'musk@x.com', age: 52 })
     await createUserHandler.execute(command)
   })
 
   it('should be defined', () => {
-    expect(CommandBus).toBeDefined()
+    expect(InMemoryCommandBus).toBeDefined()
   })
 
   it('should register a command handler', () => {
@@ -48,7 +47,6 @@ describe('commandBus', () => {
     const command = UpdateUserName(id, { name: 'test' }, { timestamp: new Date() })
     await commandBus.execute(command)
 
-    const events = await eventStore.loadEvents(id)
     const event = events.at(-1) as ReturnType<typeof UserNameUpdated>
     expect(events).toHaveLength(2)
     expect(event.payload.name).toBe('test')

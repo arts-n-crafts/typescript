@@ -1,26 +1,19 @@
-import type { DomainEvent } from '../../../domain'
-import type { IAggregateRoot } from '../../../domain/AggregateRoot/IAggregateRoot'
-import type { IAggregateRootFactory } from '../../../domain/AggregateRoot/IAggregateRootFactory'
-import type { IRepository } from '../../../domain/Repository/IRepository'
-import type { IEventStore } from '../../EventStore/IEventStore'
+import type { Repository } from '../../../domain'
+import type { EventStore } from '../../EventStore/EventStore.ts'
 
-export class InMemoryRepository<TAggregate extends IAggregateRoot, TProps extends object> implements IRepository<TAggregate> {
+export class InMemoryRepository<TEvent> implements Repository<TEvent> {
   constructor(
-    protected readonly eventStore: IEventStore,
-    protected readonly aggregateRootFactory: IAggregateRootFactory<TAggregate, TProps>,
-  ) { }
-
-  async load(aggregateId: string): Promise<TAggregate> {
-    const events = await this.eventStore.loadEvents(aggregateId)
-    return this.aggregateRootFactory.fromEvents(aggregateId, events)
+    protected readonly eventStore: EventStore<TEvent>,
+  ) {
   }
 
-  async store(aggregate: IAggregateRoot): Promise<void> {
-    await Promise.all(
-      aggregate.uncommittedEvents.map(
-        async (event: DomainEvent) => this.eventStore.store(event),
-      ),
-    )
-    aggregate.markEventsCommitted()
+  async load(aggregateId: string) {
+    return this.eventStore.loadEvents(aggregateId)
+  }
+
+  async store(events: TEvent[]): Promise<void> {
+    await Promise.all(events.map(async (event) => {
+      return this.eventStore.store(event)
+    }))
   }
 }

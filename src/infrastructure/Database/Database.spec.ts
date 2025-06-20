@@ -1,5 +1,4 @@
 import { randomUUID } from 'node:crypto'
-import { UserByUsernameSpecification } from '../../domain/Specification/examples/UserByUsernameSpecification'
 import { Operation } from './Database'
 import { InMemoryDatabase } from './implementations/InMemoryDatabase'
 import { DuplicateRecordException, OperationNotSupported, RecordNotFoundException, TableDoesNotExistException } from './implementations/InMemoryDatabase.exceptions'
@@ -19,19 +18,16 @@ describe('database', () => {
     expect(InMemoryDatabase).toBeDefined()
   })
 
-  describe('sELECT', () => {
+  describe('select', () => {
     it('should return TableDoesNotExistException if the table does not exist', async () => {
-      const spec = new UserByUsernameSpecification(user.name)
-      const query = database.query('nonexistent', spec)
+      const query = database.query('nonexistent', [{ name: user.name }])
       await expect(query).rejects.toBeInstanceOf(TableDoesNotExistException)
     })
   })
 
-  describe('cREATE', () => {
+  describe('create', () => {
     it('should have executed the CREATE statement', async () => {
-      const spec = new UserByUsernameSpecification(user.name)
-
-      const query = database.query(store, spec)
+      const query = database.query(store, [{ name: user.name }])
       await expect(query).resolves.toEqual([user])
     })
 
@@ -44,14 +40,11 @@ describe('database', () => {
     })
   })
 
-  describe('uPDATE', () => {
+  describe('update', () => {
     it('should execute the UPDATE statement', async () => {
       const updatedUser = { id: user.id, name: 'Jane Doe' }
-      const spec = new UserByUsernameSpecification(updatedUser.name)
-
       await database.execute(store, { operation: Operation.UPDATE, payload: updatedUser })
-
-      const query = database.query(store, spec)
+      const query = database.query(store, [{ name: updatedUser.name }])
       await expect(query).resolves.toEqual([updatedUser])
     })
 
@@ -64,13 +57,11 @@ describe('database', () => {
     })
   })
 
-  describe('dELETE', () => {
+  describe('delete', () => {
     it('should executed the DELETE statement', async () => {
-      const spec = new UserByUsernameSpecification(user.name)
-
       await database.execute(store, { operation: Operation.DELETE, payload: user })
 
-      const query = database.query(store, spec)
+      const query = database.query(store, [{ name: user.name }])
       await expect(query).resolves.toEqual([])
     })
 
@@ -83,7 +74,7 @@ describe('database', () => {
     })
   })
 
-  describe('oPERATION NOT SUPPORTED', () => {
+  describe('operation not supported', () => {
     it('should throw an error if the operation is not supported', async () => {
       const unsupportedOperation = { operation: 'unsupported' as Operation, payload: user }
 

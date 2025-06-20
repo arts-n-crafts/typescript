@@ -1,11 +1,11 @@
-import type { GetUserByEmailProps } from './examples/GetUserByEmail'
-import type { GetUserByEmailResult } from './examples/GetUserByEmailHandler'
+import type { GetUserByEmailResult } from '../../core/examples/GetUserByEmailHandler.ts'
+import type { GetUserByEmailProps } from '../../domain/examples/GetUserByEmail.ts'
 import { randomUUID } from 'node:crypto'
+import { GetUserByEmailHandler } from '../../core/examples/GetUserByEmailHandler.ts'
+import { GetUserByEmail } from '../../domain/examples/GetUserByEmail.ts'
 import { Operation } from '../Database/Database'
 import { InMemoryDatabase } from '../Database/implementations/InMemoryDatabase'
-import { GetUserByEmail } from './examples/GetUserByEmail'
-import { GetUserByEmailHandler } from './examples/GetUserByEmailHandler'
-import { QueryBus } from './QueryBus'
+import { InMemoryQueryBus } from './implementations/InMemoryQueryBus.ts'
 
 describe('queryBus', () => {
   const store = 'users'
@@ -21,18 +21,18 @@ describe('queryBus', () => {
   })
 
   it('should be defined', () => {
-    const bus = new QueryBus()
+    const bus = new InMemoryQueryBus()
     expect(bus).toBeDefined()
   })
 
   it('should be able to register a handler', () => {
-    const bus = new QueryBus()
+    const bus = new InMemoryQueryBus()
     const handler = new GetUserByEmailHandler(database)
     expect(bus.register('GetUserByEmail', handler)).toBeUndefined()
   })
 
   it('should throw an error if the query handler is already registered', () => {
-    const bus = new QueryBus()
+    const bus = new InMemoryQueryBus()
     const handler = new GetUserByEmailHandler(database)
 
     bus.register('GetUserByEmail', handler)
@@ -43,7 +43,7 @@ describe('queryBus', () => {
   it('should execute a query', async () => {
     const query = GetUserByEmail(payload)
     const handler = new GetUserByEmailHandler(database)
-    const bus = new QueryBus()
+    const bus = new InMemoryQueryBus()
     bus.register('GetUserByEmail', handler)
 
     const results = await bus.execute<GetUserByEmailResult[]>(query)
@@ -54,7 +54,7 @@ describe('queryBus', () => {
 
   it('should throw an error if the query handler is not registered', async () => {
     const query = GetUserByEmail(payload)
-    const bus = new QueryBus()
+    const bus = new InMemoryQueryBus()
     const promised = bus.execute(query)
     await expect(promised).rejects.toThrowError(`No handler found for query type: ${GetUserByEmail.name}`)
   })

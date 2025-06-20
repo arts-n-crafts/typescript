@@ -1,19 +1,6 @@
-import type { BaseEvent } from './BaseEvent'
-import type { IEventBus } from './IEventBus'
-import type { IEventHandler } from './IEventHandler'
+import type { EventHandler } from '../../core'
 
-export class EventBus implements IEventBus {
-  private handlers: Array<IEventHandler<any>> = []
-
-  subscribe(handler: IEventHandler<any>): void {
-    this.handlers.push(handler)
-  }
-
-  async publish(event: BaseEvent): Promise<void> {
-    await Promise.all(
-      this.handlers.map(
-        async handler => handler.handle(event),
-      ),
-    )
-  }
+export interface EventBus<TEvent> {
+  subscribe: (aHandler: EventHandler) => void
+  publish: (anEvent: TEvent) => Promise<void>
 }

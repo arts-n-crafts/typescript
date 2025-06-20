@@ -1,4 +1,3 @@
-import type { Specification } from '../../../domain/Specification/Specification'
 import type { Database, DatabaseRecord, Statement } from '../Database'
 import { Operation } from '../Database'
 import { DuplicateRecordException, OperationNotSupported, RecordNotFoundException, TableDoesNotExistException } from './InMemoryDatabase.exceptions'
@@ -6,12 +5,12 @@ import { DuplicateRecordException, OperationNotSupported, RecordNotFoundExceptio
 export class InMemoryDatabase implements Database {
   private readonly datasource = new Map<string, DatabaseRecord[]>()
 
-  async query<T>(tableName: string, spec: Specification): Promise<T[]> {
+  async query<T>(tableName: string, spec: Record<string, string>[]): Promise<T[]> {
     const data = this.datasource.get(tableName)
     if (!data)
       throw new TableDoesNotExistException(`Table ${tableName.toString()} not found`)
 
-    const entry = spec.toQuery()[0]
+    const entry = spec[0]
     const [key, value] = Object.entries(entry).flat()
 
     return data.filter((record: DatabaseRecord) => {

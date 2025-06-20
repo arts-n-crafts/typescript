@@ -1,37 +1,38 @@
-import type { ICommandBus } from '../CommandBus/ICommandBus'
-import type { IEventBus } from '../EventBus/IEventBus'
-import type { IEventStore } from '../EventStore/IEventStore'
-import type { IQueryBus } from '../QueryBus/IQueryBus'
+import type { UserEvent } from '../../domain/examples/User.ts'
+import type { CommandBus } from '../CommandBus/CommandBus.ts'
+import type { EventBus } from '../EventBus/EventBus.ts'
+import type { EventStore } from '../EventStore/EventStore.ts'
+import type { QueryBus } from '../QueryBus/QueryBus.ts'
 import { randomUUID } from 'node:crypto'
-import { UserActivated } from '../../domain/DomainEvent/examples/UserActivated'
-import { UserCreated } from '../../domain/DomainEvent/examples/UserCreated'
-import { UserNameUpdated } from '../../domain/DomainEvent/examples/UserNameUpdated'
-import { UserRegistrationEmailSent } from '../../domain/DomainEvent/examples/UserRegistrationEmailSent'
-import { CommandBus } from '../CommandBus/CommandBus'
-import { CreateUser } from '../CommandBus/examples/CreateUser'
-import { UpdateUserName } from '../CommandBus/examples/UpdateUserName'
-import { EventBus } from '../EventBus/EventBus'
+import { CreateUser } from '../../domain/examples/CreateUser.ts'
+import { GetUserByEmail } from '../../domain/examples/GetUserByEmail.ts'
+import { UpdateUserName } from '../../domain/examples/UpdateUserName.ts'
+import { UserActivated } from '../../domain/examples/UserActivated.ts'
+import { UserCreated } from '../../domain/examples/UserCreated.ts'
+import { UserNameUpdated } from '../../domain/examples/UserNameUpdated.ts'
+import { UserRegistrationEmailSent } from '../../domain/examples/UserRegistrationEmailSent.ts'
+import { InMemoryCommandBus } from '../CommandBus/implementations/InMemoryCommandBus.ts'
 import { ContractSigned } from '../EventBus/examples/ContractSigned'
 import { ProductCreated } from '../EventBus/examples/ProductCreated'
+import { InMemoryEventBus } from '../EventBus/implementations/InMemoryEventBus.ts'
 import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore'
-import { GetUserByEmail } from '../QueryBus/examples/GetUserByEmail'
-import { QueryBus } from '../QueryBus/QueryBus'
+import { InMemoryQueryBus } from '../QueryBus/implementations/InMemoryQueryBus.ts'
 import { UserModule } from './examples/User.module'
 import { ScenarioTest } from './ScenarioTest'
 
 describe('scenario test', () => {
   const id = randomUUID()
-  let eventStore: IEventStore
-  let eventBus: IEventBus
-  let commandBus: ICommandBus
-  let queryBus: IQueryBus
+  let eventStore: EventStore<UserEvent>
+  let eventBus: EventBus<UserEvent>
+  let commandBus: CommandBus
+  let queryBus: QueryBus
   let scenarioTest: ScenarioTest
 
   beforeEach(() => {
-    eventBus = new EventBus()
+    eventBus = new InMemoryEventBus()
     eventStore = new InMemoryEventStore(eventBus)
-    commandBus = new CommandBus()
-    queryBus = new QueryBus()
+    commandBus = new InMemoryCommandBus()
+    queryBus = new InMemoryQueryBus()
     scenarioTest = new ScenarioTest(
       eventStore,
       eventBus,
