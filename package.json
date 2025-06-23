@@ -2,6 +2,7 @@
   "name": "@jvhellemondt/arts-and-crafts.ts",
   "type": "module",
   "version": "2.0.0-0",
+  "private": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jvhellemondt/arts-and-crafts.ts.git"
@@ -9,7 +10,8 @@
   "main": "src/index.js",
   "module": "src/index.ts",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
   },
   "scripts": {
     "prepare": "husky",
