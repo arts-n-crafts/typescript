@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.0.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.0.0-0...v2.0.0)
+
+### 🏡 Chore
+
+- Make package public ([8cc0d84](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/8cc0d84))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v2.0.0-0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v1.6.0...v2.0.0-0)
