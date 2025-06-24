@@ -1,4 +1,4 @@
-import type { BaseEvent } from '../BaseEvent'
+import type { DomainEvent } from '../DomainEvent'
 import { isEvent } from './isEvent'
 
 describe('isEvent util', () => {
@@ -7,8 +7,9 @@ describe('isEvent util', () => {
   })
 
   it('should confirm that the candidate is a event', () => {
-    const event: BaseEvent = {
+    const event: DomainEvent<Record<string, unknown>> = {
       id: '123',
+      aggregateId: '456',
       type: 'TestEvent',
       payload: {},
       source: 'internal',

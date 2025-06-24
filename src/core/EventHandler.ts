@@ -1,5 +1,3 @@
-import type { BaseEvent } from '../domain/BaseEvent'
-
-export interface EventHandler<TEvent = BaseEvent> {
+export interface EventHandler<TEvent> {
   handle: (anEvent: TEvent) => Promise<void>
 }

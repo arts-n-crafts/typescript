@@ -1,7 +1,8 @@
-import type { BaseEvent, BaseEventMetadata } from '../../domain/BaseEvent'
-
-export interface IntegrationEventMetadata
-  extends BaseEventMetadata { }
+export interface IntegrationEventMetadata {
+  correlationId?: string
+  causationId?: string
+  [key: string]: unknown
+}
 
 /**
  * IntegrationEvent represents an event coming from an external source.
@@ -14,9 +15,11 @@ export interface IntegrationEventMetadata
  *
  * These helpers ensure correct typing, structure, and metadata assignment.
  */
-export interface IntegrationEvent<T = object>
-  extends Omit<BaseEvent<T>, 'metadata'> {
+export interface IntegrationEvent<TPayload> {
+  id: string
+  type: string
   source: 'external'
+  payload: TPayload
   metadata: {
     timestamp: string
   } & Partial<IntegrationEventMetadata>

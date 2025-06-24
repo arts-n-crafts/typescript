@@ -1,4 +1,3 @@
-import type { BaseEvent } from '../../domain/BaseEvent'
 import type { UserEvent } from '../../domain/examples/User'
 import type { UserCreatedPayload } from '../../domain/examples/UserCreated'
 import type { UserNameUpdatedPayload } from '../../domain/examples/UserNameUpdated'
@@ -17,7 +16,7 @@ export class UserProjectionHandler implements ProjectionHandler<UserEvent> {
     this.eventBus.subscribe(this)
   }
 
-  async handle(anEvent: BaseEvent): Promise<void> {
+  async handle(anEvent: unknown): Promise<void> {
     if (isDomainEvent(anEvent) && anEvent.type === 'UserCreated') {
       const user = { id: anEvent.aggregateId, ...(anEvent.payload as UserCreatedPayload) }
       await this.database.execute('users', { operation: Operation.CREATE, payload: user })

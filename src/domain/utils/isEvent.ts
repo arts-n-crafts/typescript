@@ -1,6 +1,9 @@
-import type { BaseEvent } from '../BaseEvent'
+interface Event {
+  type: string
+  source: string
+}
 
-export function isEvent<T = unknown>(event: unknown): event is BaseEvent<T> {
+export function isEvent(event: unknown): event is Event {
   if (typeof event !== 'object')
     return false
   if (event === null)
