@@ -1,13 +1,13 @@
 import type { UUID } from 'node:crypto'
 import type { Repository } from '../../domain'
-import type { UserEvent } from '../../domain/examples/User.ts'
-import type { UserNameUpdated } from '../../domain/examples/UserNameUpdated.ts'
+import type { UserEvent } from '../../domain/examples/User'
+import type { UserNameUpdated } from '../../domain/examples/UserNameUpdated'
 import { randomUUID } from 'node:crypto'
-import { CreateUserHandler } from '../../core/examples/CreateUserHandler.ts'
-import { UpdateUserNameHandler } from '../../core/examples/UpdateUserNameHandler.ts'
-import { CreateUser } from '../../domain/examples/CreateUser.ts'
-import { UpdateUserName } from '../../domain/examples/UpdateUserName.ts'
-import { InMemoryCommandBus } from './implementations/InMemoryCommandBus.ts'
+import { CreateUserHandler } from '../../core/examples/CreateUserHandler'
+import { UpdateUserNameHandler } from '../../core/examples/UpdateUserNameHandler'
+import { CreateUser } from '../../domain/examples/CreateUser'
+import { UpdateUserName } from '../../domain/examples/UpdateUserName'
+import { InMemoryCommandBus } from './implementations/InMemoryCommandBus'
 
 describe('commandBus', () => {
   let id: UUID

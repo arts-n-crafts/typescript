@@ -1,13 +1,13 @@
-import type { UserEvent } from './User.ts'
+import type { UserEvent } from './User'
 import { randomUUID } from 'node:crypto'
 import { beforeEach } from 'vitest'
-import { ActivateUser } from './ActivateUser.ts'
-import { CreateUser } from './CreateUser.ts'
-import { UpdateUserName } from './UpdateUserName.ts'
-import { User } from './User.ts'
-import { UserActivated } from './UserActivated.ts'
-import { UserCreated } from './UserCreated.ts'
-import { UserNameUpdated } from './UserNameUpdated.ts'
+import { ActivateUser } from './ActivateUser'
+import { CreateUser } from './CreateUser'
+import { UpdateUserName } from './UpdateUserName'
+import { User } from './User'
+import { UserActivated } from './UserActivated'
+import { UserCreated } from './UserCreated'
+import { UserNameUpdated } from './UserNameUpdated'
 
 describe('user decider', () => {
   let pastEvents: UserEvent[]

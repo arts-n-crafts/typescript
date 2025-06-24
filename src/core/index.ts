@@ -1,8 +1,8 @@
-export * from './CommandHandler.ts'
-export * from './EventHandler.ts'
+export * from './CommandHandler'
+export * from './EventHandler'
 export * from './Module.interface'
-export * from './ProjectionHandler.ts'
-export * from './QueryHandler.ts'
+export * from './ProjectionHandler'
+export * from './QueryHandler'
 
 export * from './types/FilledArray'
 export * from './types/Maybe'

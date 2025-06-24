@@ -1,5 +1,5 @@
 import type { EventHandler } from '../../../core'
-import type { EventBus } from '../EventBus.ts'
+import type { EventBus } from '../EventBus'
 
 export class InMemoryEventBus<TEvent> implements EventBus<TEvent> {
   private handlers: Array<EventHandler<any>> = []

@@ -1,8 +1,8 @@
 import type { UUID } from 'node:crypto'
-import type { Command, CommandMetadata } from './Command.ts'
-import type { UpdateUserNameProps } from './examples/UpdateUserName.ts'
+import type { Command, CommandMetadata } from './Command'
+import type { UpdateUserNameProps } from './examples/UpdateUserName'
 import { randomUUID } from 'node:crypto'
-import { UpdateUserName } from './examples/UpdateUserName.ts'
+import { UpdateUserName } from './examples/UpdateUserName'
 
 describe('command', () => {
   let aggregateId: UUID

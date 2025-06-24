@@ -1,6 +1,6 @@
 import type { CommandHandler, CommandHandlerResult } from '../../../core'
 import type { Command } from '../../../domain'
-import type { CommandBus } from '../CommandBus.ts'
+import type { CommandBus } from '../CommandBus'
 
 export class InMemoryCommandBus implements CommandBus {
   private handlers: Map<string, CommandHandler<any, any>> = new Map()

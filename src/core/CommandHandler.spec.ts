@@ -1,12 +1,12 @@
 import type { Repository } from '../domain'
-import type { CreateUserProps } from '../domain/examples/CreateUser.ts'
-import type { UserEvent } from '../domain/examples/User.ts'
+import type { CreateUserProps } from '../domain/examples/CreateUser'
+import type { UserEvent } from '../domain/examples/User'
 import { randomUUID } from 'node:crypto'
 import { isDomainEvent } from '../domain'
-import { CreateUser } from '../domain/examples/CreateUser.ts'
-import { UpdateUserName } from '../domain/examples/UpdateUserName.ts'
-import { CreateUserHandler } from './examples/CreateUserHandler.ts'
-import { UpdateUserNameHandler } from './examples/UpdateUserNameHandler.ts'
+import { CreateUser } from '../domain/examples/CreateUser'
+import { UpdateUserName } from '../domain/examples/UpdateUserName'
+import { CreateUserHandler } from './examples/CreateUserHandler'
+import { UpdateUserNameHandler } from './examples/UpdateUserNameHandler'
 
 describe('commandHandler', async () => {
   let events: UserEvent[] = []

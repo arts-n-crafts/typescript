@@ -1,4 +1,4 @@
-import type { Query } from '../Query.ts'
+import type { Query } from '../Query'
 
 export function isQuery(candidate: unknown): candidate is Query<unknown> {
   if (candidate === null)

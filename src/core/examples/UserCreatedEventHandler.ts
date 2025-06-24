@@ -1,11 +1,11 @@
 import type { DomainEvent } from '../../domain'
-import type { BaseEvent } from '../../domain/BaseEvent.ts'
-import type { UserEvent } from '../../domain/examples/User.ts'
-import type { UserCreatedPayload } from '../../domain/examples/UserCreated.ts'
+import type { BaseEvent } from '../../domain/BaseEvent'
+import type { UserEvent } from '../../domain/examples/User'
+import type { UserCreatedPayload } from '../../domain/examples/UserCreated'
 import type { EventStore } from '../../infrastructure'
-import type { EventHandler } from '../EventHandler.ts'
+import type { EventHandler } from '../EventHandler'
 import { isDomainEvent } from '../../domain'
-import { UserRegistrationEmailSent } from '../../domain/examples/UserRegistrationEmailSent.ts'
+import { UserRegistrationEmailSent } from '../../domain/examples/UserRegistrationEmailSent'
 
 export class UserCreatedEventHandler implements EventHandler {
   constructor(

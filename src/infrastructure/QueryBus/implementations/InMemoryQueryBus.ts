@@ -1,6 +1,6 @@
 import type { QueryHandler } from '../../../core'
 import type { Query } from '../../../domain'
-import type { QueryBus } from '../QueryBus.ts'
+import type { QueryBus } from '../QueryBus'
 
 export class InMemoryQueryBus implements QueryBus {
   private handlers: Map<string, QueryHandler<any, any>> = new Map()

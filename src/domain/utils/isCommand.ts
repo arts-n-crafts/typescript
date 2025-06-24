@@ -1,4 +1,4 @@
-import type { Command } from '../Command.ts'
+import type { Command } from '../Command'
 
 export function isCommand(candidate: unknown): candidate is Command<string, unknown> {
   if (candidate === null)

@@ -1,10 +1,10 @@
-import type { UserEvent } from '../../domain/examples/User.ts'
-import type { EventBus } from '../EventBus/EventBus.ts'
-import type { EventStore } from './EventStore.ts'
+import type { UserEvent } from '../../domain/examples/User'
+import type { EventBus } from '../EventBus/EventBus'
+import type { EventStore } from './EventStore'
 import { randomUUID } from 'node:crypto'
-import { UserCreated } from '../../domain/examples/UserCreated.ts'
-import { UserNameUpdated } from '../../domain/examples/UserNameUpdated.ts'
-import { InMemoryEventBus } from '../EventBus/implementations/InMemoryEventBus.ts'
+import { UserCreated } from '../../domain/examples/UserCreated'
+import { UserNameUpdated } from '../../domain/examples/UserNameUpdated'
+import { InMemoryEventBus } from '../EventBus/implementations/InMemoryEventBus'
 import { InMemoryEventStore } from './implementations/InMemoryEventStore'
 
 describe('inMemoryEventStore', () => {

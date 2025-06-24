@@ -1,8 +1,8 @@
 import type { Command, Repository } from '../../domain'
-import type { CreateUserProps } from '../../domain/examples/CreateUser.ts'
-import type { UserEvent } from '../../domain/examples/User.ts'
-import type { CommandHandler } from '../CommandHandler.ts'
-import { User } from '../../domain/examples/User.ts'
+import type { CreateUserProps } from '../../domain/examples/CreateUser'
+import type { UserEvent } from '../../domain/examples/User'
+import type { CommandHandler } from '../CommandHandler'
+import { User } from '../../domain/examples/User'
 
 export class CreateUserHandler implements CommandHandler<'CreateUser', CreateUserProps> {
   constructor(

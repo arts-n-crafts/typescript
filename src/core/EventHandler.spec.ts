@@ -1,11 +1,11 @@
 import type { DomainEvent } from '../domain'
-import type { UserEvent } from '../domain/examples/User.ts'
-import type { UserCreatedPayload } from '../domain/examples/UserCreated.ts'
-import type { UserRegistrationEmailSentPayload } from '../domain/examples/UserRegistrationEmailSent.ts'
+import type { UserEvent } from '../domain/examples/User'
+import type { UserCreatedPayload } from '../domain/examples/UserCreated'
+import type { UserRegistrationEmailSentPayload } from '../domain/examples/UserRegistrationEmailSent'
 import type { EventStore } from '../infrastructure'
-import { UserCreated } from '../domain/examples/UserCreated.ts'
-import { ContractSignedHandler } from './examples/ContractSignedHandler.ts'
-import { UserCreatedEventHandler } from './examples/UserCreatedEventHandler.ts'
+import { UserCreated } from '../domain/examples/UserCreated'
+import { ContractSignedHandler } from './examples/ContractSignedHandler'
+import { UserCreatedEventHandler } from './examples/UserCreatedEventHandler'
 
 describe('eventHandler', () => {
   let events: UserEvent[] = []

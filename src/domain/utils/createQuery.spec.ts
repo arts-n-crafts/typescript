@@ -1,6 +1,6 @@
 /* eslint ts/no-unsafe-assignment: 0 */ // expect.objectContaining has any type, unfortunately
 
-import { createQuery } from './createQuery.ts'
+import { createQuery } from './createQuery'
 
 describe('createQuery util', () => {
   it('should be defined', () => {

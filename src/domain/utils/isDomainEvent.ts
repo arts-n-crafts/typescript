@@ -1,5 +1,5 @@
-import type { DomainEvent } from '../DomainEvent.ts'
-import { isEvent } from './isEvent.ts'
+import type { DomainEvent } from '../DomainEvent'
+import { isEvent } from './isEvent'
 
 export function isDomainEvent<T = unknown>(event: unknown): event is DomainEvent<T> {
   return isEvent(event)

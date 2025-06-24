@@ -1,5 +1,5 @@
-import type { EventBus } from '../../EventBus/EventBus.ts'
-import type { EventStore } from '../EventStore.ts'
+import type { EventBus } from '../../EventBus/EventBus'
+import type { EventStore } from '../EventStore'
 import { isDomainEvent } from '../../../domain'
 
 export class InMemoryEventStore<TEvent> implements EventStore<TEvent> {

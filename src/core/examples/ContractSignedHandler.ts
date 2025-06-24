@@ -1,8 +1,8 @@
-import type { BaseEvent } from '../../domain/BaseEvent.ts'
+import type { BaseEvent } from '../../domain/BaseEvent'
 import type { CommandBus, IntegrationEvent } from '../../infrastructure'
-import type { ContractSignedPayload } from '../../infrastructure/EventBus/examples/ContractSigned.ts'
-import type { EventHandler } from '../EventHandler.ts'
-import { ActivateUser } from '../../domain/examples/ActivateUser.ts'
+import type { ContractSignedPayload } from '../../infrastructure/EventBus/examples/ContractSigned'
+import type { EventHandler } from '../EventHandler'
+import { ActivateUser } from '../../domain/examples/ActivateUser'
 import { isIntegrationEvent } from '../../infrastructure'
 
 export class ContractSignedHandler implements EventHandler {

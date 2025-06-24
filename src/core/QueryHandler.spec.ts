@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto'
-import { GetUserByEmail } from '../domain/examples/GetUserByEmail.ts'
+import { GetUserByEmail } from '../domain/examples/GetUserByEmail'
 import { InMemoryDatabase, Operation } from '../infrastructure'
-import { GetUserByEmailHandler } from './examples/GetUserByEmailHandler.ts'
+import { GetUserByEmailHandler } from './examples/GetUserByEmailHandler'
 
 describe('queryHandler', () => {
   const store = 'users'

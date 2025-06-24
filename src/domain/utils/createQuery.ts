@@ -1,4 +1,4 @@
-import type { Query, QueryMetadata } from '../Query.ts'
+import type { Query, QueryMetadata } from '../Query'
 import { randomUUID } from 'node:crypto'
 
 export function createQuery<TPayload>(type: string, payload: TPayload, metadata?: Partial<QueryMetadata>): Query<TPayload> {

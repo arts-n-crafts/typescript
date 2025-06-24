@@ -1,13 +1,13 @@
-import type { DomainEventMetadata } from './DomainEvent.ts'
-import type { UserCreatedPayload } from './examples/UserCreated.ts'
-import type { UserNameUpdatedPayload } from './examples/UserNameUpdated.ts'
-import type { UserRegistrationEmailSentPayload } from './examples/UserRegistrationEmailSent.ts'
+import type { DomainEventMetadata } from './DomainEvent'
+import type { UserCreatedPayload } from './examples/UserCreated'
+import type { UserNameUpdatedPayload } from './examples/UserNameUpdated'
+import type { UserRegistrationEmailSentPayload } from './examples/UserRegistrationEmailSent'
 import { randomUUID } from 'node:crypto'
-import { UserCreated } from './examples/UserCreated.ts'
-import { UserNameUpdated } from './examples/UserNameUpdated.ts'
-import { UserRegistrationEmailSent } from './examples/UserRegistrationEmailSent.ts'
-import { createDomainEvent } from './utils/createDomainEvent.ts'
-import { isDomainEvent } from './utils/isDomainEvent.ts'
+import { UserCreated } from './examples/UserCreated'
+import { UserNameUpdated } from './examples/UserNameUpdated'
+import { UserRegistrationEmailSent } from './examples/UserRegistrationEmailSent'
+import { createDomainEvent } from './utils/createDomainEvent'
+import { isDomainEvent } from './utils/isDomainEvent'
 
 describe('domainEvent', () => {
   let aggregateId: string

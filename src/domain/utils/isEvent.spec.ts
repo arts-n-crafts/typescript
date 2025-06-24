@@ -1,5 +1,5 @@
-import type { BaseEvent } from '../BaseEvent.ts'
-import { isEvent } from './isEvent.ts'
+import type { BaseEvent } from '../BaseEvent'
+import { isEvent } from './isEvent'
 
 describe('isEvent util', () => {
   it('should be defined', () => {

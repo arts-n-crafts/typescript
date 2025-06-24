@@ -1,5 +1,5 @@
-import type { CommandMetadata } from '../Command.ts'
-import { createCommand } from '../utils/createCommand.ts'
+import type { CommandMetadata } from '../Command'
+import { createCommand } from '../utils/createCommand'
 
 export interface ActivateUserProps { }
 

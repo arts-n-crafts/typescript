@@ -1,12 +1,12 @@
 import type { UUID } from 'node:crypto'
-import type { UserEvent } from '../domain/examples/User.ts'
+import type { UserEvent } from '../domain/examples/User'
 import type { Database, EventBus } from '../infrastructure'
-import type { ProjectionHandler } from './ProjectionHandler.ts'
+import type { ProjectionHandler } from './ProjectionHandler'
 import { randomUUID } from 'node:crypto'
-import { UserCreated } from '../domain/examples/UserCreated.ts'
-import { UserNameUpdated } from '../domain/examples/UserNameUpdated.ts'
+import { UserCreated } from '../domain/examples/UserCreated'
+import { UserNameUpdated } from '../domain/examples/UserNameUpdated'
 import { InMemoryDatabase, InMemoryEventBus } from '../infrastructure'
-import { UserProjectionHandler } from './examples/UserProjection.ts'
+import { UserProjectionHandler } from './examples/UserProjection'
 
 describe('projectionHandler', () => {
   const id: UUID = randomUUID()

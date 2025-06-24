@@ -1,4 +1,4 @@
-import type { BaseEvent, BaseEventMetadata } from '../../domain/BaseEvent.ts'
+import type { BaseEvent, BaseEventMetadata } from '../../domain/BaseEvent'
 
 export interface IntegrationEventMetadata
   extends BaseEventMetadata { }
