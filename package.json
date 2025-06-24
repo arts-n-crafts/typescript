@@ -25,7 +25,7 @@
     "coverage": "NODE_ENV=test vitest --coverage",
     "typecheck": "tsc --noEmit",
     "release": "release-it",
-    "build": "tsc src/index.ts --outDir dist"
+    "build": "tsc src/index.ts --declaration --allowJs --emitDeclarationOnly --outDir dist"
   },
   "peerDependencies": {
     "typescript": "^5.8.3"

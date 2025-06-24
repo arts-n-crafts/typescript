@@ -18,27 +18,11 @@
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,
     "noUnusedParameters": false,
+
     "noEmit": true,
     "verbatimModuleSyntax": true,
-    "skipLibCheck": true,
-    
-    // TSC build
-    "declarationMap": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "dist"
+    "skipLibCheck": true
   },
-  "include": [
-    "src/**/*",
-    "vitest.config.ts",
-    "eslint.config.mjs",
-    "commitlint.config.ts"
-  ],
-  "exclude": [
-    "dist",
-    "coverage",
-    ".husky",
-    ".github",
-    "node_modules"
-  ]
+  "include": ["src/**/*", "vitest.config.ts", "eslint.config.mjs", "commitlint.config.ts"],
+  "exclude": ["dist", "coverage", ".husky", ".github", "node_modules"]
 }
