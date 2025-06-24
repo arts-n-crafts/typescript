@@ -43,12 +43,12 @@ describe('user decider', () => {
       })
     })
 
-    it('should not create the user if invalid initial state', () => {
+    it('should not create the user if not initial state (already registered)', () => {
       pastEvents = []
       const dirtyState = { id: 'abc-123', name: 'NotInitial', email: 'AlsoNotInitial', prospect: false }
       const currentState = pastEvents.reduce(User.evolve, dirtyState)
-
-      expect(() => User.decide(createCommand, currentState)).toThrow('Invalid User state: expected initial state during creation.')
+      const decision = User.decide(createCommand, currentState)
+      expect(decision).toHaveLength(0)
     })
   })
 

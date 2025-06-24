@@ -54,7 +54,9 @@ function evolveUserState(currentState: UserState, event: UserEvent): UserState {
 function decideUserState(command: UserCommand, currentState: UserState) {
   switch (command.type) {
     case 'CreateUser': {
-      invariant(isInitialState(currentState), fail(new UnexpectedUserState('expected initial state during creation')))
+      if (!isInitialState(currentState)) {
+        return []
+      }
       return [UserCreated(command.aggregateId, command.payload, command.metadata)]
     }
     case 'UpdateUserName': {
