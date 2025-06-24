@@ -34,7 +34,7 @@ export class UserModule implements Module {
     this.database = new InMemoryDatabase()
   }
 
-  registerModule() {
+  registerModule(): void {
     new UserProjectionHandler(this.eventBus, this.database).start()
     this.commandBus.register('CreateUser', new CreateUserHandler(this.repository))
     this.commandBus.register('UpdateUserName', new UpdateUserNameHandler(this.repository))

@@ -1,4 +1,4 @@
-import type { IntegrationEventMetadata } from '../IntegrationEvent'
+import type { IntegrationEvent, IntegrationEventMetadata } from '../IntegrationEvent'
 import { createIntegrationEvent } from '../utils/createIntegrationEvent'
 
 export interface ContractSignedPayload {
@@ -6,6 +6,6 @@ export interface ContractSignedPayload {
   product: '1' | '2' | '3'
 }
 
-export function ContractSigned(props: ContractSignedPayload, metadata?: Partial<IntegrationEventMetadata>) {
+export function ContractSigned(props: ContractSignedPayload, metadata?: Partial<IntegrationEventMetadata>): IntegrationEvent<ContractSignedPayload> {
   return createIntegrationEvent('ContractSigned', props, metadata)
 }

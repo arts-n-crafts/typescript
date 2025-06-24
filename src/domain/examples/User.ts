@@ -51,7 +51,7 @@ function evolveUserState(currentState: UserState, event: UserEvent): UserState {
   }
 }
 
-function decideUserState(command: UserCommand, currentState: UserState) {
+function decideUserState(command: UserCommand, currentState: UserState): UserEvent[] {
   switch (command.type) {
     case 'CreateUser': {
       if (!isInitialState(currentState)) {

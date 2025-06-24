@@ -17,17 +17,17 @@ describe('query', () => {
   })
 
   it('should create an instance', () => {
-    const query = GetUserByEmail(payload)
-    expect(query.type).toBe('GetUserByEmail')
+    const getUserByEmailQuery = GetUserByEmail(payload)
+    expect(getUserByEmailQuery.type).toBe('GetUserByEmail')
   })
 
   it('should contain the valid information', () => {
-    const query = GetUserByEmail(payload)
-    expect(query.payload.email).toBe('test')
+    const getUserByEmailQuery = GetUserByEmail(payload)
+    expect(getUserByEmailQuery.payload.email).toBe('test')
   })
 
   it('should have a type', () => {
-    const query = GetUserByEmail(payload)
-    expect(query.metadata.kind).toBe('query')
+    const getUserByEmailQuery = GetUserByEmail(payload)
+    expect(getUserByEmailQuery.metadata.kind).toBe('query')
   })
 })

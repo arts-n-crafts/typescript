@@ -3,17 +3,12 @@
     "target": "ESNext",
     "jsx": "react-jsx",
     // Enable latest features
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
+    "lib": ["ESNext", "DOM"],
     "moduleDetection": "force",
     "module": "ESNext",
     // Bundler mode
     "moduleResolution": "bundler",
-    "types": [
-      "vitest/globals"
-    ],
+    "types": ["vitest/globals"],
     "allowImportingTsExtensions": true,
     "allowJs": true,
     // Best practices
@@ -25,13 +20,25 @@
     "noUnusedParameters": false,
     "noEmit": true,
     "verbatimModuleSyntax": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    
+    // TSC build
+    "declarationMap": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist"
   },
   "include": [
-    "src"
+    "src/**/*",
+    "vitest.config.ts",
+    "eslint.config.mjs",
+    "commitlint.config.ts"
   ],
   "exclude": [
-    "node_modules",
-    "/*"
+    "dist",
+    "coverage",
+    ".husky",
+    ".github",
+    "node_modules"
   ]
 }

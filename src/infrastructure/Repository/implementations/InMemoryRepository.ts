@@ -7,7 +7,7 @@ export class InMemoryRepository<TEvent> implements Repository<TEvent> {
   ) {
   }
 
-  async load(aggregateId: string) {
+  async load(aggregateId: string): Promise<TEvent[]> {
     return this.eventStore.loadEvents(aggregateId)
   }
 

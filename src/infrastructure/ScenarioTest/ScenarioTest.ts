@@ -34,14 +34,24 @@ export class ScenarioTest {
     private readonly queryBus: QueryBus,
   ) {}
 
-  given(...events: GivenInput): ScenarioTest {
+  given(...events: GivenInput): {
+    when: (action: WhenInput) => ReturnType<ScenarioTest['when']>
+    then: (outcome: ThenInput) => Promise<void>
+  } {
     this.events = events
-    return this
+    return {
+      when: this.when.bind(this),
+      then: this.then.bind(this),
+    }
   }
 
-  when(action: WhenInput): ScenarioTest {
+  when(action: WhenInput): {
+    then: (outcome: ThenInput) => Promise<void>
+  } {
     this.action = action
-    return this
+    return {
+      then: this.then.bind(this),
+    }
   }
 
   async then(outcome: ThenInput): Promise<void> {
@@ -83,7 +93,7 @@ export class ScenarioTest {
     return isEvent(candidate) && isIntegrationEvent(candidate)
   }
 
-  private async handleCommand(command: Command<string, unknown>, outcome: ThenInput) {
+  private async handleCommand(command: Command<string, unknown>, outcome: ThenInput): Promise<void> {
     if (!this.isDomainEvent(outcome)) {
       throw new TypeError(
         `In the ScenarioTest, when triggering a command, then a domain event is expected`,
@@ -113,7 +123,7 @@ export class ScenarioTest {
     )
   }
 
-  private async handleQuery(query: Query, outcome: ThenInput) {
+  private async handleQuery(query: Query, outcome: ThenInput): Promise<void> {
     const queryResult = await this.queryBus.execute(query)
     invariant(
       isEqual(queryResult, outcome),
@@ -124,7 +134,7 @@ export class ScenarioTest {
   private async handleEvent(
     event: DomainEvent<unknown> & IntegrationEvent<unknown>,
     outcome: ThenInput,
-  ) {
+  ): Promise<void> {
     await this.eventBus.publish(event)
     if (!this.isDomainEvent(outcome)) {
       throw new TypeError(
