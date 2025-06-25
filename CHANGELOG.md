@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.1.2
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.1.1...v2.1.2)
+
+### 🏡 Chore
+
+- Update package exports ([9c4ad7b](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/9c4ad7b))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v2.1.1
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.1.0...v2.1.1)
