@@ -1,3 +1,3 @@
-export * from './fail/fail'
-export * from './invariant/invariant'
-export * from './isEqual/isEqual'
+export * from './fail/fail.ts'
+export * from './invariant/invariant.ts'
+export * from './isEqual/isEqual.ts'

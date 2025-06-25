@@ -1,8 +1,9 @@
-import type { Command, Repository } from '../../domain'
-import type { UpdateUserNameProps } from '../../domain/examples/UpdateUserName'
-import type { UserEvent } from '../../domain/examples/User'
-import type { CommandHandler, CommandHandlerResult } from '../CommandHandler'
-import { User } from '../../domain/examples/User'
+import type { CommandHandler, CommandHandlerResult } from '@core/CommandHandler.ts'
+import type { Command } from '@domain/Command.ts'
+import type { UpdateUserNameProps } from '@domain/examples/UpdateUserName.ts'
+import type { UserEvent } from '@domain/examples/User.ts'
+import type { Repository } from '@domain/Repository.ts'
+import { User } from '@domain/examples/User.ts'
 
 export class UpdateUserNameHandler implements CommandHandler<'UpdateUserName', UpdateUserNameProps> {
   constructor(

@@ -1,4 +1,4 @@
-import type { IntegrationEvent, IntegrationEventMetadata } from '../IntegrationEvent'
+import type { IntegrationEvent, IntegrationEventMetadata } from '../IntegrationEvent.ts'
 import { randomUUID } from 'node:crypto'
 
 export function createIntegrationEvent<TPayload>(type: string, payload: TPayload, metadata?: Partial<IntegrationEventMetadata>): IntegrationEvent<TPayload> {

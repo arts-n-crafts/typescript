@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto'
-import { Operation } from './Database'
-import { InMemoryDatabase } from './implementations/InMemoryDatabase'
-import { DuplicateRecordException, OperationNotSupported, RecordNotFoundException, TableDoesNotExistException } from './implementations/InMemoryDatabase.exceptions'
+import { Operation } from './Database.ts'
+import { DuplicateRecordException, OperationNotSupported, RecordNotFoundException, TableDoesNotExistException } from './implementations/InMemoryDatabase.exceptions.ts'
+import { InMemoryDatabase } from './implementations/InMemoryDatabase.ts'
 
 describe('database', () => {
   const store = 'users'

@@ -1,6 +1,6 @@
-import type { Database, DatabaseRecord, Statement } from '../Database'
-import { Operation } from '../Database'
-import { DuplicateRecordException, OperationNotSupported, RecordNotFoundException, TableDoesNotExistException } from './InMemoryDatabase.exceptions'
+import type { Database, DatabaseRecord, Statement } from '../Database.ts'
+import { Operation } from '../Database.ts'
+import { DuplicateRecordException, OperationNotSupported, RecordNotFoundException, TableDoesNotExistException } from './InMemoryDatabase.exceptions.ts'
 
 export class InMemoryDatabase implements Database {
   private readonly datasource = new Map<string, DatabaseRecord[]>()

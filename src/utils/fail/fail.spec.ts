@@ -1,4 +1,4 @@
-import { fail } from './fail'
+import { fail } from './fail.ts'
 
 describe('fail (with Error parameter)', () => {
   it('should throw the provided Error object', () => {

@@ -1,6 +1,6 @@
-import type { Repository } from '../../../domain'
-import type { UserEvent } from '../../../domain/examples/User'
-import { InMemoryRepository } from '../implementations/InMemoryRepository'
+import type { UserEvent } from '@domain/examples/User.ts'
+import type { Repository } from '@domain/Repository.ts'
+import { InMemoryRepository } from '../implementations/InMemoryRepository.ts'
 
 export class UserRepository
   extends InMemoryRepository<UserEvent>

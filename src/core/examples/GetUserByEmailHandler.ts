@@ -1,7 +1,7 @@
-import type { Query } from '../../domain'
-import type { GetUserByEmailProps } from '../../domain/examples/GetUserByEmail'
-import type { Database } from '../../infrastructure'
-import type { QueryHandler } from '../QueryHandler'
+import type { QueryHandler } from '@core/QueryHandler.ts'
+import type { GetUserByEmailProps } from '@domain/examples/GetUserByEmail.ts'
+import type { Query } from '@domain/Query.ts'
+import type { Database } from '@infrastructure/Database/Database.ts'
 
 export interface GetUserByEmailResult {
   id: string

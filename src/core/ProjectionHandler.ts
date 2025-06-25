@@ -1,4 +1,4 @@
-import type { EventHandler } from './EventHandler'
+import type { EventHandler } from '@core/EventHandler.ts'
 
 export interface ProjectionHandler<TEvent> extends EventHandler<TEvent> {
   start: () => void

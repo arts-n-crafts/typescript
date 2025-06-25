@@ -1,19 +1,20 @@
-import type { Command, DomainEvent, Query } from '../../domain'
-import type { UserEvent } from '../../domain/examples/User'
-import type { CommandBus } from '../CommandBus/CommandBus'
-import type { EventBus } from '../EventBus/EventBus'
-import type { IntegrationEvent } from '../EventBus/IntegrationEvent'
-import type { EventStore } from '../EventStore/EventStore'
-import type { QueryBus } from '../QueryBus/QueryBus'
-import {
-
-  isCommand,
-  isDomainEvent,
-  isEvent,
-  isQuery,
-} from '../../domain'
-import { fail, invariant, isEqual } from '../../utils'
-import { isIntegrationEvent } from '../EventBus/utils/isIntegrationEvent'
+import type { Command } from '@domain/Command.ts'
+import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { UserEvent } from '@domain/examples/User.ts'
+import type { Query } from '@domain/Query.ts'
+import type { CommandBus } from '../CommandBus/CommandBus.ts'
+import type { EventBus } from '../EventBus/EventBus.ts'
+import type { IntegrationEvent } from '../EventBus/IntegrationEvent.ts'
+import type { EventStore } from '../EventStore/EventStore.ts'
+import type { QueryBus } from '../QueryBus/QueryBus.ts'
+import { isCommand } from '@domain/utils/isCommand.ts'
+import { isDomainEvent } from '@domain/utils/isDomainEvent.ts'
+import { isEvent } from '@domain/utils/isEvent.ts'
+import { isQuery } from '@domain/utils/isQuery.ts'
+import { fail } from '@utils/fail/fail.js'
+import { invariant } from '@utils/invariant/invariant.js'
+import { isEqual } from '@utils/isEqual/isEqual.js'
+import { isIntegrationEvent } from '../EventBus/utils/isIntegrationEvent.ts'
 
 type GivenInput = (DomainEvent<unknown> | IntegrationEvent<unknown>)[]
 type WhenInput
@@ -58,8 +59,10 @@ export class ScenarioTest {
     await Promise.all(
       this.events.map(async (event) => {
         if (this.isDomainEvent(event))
+
         // eslint-disable-next-line ts/no-unsafe-argument
           return this.eventStore.store(event as any)
+
         // eslint-disable-next-line ts/no-unsafe-argument
         return this.eventBus.publish(event as any)
       }),

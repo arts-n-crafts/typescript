@@ -1,5 +1,5 @@
-import type { IntegrationEvent, IntegrationEventMetadata } from '../IntegrationEvent'
-import { createIntegrationEvent } from '../utils/createIntegrationEvent'
+import type { IntegrationEvent, IntegrationEventMetadata } from '../IntegrationEvent.ts'
+import { createIntegrationEvent } from '../utils/createIntegrationEvent.ts'
 
 export interface ContractSignedPayload {
   userId: string

@@ -1,8 +1,5 @@
 # .npmignore
 *
 
-!src/**/*
+!dist/**/*
 !package.json
-
-**/*.spec.ts
-**/examples/

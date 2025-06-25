@@ -1,5 +1,5 @@
-import type { DomainEvent, DomainEventMetadata } from '../DomainEvent'
-import { createDomainEvent } from '../utils/createDomainEvent'
+import type { DomainEvent, DomainEventMetadata } from '@domain/DomainEvent.ts'
+import { createDomainEvent } from '@domain/utils/createDomainEvent.ts'
 
 export interface UserActivatedPayload { }
 

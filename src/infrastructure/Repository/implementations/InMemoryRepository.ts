@@ -1,5 +1,5 @@
-import type { Repository } from '../../../domain'
-import type { EventStore } from '../../EventStore/EventStore'
+import type { Repository } from '@domain/Repository.ts'
+import type { EventStore } from '../../EventStore/EventStore.ts'
 
 export class InMemoryRepository<TEvent> implements Repository<TEvent> {
   constructor(

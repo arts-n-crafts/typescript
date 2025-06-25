@@ -1,5 +1,5 @@
-import type { Query, QueryMetadata } from '../Query'
-import { createQuery } from '../utils/createQuery'
+import type { Query, QueryMetadata } from '@domain/Query.ts'
+import { createQuery } from '@domain/utils/createQuery.ts'
 
 export interface GetUserByEmailProps {
   email: string

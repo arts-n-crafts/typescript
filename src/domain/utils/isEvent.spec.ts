@@ -1,5 +1,5 @@
-import type { DomainEvent } from '../DomainEvent'
-import { isEvent } from './isEvent'
+import type { DomainEvent } from '../DomainEvent.ts'
+import { isEvent } from './isEvent.ts'
 
 describe('isEvent util', () => {
   it('should be defined', () => {

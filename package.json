@@ -12,8 +12,16 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.cjs"
+    }
+  },
   "main": "src/index.ts",
   "module": "src/index.ts",
+  "files": ["dist"],
   "scripts": {
     "prepare": "husky",
     "commit": "cz",
@@ -25,13 +33,15 @@
     "coverage": "NODE_ENV=test vitest --coverage",
     "typecheck": "tsc --noEmit",
     "release": "release-it",
-    "build": "tsc src/index.ts --declaration --allowJs --emitDeclarationOnly --outDir dist"
+    "build": "tsup",
+    "check-exports": "attw --pack ."
   },
   "peerDependencies": {
     "typescript": "^5.8.3"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.16.1",
+    "@arethetypeswrong/cli": "^0.18.2",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.29.0",
@@ -48,11 +58,12 @@
     "husky": "^9.1.7",
     "release-it": "^19.0.3",
     "release-it-changelogen": "^0.1.0",
+    "tsup": "^8.5.0",
     "typescript-eslint": "^8.35.0",
+    "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
     "access": "public"
   }
 }

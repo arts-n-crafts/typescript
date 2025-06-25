@@ -5,9 +5,18 @@
     // Enable latest features
     "lib": ["ESNext", "DOM"],
     "moduleDetection": "force",
-    "module": "ESNext",
+
+    // Path
+    "baseUrl": "./src",
+    "module": "NodeNext",
     // Bundler mode
-    "moduleResolution": "bundler",
+    "moduleResolution": "NodeNext",
+    "paths": {
+      "@domain/*": ["domain/*"],
+      "@core/*": ["core/*"],
+      "@infrastructure/*": ["infrastructure/*"],
+      "@utils/*": ["utils/*"]
+    },
     "types": ["vitest/globals"],
     "allowImportingTsExtensions": true,
     "allowJs": true,
@@ -23,6 +32,6 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*", "vitest.config.ts", "eslint.config.mjs", "commitlint.config.ts"],
+  "include": ["src/**/*", "vitest.config.ts", "eslint.config.mjs", "commitlint.config.ts", "tsup.config.ts"],
   "exclude": ["dist", "coverage", ".husky", ".github", "node_modules"]
 }

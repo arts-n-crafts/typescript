@@ -1,11 +1,11 @@
-import type { ContractSignedPayload } from './examples/ContractSigned'
-import type { ProductCreatedPayload } from './examples/ProductCreated'
-import type { IntegrationEventMetadata } from './IntegrationEvent'
+import type { ContractSignedPayload } from './examples/ContractSigned.ts'
+import type { ProductCreatedPayload } from './examples/ProductCreated.ts'
+import type { IntegrationEventMetadata } from './IntegrationEvent.ts'
 import { randomUUID } from 'node:crypto'
-import { ContractSigned } from './examples/ContractSigned'
-import { ProductCreated } from './examples/ProductCreated'
-import { createIntegrationEvent } from './utils/createIntegrationEvent'
-import { isIntegrationEvent } from './utils/isIntegrationEvent'
+import { ContractSigned } from './examples/ContractSigned.ts'
+import { ProductCreated } from './examples/ProductCreated.ts'
+import { createIntegrationEvent } from './utils/createIntegrationEvent.ts'
+import { isIntegrationEvent } from './utils/isIntegrationEvent.ts'
 
 describe('integrationEvent', () => {
   let metadata: IntegrationEventMetadata

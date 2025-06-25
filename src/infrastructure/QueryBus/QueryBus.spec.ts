@@ -1,11 +1,11 @@
-import type { GetUserByEmailResult } from '../../core/examples/GetUserByEmailHandler'
-import type { GetUserByEmailProps } from '../../domain/examples/GetUserByEmail'
+import type { GetUserByEmailResult } from '@core/examples/GetUserByEmailHandler.ts'
+import type { GetUserByEmailProps } from '@domain/examples/GetUserByEmail.ts'
 import { randomUUID } from 'node:crypto'
-import { GetUserByEmailHandler } from '../../core/examples/GetUserByEmailHandler'
-import { GetUserByEmail } from '../../domain/examples/GetUserByEmail'
-import { Operation } from '../Database/Database'
-import { InMemoryDatabase } from '../Database/implementations/InMemoryDatabase'
-import { InMemoryQueryBus } from './implementations/InMemoryQueryBus'
+import { GetUserByEmailHandler } from '@core/examples/GetUserByEmailHandler.ts'
+import { GetUserByEmail } from '@domain/examples/GetUserByEmail.ts'
+import { Operation } from '../Database/Database.ts'
+import { InMemoryDatabase } from '../Database/implementations/InMemoryDatabase.ts'
+import { InMemoryQueryBus } from './implementations/InMemoryQueryBus.ts'
 
 describe('queryBus', () => {
   const store = 'users'

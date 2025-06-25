@@ -1,13 +1,13 @@
-import type { UserEvent } from './User'
+import type { UserEvent } from '@domain/examples/User.ts'
 import { randomUUID } from 'node:crypto'
+import { ActivateUser } from '@domain/examples/ActivateUser.ts'
+import { CreateUser } from '@domain/examples/CreateUser.ts'
+import { UpdateUserName } from '@domain/examples/UpdateUserName.ts'
+import { User } from '@domain/examples/User.ts'
+import { UserActivated } from '@domain/examples/UserActivated.ts'
+import { UserCreated } from '@domain/examples/UserCreated.ts'
+import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
 import { beforeEach } from 'vitest'
-import { ActivateUser } from './ActivateUser'
-import { CreateUser } from './CreateUser'
-import { UpdateUserName } from './UpdateUserName'
-import { User } from './User'
-import { UserActivated } from './UserActivated'
-import { UserCreated } from './UserCreated'
-import { UserNameUpdated } from './UserNameUpdated'
 
 describe('user decider', () => {
   let pastEvents: UserEvent[]
@@ -36,8 +36,10 @@ describe('user decider', () => {
       expect(decide).toHaveLength(1)
       expect(event).toStrictEqual({
         ...userCreated,
+        // eslint-disable-next-line ts/no-unsafe-assignment
         id: expect.any(String),
         metadata: {
+          // eslint-disable-next-line ts/no-unsafe-assignment
           timestamp: expect.any(String),
         },
       })
@@ -63,8 +65,10 @@ describe('user decider', () => {
       expect(decide).toHaveLength(1)
       expect(event).toStrictEqual({
         ...userNameUpdated,
+        // eslint-disable-next-line ts/no-unsafe-assignment
         id: expect.any(String),
         metadata: {
+          // eslint-disable-next-line ts/no-unsafe-assignment
           timestamp: expect.any(String),
         },
       })
@@ -77,6 +81,7 @@ describe('user decider', () => {
 
       expect(currentState).toStrictEqual({
         email: 'elon@x.com',
+        // eslint-disable-next-line ts/no-unsafe-assignment
         id: expect.any(String),
         name: 'Donald',
         prospect: true,
@@ -109,6 +114,7 @@ describe('user decider', () => {
 
       expect(currentState).toStrictEqual({
         email: 'elon@x.com',
+        // eslint-disable-next-line ts/no-unsafe-assignment
         id: expect.any(String),
         name: 'Elon',
         prospect: false,

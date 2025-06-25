@@ -1,6 +1,6 @@
-import type { EventBus } from '../../EventBus/EventBus'
-import type { EventStore } from '../EventStore'
-import { isDomainEvent } from '../../../domain'
+import type { EventBus } from '../../EventBus/EventBus.ts'
+import type { EventStore } from '../EventStore.ts'
+import { isDomainEvent } from '@domain/utils/isDomainEvent.ts'
 
 export class InMemoryEventStore<TEvent> implements EventStore<TEvent> {
   private events: TEvent[] = []

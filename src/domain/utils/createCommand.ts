@@ -1,4 +1,4 @@
-import type { Command, CommandMetadata } from '../Command'
+import type { Command, CommandMetadata } from '@domain/Command.ts'
 import { randomUUID } from 'node:crypto'
 
 export function createCommand<TType extends string, TPayload>(type: TType, aggregateId: string, payload: TPayload, metadata?: Partial<CommandMetadata>): Command<TType, TPayload> {

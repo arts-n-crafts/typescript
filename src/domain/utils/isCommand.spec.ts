@@ -1,5 +1,5 @@
-import type { Command } from '../Command'
-import { isCommand } from './isCommand'
+import type { Command } from '../Command.ts'
+import { isCommand } from './isCommand.ts'
 
 describe('isCommand util', () => {
   it('should be defined', () => {

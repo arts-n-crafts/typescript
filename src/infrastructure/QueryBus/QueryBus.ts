@@ -1,5 +1,5 @@
-import type { QueryHandler } from '../../core'
-import type { Query } from '../../domain'
+import type { QueryHandler } from '@core/QueryHandler.ts'
+import type { Query } from '@domain/Query.ts'
 
 export interface QueryBus {
   register: (aQuery: string, anHandler: QueryHandler<any, any>) => void

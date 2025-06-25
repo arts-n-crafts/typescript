@@ -1,5 +1,5 @@
-import type { Query } from '../Query'
-import { isQuery } from './isQuery'
+import type { Query } from '../Query.ts'
+import { isQuery } from './isQuery.ts'
 
 describe('isQuery util', () => {
   it('should be defined', () => {

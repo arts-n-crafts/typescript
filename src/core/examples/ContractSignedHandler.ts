@@ -1,8 +1,9 @@
-import type { CommandBus, IntegrationEvent } from '../../infrastructure'
-import type { ContractSignedPayload } from '../../infrastructure/EventBus/examples/ContractSigned'
-import type { EventHandler } from '../EventHandler'
-import { ActivateUser } from '../../domain/examples/ActivateUser'
-import { isIntegrationEvent } from '../../infrastructure'
+import type { EventHandler } from '@core/EventHandler.ts'
+import type { CommandBus } from '@infrastructure/CommandBus/CommandBus.ts'
+import type { ContractSignedPayload } from '@infrastructure/EventBus/examples/ContractSigned.ts'
+import type { IntegrationEvent } from '@infrastructure/EventBus/IntegrationEvent.ts'
+import { ActivateUser } from '@domain/examples/ActivateUser.ts'
+import { isIntegrationEvent } from '@infrastructure/EventBus/utils/isIntegrationEvent.ts'
 
 export class ContractSignedHandler implements EventHandler<IntegrationEvent<ContractSignedPayload>> {
   constructor(

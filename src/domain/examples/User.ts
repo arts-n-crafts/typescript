@@ -1,12 +1,13 @@
-import type { Decider } from '../Decider'
-import type { ActivateUser } from './ActivateUser'
-import type { CreateUser } from './CreateUser'
-import type { UpdateUserName } from './UpdateUserName'
-import type { UserRegistrationEmailSent } from './UserRegistrationEmailSent'
-import { fail, invariant } from '../../utils'
-import { UserActivated } from './UserActivated'
-import { UserCreated } from './UserCreated'
-import { UserNameUpdated } from './UserNameUpdated'
+import type { Decider } from '@domain/Decider.ts'
+import type { ActivateUser } from '@domain/examples/ActivateUser.ts'
+import type { CreateUser } from '@domain/examples/CreateUser.ts'
+import type { UpdateUserName } from '@domain/examples/UpdateUserName.ts'
+import type { UserRegistrationEmailSent } from '@domain/examples/UserRegistrationEmailSent.ts'
+import { UserActivated } from '@domain/examples/UserActivated.ts'
+import { UserCreated } from '@domain/examples/UserCreated.ts'
+import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
+import { fail } from '@utils/fail/fail.ts'
+import { invariant } from '@utils/invariant/invariant.ts'
 
 export type UserEvent = ReturnType<typeof UserCreated> | ReturnType<typeof UserNameUpdated> | ReturnType<typeof UserRegistrationEmailSent> | ReturnType<typeof UserActivated>
 export type UserCommand = ReturnType<typeof CreateUser> | ReturnType<typeof UpdateUserName> | ReturnType<typeof ActivateUser>

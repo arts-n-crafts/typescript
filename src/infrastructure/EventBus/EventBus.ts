@@ -1,4 +1,4 @@
-import type { EventHandler } from '../../core'
+import type { EventHandler } from '@core/EventHandler.ts'
 
 export interface EventBus<TEvent> {
   subscribe: (aHandler: EventHandler<TEvent>) => void

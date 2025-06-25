@@ -1,4 +1,4 @@
-import type { Command } from '../domain'
+import type { Command } from '@domain/Command.ts'
 
 export type CommandHandlerResult = { id: string } | void
 
