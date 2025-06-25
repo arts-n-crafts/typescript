@@ -1,6 +1,27 @@
 # Changelog
 
 
+## v2.1.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.0.0...v2.1.0)
+
+### 🚀 Enhancements
+
+- Update user example test ([444d63f](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/444d63f))
+- Remove BaseEvent ([24ed2b2](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/24ed2b2))
+- Build step ([84d36fc](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/84d36fc))
+
+### 🏡 Chore
+
+- Prepare for build step ([acf5466](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/acf5466))
+- Update tsconfig, eslint and fix accordingly ([1b47ee2](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/1b47ee2))
+- Build to esm/cjs ([3044a46](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/3044a46))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v2.0.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.0.0-0...v2.0.0)
