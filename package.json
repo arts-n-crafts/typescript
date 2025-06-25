@@ -16,11 +16,9 @@
     "./package.json": "./package.json",
     ".": {
       "import": "./dist/index.js",
-      "default": "./dist/index.cjs"
+      "require": "./dist/index.cjs"
     }
   },
-  "main": "src/index.ts",
-  "module": "src/index.ts",
   "files": [
     "dist"
   ],
