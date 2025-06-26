@@ -3,6 +3,7 @@ import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { EventBus } from '../EventBus/EventBus.ts'
 import type { EventStore } from '../EventStore/EventStore.ts'
 import type { QueryBus } from '../QueryBus/QueryBus.ts'
+import type { AllEvents } from './examples/User.module.ts'
 import { randomUUID } from 'node:crypto'
 import { CreateUser } from '@domain/examples/CreateUser.ts'
 import { GetUserByEmail } from '@domain/examples/GetUserByEmail.ts'
@@ -23,7 +24,7 @@ import { ScenarioTest } from './ScenarioTest.ts'
 describe('scenario test', () => {
   const id = randomUUID()
   let eventStore: EventStore<UserEvent>
-  let eventBus: EventBus<UserEvent>
+  let eventBus: EventBus<AllEvents>
   let commandBus: CommandBus
   let queryBus: QueryBus
   let scenarioTest: ScenarioTest

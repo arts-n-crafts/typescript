@@ -1,4 +1,5 @@
 import type { UserEvent } from '@domain/examples/User.ts'
+import type { AllEvents } from '@infrastructure/ScenarioTest/examples/User.module.ts'
 import type { EventBus } from '../EventBus/EventBus.ts'
 import type { EventStore } from './EventStore.ts'
 import { randomUUID } from 'node:crypto'
@@ -8,7 +9,7 @@ import { InMemoryEventBus } from '../EventBus/implementations/InMemoryEventBus.t
 import { InMemoryEventStore } from './implementations/InMemoryEventStore.ts'
 
 describe('inMemoryEventStore', () => {
-  let eventBus: EventBus<UserEvent>
+  let eventBus: EventBus<AllEvents>
   let eventStore: EventStore<UserEvent>
 
   beforeEach(() => {

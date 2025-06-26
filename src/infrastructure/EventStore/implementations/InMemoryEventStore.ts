@@ -1,12 +1,14 @@
+import type { BaseEvent } from '@domain/BaseEvent.ts'
+import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { EventBus } from '../../EventBus/EventBus.ts'
 import type { EventStore } from '../EventStore.ts'
 import { isDomainEvent } from '@domain/utils/isDomainEvent.ts'
 
-export class InMemoryEventStore<TEvent> implements EventStore<TEvent> {
+export class InMemoryEventStore<TEvent extends DomainEvent<TEvent['payload']>> implements EventStore<TEvent> {
   private events: TEvent[] = []
 
   constructor(
-    protected readonly eventBus: EventBus<TEvent>,
+    protected readonly eventBus: EventBus<BaseEvent<any>>,
   ) {
   }
 

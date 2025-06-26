@@ -1,5 +1,6 @@
 import type { UserEvent } from '@domain/examples/User.ts'
 import type { UserCreatedPayload } from '@domain/examples/UserCreated.ts'
+import type { AllEvents } from '@infrastructure/ScenarioTest/examples/User.module.ts'
 import type { EventBus } from '../../EventBus/EventBus.ts'
 import type { EventStore } from '../../EventStore/EventStore.ts'
 import { randomUUID } from 'node:crypto'
@@ -9,14 +10,14 @@ import { InMemoryEventStore } from '../../EventStore/implementations/InMemoryEve
 import { UserRepository } from './UserRepository.ts'
 
 describe('repository', () => {
-  let eventBus: EventBus<UserEvent>
+  let eventBus: EventBus<AllEvents>
   let eventStore: EventStore<UserEvent>
   let aggregateId: string
   let payload: UserCreatedPayload
 
   beforeEach(() => {
     aggregateId = '123'
-    eventBus = new InMemoryEventBus<UserEvent>()
+    eventBus = new InMemoryEventBus<AllEvents>()
     eventStore = new InMemoryEventStore<UserEvent>(eventBus)
     aggregateId = randomUUID()
     payload = { name: 'test', email: 'musk@x.com', prospect: true }

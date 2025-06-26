@@ -14,7 +14,8 @@ export class UserProjectionHandler implements ProjectionHandler<UserEvent> {
   ) { }
 
   start(): void {
-    this.eventBus.subscribe(this)
+    this.eventBus.subscribe('UserCreated', this)
+    this.eventBus.subscribe('UserNameUpdated', this)
   }
 
   async handle(anEvent: unknown): Promise<void> {

@@ -1,5 +1,7 @@
 import type { Module } from '@core/Module.interface.ts'
 import type { UserEvent } from '@domain/examples/User.ts'
+import type { ContractSigned } from '@infrastructure/EventBus/examples/ContractSigned.ts'
+import type { ProductCreated } from '@infrastructure/EventBus/examples/ProductCreated.ts'
 import type { CommandBus } from '../../CommandBus/CommandBus.ts'
 import type { Database } from '../../Database/Database.ts'
 import type { EventBus } from '../../EventBus/EventBus.ts'
@@ -15,6 +17,8 @@ import { UserProjectionHandler } from '@core/examples/UserProjection.ts'
 import { InMemoryDatabase } from '../../Database/implementations/InMemoryDatabase.ts'
 import { UserRepository } from '../../Repository/examples/UserRepository.ts'
 
+export type AllEvents = UserEvent | ReturnType<typeof ContractSigned> | ReturnType<typeof ProductCreated>
+
 export class UserModule implements Module {
   private readonly repository: UserRepository
 
@@ -22,7 +26,7 @@ export class UserModule implements Module {
 
   constructor(
     private readonly eventStore: EventStore<UserEvent>,
-    private readonly eventBus: EventBus<UserEvent>,
+    private readonly eventBus: EventBus<AllEvents>,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {
@@ -39,8 +43,8 @@ export class UserModule implements Module {
     this.commandBus.register('CreateUser', new CreateUserHandler(this.repository))
     this.commandBus.register('UpdateUserName', new UpdateUserNameHandler(this.repository))
     this.commandBus.register('ActivateUser', new ActivateUserHandler(this.repository))
-    this.eventBus.subscribe(new UserCreatedEventHandler(this.eventStore))
-    this.eventBus.subscribe(new ContractSignedHandler(this.commandBus))
+    this.eventBus.subscribe('UserCreated', new UserCreatedEventHandler(this.eventStore))
+    this.eventBus.subscribe('ContractSigned', new ContractSignedHandler(this.commandBus))
     this.queryBus.register('GetUserByEmail', new GetUserByEmailHandler(this.database))
   }
 };
