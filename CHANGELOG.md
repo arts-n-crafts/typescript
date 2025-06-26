@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.2.1
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.2.0...v2.2.1)
+
+### 🏡 Chore
+
+- Add build step to release ([2ae9ddb](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/2ae9ddb))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v2.2.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.1.2...v2.2.0)
