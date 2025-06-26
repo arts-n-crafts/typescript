@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v2.2.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.1.2...v2.2.0)
+
+### 🚀 Enhancements
+
+- **EventBus:** Subscribe to event type ([2cae252](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/2cae252))
+- **EventBus:** Subscribe to event type ([24c8c90](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/24c8c90))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v2.1.2
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.1.1...v2.1.2)
