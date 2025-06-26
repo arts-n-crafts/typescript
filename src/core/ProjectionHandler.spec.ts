@@ -1,3 +1,4 @@
+import type { UserModel } from '@core/examples/UserProjection.ts'
 import type { ProjectionHandler } from '@core/ProjectionHandler.ts'
 import type { UserEvent } from '@domain/examples/User.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
@@ -30,7 +31,7 @@ describe('projectionHandler', () => {
   it('should update projection with create event', async () => {
     const event = UserCreated(id, payload)
     await eventBus.publish(event)
-    const results = await database.query('users', [{ name: payload.name }])
+    const results = await database.query<UserModel>('users', [{ name: payload.name }])
     expect(results.at(0)).toStrictEqual({ id, ...payload, prospect: true })
   })
 
@@ -38,7 +39,7 @@ describe('projectionHandler', () => {
     const updatePayload = { name: 'Donald' }
     const event = UserNameUpdated(id, updatePayload)
     await eventBus.publish(event)
-    const results = await database.query('users', [{ name: updatePayload.name }])
+    const results = await database.query<UserModel>('users', [{ name: updatePayload.name }])
     expect(results.at(0)).toStrictEqual({ id, ...payload, ...updatePayload, prospect: true })
   })
 })

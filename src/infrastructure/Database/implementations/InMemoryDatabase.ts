@@ -5,7 +5,7 @@ import { DuplicateRecordException, OperationNotSupported, RecordNotFoundExceptio
 export class InMemoryDatabase implements Database {
   private readonly datasource = new Map<string, DatabaseRecord[]>()
 
-  async query<T>(tableName: string, spec: Record<string, string>[]): Promise<T[]> {
+  async query<T>(tableName: string, spec: Partial<T>[]): Promise<T[]> {
     const data = this.datasource.get(tableName)
     if (!data)
       throw new TableDoesNotExistException(`Table ${tableName.toString()} not found`)

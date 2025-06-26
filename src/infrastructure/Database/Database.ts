@@ -1,10 +1,10 @@
-export interface Database {
-  query: <T>(tableName: string, query: Record<string, string>[]) => Promise<T[]>
-  execute: (tableName: string, statement: Statement) => Promise<void>
-}
-
 export interface DatabaseRecord {
   id: string
+}
+
+export interface Database {
+  query: <T extends DatabaseRecord>(tableName: string, query: Partial<T>[]) => Promise<T[]>
+  execute: (tableName: string, statement: Statement) => Promise<void>
 }
 
 export enum Operation {

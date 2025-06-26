@@ -2,10 +2,12 @@ import type { ProjectionHandler } from '@core/ProjectionHandler.ts'
 import type { UserEvent } from '@domain/examples/User.ts'
 import type { UserCreatedPayload } from '@domain/examples/UserCreated.ts'
 import type { UserNameUpdatedPayload } from '@domain/examples/UserNameUpdated.ts'
-import type { Database } from '@infrastructure/Database/Database.ts'
+import type { Database, DatabaseRecord } from '@infrastructure/Database/Database.ts'
 import type { EventBus } from '@infrastructure/EventBus/EventBus.ts'
 import { isDomainEvent } from '@domain/utils/isDomainEvent.ts'
 import { Operation } from '@infrastructure/Database/Database.ts'
+
+export type UserModel = UserCreatedPayload & DatabaseRecord
 
 export class UserProjectionHandler implements ProjectionHandler<UserEvent> {
   constructor(
