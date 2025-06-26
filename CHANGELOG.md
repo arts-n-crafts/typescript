@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.3.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.2.1...v2.3.0)
+
+### 🚀 Enhancements
+
+- Database query spec argument is Partial<T> ([513df16](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/513df16))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v2.2.1
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.2.0...v2.2.1)
