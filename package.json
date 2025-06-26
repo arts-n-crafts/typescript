@@ -35,7 +35,7 @@
     "coverage": "NODE_ENV=test vitest --coverage",
     "typecheck": "tsc --noEmit",
     "release": "release-it",
-    "build": "tsup",
+    "build": "rimraf dist && tsup",
     "check-exports": "attw --pack ."
   },
   "peerDependencies": {
@@ -60,6 +60,7 @@
     "husky": "^9.1.7",
     "release-it": "^19.0.3",
     "release-it-changelogen": "^0.1.0",
+    "rimraf": "^6.0.1",
     "tsup": "^8.5.0",
     "typescript-eslint": "^8.35.0",
     "vite-tsconfig-paths": "^5.1.4",
