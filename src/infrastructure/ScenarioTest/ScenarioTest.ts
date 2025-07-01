@@ -1,6 +1,5 @@
 import type { Command } from '@domain/Command.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
-import type { UserEvent } from '@domain/examples/User.ts'
 import type { Query } from '@domain/Query.ts'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { EventBus } from '../EventBus/EventBus.ts'
@@ -24,19 +23,19 @@ type WhenInput
     | IntegrationEvent<unknown>
 type ThenInput = DomainEvent<unknown> | Record<string, unknown>[]
 
-export class ScenarioTest {
+export class ScenarioTest<TEvent extends DomainEvent<unknown>> {
   private events: GivenInput = []
   private action: WhenInput | undefined
 
   constructor(
-    private readonly eventStore: EventStore<UserEvent>,
-    private readonly eventBus: EventBus<UserEvent>,
+    private readonly eventStore: EventStore<TEvent>,
+    private readonly eventBus: EventBus<TEvent>,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {}
 
   given(...events: GivenInput): {
-    when: (action: WhenInput) => ReturnType<ScenarioTest['when']>
+    when: (action: WhenInput) => ReturnType<ScenarioTest<TEvent>['when']>
     then: (outcome: ThenInput) => Promise<void>
   } {
     this.events = events

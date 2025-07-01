@@ -27,7 +27,7 @@ describe('scenario test', () => {
   let eventBus: EventBus<AllEvents>
   let commandBus: CommandBus
   let queryBus: QueryBus
-  let scenarioTest: ScenarioTest
+  let scenarioTest: ScenarioTest<UserEvent>
 
   beforeEach(() => {
     eventBus = new InMemoryEventBus()
