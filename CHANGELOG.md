@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.3.1
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.3.0...v2.3.1)
+
+### 🏡 Chore
+
+- Make scenario test generic ([a4e8396](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/a4e8396))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v2.3.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.2.1...v2.3.0)
