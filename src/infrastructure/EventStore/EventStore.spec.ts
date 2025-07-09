@@ -86,5 +86,24 @@ describe('inMemoryEventStore', () => {
 
       expect(outbox).toHaveLength(2)
     })
+
+    it('should do nothing if the entry is not in the outbox', async () => {
+      const aggregateId = randomUUID()
+      const streamId = makeUserStreamId(aggregateId)
+      const event = UserCreated(aggregateId, { name: 'elon', email: 'musk@x.com' })
+      const event2 = UserNameUpdated(aggregateId, { name: 'Donald' })
+
+      const aggregateId2 = randomUUID()
+      const streamId2 = makeUserStreamId(aggregateId2)
+      const event3 = UserCreated(aggregateId2, { name: 'Donald', email: 'potus@x.com' })
+
+      await eventStore.append(streamId, [event, event2])
+      await eventStore.append(streamId2, [event3])
+
+      eventStore.acknowledgeDispatch(randomUUID())
+      const outbox = eventStore.getOutboxBatch()
+
+      expect(outbox).toHaveLength(3)
+    })
   })
 })
