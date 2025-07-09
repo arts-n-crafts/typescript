@@ -5,4 +5,5 @@ import { InMemoryRepository } from '../implementations/InMemoryRepository.ts'
 export class UserRepository
   extends InMemoryRepository<UserEvent>
   implements Repository<UserEvent> {
+  readonly stream = 'user'
 }
