@@ -1,9 +1,10 @@
+import type { DomainEvent } from '@domain/DomainEvent.js'
 import type { UserEvent } from '@domain/examples/User.ts'
+import type { Repository } from '@domain/Repository.js'
+import type { IntegrationEvent } from '@infrastructure/EventBus/IntegrationEvent.js'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { EventBus } from '../EventBus/EventBus.ts'
-import type { EventStore } from '../EventStore/EventStore.ts'
 import type { QueryBus } from '../QueryBus/QueryBus.ts'
-import type { AllEvents } from './examples/User.module.ts'
 import { randomUUID } from 'node:crypto'
 import { CreateUser } from '@domain/examples/CreateUser.ts'
 import { GetUserByEmail } from '@domain/examples/GetUserByEmail.ts'
@@ -12,6 +13,7 @@ import { UserActivated } from '@domain/examples/UserActivated.ts'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
 import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
 import { UserRegistrationEmailSent } from '@domain/examples/UserRegistrationEmailSent.ts'
+import { UserRepository } from '@infrastructure/Repository/examples/UserRepository.js'
 import { InMemoryCommandBus } from '../CommandBus/implementations/InMemoryCommandBus.ts'
 import { ContractSigned } from '../EventBus/examples/ContractSigned.ts'
 import { ProductCreated } from '../EventBus/examples/ProductCreated.ts'
@@ -23,18 +25,20 @@ import { ScenarioTest } from './ScenarioTest.ts'
 
 describe('scenario test', () => {
   const id = randomUUID()
-  let eventStore: EventStore<UserEvent>
-  let eventBus: EventBus<AllEvents>
+  let eventStore: InMemoryEventStore
+  let eventBus: EventBus<DomainEvent<unknown> | IntegrationEvent<unknown>>
   let commandBus: CommandBus
   let queryBus: QueryBus
-  let scenarioTest: ScenarioTest<UserEvent>
+  let repository: Repository<UserEvent>
+  let scenarioTest: ScenarioTest
 
   beforeEach(() => {
     eventBus = new InMemoryEventBus()
-    eventStore = new InMemoryEventStore(eventBus)
+    eventStore = new InMemoryEventStore()
     commandBus = new InMemoryCommandBus()
     queryBus = new InMemoryQueryBus()
-    scenarioTest = new ScenarioTest(eventStore, eventBus, commandBus, queryBus)
+    repository = new UserRepository(eventStore, eventBus)
+    scenarioTest = new ScenarioTest(eventStore, eventBus, commandBus, queryBus, repository)
     new UserModule(eventStore, eventBus, commandBus, queryBus).registerModule()
   })
 

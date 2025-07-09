@@ -1,40 +1,27 @@
 import type { DomainEvent } from '@domain/DomainEvent.ts'
-import type { UserEvent } from '@domain/examples/User.ts'
-import type { UserCreatedPayload } from '@domain/examples/UserCreated.ts'
 import type { UserRegistrationEmailSentPayload } from '@domain/examples/UserRegistrationEmailSent.ts'
-import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
+import { randomUUID } from 'node:crypto'
 import { ContractSignedHandler } from '@core/examples/ContractSignedHandler.ts'
 import { UserCreatedEventHandler } from '@core/examples/UserCreatedEventHandler.ts'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
+import { InMemoryEventBus } from '@infrastructure/EventBus/implementations/InMemoryEventBus.js'
+import { InMemoryEventStore } from '@infrastructure/EventStore/implementations/InMemoryEventStore.js'
+import { UserRepository } from '@infrastructure/Repository/examples/UserRepository.js'
 
 describe('eventHandler', () => {
-  let events: UserEvent[] = []
-  const eventStore: EventStore<UserEvent> = {
-    async loadEvents() {
-      return events
-    },
-    async store(event: UserEvent) {
-      events = [...events, event]
-    },
-  }
-  let handler: UserCreatedEventHandler
-  let aggregateId: string
-  let payload: UserCreatedPayload
-
-  beforeEach(() => {
-    handler = new UserCreatedEventHandler(eventStore)
-    aggregateId = '123'
-    payload = { name: 'test', email: 'musk@x.com', prospect: true }
-  })
+  const eventBus = new InMemoryEventBus()
+  const eventStore = new InMemoryEventStore()
+  const repository = new UserRepository(eventStore, eventBus)
+  const handler = new UserCreatedEventHandler(repository)
 
   it('should be defined', () => {
     expect(ContractSignedHandler).toBeDefined()
   })
 
   it('should process the MockUserCreated event and dispatch the MockUserRegistrationEmailSentEvent', async () => {
-    const event = UserCreated(aggregateId, payload)
+    const event = UserCreated(randomUUID(), { name: 'test', email: 'musk@x.com' })
     await handler.handle(event)
-    const events = await eventStore.loadEvents(aggregateId)
+    const events = await repository.load(event.aggregateId)
     const sentEvent = events[0] as unknown as DomainEvent<UserRegistrationEmailSentPayload>
     expect(sentEvent.type).toBe('UserRegistrationEmailSent')
     expect(sentEvent.payload.status).toBe('SUCCESS')

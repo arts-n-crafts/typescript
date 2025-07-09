@@ -1,14 +1,14 @@
 import type { EventHandler } from '@core/EventHandler.ts'
-import type { UserEvent } from '@domain/examples/User.ts'
+import type { UserEvent } from '@domain/examples/User.js'
 import type { UserCreated } from '@domain/examples/UserCreated.ts'
-import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
+import type { Repository } from '@domain/Repository.js'
 import { UserRegistrationEmailSent } from '@domain/examples/UserRegistrationEmailSent.ts'
 
 type UserCreatedEvent = ReturnType<typeof UserCreated>
 
 export class UserCreatedEventHandler implements EventHandler<UserCreatedEvent> {
   constructor(
-    private readonly eventStore: EventStore<UserEvent>,
+    private readonly repository: Repository<UserEvent>,
   ) { }
 
   async handle(anEvent: UserCreatedEvent): Promise<void> {
@@ -18,6 +18,6 @@ export class UserCreatedEventHandler implements EventHandler<UserCreatedEvent> {
       { causationId: anEvent.id },
     )
 
-    await this.eventStore.store(emailSentEvent)
+    await this.repository.store([emailSentEvent])
   }
 }

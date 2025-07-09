@@ -1,6 +1,7 @@
 import type { Command } from '@domain/Command.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { Query } from '@domain/Query.ts'
+import type { Repository } from '@domain/Repository.js'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { EventBus } from '../EventBus/EventBus.ts'
 import type { IntegrationEvent } from '../EventBus/IntegrationEvent.ts'
@@ -23,22 +24,23 @@ type WhenInput
     | IntegrationEvent<unknown>
 type ThenInput = DomainEvent<unknown> | Record<string, unknown>[]
 
-export class ScenarioTest<TEvent extends DomainEvent<unknown>> {
-  private events: GivenInput = []
-  private action: WhenInput | undefined
+export class ScenarioTest {
+  private givenInput: GivenInput = []
+  private whenInput: WhenInput | undefined
 
   constructor(
-    private readonly eventStore: EventStore<TEvent>,
-    private readonly eventBus: EventBus<TEvent>,
+    private readonly eventStore: EventStore,
+    private readonly eventBus: EventBus<DomainEvent<unknown> | IntegrationEvent<unknown>>,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
+    private readonly repository: Repository<DomainEvent<any>>,
   ) {}
 
   given(...events: GivenInput): {
-    when: (action: WhenInput) => ReturnType<ScenarioTest<TEvent>['when']>
+    when: (action: WhenInput) => ReturnType<ScenarioTest['when']>
     then: (outcome: ThenInput) => Promise<void>
   } {
-    this.events = events
+    this.givenInput = events
     return {
       when: this.when.bind(this),
       then: this.then.bind(this),
@@ -48,40 +50,37 @@ export class ScenarioTest<TEvent extends DomainEvent<unknown>> {
   when(action: WhenInput): {
     then: (outcome: ThenInput) => Promise<void>
   } {
-    this.action = action
+    this.whenInput = action
     return {
       then: this.then.bind(this),
     }
   }
 
-  async then(outcome: ThenInput): Promise<void> {
-    await Promise.all(
-      this.events.map(async (event) => {
-        if (this.isDomainEvent(event))
+  async then(thenInput: ThenInput): Promise<void> {
+    const domainEvents = this.givenInput
+      .filter(isDomainEvent)
+    const integrationEvents = this.givenInput
+      .filter(isIntegrationEvent)
 
-        // eslint-disable-next-line ts/no-unsafe-argument
-          return this.eventStore.store(event as any)
+    await Promise.all([
+      this.repository.store(domainEvents),
+      integrationEvents.map(async event => this.eventBus.publish(event)),
+    ])
 
-        // eslint-disable-next-line ts/no-unsafe-argument
-        return this.eventBus.publish(event as any)
-      }),
-    )
-
-    if (!this.action) {
+    if (!this.whenInput) {
       throw new Error('In the ScenarioTest, "when" cannot be empty')
     }
 
-    if (isCommand(this.action)) {
-      await this.handleCommand(this.action, outcome)
+    if (isCommand(this.whenInput)) {
+      await this.handleCommand(this.whenInput, thenInput)
     }
 
-    if (isQuery(this.action)) {
-      await this.handleQuery(this.action, outcome)
+    if (isQuery(this.whenInput)) {
+      await this.handleQuery(this.whenInput, thenInput)
     }
 
-    if (this.isDomainEvent(this.action) || this.isIntegrationEvent(this.action)) {
-      // eslint-disable-next-line ts/no-unsafe-argument
-      await this.handleEvent(this.action as any, outcome)
+    if (this.isDomainEvent(this.whenInput) || this.isIntegrationEvent(this.whenInput)) {
+      await this.handleEvent(this.whenInput, thenInput)
     }
   }
 
@@ -103,7 +102,7 @@ export class ScenarioTest<TEvent extends DomainEvent<unknown>> {
     }
 
     await this.commandBus.execute(command)
-    const actualEvents = await this.eventStore.loadEvents(outcome.aggregateId)
+    const actualEvents = await this.repository.load(outcome.aggregateId)
     const foundEvent = actualEvents.findLast(
       event =>
         this.isDomainEvent(event)
@@ -134,7 +133,7 @@ export class ScenarioTest<TEvent extends DomainEvent<unknown>> {
   }
 
   private async handleEvent(
-    event: DomainEvent<unknown> & IntegrationEvent<unknown>,
+    event: DomainEvent<unknown> | IntegrationEvent<unknown>,
     outcome: ThenInput,
   ): Promise<void> {
     await this.eventBus.publish(event)
@@ -144,7 +143,7 @@ export class ScenarioTest<TEvent extends DomainEvent<unknown>> {
       )
     }
 
-    const actualEvents = await this.eventStore.loadEvents(outcome.aggregateId)
+    const actualEvents = await this.repository.load(outcome.aggregateId)
     const foundEvent = actualEvents.findLast(
       event =>
         isEvent(event) && event.aggregateId === outcome.aggregateId && event.type === outcome.type,

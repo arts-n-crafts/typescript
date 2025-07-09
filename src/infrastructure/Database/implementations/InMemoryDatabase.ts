@@ -6,14 +6,14 @@ export class InMemoryDatabase implements Database {
   private readonly datasource = new Map<string, DatabaseRecord[]>()
 
   async query<T>(tableName: string, spec: Partial<T>[]): Promise<T[]> {
-    const data = this.datasource.get(tableName)
-    if (!data)
+    const tableRecords = this.datasource.get(tableName)
+    if (!tableRecords)
       throw new TableDoesNotExistException(`Table ${tableName.toString()} not found`)
 
     const entry = spec[0]
     const [key, value] = Object.entries(entry).flat()
 
-    return data.filter((record: DatabaseRecord) => {
+    return tableRecords.filter((record: DatabaseRecord) => {
       return record[key as keyof typeof record] === value
     }) as T[]
   }

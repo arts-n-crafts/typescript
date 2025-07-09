@@ -1,10 +1,9 @@
 import type { EventHandler } from '@core/EventHandler.ts'
 import type { BaseEvent } from '@domain/BaseEvent.ts'
-import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { EventBus } from '../EventBus.ts'
 
 export class InMemoryEventBus<TEvent extends BaseEvent<TEvent['payload']>> implements EventBus<TEvent> {
-  private handlers: Map<DomainEvent<unknown>['type'], EventHandler<any>[]> = new Map()
+  private handlers: Map<BaseEvent<unknown>['type'], EventHandler<any>[]> = new Map()
 
   subscribe<TSpecificEvent extends TEvent>(
     anEventType: TSpecificEvent['type'],

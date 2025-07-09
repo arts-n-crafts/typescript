@@ -7,7 +7,7 @@ describe('makeStreamId', () => {
   })
 
   it('should format the right streamId', () => {
-    const stream = 'user'
+    const stream = 'users'
     const id = randomUUID()
     const streamId = makeStreamId(stream, id)
     expect(streamId).toBe(`${stream}-${id}`)

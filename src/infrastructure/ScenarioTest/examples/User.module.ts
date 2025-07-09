@@ -2,10 +2,10 @@ import type { Module } from '@core/Module.interface.ts'
 import type { UserEvent } from '@domain/examples/User.ts'
 import type { ContractSigned } from '@infrastructure/EventBus/examples/ContractSigned.ts'
 import type { ProductCreated } from '@infrastructure/EventBus/examples/ProductCreated.ts'
+import type { InMemoryEventStore } from '@infrastructure/EventStore/implementations/InMemoryEventStore.js'
 import type { CommandBus } from '../../CommandBus/CommandBus.ts'
 import type { Database } from '../../Database/Database.ts'
 import type { EventBus } from '../../EventBus/EventBus.ts'
-import type { EventStore } from '../../EventStore/EventStore.ts'
 import type { QueryBus } from '../../QueryBus/QueryBus.ts'
 import { ActivateUserHandler } from '@core/examples/ActivateUserHandler.ts'
 import { ContractSignedHandler } from '@core/examples/ContractSignedHandler.ts'
@@ -25,16 +25,12 @@ export class UserModule implements Module {
   private readonly database: Database
 
   constructor(
-    private readonly eventStore: EventStore<UserEvent>,
+    private readonly eventStore: InMemoryEventStore,
     private readonly eventBus: EventBus<AllEvents>,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {
-    this.eventStore = eventStore
-    this.eventBus = eventBus
-    this.commandBus = commandBus
-    this.queryBus = queryBus
-    this.repository = new UserRepository(eventStore)
+    this.repository = new UserRepository(this.eventStore, eventBus)
     this.database = new InMemoryDatabase()
   }
 
@@ -43,7 +39,7 @@ export class UserModule implements Module {
     this.commandBus.register('CreateUser', new CreateUserHandler(this.repository))
     this.commandBus.register('UpdateUserName', new UpdateUserNameHandler(this.repository))
     this.commandBus.register('ActivateUser', new ActivateUserHandler(this.repository))
-    this.eventBus.subscribe('UserCreated', new UserCreatedEventHandler(this.eventStore))
+    this.eventBus.subscribe('UserCreated', new UserCreatedEventHandler(this.repository))
     this.eventBus.subscribe('ContractSigned', new ContractSignedHandler(this.commandBus))
     this.queryBus.register('GetUserByEmail', new GetUserByEmailHandler(this.database))
   }
