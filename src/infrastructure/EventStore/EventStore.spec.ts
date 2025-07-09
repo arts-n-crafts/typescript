@@ -1,3 +1,4 @@
+import type { DomainEvent } from '@domain/DomainEvent.js'
 import type { UserEvent } from '@domain/examples/User.js'
 import { randomUUID } from 'node:crypto'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
@@ -10,58 +11,45 @@ const makeUserStreamId = (aggregateId: string) => `user-${aggregateId}`
 describe('inMemoryEventStore', () => {
   let eventStore: InMemoryEventStore
 
-  beforeEach(() => {
+  let event1: DomainEvent<unknown>
+  let event2: DomainEvent<unknown>
+  let event3: DomainEvent<unknown>
+
+  beforeEach(async () => {
     eventStore = new InMemoryEventStore()
+
+    event1 = UserCreated(randomUUID(), { name: 'elon', email: 'musk@x.com' })
+    event2 = UserNameUpdated(event1.aggregateId, { name: 'Donald' })
+    event3 = UserCreated(randomUUID(), { name: 'Donald', email: 'potus@x.com' })
+
+    await eventStore.append(makeUserStreamId(event1.aggregateId), [event1, event2])
+    await eventStore.append(makeUserStreamId(event3.aggregateId), [event3])
   })
 
-  it('should store and load an event', async () => {
-    const aggregateId = randomUUID()
-    const streamId = `user-${aggregateId}`
-    const event = UserCreated(aggregateId, { name: 'elon', email: 'musk@x.com' })
+  describe('eventStore', () => {
+    it('should load the given event', async () => {
+      const streamId = makeUserStreamId(event1.aggregateId)
+      const events = await eventStore.load<UserEvent>(streamId)
+      expect(events[0]).toEqual(event1)
+    })
 
-    await eventStore.append(streamId, [event])
-    const events = await eventStore.load<UserEvent>(streamId)
-    expect(events).toHaveLength(1)
-    expect(events[0]).toEqual(event)
+    it('should store and load multiple events', async () => {
+      const streamId = makeUserStreamId(event1.aggregateId)
+      const events = await eventStore.load(streamId)
+
+      expect(events).toHaveLength(2)
+      expect(events[0]).toEqual(event1)
+      expect(events[1]).toEqual(event2)
+    })
+
+    it('should return an empty array if no events are found', async () => {
+      const events = await eventStore.load('non_existent')
+      expect(events).toHaveLength(0)
+    })
   })
 
-  it('should store and load multiple events', async () => {
-    const aggregateId = randomUUID()
-    const streamId = makeUserStreamId(aggregateId)
-    const event = UserCreated(aggregateId, { name: 'elon', email: 'musk@x.com' })
-    const event2 = UserNameUpdated(aggregateId, { name: 'Donald' })
-
-    const aggregateId2 = randomUUID()
-    const streamId2 = makeUserStreamId(aggregateId2)
-    const event3 = UserCreated(aggregateId2, { name: 'Donald', email: 'potus@x.com' })
-
-    await eventStore.append(streamId, [event, event2])
-    await eventStore.append(streamId2, [event3])
-    const events = await eventStore.load(streamId)
-
-    expect(events).toHaveLength(2)
-    expect(events[0]).toEqual(event)
-    expect(events[1]).toEqual(event2)
-  })
-
-  it('should return an empty array if no events are found', async () => {
-    const events = await eventStore.load('non_existent')
-    expect(events).toHaveLength(0)
-  })
-
-  describe('outbox pattern', () => {
+  describe('outbox', () => {
     it('should only have unpublished entries in the outbox', async () => {
-      const aggregateId = randomUUID()
-      const streamId = makeUserStreamId(aggregateId)
-      const event = UserCreated(aggregateId, { name: 'elon', email: 'musk@x.com' })
-      const event2 = UserNameUpdated(aggregateId, { name: 'Donald' })
-
-      const aggregateId2 = randomUUID()
-      const streamId2 = makeUserStreamId(aggregateId2)
-      const event3 = UserCreated(aggregateId2, { name: 'Donald', email: 'potus@x.com' })
-
-      await eventStore.append(streamId, [event, event2])
-      await eventStore.append(streamId2, [event3])
       const outbox = eventStore.getOutboxBatch()
 
       expect(outbox).toHaveLength(3)
@@ -69,37 +57,12 @@ describe('inMemoryEventStore', () => {
     })
 
     it('should acknowledge dispatch in the outbox', async () => {
-      const aggregateId = randomUUID()
-      const streamId = makeUserStreamId(aggregateId)
-      const event = UserCreated(aggregateId, { name: 'elon', email: 'musk@x.com' })
-      const event2 = UserNameUpdated(aggregateId, { name: 'Donald' })
-
-      const aggregateId2 = randomUUID()
-      const streamId2 = makeUserStreamId(aggregateId2)
-      const event3 = UserCreated(aggregateId2, { name: 'Donald', email: 'potus@x.com' })
-
-      await eventStore.append(streamId, [event, event2])
-      await eventStore.append(streamId2, [event3])
-
       eventStore.acknowledgeDispatch(event3.id)
       const outbox = eventStore.getOutboxBatch()
-
       expect(outbox).toHaveLength(2)
     })
 
     it('should do nothing if the entry is not in the outbox', async () => {
-      const aggregateId = randomUUID()
-      const streamId = makeUserStreamId(aggregateId)
-      const event = UserCreated(aggregateId, { name: 'elon', email: 'musk@x.com' })
-      const event2 = UserNameUpdated(aggregateId, { name: 'Donald' })
-
-      const aggregateId2 = randomUUID()
-      const streamId2 = makeUserStreamId(aggregateId2)
-      const event3 = UserCreated(aggregateId2, { name: 'Donald', email: 'potus@x.com' })
-
-      await eventStore.append(streamId, [event, event2])
-      await eventStore.append(streamId2, [event3])
-
       eventStore.acknowledgeDispatch(randomUUID())
       const outbox = eventStore.getOutboxBatch()
 
