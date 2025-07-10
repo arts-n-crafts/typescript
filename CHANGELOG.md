@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v2.5.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.4.1...v2.5.0)
+
+### 🚀 Enhancements
+
+- Add StreamId type ([dd9e4b1](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/dd9e4b1))
+
+### 🏡 Chore
+
+- Update deps ([0a6d9f1](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/0a6d9f1))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v2.4.1
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.4.0...v2.4.1)
