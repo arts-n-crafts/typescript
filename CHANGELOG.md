@@ -1,6 +1,27 @@
 # Changelog
 
 
+## v2.4.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.3.1...v2.4.0)
+
+### 🚀 Enhancements
+
+- **EventStore:** Should only have unpublished entries in the outbox ([eacc6ce](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/eacc6ce))
+- **EventStore:** Should acknowledge dispatch in the outbox ([b21041d](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/b21041d))
+- **EventStore:** Should do nothing if the entry is not in the outbox ([f9931a2](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/f9931a2))
+- **streamId:** MakeStreamId should format the right streamId ([95dab30](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/95dab30))
+- **Repository:** Implement new EventStore ([0fa6fa2](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/0fa6fa2))
+
+### 💅 Refactors
+
+- **EventStore:** Tidying test file ([38ec1e6](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/38ec1e6))
+- Further integrate outbox pattern ([e41ad0e](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/e41ad0e))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v2.3.1
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.3.0...v2.3.1)
