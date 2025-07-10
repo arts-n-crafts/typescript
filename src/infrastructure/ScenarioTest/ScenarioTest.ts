@@ -5,7 +5,6 @@ import type { Repository } from '@domain/Repository.js'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { EventBus } from '../EventBus/EventBus.ts'
 import type { IntegrationEvent } from '../EventBus/IntegrationEvent.ts'
-import type { EventStore } from '../EventStore/EventStore.ts'
 import type { QueryBus } from '../QueryBus/QueryBus.ts'
 import { isCommand } from '@core/utils/isCommand.ts'
 import { isQuery } from '@core/utils/isQuery.ts'
@@ -17,11 +16,10 @@ import { isEqual } from '@utils/isEqual/isEqual.js'
 import { isIntegrationEvent } from '../EventBus/utils/isIntegrationEvent.ts'
 
 type GivenInput = (DomainEvent<unknown> | IntegrationEvent<unknown>)[]
-type WhenInput
-  = | Command<string, unknown>
-    | Query
-    | DomainEvent<unknown>
-    | IntegrationEvent<unknown>
+type WhenInput = Command<string, unknown>
+  | Query
+  | DomainEvent<unknown>
+  | IntegrationEvent<unknown>
 type ThenInput = DomainEvent<unknown> | Record<string, unknown>[]
 
 export class ScenarioTest {
@@ -29,7 +27,6 @@ export class ScenarioTest {
   private whenInput: WhenInput | undefined
 
   constructor(
-    private readonly eventStore: EventStore,
     private readonly eventBus: EventBus<DomainEvent<unknown> | IntegrationEvent<unknown>>,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,

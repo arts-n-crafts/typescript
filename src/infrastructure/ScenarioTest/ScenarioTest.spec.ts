@@ -38,7 +38,7 @@ describe('scenario test', () => {
     commandBus = new InMemoryCommandBus()
     queryBus = new InMemoryQueryBus()
     repository = new UserRepository(eventStore, eventBus)
-    scenarioTest = new ScenarioTest(eventStore, eventBus, commandBus, queryBus, repository)
+    scenarioTest = new ScenarioTest(eventBus, commandBus, queryBus, repository)
     new UserModule(eventStore, eventBus, commandBus, queryBus).registerModule()
   })
 
