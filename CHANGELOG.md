@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v2.4.1
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.4.0...v2.4.1)
+
+### 💅 Refactors
+
+- Move things around ([4a9cba3](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/4a9cba3))
+- Tidying ([ea25621](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/ea25621))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v2.4.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.3.1...v2.4.0)
