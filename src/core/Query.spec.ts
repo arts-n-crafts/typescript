@@ -1,7 +1,7 @@
-import type { GetUserByEmailProps } from './examples/GetUserByEmail.ts'
+import type { GetUserByEmailProps } from '@core/examples/GetUserByEmail.ts'
 import type { Query } from './Query.ts'
-import { GetUserByEmail } from './examples/GetUserByEmail.ts'
-import { createQuery } from './utils/createQuery.ts'
+import { GetUserByEmail } from '@core/examples/GetUserByEmail.ts'
+import { createQuery } from '@core/utils/createQuery.ts'
 
 describe('query', () => {
   let payload: GetUserByEmailProps

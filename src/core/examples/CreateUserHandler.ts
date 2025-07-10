@@ -1,6 +1,6 @@
+import type { Command } from '@core/Command.ts'
 import type { CommandHandler, CommandHandlerResult } from '@core/CommandHandler.ts'
-import type { Command } from '@domain/Command.ts'
-import type { CreateUserProps } from '@domain/examples/CreateUser.ts'
+import type { CreateUserProps } from '@core/examples/CreateUser.ts'
 import type { UserEvent } from '@domain/examples/User.ts'
 import type { Repository } from '@domain/Repository.ts'
 import { User } from '@domain/examples/User.ts'

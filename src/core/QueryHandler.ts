@@ -1,4 +1,4 @@
-import type { Query } from '@domain/Query.ts'
+import type { Query } from '@core/Query.ts'
 
 export interface QueryHandler<TPayload = object, TResult = object> {
   execute: (aQuery: Query<TPayload>) => Promise<TResult>

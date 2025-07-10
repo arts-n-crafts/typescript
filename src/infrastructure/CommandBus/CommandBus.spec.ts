@@ -3,10 +3,10 @@ import type { UserNameUpdated } from '@domain/examples/UserNameUpdated.js'
 import type { Repository } from '@domain/Repository.ts'
 import type { UUID } from 'node:crypto'
 import { randomUUID } from 'node:crypto'
+import { CreateUser } from '@core/examples/CreateUser.ts'
 import { CreateUserHandler } from '@core/examples/CreateUserHandler.ts'
+import { UpdateUserName } from '@core/examples/UpdateUserName.ts'
 import { UpdateUserNameHandler } from '@core/examples/UpdateUserNameHandler.ts'
-import { CreateUser } from '@domain/examples/CreateUser.ts'
-import { UpdateUserName } from '@domain/examples/UpdateUserName.ts'
 import { InMemoryCommandBus } from './implementations/InMemoryCommandBus.ts'
 
 describe('commandBus', () => {

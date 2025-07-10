@@ -1,9 +1,17 @@
+export * from './Command.ts'
 export * from './CommandHandler.ts'
 export * from './EventHandler.ts'
 export * from './Module.interface.ts'
 export * from './ProjectionHandler.ts'
-export * from './QueryHandler.ts'
 
+export * from './Query.ts'
+export * from './QueryHandler.ts'
 export * from './types/FilledArray.ts'
+
 export * from './types/Maybe.ts'
 export * from './types/UnknownFunction.ts'
+export * from './utils/createCommand.ts'
+export * from './utils/createQuery.ts'
+
+export * from './utils/isCommand.ts'
+export * from './utils/isQuery.ts'

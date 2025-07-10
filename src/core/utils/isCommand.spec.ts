@@ -1,4 +1,4 @@
-import type { Command } from '../Command.ts'
+import type { Command } from '@core/Command.ts'
 import { isCommand } from './isCommand.ts'
 
 describe('isCommand util', () => {

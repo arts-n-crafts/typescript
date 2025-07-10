@@ -1,7 +1,7 @@
 /* eslint ts/no-unsafe-assignment: 0 */ // expect.objectContaining has any type, unfortunately
 
 import { randomUUID } from 'node:crypto'
-import { createCommand } from '@domain/utils/createCommand.ts'
+import { createCommand } from '@core/utils/createCommand.ts'
 
 describe('createCommand util', () => {
   it('should be defined', () => {

@@ -1,5 +1,5 @@
+import type { Command } from '@core/Command.ts'
 import type { CommandHandler, CommandHandlerResult } from '@core/CommandHandler.ts'
-import type { Command } from '@domain/Command.ts'
 import type { CommandBus } from '../CommandBus.ts'
 
 export class InMemoryCommandBus implements CommandBus {

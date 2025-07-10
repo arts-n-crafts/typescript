@@ -1,4 +1,4 @@
-import type { Query } from '../Query.ts'
+import type { Query } from '@core/Query.ts'
 import { isQuery } from './isQuery.ts'
 
 describe('isQuery util', () => {

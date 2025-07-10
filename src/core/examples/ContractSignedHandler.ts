@@ -2,7 +2,7 @@ import type { EventHandler } from '@core/EventHandler.ts'
 import type { CommandBus } from '@infrastructure/CommandBus/CommandBus.ts'
 import type { ContractSigned, ContractSignedPayload } from '@infrastructure/EventBus/examples/ContractSigned.ts'
 import type { IntegrationEvent } from '@infrastructure/EventBus/IntegrationEvent.ts'
-import { ActivateUser } from '@domain/examples/ActivateUser.ts'
+import { ActivateUser } from '@core/examples/ActivateUser.ts'
 
 type ContractSignedEvent = ReturnType<typeof ContractSigned>
 
