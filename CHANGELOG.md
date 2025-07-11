@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v3.0.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.5.0...v3.0.0)
+
+### 🚀 Enhancements
+
+- **global:** ⚠️  Updated repository, streamKey, outbox pattern+separated worker and eventStore ([3e3b91e](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/3e3b91e))
+
+### 💅 Refactors
+
+- **StreamId:** Move StreamId to separate file ([b8432a5](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/b8432a5))
+
+#### ⚠️ Breaking Changes
+
+- **global:** ⚠️  Updated repository, streamKey, outbox pattern+separated worker and eventStore ([3e3b91e](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/3e3b91e))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v2.5.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.4.1...v2.5.0)
