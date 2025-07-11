@@ -1,23 +1,20 @@
 import type { CreateUserProps } from '@core/examples/CreateUser.ts'
-import type { UserEvent } from '@domain/examples/User.ts'
-import type { Repository } from '@domain/Repository.ts'
 import { randomUUID } from 'node:crypto'
 import { CreateUser } from '@core/examples/CreateUser.ts'
 import { UpdateUserName } from '@core/examples/UpdateUserName.ts'
+import { User } from '@domain/examples/User.ts'
 import { isDomainEvent } from '@domain/utils/isDomainEvent.ts'
+import { InMemoryEventBus } from '@infrastructure/EventBus/implementations/InMemoryEventBus.js'
+import { InMemoryEventStore } from '@infrastructure/EventStore/implementations/InMemoryEventStore.js'
+import { UserRepository } from '@infrastructure/Repository/examples/UserRepository.js'
+import { makeStreamKey } from '@utils/streamKey/index.js'
 import { CreateUserHandler } from './examples/CreateUserHandler.ts'
 import { UpdateUserNameHandler } from './examples/UpdateUserNameHandler.ts'
 
 describe('commandHandler', async () => {
-  let events: UserEvent[] = []
-  const repository: Repository<UserEvent> = {
-    async load() {
-      return events
-    },
-    async store(e) {
-      events = [...events, ...e]
-    },
-  }
+  const eventBus = new InMemoryEventBus()
+  const eventStore = new InMemoryEventStore(eventBus)
+  const repository = new UserRepository(eventStore, 'users', User.evolve, User.initialState)
   const aggregateId = randomUUID()
   const createUserHandler = new CreateUserHandler(repository)
   const props: CreateUserProps = {
@@ -33,6 +30,8 @@ describe('commandHandler', async () => {
   })
 
   it('should process the MockCreateUser Command and emit the MockUserCreated Event', async () => {
+    const streamKey = makeStreamKey('users', aggregateId)
+    const events = await eventStore.load(streamKey)
     const event = events.at(0)
     expect(events).toHaveLength(1)
     expect(event?.type).toBe('UserCreated')
@@ -41,14 +40,13 @@ describe('commandHandler', async () => {
 
   it('should process the MockUpdateUserName Command and emit the MockUserNameUpdated Event', async () => {
     const updateUserNameHandler = new UpdateUserNameHandler(repository)
-    const payload = { aggregateId, name: 'test' }
-    const metadata = { timestamp: new Date() }
-    const command = UpdateUserName(aggregateId, payload, metadata)
-    await updateUserNameHandler.execute(command)
-
-    const event = events[1]
+    const updateUserNameCommand = UpdateUserName(aggregateId, { name: 'test' })
+    await updateUserNameHandler.execute(updateUserNameCommand)
+    const streamKey = makeStreamKey('users', aggregateId)
+    const events = await eventStore.load(streamKey)
+    const event = events.at(1)
     expect(events).toHaveLength(2)
-    expect(event.type).toBe('UserNameUpdated')
+    expect(event?.type).toBe('UserNameUpdated')
     expect(isDomainEvent(event) && event.aggregateId).toBe(aggregateId)
   })
 })

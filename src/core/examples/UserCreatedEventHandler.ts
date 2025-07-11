@@ -1,14 +1,13 @@
 import type { EventHandler } from '@core/EventHandler.ts'
-import type { UserEvent } from '@domain/examples/User.js'
 import type { UserCreated } from '@domain/examples/UserCreated.ts'
-import type { Repository } from '@domain/Repository.js'
+import type { UserRepository } from '@infrastructure/Repository/examples/UserRepository.js'
 import { UserRegistrationEmailSent } from '@domain/examples/UserRegistrationEmailSent.ts'
 
 type UserCreatedEvent = ReturnType<typeof UserCreated>
 
 export class UserCreatedEventHandler implements EventHandler<UserCreatedEvent> {
   constructor(
-    private readonly repository: Repository<UserEvent>,
+    private readonly repository: UserRepository,
   ) { }
 
   async handle(anEvent: UserCreatedEvent): Promise<void> {

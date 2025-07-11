@@ -1,6 +1,6 @@
 import type { DomainEvent } from '@domain/DomainEvent.js'
 
-export interface Repository<TEvent extends DomainEvent<unknown>> {
-  load: (aggregateId: string) => Promise<TEvent[]>
-  store: (events: TEvent[]) => Promise<void>
+export interface Repository {
+  load: (aggregateId: string) => Promise<unknown>
+  store: <TEvent extends DomainEvent<TEvent['payload']>>(events: TEvent[]) => Promise<void>
 }

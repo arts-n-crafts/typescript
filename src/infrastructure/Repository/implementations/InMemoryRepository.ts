@@ -1,39 +1,33 @@
-import type { BaseEvent } from '@domain/BaseEvent.ts'
+import type { Decider } from '@domain/Decider.js'
 import type { DomainEvent } from '@domain/DomainEvent.js'
 import type { Repository } from '@domain/Repository.ts'
-import type { EventBus } from '@infrastructure/EventBus/EventBus.js'
 import type { InMemoryEventStore } from '@infrastructure/EventStore/implementations/InMemoryEventStore.js'
-import { makeStreamId } from '@utils/streamId/makeStreamId.js'
+import { makeStreamKey } from '@utils/streamKey/index.js'
 
-export abstract class InMemoryRepository<TEvent extends DomainEvent<TEvent['payload']>> implements Repository<TEvent> {
-  abstract readonly stream: string
-
+export class InMemoryRepository<TState, TCommand, TEvent extends DomainEvent<unknown>> implements Repository {
   constructor(
-    protected readonly eventStore: InMemoryEventStore,
-    protected readonly eventBus: EventBus<BaseEvent<any>>,
+    private readonly eventStore: InMemoryEventStore,
+    private readonly streamName: string,
+    private readonly evolveFn: Decider<TState, TCommand, TEvent>['evolve'],
+    private readonly initialState: Decider<TState, TCommand, TEvent>['initialState'],
   ) {
   }
 
-  async load(aggregateId: string): Promise<TEvent[]> {
-    const streamId = makeStreamId(this.stream, aggregateId)
-    return this.eventStore.load<TEvent>(streamId)
+  async load(aggregateId: string): Promise<TState> {
+    const pastEvents = await this.eventStore.load<TEvent>(
+      makeStreamKey(this.streamName, aggregateId),
+    )
+    return pastEvents.reduce(this.evolveFn, this.initialState(aggregateId))
   }
 
-  async store(events: TEvent[]): Promise<void> {
-    await Promise.all(events.map(async (event) => {
-      const streamId = makeStreamId(this.stream, event.aggregateId)
-      return this.eventStore.append(streamId, [event])
-    }))
-    await this.handleOutbox()
-  }
-
-  async handleOutbox(): Promise<void> {
-    const pendingEntries = this.eventStore.getOutboxBatch()
+  async store<TEvent extends DomainEvent<TEvent['payload']>>(events: TEvent[]): Promise<void> {
     await Promise.all(
-      pendingEntries.map(async (entry) => {
-        this.eventStore.acknowledgeDispatch(entry.id)
-        return this.eventBus.publish(entry.event)
-      }),
+      events.map(
+        async event => this.eventStore.append(
+          makeStreamKey(this.streamName, event.aggregateId),
+          [event],
+        ),
+      ),
     )
   }
 }

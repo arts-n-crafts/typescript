@@ -1,5 +1,5 @@
-export interface Decider<State, Command, Event> {
-  decide: (command: Command, currentState: State) => Event[]
-  evolve: (currentState: State, event: Event) => State
-  initialState: (id: string) => State
+export interface Decider<TState, TCommand, TEvent> {
+  decide: (command: TCommand, currentState: TState) => TEvent[]
+  evolve: (currentState: TState, event: TEvent) => TState
+  initialState: (id: string) => TState
 }

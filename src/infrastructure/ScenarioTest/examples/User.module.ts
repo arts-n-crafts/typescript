@@ -14,6 +14,7 @@ import { GetUserByEmailHandler } from '@core/examples/GetUserByEmailHandler.ts'
 import { UpdateUserNameHandler } from '@core/examples/UpdateUserNameHandler.ts'
 import { UserCreatedEventHandler } from '@core/examples/UserCreatedEventHandler.ts'
 import { UserProjectionHandler } from '@core/examples/UserProjection.ts'
+import { User } from '@domain/examples/User.ts'
 import { InMemoryDatabase } from '../../Database/implementations/InMemoryDatabase.ts'
 import { UserRepository } from '../../Repository/examples/UserRepository.ts'
 
@@ -30,7 +31,7 @@ export class UserModule implements Module {
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {
-    this.repository = new UserRepository(this.eventStore, eventBus)
+    this.repository = new UserRepository(this.eventStore, 'users', User.evolve, User.initialState)
     this.database = new InMemoryDatabase()
   }
 

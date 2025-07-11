@@ -1,18 +1,16 @@
 import type { Command } from '@core/Command.ts'
 import type { CommandHandler, CommandHandlerResult } from '@core/CommandHandler.ts'
 import type { ActivateUserProps } from '@core/examples/ActivateUser.ts'
-import type { UserEvent } from '@domain/examples/User.ts'
-import type { Repository } from '@domain/Repository.ts'
+import type { UserRepository } from '@infrastructure/Repository/examples/UserRepository.js'
 import { User } from '@domain/examples/User.ts'
 
 export class ActivateUserHandler implements CommandHandler<'ActivateUser', ActivateUserProps> {
   constructor(
-    private readonly repository: Repository<UserEvent>,
+    private readonly repository: UserRepository,
   ) {}
 
   async execute(command: Command<'ActivateUser', ActivateUserProps>): Promise<CommandHandlerResult> {
-    const pastEvents = await this.repository.load(command.aggregateId)
-    const currentState = pastEvents.reduce(User.evolve, User.initialState(command.aggregateId))
+    const currentState = await this.repository.load(command.aggregateId)
     await this.repository.store(User.decide(command, currentState))
   }
 }

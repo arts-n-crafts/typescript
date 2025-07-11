@@ -1,4 +1,4 @@
 export * from './fail/fail.ts'
 export * from './invariant/invariant.ts'
 export * from './isEqual/isEqual.ts'
-export * from './streamId/makeStreamId.ts'
+export * from './streamKey/index.ts'

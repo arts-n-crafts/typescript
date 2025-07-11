@@ -1,32 +1,35 @@
+import type { BaseEvent } from '@domain/BaseEvent.js'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { EventBus } from '@infrastructure/EventBus/EventBus.js'
 import type { EventStore } from '../EventStore.ts'
 
-interface OutboxEntry {
+export interface OutboxEntry {
   id: string
   event: DomainEvent<unknown>
   published: boolean
 }
 
 export class InMemoryEventStore implements EventStore {
-  private store = new Map<string, DomainEvent<unknown>[]>()
   private outbox: OutboxEntry[] = []
+  private store = new Map<string, DomainEvent<unknown>[]>()
 
-  async load<TEvent extends DomainEvent<TEvent['payload']>>(streamId: string): Promise<TEvent[]> {
-    const events = this.store.get(streamId)
+  constructor(private readonly eventBus: EventBus<BaseEvent<unknown>>) {
+  }
+
+  async load<TEvent extends DomainEvent<TEvent['payload']>>(streamKey: string): Promise<TEvent[]> {
+    const events = this.store.get(streamKey)
     return [...(events || [])] as TEvent[]
   }
 
-  async append<TEvent extends DomainEvent<TEvent['payload']>>(streamId: string, events: TEvent[]): Promise<void> {
-    const existing = await this.load(streamId)
+  async append<TEvent extends DomainEvent<TEvent['payload']>>(streamKey: string, events: TEvent[]): Promise<void> {
+    const existing = await this.load(streamKey)
 
-    this.store.set(streamId, [...existing, ...events])
+    this.store.set(streamKey, [...existing, ...events])
 
-    this.outbox.push(
-      ...events.map(event => ({ id: event.id, event, published: false })),
-    )
+    this.outbox.push(...events.map(event => ({ id: event.id, event, published: false })))
   }
 
-  getOutboxBatch(limit = 10): OutboxEntry[] {
+  getOutboxBatch(limit?: number): OutboxEntry[] {
     return this.outbox
       .filter(entry => !entry.published)
       .slice(0, limit)

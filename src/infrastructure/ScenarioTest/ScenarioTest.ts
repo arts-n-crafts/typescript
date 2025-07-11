@@ -2,6 +2,8 @@ import type { Command } from '@core/Command.ts'
 import type { Query } from '@core/Query.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { Repository } from '@domain/Repository.js'
+import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
+import type { OutboxWorker } from '@infrastructure/EventStore/OutboxWorker.js'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { EventBus } from '../EventBus/EventBus.ts'
 import type { IntegrationEvent } from '../EventBus/IntegrationEvent.ts'
@@ -13,6 +15,7 @@ import { isEvent } from '@domain/utils/isEvent.ts'
 import { fail } from '@utils/fail/fail.js'
 import { invariant } from '@utils/invariant/invariant.js'
 import { isEqual } from '@utils/isEqual/isEqual.js'
+import { makeStreamKey } from '@utils/streamKey/index.js'
 import { isIntegrationEvent } from '../EventBus/utils/isIntegrationEvent.ts'
 
 type GivenInput = (DomainEvent<unknown> | IntegrationEvent<unknown>)[]
@@ -27,10 +30,13 @@ export class ScenarioTest {
   private whenInput: WhenInput | undefined
 
   constructor(
+    private readonly streamName: string,
     private readonly eventBus: EventBus<DomainEvent<unknown> | IntegrationEvent<unknown>>,
+    private readonly eventStore: EventStore,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-    private readonly repository: Repository<DomainEvent<any>>,
+    private readonly repository: Repository,
+    private readonly outboxWorker: OutboxWorker,
   ) {}
 
   given(...events: GivenInput): {
@@ -99,7 +105,8 @@ export class ScenarioTest {
     }
 
     await this.commandBus.execute(command)
-    const actualEvents = await this.repository.load(outcome.aggregateId)
+    const streamKey = makeStreamKey(this.streamName, outcome.aggregateId)
+    const actualEvents = await this.eventStore.load(streamKey)
     const foundEvent = actualEvents.findLast(
       event =>
         this.isDomainEvent(event)
@@ -122,6 +129,7 @@ export class ScenarioTest {
   }
 
   private async handleQuery(query: Query, outcome: ThenInput): Promise<void> {
+    await this.outboxWorker.tick()
     const queryResult = await this.queryBus.execute(query)
     invariant(
       isEqual(queryResult, outcome),
@@ -140,7 +148,8 @@ export class ScenarioTest {
       )
     }
 
-    const actualEvents = await this.repository.load(outcome.aggregateId)
+    const streamKey = makeStreamKey(this.streamName, outcome.aggregateId)
+    const actualEvents = await this.eventStore.load(streamKey)
     const foundEvent = actualEvents.findLast(
       event =>
         isEvent(event) && event.aggregateId === outcome.aggregateId && event.type === outcome.type,
