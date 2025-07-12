@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v3.0.3
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.0.2...v3.0.3)
+
+### 💅 Refactors
+
+- Remove unused eventbus in inmemory event store ([28c0e4e](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/28c0e4e))
+
+### 🏡 Chore
+
+- Add publish script to package.json ([ba80199](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/ba80199))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.0.2
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.0.1...v3.0.2)
