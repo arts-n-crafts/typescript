@@ -34,8 +34,7 @@
     "test:ui": "NODE_ENV=test vitest --watch --coverage --ui",
     "coverage": "NODE_ENV=test vitest --coverage",
     "typecheck": "tsc --noEmit",
-    "release": "release-it",
-    "publish": "npm publish --access=public",
+    "release": "release-it && npm publish --access=public",
     "build": "rimraf dist && tsup",
     "check-exports": "attw --pack ."
   },
@@ -66,8 +65,5 @@
     "typescript-eslint": "^8.35.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
