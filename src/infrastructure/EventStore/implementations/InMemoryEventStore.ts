@@ -1,11 +1,6 @@
 import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { EventStore } from '../EventStore.ts'
-
-export interface OutboxEntry {
-  id: string
-  event: DomainEvent<unknown>
-  published: boolean
-}
+import type { OutboxEntry } from '../OutboxEntry.ts'
 
 export class InMemoryEventStore implements EventStore {
   private outbox: OutboxEntry[] = []
