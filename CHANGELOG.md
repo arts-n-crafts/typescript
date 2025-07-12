@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.0.1
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.0.0...v3.0.1)
+
+### 💅 Refactors
+
+- Query and command kind-property should not be in metadata ([3d2a779](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/3d2a779))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.0.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v2.5.0...v3.0.0)
