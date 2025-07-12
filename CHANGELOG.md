@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.0.2
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.0.1...v3.0.2)
+
+### 🏡 Chore
+
+- Add utils to export ([9c1ada2](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/9c1ada2))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.0.1
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.0.0...v3.0.1)
