@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.1.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.0.3...v3.1.0)
+
+### 🚀 Enhancements
+
+- Separate outbox entry ([770f09a](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/770f09a))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.0.3
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.0.2...v3.0.3)
