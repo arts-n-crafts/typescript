@@ -11,7 +11,7 @@ describe('outbox worker', () => {
 
   it('background worker publishes and acknowledges events', async () => {
     const eventBus = new InMemoryEventBus()
-    const eventStore = new InMemoryEventStore(eventBus)
+    const eventStore = new InMemoryEventStore()
     const worker = new InMemoryOutboxWorker(eventStore, eventBus)
 
     const event = UserCreated(randomUUID(), { name: 'test', email: 'musk@x.com' })

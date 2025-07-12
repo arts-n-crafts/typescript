@@ -34,7 +34,7 @@ describe('scenario test', () => {
 
   beforeEach(() => {
     eventBus = new InMemoryEventBus()
-    eventStore = new InMemoryEventStore(eventBus)
+    eventStore = new InMemoryEventStore()
     commandBus = new InMemoryCommandBus()
     queryBus = new InMemoryQueryBus()
     outboxWorker = new InMemoryOutboxWorker(eventStore, eventBus)

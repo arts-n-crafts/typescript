@@ -1,6 +1,4 @@
-import type { BaseEvent } from '@domain/BaseEvent.js'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
-import type { EventBus } from '@infrastructure/EventBus/EventBus.js'
 import type { EventStore } from '../EventStore.ts'
 
 export interface OutboxEntry {
@@ -12,9 +10,6 @@ export interface OutboxEntry {
 export class InMemoryEventStore implements EventStore {
   private outbox: OutboxEntry[] = []
   private store = new Map<string, DomainEvent<unknown>[]>()
-
-  constructor(private readonly eventBus: EventBus<BaseEvent<unknown>>) {
-  }
 
   async load<TEvent extends DomainEvent<TEvent['payload']>>(streamKey: string): Promise<TEvent[]> {
     const events = this.store.get(streamKey)

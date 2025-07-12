@@ -13,7 +13,7 @@ describe('eventBus', () => {
   let repository: UserRepository
 
   beforeEach(() => {
-    eventStore = new InMemoryEventStore(eventBus)
+    eventStore = new InMemoryEventStore()
     repository = new UserRepository(eventStore, 'users', User.evolve, User.initialState)
   })
 

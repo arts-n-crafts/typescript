@@ -3,14 +3,12 @@ import type { UserEvent } from '@domain/examples/User.js'
 import { randomUUID } from 'node:crypto'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
 import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
-import { InMemoryEventBus } from '@infrastructure/EventBus/implementations/InMemoryEventBus.js'
 import { beforeEach, describe } from 'vitest'
 import { InMemoryEventStore } from './implementations/InMemoryEventStore.ts'
 
 const makeUserStreamId = (aggregateId: string) => `user-${aggregateId}`
 
 describe('inMemoryEventStore', () => {
-  const eventBus = new InMemoryEventBus()
   let eventStore: InMemoryEventStore
 
   let event1: DomainEvent<unknown>
@@ -18,7 +16,7 @@ describe('inMemoryEventStore', () => {
   let event3: DomainEvent<unknown>
 
   beforeEach(async () => {
-    eventStore = new InMemoryEventStore(eventBus)
+    eventStore = new InMemoryEventStore()
 
     event1 = UserCreated(randomUUID(), { name: 'elon', email: 'musk@x.com' })
     event2 = UserNameUpdated(event1.aggregateId, { name: 'Donald' })

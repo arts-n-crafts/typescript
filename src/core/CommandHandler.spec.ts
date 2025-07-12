@@ -4,7 +4,6 @@ import { CreateUser } from '@core/examples/CreateUser.ts'
 import { UpdateUserName } from '@core/examples/UpdateUserName.ts'
 import { User } from '@domain/examples/User.ts'
 import { isDomainEvent } from '@domain/utils/isDomainEvent.ts'
-import { InMemoryEventBus } from '@infrastructure/EventBus/implementations/InMemoryEventBus.js'
 import { InMemoryEventStore } from '@infrastructure/EventStore/implementations/InMemoryEventStore.js'
 import { UserRepository } from '@infrastructure/Repository/examples/UserRepository.js'
 import { makeStreamKey } from '@utils/streamKey/index.js'
@@ -12,8 +11,7 @@ import { CreateUserHandler } from './examples/CreateUserHandler.ts'
 import { UpdateUserNameHandler } from './examples/UpdateUserNameHandler.ts'
 
 describe('commandHandler', async () => {
-  const eventBus = new InMemoryEventBus()
-  const eventStore = new InMemoryEventStore(eventBus)
+  const eventStore = new InMemoryEventStore()
   const repository = new UserRepository(eventStore, 'users', User.evolve, User.initialState)
   const aggregateId = randomUUID()
   const createUserHandler = new CreateUserHandler(repository)
