@@ -10,8 +10,8 @@ describe('isQuery util', () => {
     const query: Query<object> = {
       type: 'TestQuery',
       payload: {},
+      kind: 'query',
       metadata: {
-        kind: 'query',
         timestamp: new Date().toISOString(),
       },
     }
@@ -25,8 +25,8 @@ describe('isQuery util', () => {
       __scenario: 'CANDIDATE_IS_MISSING_TYPE',
       input: {
         payload: {},
+        kind: 'query',
         metadata: {
-          kind: 'query',
           timestamp: new Date().toISOString(),
         },
       },
@@ -36,8 +36,8 @@ describe('isQuery util', () => {
       input: {
         type: 'TestQuery',
         payload: {},
+        kind: undefined,
         metadata: {
-          kind: undefined,
           timestamp: new Date().toISOString(),
         },
       },

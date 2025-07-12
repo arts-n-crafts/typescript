@@ -6,9 +6,9 @@ export function createQuery<TPayload>(type: string, payload: TPayload, metadata?
     id: randomUUID(),
     type,
     payload,
+    kind: 'query',
     metadata: {
       ...metadata,
-      kind: 'query',
       timestamp: new Date().toISOString(),
     },
   })

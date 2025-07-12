@@ -7,9 +7,9 @@ export function createCommand<TType extends string, TPayload>(type: TType, aggre
     type,
     aggregateId: String(aggregateId),
     payload,
+    kind: 'command' as const,
     metadata: {
       ...metadata,
-      kind: 'command' as const,
       timestamp: new Date().toISOString(),
     },
   })

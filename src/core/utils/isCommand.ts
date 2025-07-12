@@ -7,11 +7,5 @@ export function isCommand(candidate: unknown): candidate is Command<string, unkn
     return false
   if (!('type' in candidate))
     return false
-  if (!('metadata' in candidate))
-    return false
-  if (candidate.metadata === null)
-    return false
-  if (typeof candidate.metadata !== 'object')
-    return false
-  return 'kind' in candidate.metadata && candidate.metadata.kind === 'command'
+  return 'kind' in candidate && candidate.kind === 'command'
 }

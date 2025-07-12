@@ -15,9 +15,9 @@ describe('createCommand util', () => {
       expect.objectContaining({
         id: expect.any(String),
         aggregateId,
+        kind: 'command',
         metadata: expect.objectContaining({
           timestamp: expect.any(String),
-          kind: 'command',
         }),
         payload: {
           value: 'test',

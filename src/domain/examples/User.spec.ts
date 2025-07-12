@@ -41,7 +41,6 @@ describe('user decider', () => {
         metadata: {
           // eslint-disable-next-line ts/no-unsafe-assignment
           timestamp: expect.any(String),
-          kind: 'command',
         },
       })
     })
@@ -71,7 +70,6 @@ describe('user decider', () => {
         metadata: {
           // eslint-disable-next-line ts/no-unsafe-assignment
           timestamp: expect.any(String),
-          kind: 'command',
         },
       })
     })

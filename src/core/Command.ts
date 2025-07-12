@@ -8,8 +8,8 @@ export interface Command<TType, TPayload> {
   type: TType
   aggregateId: string
   payload: TPayload
+  kind: 'command'
   metadata: {
     timestamp: string
-    kind: 'command'
   } & CommandMetadata
 }

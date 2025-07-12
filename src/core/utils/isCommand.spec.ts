@@ -11,8 +11,8 @@ describe('isCommand util', () => {
       type: 'TestCommand',
       aggregateId: '123',
       payload: { foo: 'bar' },
+      kind: 'command',
       metadata: {
-        kind: 'command',
         timestamp: new Date().toISOString(),
       },
     }
@@ -27,8 +27,8 @@ describe('isCommand util', () => {
       input: {
         aggregateId: '123',
         payload: {},
+        kind: 'command',
         metadata: {
-          kind: 'command',
           timestamp: new Date().toISOString(),
         },
       },
@@ -39,8 +39,8 @@ describe('isCommand util', () => {
         type: 'TestCommand',
         aggregateId: '123',
         payload: {},
+        kind: undefined,
         metadata: {
-          kind: undefined,
           timestamp: new Date().toISOString(),
         },
       },

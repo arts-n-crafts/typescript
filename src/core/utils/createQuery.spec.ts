@@ -12,9 +12,9 @@ describe('createQuery util', () => {
     expect(query).toStrictEqual(
       expect.objectContaining({
         id: expect.any(String),
+        kind: 'query',
         metadata: expect.objectContaining({
           timestamp: expect.any(String),
-          kind: 'query',
         }),
         payload: {
           value: 'test',
