@@ -35,6 +35,7 @@
     "coverage": "NODE_ENV=test vitest --coverage",
     "typecheck": "tsc --noEmit",
     "release": "release-it",
+    "publish": "npm publish --access=public",
     "build": "rimraf dist && tsup",
     "check-exports": "attw --pack ."
   },
