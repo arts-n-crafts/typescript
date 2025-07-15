@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v3.1.1
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.1.0...v3.1.1)
+
+### 💅 Refactors
+
+- Update types of injected properties ([9b9db40](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/9b9db40))
+
+### 🏡 Chore
+
+- Remove publish script and integrate into release ([3db055f](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/3db055f))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.1.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.0.3...v3.1.0)
