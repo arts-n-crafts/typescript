@@ -32,7 +32,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent<TEvent['payload']>>
   constructor(
     private readonly streamName: string,
     private readonly eventBus: EventBus<DomainEvent<any> | IntegrationEvent<any>>,
-    private readonly eventStore: EventStore<TEvent>,
+    private readonly eventStore: EventStore,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
     private readonly repository: Repository<TState, TEvent>,

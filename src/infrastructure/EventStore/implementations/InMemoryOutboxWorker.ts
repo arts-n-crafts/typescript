@@ -6,7 +6,7 @@ import type { OutboxWorker } from '@infrastructure/EventStore/OutboxWorker.js'
 
 export class InMemoryOutboxWorker<TEvent extends DomainEvent<TEvent['payload']>> implements OutboxWorker {
   constructor(
-    private readonly eventStore: EventStore<TEvent>,
+    private readonly eventStore: EventStore,
     private readonly eventBus: EventBus<BaseEvent<unknown>>,
   ) {}
 

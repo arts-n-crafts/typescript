@@ -8,7 +8,7 @@ import { InMemoryEventStore } from './implementations/InMemoryEventStore.ts'
 
 describe('inMemoryEventStore', () => {
   const STREAM = 'users'
-  let eventStore: InMemoryEventStore<UserEvent>
+  let eventStore: InMemoryEventStore
 
   let event1: UserEvent
   let event2: UserEvent

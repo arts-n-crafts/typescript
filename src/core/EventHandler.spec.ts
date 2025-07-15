@@ -1,5 +1,4 @@
 import type { DomainEvent } from '@domain/DomainEvent.js'
-import type { UserEvent } from '@domain/examples/User.js'
 import type { UserRegistrationEmailSentPayload } from '@domain/examples/UserRegistrationEmailSent.js'
 import { randomUUID } from 'node:crypto'
 import { ContractSignedHandler } from '@core/examples/ContractSignedHandler.ts'
@@ -11,7 +10,7 @@ import { UserRepository } from '@infrastructure/Repository/examples/UserReposito
 import { makeStreamKey } from '@utils/streamKey/index.js'
 
 describe('eventHandler', () => {
-  const eventStore = new InMemoryEventStore<UserEvent>()
+  const eventStore = new InMemoryEventStore()
   const repository = new UserRepository(eventStore, 'users', User.evolve, User.initialState)
   const handler = new UserCreatedEventHandler(repository)
 

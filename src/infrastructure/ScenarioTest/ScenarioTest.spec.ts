@@ -25,7 +25,7 @@ import { ScenarioTest } from './ScenarioTest.ts'
 
 describe('scenario test', () => {
   const id = randomUUID()
-  let eventStore: InMemoryEventStore<UserEvent>
+  let eventStore: InMemoryEventStore
   let eventBus: InMemoryEventBus<BaseEvent<unknown>>
   let commandBus: CommandBus
   let queryBus: QueryBus
@@ -35,7 +35,7 @@ describe('scenario test', () => {
 
   beforeEach(() => {
     eventBus = new InMemoryEventBus()
-    eventStore = new InMemoryEventStore<UserEvent>()
+    eventStore = new InMemoryEventStore()
     commandBus = new InMemoryCommandBus()
     queryBus = new InMemoryQueryBus()
     outboxWorker = new InMemoryOutboxWorker<UserEvent>(eventStore, eventBus)
