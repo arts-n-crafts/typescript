@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.1.3
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.1.2...v3.1.3)
+
+### 💅 Refactors
+
+- Make the outboxWorker interfaces exported ([dca2c94](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/dca2c94))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v3.1.2
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.1.1...v3.1.2)
