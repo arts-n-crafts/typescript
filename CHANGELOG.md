@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.2.1
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.2.0...v3.2.1)
+
+### 💅 Refactors
+
+- **EventStore:** Move generic to methods ([edff33f](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/edff33f))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v3.2.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.1.7...v3.2.0)
