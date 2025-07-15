@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.2.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.1.7...v3.2.0)
+
+### 💅 Refactors
+
+- Move timestamp from metadata to root in command, query and event ([2e09fab](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/2e09fab))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v3.1.7
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.1.6...v3.1.7)
