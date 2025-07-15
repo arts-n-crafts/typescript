@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.3.1
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.3.0...v3.3.1)
+
+### 💅 Refactors
+
+- Expand database record ([4e4346e](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/4e4346e))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.3.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.2.1...v3.3.0)
