@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.1.7
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.1.6...v3.1.7)
+
+### 💅 Refactors
+
+- Updated scenario typing to be generic ([352f258](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/352f258))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v3.1.6
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.1.5...v3.1.6)
