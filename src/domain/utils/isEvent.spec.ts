@@ -13,9 +13,8 @@ describe('isEvent util', () => {
       type: 'TestEvent',
       payload: {},
       source: 'internal',
-      metadata: {
-        timestamp: new Date().toISOString(),
-      },
+      timestamp: new Date().toISOString(),
+      metadata: {},
     }
     expect(isEvent(event)).toBeTruthy()
   })
@@ -29,9 +28,8 @@ describe('isEvent util', () => {
         id: '123',
         payload: {},
         source: 'internal',
-        metadata: {
-          timestamp: new Date().toISOString(),
-        },
+        timestamp: new Date().toISOString(),
+        metadata: {},
       },
     },
     {
@@ -66,9 +64,8 @@ describe('isEvent util', () => {
         id: '123',
         type: 'TestEvent',
         payload: {},
-        metadata: {
-          timestamp: new Date().toISOString(),
-        },
+        timestamp: new Date().toISOString(),
+        metadata: {},
       },
     },
   ])('should confirm that the candidate is NOT an event ($__scenario)', ({ input }: { input: unknown }) => {

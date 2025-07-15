@@ -29,7 +29,7 @@ describe('command', () => {
     const command = UpdateUserName(aggregateId, payload, metadata)
     expect(command.payload.name).toBe('test')
     expect(command.metadata?.causationId).toBe(metadata.causationId)
-    expect(command.metadata.timestamp).toBeDefined()
+    expect(command.timestamp).toBeDefined()
   })
 
   it('should have a kind', () => {

@@ -11,9 +11,8 @@ describe('isQuery util', () => {
       type: 'TestQuery',
       payload: {},
       kind: 'query',
-      metadata: {
-        timestamp: new Date().toISOString(),
-      },
+      timestamp: new Date().toISOString(),
+      metadata: {},
     }
     expect(isQuery(query)).toBeTruthy()
   })
@@ -26,9 +25,8 @@ describe('isQuery util', () => {
       input: {
         payload: {},
         kind: 'query',
-        metadata: {
-          timestamp: new Date().toISOString(),
-        },
+        timestamp: new Date().toISOString(),
+        metadata: {},
       },
     },
     {
@@ -37,9 +35,8 @@ describe('isQuery util', () => {
         type: 'TestQuery',
         payload: {},
         kind: undefined,
-        metadata: {
-          timestamp: new Date().toISOString(),
-        },
+        timestamp: new Date().toISOString(),
+        metadata: {},
       },
     },
     {

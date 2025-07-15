@@ -38,10 +38,9 @@ describe('user decider', () => {
         ...userCreated,
         // eslint-disable-next-line ts/no-unsafe-assignment
         id: expect.any(String),
-        metadata: {
-          // eslint-disable-next-line ts/no-unsafe-assignment
-          timestamp: expect.any(String),
-        },
+        // eslint-disable-next-line ts/no-unsafe-assignment
+        timestamp: expect.any(String),
+        metadata: {},
       })
     })
 
@@ -67,9 +66,9 @@ describe('user decider', () => {
         ...userNameUpdated,
         // eslint-disable-next-line ts/no-unsafe-assignment
         id: expect.any(String),
+        // eslint-disable-next-line ts/no-unsafe-assignment
+        timestamp: expect.any(String),
         metadata: {
-          // eslint-disable-next-line ts/no-unsafe-assignment
-          timestamp: expect.any(String),
         },
       })
     })

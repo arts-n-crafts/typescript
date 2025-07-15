@@ -21,7 +21,6 @@ export interface DomainEvent<TPayload> {
   aggregateId: string
   source: 'internal'
   payload: TPayload
-  metadata: {
-    timestamp: string
-  } & Partial<DomainEventMetadata>
+  timestamp: string
+  metadata: Partial<DomainEventMetadata>
 }

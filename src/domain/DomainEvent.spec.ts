@@ -40,7 +40,7 @@ describe('domainEvent', () => {
     expect(event.id).toBeDefined()
     expect(event.aggregateId).toBe(aggregateId)
     expect(event.payload).toStrictEqual(payload)
-    expect(event.metadata).toHaveProperty('timestamp')
+    expect(event).toHaveProperty('timestamp')
   })
 
   it('should create the UserNameUpdated event', () => {
@@ -50,7 +50,7 @@ describe('domainEvent', () => {
     expect(event.type).toBe('UserNameUpdated')
     expect(event.aggregateId).toBe(aggregateId)
     expect(event.payload).toBe(payload)
-    expect(event.metadata).toHaveProperty('timestamp')
+    expect(event).toHaveProperty('timestamp')
   })
 
   it('should create the UserRegistrationEmailSent event', () => {
@@ -60,6 +60,6 @@ describe('domainEvent', () => {
     expect(event.type).toBe('UserRegistrationEmailSent')
     expect(event.aggregateId).toBe(aggregateId)
     expect(event.payload).toBe(payload)
-    expect(event.metadata).toHaveProperty('timestamp')
+    expect(event).toHaveProperty('timestamp')
   })
 })

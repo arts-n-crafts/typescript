@@ -6,7 +6,6 @@ export interface Query<TPayload = object> {
   type: string
   payload: TPayload
   kind: 'query'
-  metadata: {
-    timestamp: string
-  } & QueryMetadata
+  timestamp: string
+  metadata: Partial<QueryMetadata>
 }

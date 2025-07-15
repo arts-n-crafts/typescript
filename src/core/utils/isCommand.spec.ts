@@ -12,8 +12,8 @@ describe('isCommand util', () => {
       aggregateId: '123',
       payload: { foo: 'bar' },
       kind: 'command',
+      timestamp: new Date().toISOString(),
       metadata: {
-        timestamp: new Date().toISOString(),
       },
     }
     expect(isCommand(command)).toBeTruthy()
@@ -28,8 +28,8 @@ describe('isCommand util', () => {
         aggregateId: '123',
         payload: {},
         kind: 'command',
+        timestamp: new Date().toISOString(),
         metadata: {
-          timestamp: new Date().toISOString(),
         },
       },
     },
@@ -40,8 +40,8 @@ describe('isCommand util', () => {
         aggregateId: '123',
         payload: {},
         kind: undefined,
+        timestamp: new Date().toISOString(),
         metadata: {
-          timestamp: new Date().toISOString(),
         },
       },
     },
@@ -51,8 +51,8 @@ describe('isCommand util', () => {
         type: 'TestCommand',
         aggregateId: '123',
         payload: {},
+        timestamp: new Date().toISOString(),
         metadata: {
-          timestamp: new Date().toISOString(),
         },
       },
     },
