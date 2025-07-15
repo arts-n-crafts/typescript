@@ -26,14 +26,14 @@ type WhenInput = Command<string, any>
   | IntegrationEvent<any>
 type ThenInput = DomainEvent<any> | Record<string, any>[]
 
-export class ScenarioTest {
+export class ScenarioTest<TEvent extends DomainEvent<TEvent['payload']>> {
   private givenInput: GivenInput = []
   private whenInput: WhenInput | undefined
 
   constructor(
     private readonly streamName: string,
     private readonly eventBus: EventBus<DomainEvent<any> | IntegrationEvent<any>>,
-    private readonly eventStore: EventStore<UserEvent>,
+    private readonly eventStore: EventStore<TEvent>,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
     private readonly repository: Repository<UserState, UserEvent>,
@@ -41,7 +41,7 @@ export class ScenarioTest {
   ) {}
 
   given(...events: GivenInput): {
-    when: (action: WhenInput) => ReturnType<ScenarioTest['when']>
+    when: (action: WhenInput) => ReturnType<ScenarioTest<TEvent>['when']>
     then: (outcome: ThenInput) => Promise<void>
   } {
     this.givenInput = events

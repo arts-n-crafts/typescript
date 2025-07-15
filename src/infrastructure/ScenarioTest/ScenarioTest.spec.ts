@@ -31,7 +31,7 @@ describe('scenario test', () => {
   let queryBus: QueryBus
   let repository: UserRepository
   let outboxWorker: OutboxWorker
-  let scenarioTest: ScenarioTest
+  let scenarioTest: ScenarioTest<UserEvent>
 
   beforeEach(() => {
     eventBus = new InMemoryEventBus()
