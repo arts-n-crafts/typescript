@@ -1,6 +1,5 @@
-import type { BaseEvent } from '@domain/BaseEvent.js'
 import type { UserEvent, UserState } from '@domain/examples/User.js'
-import type { OutboxWorker } from '@infrastructure/EventStore/OutboxWorker.js'
+import type { Outbox } from '@infrastructure/Outbox/Outbox.ts'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { QueryBus } from '../QueryBus/QueryBus.ts'
 import { randomUUID } from 'node:crypto'
@@ -12,7 +11,8 @@ import { UserActivated } from '@domain/examples/UserActivated.ts'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
 import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
 import { UserRegistrationEmailSent } from '@domain/examples/UserRegistrationEmailSent.ts'
-import { InMemoryOutboxWorker } from '@infrastructure/EventStore/implementations/InMemoryOutboxWorker.js'
+import { InMemoryOutbox } from '@infrastructure/Outbox/implementations/InMemoryOutbox.ts'
+import { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.ts'
 import { UserRepository } from '@infrastructure/Repository/examples/UserRepository.js'
 import { InMemoryCommandBus } from '../CommandBus/implementations/InMemoryCommandBus.ts'
 import { ContractSigned } from '../EventBus/examples/ContractSigned.ts'
@@ -26,7 +26,8 @@ import { ScenarioTest } from './ScenarioTest.ts'
 describe('scenario test', () => {
   const id = randomUUID()
   let eventStore: InMemoryEventStore
-  let eventBus: InMemoryEventBus<BaseEvent<unknown>>
+  let eventBus: InMemoryEventBus
+  let outbox: Outbox
   let commandBus: CommandBus
   let queryBus: QueryBus
   let repository: UserRepository
@@ -35,10 +36,11 @@ describe('scenario test', () => {
 
   beforeEach(() => {
     eventBus = new InMemoryEventBus()
-    eventStore = new InMemoryEventStore()
+    outbox = new InMemoryOutbox()
+    eventStore = new InMemoryEventStore(outbox)
     commandBus = new InMemoryCommandBus()
     queryBus = new InMemoryQueryBus()
-    outboxWorker = new InMemoryOutboxWorker<UserEvent>(eventStore, eventBus)
+    outboxWorker = new OutboxWorker(outbox, eventBus)
     repository = new UserRepository(eventStore, 'users', User.evolve, User.initialState)
 
     scenarioTest = new ScenarioTest('users', eventBus, eventStore, commandBus, queryBus, repository, outboxWorker)

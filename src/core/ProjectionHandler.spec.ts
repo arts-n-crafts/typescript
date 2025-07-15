@@ -15,7 +15,7 @@ describe('projectionHandler', () => {
   const id: UUID = randomUUID()
   const payload = { name: 'Elon', email: 'musk@x.com' }
   const database: Database = new InMemoryDatabase()
-  let eventBus: EventBus<UserEvent>
+  let eventBus: EventBus
   let handler: ProjectionHandler<UserEvent>
 
   beforeEach(async () => {

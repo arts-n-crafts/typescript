@@ -1,4 +1,5 @@
 import type { UserEvent } from '@domain/examples/User.js'
+import type { EventStore } from './EventStore.ts'
 import { randomUUID } from 'node:crypto'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
 import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
@@ -8,7 +9,7 @@ import { InMemoryEventStore } from './implementations/InMemoryEventStore.ts'
 
 describe('inMemoryEventStore', () => {
   const STREAM = 'users'
-  let eventStore: InMemoryEventStore
+  let eventStore: EventStore
 
   let event1: UserEvent
   let event2: UserEvent
@@ -44,28 +45,6 @@ describe('inMemoryEventStore', () => {
     it('should return an empty array if no events are found', async () => {
       const events = await eventStore.load(makeStreamKey('non_existent', '123'))
       expect(events).toHaveLength(0)
-    })
-  })
-
-  describe('outbox', () => {
-    it('should only have unpublished entries in the outbox', async () => {
-      const outbox = eventStore.getOutboxBatch()
-
-      expect(outbox).toHaveLength(3)
-      expect(outbox.every(entry => !entry.published))
-    })
-
-    it('should acknowledge dispatch in the outbox', async () => {
-      eventStore.acknowledgeDispatch(event3.id)
-      const outbox = eventStore.getOutboxBatch()
-      expect(outbox).toHaveLength(2)
-    })
-
-    it('should do nothing if the entry is not in the outbox', async () => {
-      eventStore.acknowledgeDispatch(randomUUID())
-      const outbox = eventStore.getOutboxBatch()
-
-      expect(outbox).toHaveLength(3)
     })
   })
 })

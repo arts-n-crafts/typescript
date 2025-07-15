@@ -7,9 +7,9 @@ export function createIntegrationEvent<TPayload>(type: string, payload: TPayload
     type,
     payload,
     source: 'external',
+    timestamp: new Date().toISOString(),
     metadata: {
       ...metadata,
-      timestamp: new Date().toISOString(),
     },
   })
 }

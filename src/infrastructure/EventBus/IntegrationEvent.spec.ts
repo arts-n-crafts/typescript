@@ -36,7 +36,7 @@ describe('integrationEvent', () => {
     expect(event.id).toBeDefined()
     expect(event.type).toBe('ContractSigned')
     expect(event.payload).toBe(payload)
-    expect(event.metadata).toHaveProperty('timestamp')
+    expect(event).toHaveProperty('timestamp')
   })
 
   it('should create the ProductCreated event', () => {
@@ -48,6 +48,6 @@ describe('integrationEvent', () => {
     expect(event.id).toBeDefined()
     expect(event.type).toBe('ProductCreated')
     expect(event.payload).toBe(payload)
-    expect(event.metadata).toHaveProperty('timestamp')
+    expect(event).toHaveProperty('timestamp')
   })
 })

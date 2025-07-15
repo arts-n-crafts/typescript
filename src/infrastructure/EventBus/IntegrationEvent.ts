@@ -20,7 +20,7 @@ export interface IntegrationEvent<TPayload> {
   type: string
   source: 'external'
   payload: TPayload
+  timestamp: string
   metadata: {
-    timestamp: string
   } & Partial<IntegrationEventMetadata>
 }

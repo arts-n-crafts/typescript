@@ -27,7 +27,7 @@ export class UserModule implements Module {
 
   constructor(
     private readonly eventStore: InMemoryEventStore,
-    private readonly eventBus: EventBus<AllEvents>,
+    private readonly eventBus: EventBus,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {

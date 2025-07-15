@@ -2,18 +2,19 @@ import type { EventHandler } from '@core/EventHandler.ts'
 import type { BaseEvent } from '@domain/BaseEvent.ts'
 import type { EventBus } from '../EventBus.ts'
 
-export class InMemoryEventBus<TEvent extends BaseEvent<TEvent['payload']>> implements EventBus<TEvent> {
-  private handlers: Map<BaseEvent<unknown>['type'], EventHandler<any>[]> = new Map()
+export class InMemoryEventBus implements EventBus {
+  private handlers = new Map<BaseEvent<unknown>['type'], EventHandler<BaseEvent<unknown>>[]>()
 
-  subscribe<TSpecificEvent extends TEvent>(
-    anEventType: TSpecificEvent['type'],
-    aHandler: EventHandler<TSpecificEvent>,
+  subscribe<TEvent extends BaseEvent<TEvent['payload']>>(
+    anEventType: TEvent['type'],
+    aHandler: EventHandler<TEvent>,
   ): void {
     const handlersForType = this.handlers.get(anEventType) ?? []
-    this.handlers.set(anEventType, [...handlersForType, aHandler])
+    handlersForType.push(aHandler as EventHandler<BaseEvent<unknown>>)
+    this.handlers.set(anEventType, handlersForType)
   }
 
-  async publish<TSpecificEvent extends TEvent>(anEvent: TSpecificEvent): Promise<void> {
+  async publish<TEvent extends BaseEvent<TEvent['payload']>>(anEvent: TEvent): Promise<void> {
     const handlersForType = this.handlers.get(anEvent.type) ?? []
     await Promise.all(
       handlersForType.map(async handler => handler.handle(anEvent)),

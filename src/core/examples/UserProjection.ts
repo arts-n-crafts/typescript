@@ -11,7 +11,7 @@ export type UserModel = UserCreatedPayload & DatabaseRecord
 
 export class UserProjectionHandler implements ProjectionHandler<UserEvent> {
   constructor(
-    private eventBus: EventBus<UserEvent>,
+    private eventBus: EventBus,
     private database: Database,
   ) { }
 

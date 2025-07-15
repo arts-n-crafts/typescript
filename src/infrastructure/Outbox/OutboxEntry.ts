@@ -2,6 +2,8 @@ import type { DomainEvent } from '@domain/DomainEvent.ts'
 
 export interface OutboxEntry {
   id: string
-  event: DomainEvent<any>
+  event: DomainEvent<unknown>
   published: boolean
+  retryCount: number
+  lastAttemptAt?: string
 }
