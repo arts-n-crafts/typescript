@@ -1,9 +1,10 @@
 export interface DatabaseRecord {
   id: string
+  [key: string]: unknown
 }
 
 export interface Database {
-  query: <T extends DatabaseRecord>(tableName: string, query: Partial<T>[]) => Promise<T[]>
+  query: <T = DatabaseRecord>(tableName: string, query: Partial<T>[]) => Promise<T[]>
   execute: (tableName: string, statement: Statement) => Promise<void>
 }
 
