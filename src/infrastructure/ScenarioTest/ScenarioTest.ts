@@ -1,7 +1,6 @@
 import type { Command } from '@core/Command.ts'
 import type { Query } from '@core/Query.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
-import type { UserEvent, UserState } from '@domain/examples/User.js'
 import type { Repository } from '@domain/Repository.js'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import type { OutboxWorker } from '@infrastructure/EventStore/OutboxWorker.js'
@@ -26,7 +25,7 @@ type WhenInput = Command<string, any>
   | IntegrationEvent<any>
 type ThenInput = DomainEvent<any> | Record<string, any>[]
 
-export class ScenarioTest<TEvent extends DomainEvent<TEvent['payload']>> {
+export class ScenarioTest<TState, TEvent extends DomainEvent<TEvent['payload']>> {
   private givenInput: GivenInput = []
   private whenInput: WhenInput | undefined
 
@@ -36,12 +35,12 @@ export class ScenarioTest<TEvent extends DomainEvent<TEvent['payload']>> {
     private readonly eventStore: EventStore<TEvent>,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-    private readonly repository: Repository<UserState, UserEvent>,
+    private readonly repository: Repository<TState, TEvent>,
     private readonly outboxWorker: OutboxWorker,
   ) {}
 
   given(...events: GivenInput): {
-    when: (action: WhenInput) => ReturnType<ScenarioTest<TEvent>['when']>
+    when: (action: WhenInput) => ReturnType<ScenarioTest<TState, TEvent>['when']>
     then: (outcome: ThenInput) => Promise<void>
   } {
     this.givenInput = events
@@ -62,7 +61,7 @@ export class ScenarioTest<TEvent extends DomainEvent<TEvent['payload']>> {
 
   async then(thenInput: ThenInput): Promise<void> {
     const domainEvents = this.givenInput
-      .filter(isDomainEvent<UserEvent>)
+      .filter(isDomainEvent<TEvent>)
     const integrationEvents = this.givenInput
       .filter(isIntegrationEvent)
 

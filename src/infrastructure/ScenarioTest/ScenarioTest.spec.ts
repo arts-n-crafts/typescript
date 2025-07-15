@@ -1,5 +1,5 @@
 import type { BaseEvent } from '@domain/BaseEvent.js'
-import type { UserEvent } from '@domain/examples/User.js'
+import type { UserEvent, UserState } from '@domain/examples/User.js'
 import type { OutboxWorker } from '@infrastructure/EventStore/OutboxWorker.js'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { QueryBus } from '../QueryBus/QueryBus.ts'
@@ -31,7 +31,7 @@ describe('scenario test', () => {
   let queryBus: QueryBus
   let repository: UserRepository
   let outboxWorker: OutboxWorker
-  let scenarioTest: ScenarioTest<UserEvent>
+  let scenarioTest: ScenarioTest<UserState, UserEvent>
 
   beforeEach(() => {
     eventBus = new InMemoryEventBus()
