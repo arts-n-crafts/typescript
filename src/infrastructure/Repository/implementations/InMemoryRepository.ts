@@ -7,7 +7,7 @@ import { makeStreamKey } from '@utils/streamKey/index.js'
 export class InMemoryRepository<TState, TCommand, TEvent extends DomainEvent<unknown>> implements Repository {
   constructor(
     private readonly eventStore: EventStore,
-    private readonly streamName: string,
+    readonly streamName: string,
     private readonly evolveFn: Decider<TState, TCommand, TEvent>['evolve'],
     private readonly initialState: Decider<TState, TCommand, TEvent>['initialState'],
   ) {
