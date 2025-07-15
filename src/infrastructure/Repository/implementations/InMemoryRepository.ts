@@ -4,9 +4,9 @@ import type { Repository } from '@domain/Repository.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import { makeStreamKey } from '@utils/streamKey/index.js'
 
-export class InMemoryRepository<TState, TCommand, TEvent extends DomainEvent<unknown>> implements Repository {
+export class InMemoryRepository<TState, TCommand, TEvent extends DomainEvent<TEvent['payload']>> implements Repository<TState, TEvent> {
   constructor(
-    private readonly eventStore: EventStore,
+    private readonly eventStore: EventStore<TEvent>,
     readonly streamName: string,
     private readonly evolveFn: Decider<TState, TCommand, TEvent>['evolve'],
     private readonly initialState: Decider<TState, TCommand, TEvent>['initialState'],
@@ -14,13 +14,13 @@ export class InMemoryRepository<TState, TCommand, TEvent extends DomainEvent<unk
   }
 
   async load(aggregateId: string): Promise<TState> {
-    const pastEvents = await this.eventStore.load<TEvent>(
+    const pastEvents = await this.eventStore.load(
       makeStreamKey(this.streamName, aggregateId),
     )
-    return pastEvents.reduce(this.evolveFn, this.initialState(aggregateId))
+    return pastEvents.reduce<TState>(this.evolveFn, this.initialState(aggregateId))
   }
 
-  async store<TEvent extends DomainEvent<TEvent['payload']>>(events: TEvent[]): Promise<void> {
+  async store(events: TEvent[]): Promise<void> {
     await Promise.all(
       events.map(
         async event => this.eventStore.append(

@@ -1,4 +1,5 @@
 import type { BaseEvent } from '@domain/BaseEvent.js'
+import type { UserEvent } from '@domain/examples/User.js'
 import type { OutboxWorker } from '@infrastructure/EventStore/OutboxWorker.js'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { QueryBus } from '../QueryBus/QueryBus.ts'
@@ -24,7 +25,7 @@ import { ScenarioTest } from './ScenarioTest.ts'
 
 describe('scenario test', () => {
   const id = randomUUID()
-  let eventStore: InMemoryEventStore
+  let eventStore: InMemoryEventStore<UserEvent>
   let eventBus: InMemoryEventBus<BaseEvent<unknown>>
   let commandBus: CommandBus
   let queryBus: QueryBus
@@ -34,10 +35,10 @@ describe('scenario test', () => {
 
   beforeEach(() => {
     eventBus = new InMemoryEventBus()
-    eventStore = new InMemoryEventStore()
+    eventStore = new InMemoryEventStore<UserEvent>()
     commandBus = new InMemoryCommandBus()
     queryBus = new InMemoryQueryBus()
-    outboxWorker = new InMemoryOutboxWorker(eventStore, eventBus)
+    outboxWorker = new InMemoryOutboxWorker<UserEvent>(eventStore, eventBus)
     repository = new UserRepository(eventStore, 'users', User.evolve, User.initialState)
 
     scenarioTest = new ScenarioTest('users', eventBus, eventStore, commandBus, queryBus, repository, outboxWorker)

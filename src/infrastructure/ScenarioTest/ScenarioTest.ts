@@ -1,6 +1,7 @@
 import type { Command } from '@core/Command.ts'
 import type { Query } from '@core/Query.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { UserEvent, UserState } from '@domain/examples/User.js'
 import type { Repository } from '@domain/Repository.js'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import type { OutboxWorker } from '@infrastructure/EventStore/OutboxWorker.js'
@@ -18,12 +19,12 @@ import { isEqual } from '@utils/isEqual/isEqual.js'
 import { makeStreamKey } from '@utils/streamKey/index.js'
 import { isIntegrationEvent } from '../EventBus/utils/isIntegrationEvent.ts'
 
-type GivenInput = (DomainEvent<unknown> | IntegrationEvent<unknown>)[]
-type WhenInput = Command<string, unknown>
+type GivenInput = (DomainEvent<any> | IntegrationEvent<any>)[]
+type WhenInput = Command<string, any>
   | Query
-  | DomainEvent<unknown>
-  | IntegrationEvent<unknown>
-type ThenInput = DomainEvent<unknown> | Record<string, unknown>[]
+  | DomainEvent<any>
+  | IntegrationEvent<any>
+type ThenInput = DomainEvent<any> | Record<string, any>[]
 
 export class ScenarioTest {
   private givenInput: GivenInput = []
@@ -31,11 +32,11 @@ export class ScenarioTest {
 
   constructor(
     private readonly streamName: string,
-    private readonly eventBus: EventBus<DomainEvent<unknown> | IntegrationEvent<unknown>>,
-    private readonly eventStore: EventStore,
+    private readonly eventBus: EventBus<DomainEvent<any> | IntegrationEvent<any>>,
+    private readonly eventStore: EventStore<UserEvent>,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-    private readonly repository: Repository,
+    private readonly repository: Repository<UserState, UserEvent>,
     private readonly outboxWorker: OutboxWorker,
   ) {}
 
@@ -61,7 +62,7 @@ export class ScenarioTest {
 
   async then(thenInput: ThenInput): Promise<void> {
     const domainEvents = this.givenInput
-      .filter(isDomainEvent)
+      .filter(isDomainEvent<UserEvent>)
     const integrationEvents = this.givenInput
       .filter(isIntegrationEvent)
 
@@ -87,7 +88,7 @@ export class ScenarioTest {
     }
   }
 
-  private isDomainEvent(candidate: WhenInput | ThenInput): candidate is DomainEvent<unknown> {
+  private isDomainEvent(candidate: WhenInput | ThenInput): candidate is DomainEvent<any> {
     return isEvent(candidate) && isDomainEvent(candidate)
   }
 
@@ -138,7 +139,7 @@ export class ScenarioTest {
   }
 
   private async handleEvent(
-    event: DomainEvent<unknown> | IntegrationEvent<unknown>,
+    event: DomainEvent<any> | IntegrationEvent<any>,
     outcome: ThenInput,
   ): Promise<void> {
     await this.eventBus.publish(event)

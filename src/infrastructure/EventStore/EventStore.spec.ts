@@ -1,19 +1,18 @@
-import type { DomainEvent } from '@domain/DomainEvent.js'
 import type { UserEvent } from '@domain/examples/User.js'
 import { randomUUID } from 'node:crypto'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
 import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
+import { makeStreamKey } from '@utils/streamKey/index.js'
 import { beforeEach, describe } from 'vitest'
 import { InMemoryEventStore } from './implementations/InMemoryEventStore.ts'
 
-const makeUserStreamId = (aggregateId: string) => `user-${aggregateId}`
-
 describe('inMemoryEventStore', () => {
-  let eventStore: InMemoryEventStore
+  const STREAM = 'users'
+  let eventStore: InMemoryEventStore<UserEvent>
 
-  let event1: DomainEvent<unknown>
-  let event2: DomainEvent<unknown>
-  let event3: DomainEvent<unknown>
+  let event1: UserEvent
+  let event2: UserEvent
+  let event3: UserEvent
 
   beforeEach(async () => {
     eventStore = new InMemoryEventStore()
@@ -22,19 +21,19 @@ describe('inMemoryEventStore', () => {
     event2 = UserNameUpdated(event1.aggregateId, { name: 'Donald' })
     event3 = UserCreated(randomUUID(), { name: 'Donald', email: 'potus@x.com' })
 
-    await eventStore.append(makeUserStreamId(event1.aggregateId), [event1, event2])
-    await eventStore.append(makeUserStreamId(event3.aggregateId), [event3])
+    await eventStore.append(makeStreamKey(STREAM, event1.aggregateId), [event1, event2])
+    await eventStore.append(makeStreamKey(STREAM, event3.aggregateId), [event3])
   })
 
   describe('eventStore', () => {
     it('should load the given event', async () => {
-      const streamId = makeUserStreamId(event1.aggregateId)
-      const events = await eventStore.load<UserEvent>(streamId)
+      const streamId = makeStreamKey(STREAM, event1.aggregateId)
+      const events = await eventStore.load(streamId)
       expect(events[0]).toEqual(event1)
     })
 
     it('should store and load multiple events', async () => {
-      const streamId = makeUserStreamId(event1.aggregateId)
+      const streamId = makeStreamKey(STREAM, event1.aggregateId)
       const events = await eventStore.load(streamId)
 
       expect(events).toHaveLength(2)
@@ -43,7 +42,7 @@ describe('inMemoryEventStore', () => {
     })
 
     it('should return an empty array if no events are found', async () => {
-      const events = await eventStore.load('non_existent')
+      const events = await eventStore.load(makeStreamKey('non_existent', '123'))
       expect(events).toHaveLength(0)
     })
   })

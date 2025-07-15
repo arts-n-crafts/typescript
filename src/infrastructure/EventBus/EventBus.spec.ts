@@ -1,3 +1,4 @@
+import type { UserEvent } from '@domain/examples/User.js'
 import { randomUUID } from 'node:crypto'
 import { UserCreatedEventHandler } from '@core/examples/UserCreatedEventHandler.ts'
 import { User } from '@domain/examples/User.js'
@@ -9,7 +10,7 @@ import { InMemoryEventBus } from './implementations/InMemoryEventBus.ts'
 
 describe('eventBus', () => {
   const eventBus = new InMemoryEventBus()
-  let eventStore: InMemoryEventStore
+  let eventStore: InMemoryEventStore<UserEvent>
   let repository: UserRepository
 
   beforeEach(() => {

@@ -18,7 +18,7 @@ class UnexpectedUserState extends Error {
   }
 }
 
-interface UserState {
+export interface UserState {
   id: string
   name: string
   email: string

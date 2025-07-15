@@ -1,3 +1,4 @@
+import type { UserEvent } from '@domain/examples/User.ts'
 import type { UserNameUpdated } from '@domain/examples/UserNameUpdated.js'
 import { randomUUID } from 'node:crypto'
 import { CreateUser } from '@core/examples/CreateUser.ts'
@@ -12,7 +13,7 @@ import { InMemoryCommandBus } from './implementations/InMemoryCommandBus.ts'
 
 describe('commandBus', () => {
   const command = CreateUser(randomUUID(), { name: 'Elon', email: 'musk@x.com', age: 52 })
-  const eventStore = new InMemoryEventStore()
+  const eventStore = new InMemoryEventStore<UserEvent>()
   const repository = new UserRepository(eventStore, 'users', User.evolve, User.initialState)
   let commandBus: InMemoryCommandBus
   let handler: UpdateUserNameHandler

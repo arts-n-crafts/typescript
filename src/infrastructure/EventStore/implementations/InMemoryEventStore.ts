@@ -1,17 +1,18 @@
 import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { StreamKey } from '@utils/streamKey/index.js'
 import type { EventStore } from '../EventStore.ts'
 import type { OutboxEntry } from '../OutboxEntry.ts'
 
-export class InMemoryEventStore implements EventStore {
+export class InMemoryEventStore<TEvent extends DomainEvent<TEvent['payload']>> implements EventStore<TEvent> {
   private outbox: OutboxEntry[] = []
-  private store = new Map<string, DomainEvent<unknown>[]>()
+  private store = new Map<StreamKey, TEvent[]>()
 
-  async load<TEvent extends DomainEvent<TEvent['payload']>>(streamKey: string): Promise<TEvent[]> {
+  async load(streamKey: StreamKey): Promise<TEvent[]> {
     const events = this.store.get(streamKey)
-    return [...(events || [])] as TEvent[]
+    return [...(events || [])]
   }
 
-  async append<TEvent extends DomainEvent<TEvent['payload']>>(streamKey: string, events: TEvent[]): Promise<void> {
+  async append(streamKey: StreamKey, events: TEvent[]): Promise<void> {
     const existing = await this.load(streamKey)
 
     this.store.set(streamKey, [...existing, ...events])

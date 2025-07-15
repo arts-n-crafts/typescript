@@ -1,11 +1,12 @@
 import type { BaseEvent } from '@domain/BaseEvent.js'
+import type { DomainEvent } from '@domain/DomainEvent.js'
 import type { EventBus } from '@infrastructure/EventBus/EventBus.js'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import type { OutboxWorker } from '@infrastructure/EventStore/OutboxWorker.js'
 
-export class InMemoryOutboxWorker implements OutboxWorker {
+export class InMemoryOutboxWorker<TEvent extends DomainEvent<TEvent['payload']>> implements OutboxWorker {
   constructor(
-    private readonly eventStore: EventStore,
+    private readonly eventStore: EventStore<TEvent>,
     private readonly eventBus: EventBus<BaseEvent<unknown>>,
   ) {}
 

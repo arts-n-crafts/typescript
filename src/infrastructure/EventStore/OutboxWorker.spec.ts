@@ -3,6 +3,7 @@ import { UserCreated } from '@domain/examples/UserCreated.js'
 import { InMemoryEventBus } from '@infrastructure/EventBus/implementations/InMemoryEventBus.js'
 import { InMemoryEventStore } from '@infrastructure/EventStore/implementations/InMemoryEventStore.js'
 import { InMemoryOutboxWorker } from '@infrastructure/EventStore/implementations/InMemoryOutboxWorker.js'
+import { makeStreamKey } from '@utils/streamKey/index.js'
 
 describe('outbox worker', () => {
   it('should be defined', () => {
@@ -16,7 +17,7 @@ describe('outbox worker', () => {
 
     const event = UserCreated(randomUUID(), { name: 'test', email: 'musk@x.com' })
 
-    await eventStore.append('users', [event])
+    await eventStore.append(makeStreamKey('users', '123'), [event])
 
     expect(eventStore.getOutboxBatch()).toHaveLength(1)
     await worker.tick()

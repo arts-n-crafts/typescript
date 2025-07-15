@@ -26,7 +26,7 @@ export class UserModule implements Module {
   private readonly database: Database
 
   constructor(
-    private readonly eventStore: InMemoryEventStore,
+    private readonly eventStore: InMemoryEventStore<UserEvent>,
     private readonly eventBus: EventBus<AllEvents>,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,

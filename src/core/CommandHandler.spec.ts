@@ -1,4 +1,5 @@
 import type { CreateUserProps } from '@core/examples/CreateUser.ts'
+import type { UserEvent } from '@domain/examples/User.ts'
 import { randomUUID } from 'node:crypto'
 import { CreateUser } from '@core/examples/CreateUser.ts'
 import { UpdateUserName } from '@core/examples/UpdateUserName.ts'
@@ -11,7 +12,7 @@ import { CreateUserHandler } from './examples/CreateUserHandler.ts'
 import { UpdateUserNameHandler } from './examples/UpdateUserNameHandler.ts'
 
 describe('commandHandler', async () => {
-  const eventStore = new InMemoryEventStore()
+  const eventStore = new InMemoryEventStore<UserEvent>()
   const repository = new UserRepository(eventStore, 'users', User.evolve, User.initialState)
   const aggregateId = randomUUID()
   const createUserHandler = new CreateUserHandler(repository)
