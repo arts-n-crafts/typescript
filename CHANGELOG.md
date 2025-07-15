@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.3.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.2.1...v3.3.0)
+
+### 🚀 Enhancements
+
+- **eventstore:** Separated EventStore and Outbox. Created StoredEvent and OutboxEntry ([503a755](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/503a755))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.2.1
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.2.0...v3.2.1)
