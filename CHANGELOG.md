@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.1.4
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.1.3...v3.1.4)
+
+### 💅 Refactors
+
+- Update event store to use StreamKey type ([f487055](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/f487055))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v3.1.3
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.1.2...v3.1.3)
