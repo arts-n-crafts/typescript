@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.1.2
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.1.1...v3.1.2)
+
+### 🏡 Chore
+
+- **release:** V3.1.1 ([6b9ac79](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/6b9ac79))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v3.1.1
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.1.0...v3.1.1)
