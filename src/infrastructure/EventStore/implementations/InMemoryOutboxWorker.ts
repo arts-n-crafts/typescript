@@ -1,12 +1,12 @@
 import type { BaseEvent } from '@domain/BaseEvent.js'
-import type { InMemoryEventBus } from '@infrastructure/EventBus/implementations/InMemoryEventBus.js'
-import type { InMemoryEventStore } from '@infrastructure/EventStore/implementations/InMemoryEventStore.js'
+import type { EventBus } from '@infrastructure/EventBus/EventBus.js'
+import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import type { OutboxWorker } from '@infrastructure/EventStore/OutboxWorker.js'
 
 export class InMemoryOutboxWorker implements OutboxWorker {
   constructor(
-    private readonly eventStore: InMemoryEventStore,
-    private readonly eventBus: InMemoryEventBus<BaseEvent<unknown>>,
+    private readonly eventStore: EventStore,
+    private readonly eventBus: EventBus<BaseEvent<unknown>>,
   ) {}
 
   async tick(): Promise<void> {
