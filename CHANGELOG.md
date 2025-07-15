@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.1.5
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.1.4...v3.1.5)
+
+### 💅 Refactors
+
+- **eventStore:** Specify typing ([cfd27f5](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/cfd27f5))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v3.1.4
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.1.3...v3.1.4)
