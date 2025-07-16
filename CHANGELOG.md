@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.4.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.3.1...v3.4.0)
+
+### 🚀 Enhancements
+
+- Specification pattern ([3aa7edb](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/3aa7edb))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.3.1
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.3.0...v3.3.1)
