@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.4.1
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.4.0...v3.4.1)
+
+### 🏡 Chore
+
+- Exports specification pattern ([1500000](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/1500000))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.4.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.3.1...v3.4.0)
