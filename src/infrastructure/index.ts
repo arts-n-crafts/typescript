@@ -11,7 +11,7 @@ export * from './EventBus/utils/createIntegrationEvent.ts'
 export * from './EventBus/utils/isIntegrationEvent.ts'
 
 export * from './EventStore/EventStore.ts'
-export * from './EventStore/implementations/InMemoryEventStore.ts'
+export * from './EventStore/EventStore.ts'
 export * from './EventStore/StoredEvent.ts'
 export * from './EventStore/utils/createStoredEvent.ts'
 

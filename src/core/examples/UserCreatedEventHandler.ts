@@ -1,6 +1,6 @@
 import type { EventHandler } from '@core/EventHandler.ts'
 import type { UserCreated } from '@domain/examples/UserCreated.ts'
-import type { UserRepository } from '@infrastructure/Repository/examples/UserRepository.js'
+import type { UserRepository } from '@infrastructure/Repository/examples/UserRepository.ts'
 import { UserRegistrationEmailSent } from '@domain/examples/UserRegistrationEmailSent.ts'
 
 type UserCreatedEvent = ReturnType<typeof UserCreated>

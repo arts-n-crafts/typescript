@@ -1,4 +1,4 @@
-import type { DomainEvent } from '@domain/DomainEvent.js'
+import type { DomainEvent } from '@domain/DomainEvent.ts'
 
 export interface Repository<TState, TEvent extends DomainEvent<TEvent['payload']>> {
   readonly streamName: string

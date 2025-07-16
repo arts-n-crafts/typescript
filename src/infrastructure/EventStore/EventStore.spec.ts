@@ -1,15 +1,14 @@
-import type { UserEvent } from '@domain/examples/User.js'
+import type { UserEvent } from '@domain/examples/User.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
-import type { EventStore } from './EventStore.ts'
 import { randomUUID } from 'node:crypto'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
 import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
 import { InMemoryDatabase } from '@infrastructure/Database/implementations/InMemoryDatabase.ts'
-import { makeStreamKey } from '@utils/streamKey/index.js'
+import { makeStreamKey } from '@utils/streamKey/index.ts'
 import { beforeEach, describe } from 'vitest'
-import { InMemoryEventStore } from './implementations/InMemoryEventStore.ts'
+import { EventStore } from './EventStore.ts'
 
-describe('inMemoryEventStore', () => {
+describe('eventStore', () => {
   const STREAM = 'users'
   let database: Database
   let eventStore: EventStore
@@ -20,7 +19,7 @@ describe('inMemoryEventStore', () => {
 
   beforeEach(async () => {
     database = new InMemoryDatabase()
-    eventStore = new InMemoryEventStore(database)
+    eventStore = new EventStore(database)
 
     event1 = UserCreated(randomUUID(), { name: 'elon', email: 'musk@x.com' })
     event2 = UserNameUpdated(event1.aggregateId, { name: 'Donald' })

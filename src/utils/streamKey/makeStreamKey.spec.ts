@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto'
-import { makeStreamKey } from '@utils/streamKey/makeStreamKey.js'
+import { makeStreamKey } from '@utils/streamKey/makeStreamKey.ts'
 
 describe('makeStreamKey', () => {
   it('should be defined', () => {

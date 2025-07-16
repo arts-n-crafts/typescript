@@ -1,18 +1,18 @@
-import type { DomainEvent } from '@domain/DomainEvent.js'
-import type { UserRegistrationEmailSentPayload } from '@domain/examples/UserRegistrationEmailSent.js'
+import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { UserRegistrationEmailSentPayload } from '@domain/examples/UserRegistrationEmailSent.ts'
 import { randomUUID } from 'node:crypto'
 import { ContractSignedHandler } from '@core/examples/ContractSignedHandler.ts'
 import { UserCreatedEventHandler } from '@core/examples/UserCreatedEventHandler.ts'
-import { User } from '@domain/examples/User.js'
+import { User } from '@domain/examples/User.ts'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
 import { InMemoryDatabase } from '@infrastructure/Database/implementations/InMemoryDatabase.ts'
-import { InMemoryEventStore } from '@infrastructure/EventStore/implementations/InMemoryEventStore.js'
-import { UserRepository } from '@infrastructure/Repository/examples/UserRepository.js'
-import { makeStreamKey } from '@utils/streamKey/index.js'
+import { EventStore } from '@infrastructure/EventStore/EventStore.ts'
+import { UserRepository } from '@infrastructure/Repository/examples/UserRepository.ts'
+import { makeStreamKey } from '@utils/streamKey/index.ts'
 
 describe('eventHandler', () => {
   const database = new InMemoryDatabase()
-  const eventStore = new InMemoryEventStore(database)
+  const eventStore = new EventStore(database)
   const repository = new UserRepository(eventStore, 'users', User.evolve, User.initialState)
   const handler = new UserCreatedEventHandler(repository)
 

@@ -1,4 +1,4 @@
-import type { DomainEvent } from '@domain/DomainEvent.js'
+import type { DomainEvent } from '@domain/DomainEvent.ts'
 
 export interface Decider<TState, TCommand, TEvent extends DomainEvent<TEvent['payload']>> {
   decide: (command: TCommand, currentState: TState) => TEvent[]

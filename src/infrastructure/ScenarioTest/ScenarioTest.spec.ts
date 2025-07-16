@@ -1,4 +1,4 @@
-import type { UserEvent, UserState } from '@domain/examples/User.js'
+import type { UserEvent, UserState } from '@domain/examples/User.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
 import type { Outbox } from '@infrastructure/Outbox/Outbox.ts'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
@@ -7,20 +7,20 @@ import { randomUUID } from 'node:crypto'
 import { CreateUser } from '@core/examples/CreateUser.ts'
 import { GetUserByEmail } from '@core/examples/GetUserByEmail.ts'
 import { UpdateUserName } from '@core/examples/UpdateUserName.ts'
-import { User } from '@domain/examples/User.js'
+import { User } from '@domain/examples/User.ts'
 import { UserActivated } from '@domain/examples/UserActivated.ts'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
 import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
 import { UserRegistrationEmailSent } from '@domain/examples/UserRegistrationEmailSent.ts'
 import { InMemoryDatabase } from '@infrastructure/Database/implementations/InMemoryDatabase.ts'
+import { EventStore } from '@infrastructure/EventStore/EventStore.ts'
 import { InMemoryOutbox } from '@infrastructure/Outbox/implementations/InMemoryOutbox.ts'
 import { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.ts'
-import { UserRepository } from '@infrastructure/Repository/examples/UserRepository.js'
+import { UserRepository } from '@infrastructure/Repository/examples/UserRepository.ts'
 import { InMemoryCommandBus } from '../CommandBus/implementations/InMemoryCommandBus.ts'
 import { ContractSigned } from '../EventBus/examples/ContractSigned.ts'
 import { ProductCreated } from '../EventBus/examples/ProductCreated.ts'
 import { InMemoryEventBus } from '../EventBus/implementations/InMemoryEventBus.ts'
-import { InMemoryEventStore } from '../EventStore/implementations/InMemoryEventStore.ts'
 import { InMemoryQueryBus } from '../QueryBus/implementations/InMemoryQueryBus.ts'
 import { UserModule } from './examples/User.module.ts'
 import { ScenarioTest } from './ScenarioTest.ts'
@@ -28,7 +28,7 @@ import { ScenarioTest } from './ScenarioTest.ts'
 describe('scenario test', () => {
   const id = randomUUID()
   let database: Database
-  let eventStore: InMemoryEventStore
+  let eventStore: EventStore
   let eventBus: InMemoryEventBus
   let outbox: Outbox
   let commandBus: CommandBus
@@ -41,7 +41,7 @@ describe('scenario test', () => {
     database = new InMemoryDatabase()
     eventBus = new InMemoryEventBus()
     outbox = new InMemoryOutbox()
-    eventStore = new InMemoryEventStore(database, outbox)
+    eventStore = new EventStore(database, outbox)
     commandBus = new InMemoryCommandBus()
     queryBus = new InMemoryQueryBus()
     outboxWorker = new OutboxWorker(outbox, eventBus)
