@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v3.5.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.4.1...v3.5.0)
+
+### 🚀 Enhancements
+
+- Eventstore to use database ([84ad41c](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/84ad41c))
+
+### 💅 Refactors
+
+- **eventstore:** Replace implementation with EventStore ([3895cf5](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/3895cf5))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.4.1
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.4.0...v3.4.1)
