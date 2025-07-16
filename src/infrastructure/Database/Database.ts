@@ -1,10 +1,12 @@
+import type { Specification } from '@domain/Specification/Specification.ts'
+
 export interface DatabaseRecord {
   id: string
   [key: string]: unknown
 }
 
 export interface Database {
-  query: <T = DatabaseRecord>(tableName: string, query: Partial<T>[]) => Promise<T[]>
+  query: <T = DatabaseRecord>(collectionName: string, specification: Specification<T>) => Promise<T[]>
   execute: (tableName: string, statement: Statement) => Promise<void>
 }
 

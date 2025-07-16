@@ -5,12 +5,14 @@ import { ContractSignedHandler } from '@core/examples/ContractSignedHandler.ts'
 import { UserCreatedEventHandler } from '@core/examples/UserCreatedEventHandler.ts'
 import { User } from '@domain/examples/User.js'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
+import { InMemoryDatabase } from '@infrastructure/Database/implementations/InMemoryDatabase.ts'
 import { InMemoryEventStore } from '@infrastructure/EventStore/implementations/InMemoryEventStore.js'
 import { UserRepository } from '@infrastructure/Repository/examples/UserRepository.js'
 import { makeStreamKey } from '@utils/streamKey/index.js'
 
 describe('eventHandler', () => {
-  const eventStore = new InMemoryEventStore()
+  const database = new InMemoryDatabase()
+  const eventStore = new InMemoryEventStore(database)
   const repository = new UserRepository(eventStore, 'users', User.evolve, User.initialState)
   const handler = new UserCreatedEventHandler(repository)
 

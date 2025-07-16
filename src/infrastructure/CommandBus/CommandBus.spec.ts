@@ -5,6 +5,7 @@ import { CreateUserHandler } from '@core/examples/CreateUserHandler.ts'
 import { UpdateUserName } from '@core/examples/UpdateUserName.ts'
 import { UpdateUserNameHandler } from '@core/examples/UpdateUserNameHandler.ts'
 import { User } from '@domain/examples/User.ts'
+import { InMemoryDatabase } from '@infrastructure/Database/implementations/InMemoryDatabase.ts'
 import { InMemoryEventStore } from '@infrastructure/EventStore/implementations/InMemoryEventStore.js'
 import { UserRepository } from '@infrastructure/Repository/examples/UserRepository.js'
 import { makeStreamKey } from '@utils/streamKey/makeStreamKey.ts'
@@ -12,7 +13,9 @@ import { InMemoryCommandBus } from './implementations/InMemoryCommandBus.ts'
 
 describe('commandBus', () => {
   const command = CreateUser(randomUUID(), { name: 'Elon', email: 'musk@x.com', age: 52 })
-  const eventStore = new InMemoryEventStore()
+
+  const database = new InMemoryDatabase()
+  const eventStore = new InMemoryEventStore(database)
   const repository = new UserRepository(eventStore, 'users', User.evolve, User.initialState)
   let commandBus: InMemoryCommandBus
   let handler: UpdateUserNameHandler

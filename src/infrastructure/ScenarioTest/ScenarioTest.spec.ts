@@ -1,4 +1,5 @@
 import type { UserEvent, UserState } from '@domain/examples/User.js'
+import type { Database } from '@infrastructure/Database/Database.ts'
 import type { Outbox } from '@infrastructure/Outbox/Outbox.ts'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { QueryBus } from '../QueryBus/QueryBus.ts'
@@ -11,6 +12,7 @@ import { UserActivated } from '@domain/examples/UserActivated.ts'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
 import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
 import { UserRegistrationEmailSent } from '@domain/examples/UserRegistrationEmailSent.ts'
+import { InMemoryDatabase } from '@infrastructure/Database/implementations/InMemoryDatabase.ts'
 import { InMemoryOutbox } from '@infrastructure/Outbox/implementations/InMemoryOutbox.ts'
 import { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.ts'
 import { UserRepository } from '@infrastructure/Repository/examples/UserRepository.js'
@@ -25,6 +27,7 @@ import { ScenarioTest } from './ScenarioTest.ts'
 
 describe('scenario test', () => {
   const id = randomUUID()
+  let database: Database
   let eventStore: InMemoryEventStore
   let eventBus: InMemoryEventBus
   let outbox: Outbox
@@ -35,9 +38,10 @@ describe('scenario test', () => {
   let scenarioTest: ScenarioTest<UserState, UserEvent>
 
   beforeEach(() => {
+    database = new InMemoryDatabase()
     eventBus = new InMemoryEventBus()
     outbox = new InMemoryOutbox()
-    eventStore = new InMemoryEventStore(outbox)
+    eventStore = new InMemoryEventStore(database, outbox)
     commandBus = new InMemoryCommandBus()
     queryBus = new InMemoryQueryBus()
     outboxWorker = new OutboxWorker(outbox, eventBus)

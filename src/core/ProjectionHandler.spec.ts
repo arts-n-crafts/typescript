@@ -8,6 +8,7 @@ import { randomUUID } from 'node:crypto'
 import { UserProjectionHandler } from '@core/examples/UserProjection.ts'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
 import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
+import { FieldEquals } from '@domain/Specification/implementations/FieldEquals.specification.ts'
 import { InMemoryDatabase } from '@infrastructure/Database/implementations/InMemoryDatabase.ts'
 import { InMemoryEventBus } from '@infrastructure/EventBus/implementations/InMemoryEventBus.ts'
 
@@ -15,6 +16,7 @@ describe('projectionHandler', () => {
   const id: UUID = randomUUID()
   const payload = { name: 'Elon', email: 'musk@x.com' }
   const database: Database = new InMemoryDatabase()
+  let specification: FieldEquals<UserModel> = new FieldEquals<UserModel>('name', payload.name)
   let eventBus: EventBus
   let handler: ProjectionHandler<UserEvent>
 
@@ -31,15 +33,16 @@ describe('projectionHandler', () => {
   it('should update projection with create event', async () => {
     const event = UserCreated(id, payload)
     await eventBus.publish(event)
-    const results = await database.query<UserModel>('users', [{ name: payload.name }])
+    const results = await database.query<UserModel>('users', specification)
     expect(results.at(0)).toStrictEqual({ id, ...payload, prospect: true })
   })
 
   it('should update projection with update event', async () => {
     const updatePayload = { name: 'Donald' }
+    specification = new FieldEquals<UserModel>('name', updatePayload.name)
     const event = UserNameUpdated(id, updatePayload)
     await eventBus.publish(event)
-    const results = await database.query<UserModel>('users', [{ name: updatePayload.name }])
+    const results = await database.query<UserModel>('users', specification)
     expect(results.at(0)).toStrictEqual({ id, ...payload, ...updatePayload, prospect: true })
   })
 })

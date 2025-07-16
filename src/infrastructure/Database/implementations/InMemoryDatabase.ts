@@ -1,21 +1,15 @@
+import type { Specification } from '@domain/Specification/Specification.ts'
 import type { Database, DatabaseRecord, Statement } from '../Database.ts'
 import { Operation } from '../Database.ts'
-import { DuplicateRecordException, OperationNotSupported, RecordNotFoundException, TableDoesNotExistException } from './InMemoryDatabase.exceptions.ts'
+import { DuplicateRecordException, OperationNotSupported, RecordNotFoundException } from './InMemoryDatabase.exceptions.ts'
 
 export class InMemoryDatabase implements Database {
   private readonly datasource = new Map<string, DatabaseRecord[]>()
 
-  async query<T>(tableName: string, spec: Partial<T>[]): Promise<T[]> {
-    const tableRecords = this.datasource.get(tableName)
-    if (!tableRecords)
-      throw new TableDoesNotExistException(`Table ${tableName.toString()} not found`)
-
-    const entry = spec[0]
-    const [key, value] = Object.entries(entry).flat()
-
-    return tableRecords.filter((record: DatabaseRecord) => {
-      return record[key as keyof typeof record] === value
-    }) as T[]
+  async query<T = DatabaseRecord>(tableName: string, specification: Specification<T>): Promise<T[]> {
+    const tableRecords = this.datasource.get(tableName) || []
+    return tableRecords
+      .filter((record: DatabaseRecord) => specification.isSatisfiedBy(record as T)) as T[]
   }
 
   async execute(tableName: string, statement: Statement): Promise<void> {
