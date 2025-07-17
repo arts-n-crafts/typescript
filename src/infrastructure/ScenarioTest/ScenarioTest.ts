@@ -2,7 +2,7 @@ import type { Command } from '@core/Command.ts'
 import type { Query } from '@core/Query.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { Repository } from '@domain/Repository.ts'
-import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
+import type { IEventStore } from '@infrastructure/EventStore/EventStore.ts'
 import type { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.ts'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { EventBus } from '../EventBus/EventBus.ts'
@@ -32,7 +32,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent<TEvent['payload']>>
   constructor(
     private readonly streamName: string,
     private readonly eventBus: EventBus,
-    private readonly eventStore: EventStore,
+    private readonly eventStore: IEventStore,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
     private readonly repository: Repository<TState, TEvent>,

@@ -1,5 +1,6 @@
 import type { UserEvent, UserState } from '@domain/examples/User.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
+import type { IEventStore } from '@infrastructure/EventStore/EventStore.ts'
 import type { Outbox } from '@infrastructure/Outbox/Outbox.ts'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { QueryBus } from '../QueryBus/QueryBus.ts'
@@ -28,7 +29,7 @@ import { ScenarioTest } from './ScenarioTest.ts'
 describe('scenario test', () => {
   const id = randomUUID()
   let database: Database
-  let eventStore: EventStore
+  let eventStore: IEventStore
   let eventBus: InMemoryEventBus
   let outbox: Outbox
   let commandBus: CommandBus

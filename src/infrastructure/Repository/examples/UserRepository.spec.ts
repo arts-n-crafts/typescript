@@ -1,6 +1,7 @@
 import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { UserCreatedPayload } from '@domain/examples/UserCreated.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
+import type { IEventStore } from '../../EventStore/EventStore.ts'
 import { randomUUID } from 'node:crypto'
 import { User } from '@domain/examples/User.ts'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
@@ -10,7 +11,7 @@ import { UserRepository } from './UserRepository.ts'
 
 describe('repository', () => {
   let database: Database
-  let eventStore: EventStore
+  let eventStore: IEventStore
   let event: DomainEvent<UserCreatedPayload>
   let repository: UserRepository
 

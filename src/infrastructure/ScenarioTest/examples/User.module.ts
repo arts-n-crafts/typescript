@@ -2,7 +2,7 @@ import type { Module } from '@core/Module.interface.ts'
 import type { UserEvent } from '@domain/examples/User.ts'
 import type { ContractSigned } from '@infrastructure/EventBus/examples/ContractSigned.ts'
 import type { ProductCreated } from '@infrastructure/EventBus/examples/ProductCreated.ts'
-import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
+import type { IEventStore } from '@infrastructure/EventStore/EventStore.ts'
 import type { CommandBus } from '../../CommandBus/CommandBus.ts'
 import type { Database } from '../../Database/Database.ts'
 import type { EventBus } from '../../EventBus/EventBus.ts'
@@ -26,7 +26,7 @@ export class UserModule implements Module {
   private readonly database: Database
 
   constructor(
-    private readonly eventStore: EventStore,
+    private readonly eventStore: IEventStore,
     private readonly eventBus: EventBus,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
