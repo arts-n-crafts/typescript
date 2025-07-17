@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.6.1
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.6.0...v3.6.1)
+
+### 🚀 Enhancements
+
+- Expose IEventStore ([2d20104](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/2d20104))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v3.6.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.5.0...v3.6.0)
