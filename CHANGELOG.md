@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v3.6.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.5.0...v3.6.0)
+
+### 🚀 Enhancements
+
+- **EventStore:** Introduce EventStoreConfig and apply accordingly ([6f47232](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/6f47232))
+
+### 💅 Refactors
+
+- Export Primitive type ([0a31423](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/0a31423))
+
+### 🏡 Chore
+
+- Remove pnpm-lock ([f046833](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/f046833))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v3.5.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.4.1...v3.5.0)
