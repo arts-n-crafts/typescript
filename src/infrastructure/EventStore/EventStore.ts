@@ -7,13 +7,22 @@ import { FieldEquals } from '@domain/index.ts'
 import { Operation } from '@infrastructure/Database/Database.ts'
 import { createStoredEvent } from './utils/createStoredEvent.ts'
 
+export interface EventStoreConfig {
+  tableName?: string | 'event_store'
+  outbox?: Outbox
+}
+
 export class EventStore {
-  private readonly tableName = 'event_store'
+  private readonly tableName: Required<EventStoreConfig>['tableName']
+  private readonly outbox?: EventStoreConfig['outbox']
 
   constructor(
     private readonly db: Database,
-    private readonly outbox?: Outbox,
-  ) {}
+    config: EventStoreConfig = {},
+  ) {
+    this.tableName = config.tableName ?? 'event_store'
+    this.outbox = config.outbox
+  }
 
   async load<TEvent extends DomainEvent<TEvent['payload']>>(streamKey: StreamKey): Promise<TEvent[]> {
     const specification = new FieldEquals('streamKey', streamKey)
