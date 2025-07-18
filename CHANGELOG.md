@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.7.2
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.7.1...v3.7.2)
+
+### 💅 Refactors
+
+- Use OutboxWorker interface in ScenarioTest instead of impl ([52ea0ed](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/52ea0ed))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt
+
 ## v3.7.1
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.7.0...v3.7.1)
@@ -11,7 +23,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v3.7.0
 
@@ -27,7 +39,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 - Jens Van Hellemondt <jens@invictus.codes>
 
 ## v3.6.1
@@ -40,7 +52,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v3.6.0
 
@@ -60,7 +72,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v3.5.0
 
@@ -136,7 +148,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v3.2.0
 
@@ -148,7 +160,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v3.1.7
 
@@ -160,7 +172,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v3.1.6
 
@@ -172,7 +184,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v3.1.5
 
@@ -184,7 +196,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v3.1.4
 
@@ -196,7 +208,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v3.1.3
 
@@ -208,7 +220,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v3.1.2
 
@@ -220,7 +232,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v3.1.1
 
@@ -236,7 +248,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 - Jens Van Hellemondt <jens@invictus.codes>
 
 ## v3.1.0
@@ -309,7 +321,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v2.5.0
 
@@ -325,7 +337,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v2.4.1
 
@@ -338,7 +350,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v2.4.0
 
@@ -359,7 +371,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v2.3.1
 
@@ -371,7 +383,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v2.3.0
 
@@ -420,7 +432,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v2.1.1
 
@@ -432,7 +444,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v2.1.0
 
@@ -452,7 +464,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 - Jens Van Hellemondt <jens@invictus.codes>
 
 ## v2.0.0
@@ -478,7 +490,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v1.6.0
 
@@ -491,7 +503,7 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
+- Jens van Hellemondt
 
 ## v1.5.1
 
