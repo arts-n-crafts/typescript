@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v3.7.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.6.1...v3.7.0)
+
+### 🚀 Enhancements
+
+- Move away from DatabaseRecord type ([acabafe](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/acabafe))
+
+### 💅 Refactors
+
+- Make the EventStore an interface and do the same for outboxworker ([9fa262d](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/9fa262d))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.6.1
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.6.0...v3.6.1)
