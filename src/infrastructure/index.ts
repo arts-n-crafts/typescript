@@ -19,6 +19,7 @@ export * from './Outbox/implementations/InMemoryOutbox.ts'
 export * from './Outbox/implementations/InMemoryOutboxWorker.ts'
 export * from './Outbox/Outbox.ts'
 export * from './Outbox/OutboxEntry.ts'
+export * from './Outbox/OutboxWorker.ts'
 export * from './Outbox/utils/createOutboxEntry.ts'
 
 export * from './QueryBus/implementations/InMemoryQueryBus.ts'
