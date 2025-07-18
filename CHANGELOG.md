@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.7.1
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.7.0...v3.7.1)
+
+### 🏡 Chore
+
+- Expose OutboxWorker interface ([a7f7bc8](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/a7f7bc8))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+
 ## v3.7.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.6.1...v3.7.0)
