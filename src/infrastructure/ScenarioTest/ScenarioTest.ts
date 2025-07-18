@@ -3,7 +3,7 @@ import type { Query } from '@core/Query.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { Repository } from '@domain/Repository.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
-import type { InMemoryOutboxWorker } from '@infrastructure/Outbox/implementations/InMemoryOutboxWorker.ts'
+import type { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.js'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { EventBus } from '../EventBus/EventBus.ts'
 import type { IntegrationEvent } from '../EventBus/IntegrationEvent.ts'
@@ -36,7 +36,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent<TEvent['payload']>>
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
     private readonly repository: Repository<TState, TEvent>,
-    private readonly outboxWorker: InMemoryOutboxWorker,
+    private readonly outboxWorker: OutboxWorker,
   ) {}
 
   given(...events: GivenInput): {
