@@ -11,14 +11,14 @@ export * from './EventBus/utils/createIntegrationEvent.ts'
 export * from './EventBus/utils/isIntegrationEvent.ts'
 
 export * from './EventStore/EventStore.ts'
-export * from './EventStore/EventStore.ts'
+export * from './EventStore/implementations/GenericEventStore.ts'
 export * from './EventStore/StoredEvent.ts'
 export * from './EventStore/utils/createStoredEvent.ts'
 
 export * from './Outbox/implementations/InMemoryOutbox.ts'
+export * from './Outbox/implementations/InMemoryOutboxWorker.ts'
 export * from './Outbox/Outbox.ts'
 export * from './Outbox/OutboxEntry.ts'
-export * from './Outbox/OutboxWorker.ts'
 export * from './Outbox/utils/createOutboxEntry.ts'
 
 export * from './QueryBus/implementations/InMemoryQueryBus.ts'

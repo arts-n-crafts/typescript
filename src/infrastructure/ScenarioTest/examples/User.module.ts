@@ -1,8 +1,5 @@
 import type { Module } from '@core/Module.interface.ts'
-import type { UserEvent } from '@domain/examples/User.ts'
-import type { ContractSigned } from '@infrastructure/EventBus/examples/ContractSigned.ts'
-import type { ProductCreated } from '@infrastructure/EventBus/examples/ProductCreated.ts'
-import type { IEventStore } from '@infrastructure/EventStore/EventStore.ts'
+import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import type { CommandBus } from '../../CommandBus/CommandBus.ts'
 import type { Database } from '../../Database/Database.ts'
 import type { EventBus } from '../../EventBus/EventBus.ts'
@@ -18,15 +15,13 @@ import { User } from '@domain/examples/User.ts'
 import { InMemoryDatabase } from '../../Database/implementations/InMemoryDatabase.ts'
 import { UserRepository } from '../../Repository/examples/UserRepository.ts'
 
-export type AllEvents = UserEvent | ReturnType<typeof ContractSigned> | ReturnType<typeof ProductCreated>
-
 export class UserModule implements Module {
   private readonly repository: UserRepository
 
   private readonly database: Database
 
   constructor(
-    private readonly eventStore: IEventStore,
+    private readonly eventStore: EventStore,
     private readonly eventBus: EventBus,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,

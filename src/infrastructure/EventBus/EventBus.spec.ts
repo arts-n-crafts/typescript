@@ -1,5 +1,5 @@
 import type { Database } from '@infrastructure/Database/Database.ts'
-import type { IEventStore } from '../EventStore/EventStore.ts'
+import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import { randomUUID } from 'node:crypto'
 import { UserCreatedEventHandler } from '@core/examples/UserCreatedEventHandler.ts'
 import { User } from '@domain/examples/User.ts'
@@ -7,18 +7,18 @@ import { UserCreated } from '@domain/examples/UserCreated.ts'
 import { InMemoryDatabase } from '@infrastructure/Database/implementations/InMemoryDatabase.ts'
 import { UserRepository } from '@infrastructure/Repository/examples/UserRepository.ts'
 import { makeStreamKey } from '@utils/streamKey/index.ts'
-import { EventStore } from '../EventStore/EventStore.ts'
+import { GenericEventStore } from '../EventStore/implementations/GenericEventStore.ts'
 import { InMemoryEventBus } from './implementations/InMemoryEventBus.ts'
 
 describe('eventBus', () => {
   let database: Database
   const eventBus = new InMemoryEventBus()
-  let eventStore: IEventStore
+  let eventStore: EventStore
   let repository: UserRepository
 
   beforeEach(() => {
     database = new InMemoryDatabase()
-    eventStore = new EventStore(database)
+    eventStore = new GenericEventStore(database)
     repository = new UserRepository(eventStore, 'users', User.evolve, User.initialState)
   })
 

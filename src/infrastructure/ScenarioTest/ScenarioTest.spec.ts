@@ -1,6 +1,6 @@
 import type { UserEvent, UserState } from '@domain/examples/User.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
-import type { IEventStore } from '@infrastructure/EventStore/EventStore.ts'
+import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import type { Outbox } from '@infrastructure/Outbox/Outbox.ts'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { QueryBus } from '../QueryBus/QueryBus.ts'
@@ -14,9 +14,9 @@ import { UserCreated } from '@domain/examples/UserCreated.ts'
 import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
 import { UserRegistrationEmailSent } from '@domain/examples/UserRegistrationEmailSent.ts'
 import { InMemoryDatabase } from '@infrastructure/Database/implementations/InMemoryDatabase.ts'
-import { EventStore } from '@infrastructure/EventStore/EventStore.ts'
+import { GenericEventStore } from '@infrastructure/EventStore/implementations/GenericEventStore.ts'
 import { InMemoryOutbox } from '@infrastructure/Outbox/implementations/InMemoryOutbox.ts'
-import { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.ts'
+import { InMemoryOutboxWorker } from '@infrastructure/Outbox/implementations/InMemoryOutboxWorker.ts'
 import { UserRepository } from '@infrastructure/Repository/examples/UserRepository.ts'
 import { InMemoryCommandBus } from '../CommandBus/implementations/InMemoryCommandBus.ts'
 import { ContractSigned } from '../EventBus/examples/ContractSigned.ts'
@@ -29,23 +29,23 @@ import { ScenarioTest } from './ScenarioTest.ts'
 describe('scenario test', () => {
   const id = randomUUID()
   let database: Database
-  let eventStore: IEventStore
+  let eventStore: EventStore
   let eventBus: InMemoryEventBus
   let outbox: Outbox
   let commandBus: CommandBus
   let queryBus: QueryBus
   let repository: UserRepository
-  let outboxWorker: OutboxWorker
+  let outboxWorker: InMemoryOutboxWorker
   let scenarioTest: ScenarioTest<UserState, UserEvent>
 
   beforeEach(() => {
     database = new InMemoryDatabase()
     eventBus = new InMemoryEventBus()
     outbox = new InMemoryOutbox()
-    eventStore = new EventStore(database, { outbox })
+    eventStore = new GenericEventStore(database, { outbox })
     commandBus = new InMemoryCommandBus()
     queryBus = new InMemoryQueryBus()
-    outboxWorker = new OutboxWorker(outbox, eventBus)
+    outboxWorker = new InMemoryOutboxWorker(outbox, eventBus)
     repository = new UserRepository(eventStore, 'users', User.evolve, User.initialState)
 
     scenarioTest = new ScenarioTest('users', eventBus, eventStore, commandBus, queryBus, repository, outboxWorker)

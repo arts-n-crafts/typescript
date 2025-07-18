@@ -6,12 +6,12 @@ import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
 import { InMemoryDatabase } from '@infrastructure/Database/implementations/InMemoryDatabase.ts'
 import { makeStreamKey } from '@utils/streamKey/index.ts'
 import { beforeEach, describe } from 'vitest'
-import { EventStore } from './EventStore.ts'
+import { GenericEventStore } from './implementations/GenericEventStore.ts'
 
 describe('eventStore', () => {
   const STREAM = 'users'
   let database: Database
-  let eventStore: EventStore
+  let eventStore: GenericEventStore
 
   let event1: UserEvent
   let event2: UserEvent
@@ -19,7 +19,7 @@ describe('eventStore', () => {
 
   beforeEach(async () => {
     database = new InMemoryDatabase()
-    eventStore = new EventStore(database)
+    eventStore = new GenericEventStore(database)
 
     event1 = UserCreated(randomUUID(), { name: 'elon', email: 'musk@x.com' })
     event2 = UserNameUpdated(event1.aggregateId, { name: 'Donald' })

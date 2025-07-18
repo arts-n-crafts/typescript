@@ -6,13 +6,13 @@ import { UserCreatedEventHandler } from '@core/examples/UserCreatedEventHandler.
 import { User } from '@domain/examples/User.ts'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
 import { InMemoryDatabase } from '@infrastructure/Database/implementations/InMemoryDatabase.ts'
-import { EventStore } from '@infrastructure/EventStore/EventStore.ts'
+import { GenericEventStore } from '@infrastructure/EventStore/implementations/GenericEventStore.ts'
 import { UserRepository } from '@infrastructure/Repository/examples/UserRepository.ts'
 import { makeStreamKey } from '@utils/streamKey/index.ts'
 
 describe('eventHandler', () => {
   const database = new InMemoryDatabase()
-  const eventStore = new EventStore(database)
+  const eventStore = new GenericEventStore(database)
   const repository = new UserRepository(eventStore, 'users', User.evolve, User.initialState)
   const handler = new UserCreatedEventHandler(repository)
 

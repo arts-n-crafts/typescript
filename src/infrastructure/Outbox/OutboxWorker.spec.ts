@@ -3,12 +3,12 @@ import type { Outbox } from './Outbox.ts'
 import { createDomainEvent } from '@domain/utils/createDomainEvent.ts'
 import { InMemoryEventBus } from '@infrastructure/EventBus/implementations/InMemoryEventBus.ts'
 import { InMemoryOutbox } from './implementations/InMemoryOutbox.ts'
-import { OutboxWorker } from './OutboxWorker.ts'
+import { InMemoryOutboxWorker } from './implementations/InMemoryOutboxWorker.ts'
 
 describe('outboxWorker with InMemoryEventBus', () => {
   let outbox: Outbox
   let eventBus: EventBus
-  let worker: OutboxWorker
+  let worker: InMemoryOutboxWorker
   const handler = {
     handle: vi.fn().mockResolvedValue(undefined),
   }
@@ -16,7 +16,7 @@ describe('outboxWorker with InMemoryEventBus', () => {
   beforeEach(() => {
     outbox = new InMemoryOutbox()
     eventBus = new InMemoryEventBus()
-    worker = new OutboxWorker(outbox, eventBus)
+    worker = new InMemoryOutboxWorker(outbox, eventBus)
     handler.handle.mockClear()
   })
 
