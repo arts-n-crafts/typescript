@@ -6,7 +6,7 @@ export interface DatabaseRecord {
 }
 
 export interface Database {
-  query: <T = DatabaseRecord>(collectionName: string, specification: Specification<T>) => Promise<T[]>
+  query: <T>(collectionName: string, specification: Specification<T>) => Promise<T[]>
   execute: (tableName: string, statement: Statement) => Promise<void>
 }
 
@@ -18,5 +18,5 @@ export enum Operation {
 
 export interface Statement {
   operation: Operation
-  payload: DatabaseRecord
+  payload: object & { id: string }
 }
