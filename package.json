@@ -1,8 +1,6 @@
 {
   "name": "@jvhellemondt/arts-and-crafts.ts",
-  "type": "module",
   "version": "3.7.2",
-  "private": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jvhellemondt/arts-and-crafts.ts.git"
@@ -12,35 +10,8 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    }
-  },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "prepare": "husky",
-    "commit": "cz",
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
-    "test": "NODE_ENV=test vitest",
-    "test:watch": "NODE_ENV=test vitest --coverage --watch",
-    "test:ui": "NODE_ENV=test vitest --watch --coverage --ui",
-    "coverage": "NODE_ENV=test vitest --coverage",
-    "typecheck": "tsc --noEmit",
-    "release": "release-it && npm publish --access=public",
-    "build": "rimraf dist && tsup",
-    "check-exports": "attw --pack ."
-  },
-  "peerDependencies": {
-    "typescript": "^5.8.3"
-  },
   "devDependencies": {
     "@antfu/eslint-config": "^4.16.1",
     "@arethetypeswrong/cli": "^0.18.2",
@@ -65,5 +36,34 @@
     "typescript-eslint": "^8.35.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4"
-  }
+  },
+  "peerDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "private": false,
+  "scripts": {
+    "prepare": "husky",
+    "commit": "cz",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "test": "NODE_ENV=test vitest",
+    "test:watch": "NODE_ENV=test vitest --coverage --watch",
+    "test:ui": "NODE_ENV=test vitest --watch --coverage --ui",
+    "coverage": "NODE_ENV=test vitest --coverage",
+    "typecheck": "tsc --noEmit",
+    "release": "release-it && npm publish --access=public",
+    "build": "rimraf dist && tsup",
+    "check-exports": "attw --pack ."
+  },
+  "type": "module"
 }

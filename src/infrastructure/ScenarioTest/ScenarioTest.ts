@@ -128,11 +128,11 @@ export class ScenarioTest<TState, TEvent extends DomainEvent<TEvent['payload']>>
     )
   }
 
-  private async handleQuery(query: Query, outcome: ThenInput): Promise<void> {
+  private async handleQuery(query: Query, expected: ThenInput): Promise<void> {
     await this.outboxWorker.tick()
-    const queryResult = await this.queryBus.execute(query)
+    const actual = await this.queryBus.execute(query)
     invariant(
-      isEqual(queryResult, outcome),
+      isEqual(actual, expected),
       fail(new Error('ScenarioTest: a different query result was returned')),
     )
   }
