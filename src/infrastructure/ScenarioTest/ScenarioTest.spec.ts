@@ -7,7 +7,7 @@ import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { QueryBus } from '../QueryBus/QueryBus.ts'
 import { randomUUID } from 'node:crypto'
 import { CreateUser } from '@core/examples/CreateUser.ts'
-import { GetUserByEmail } from '@core/examples/GetUserByEmail.ts'
+import { createGetUserByEmailQuery } from '@core/examples/GetUserByEmail.ts'
 import { UpdateUserName } from '@core/examples/UpdateUserName.ts'
 import { User } from '@domain/examples/User.ts'
 import { UserActivated } from '@domain/examples/UserActivated.ts'
@@ -81,7 +81,7 @@ describe('scenario test', () => {
           .when(UpdateUserName(id, { name: 'Donald' }))
           .then([]),
       ).rejects.toThrow(
-        'In the ScenarioTest, when triggering a command, then a domain event is expected',
+        'When "command" expects a domain event in the then-step',
       )
     })
 
@@ -102,7 +102,7 @@ describe('scenario test', () => {
           UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }),
           UserNameUpdated(id, { name: 'Donald' }),
         )
-        .when(GetUserByEmail({ email: 'musk@theboringcompany.com' }))
+        .when(createGetUserByEmailQuery({ email: 'musk@theboringcompany.com' }))
         .then([
           {
             id,
@@ -127,7 +127,7 @@ describe('scenario test', () => {
           .when(UserCreated(id, { name: 'Elon', email: 'musk@theboringcompany.com' }))
           .then([]),
       ).rejects.toThrow(
-        'In the ScenarioTest, when triggering from event, then an event is expected',
+        'When "domain event" or "integration event" expects a domain event in the then-step',
       )
     })
 
@@ -176,7 +176,7 @@ describe('scenario test', () => {
               email: 'musk@theboringcompany.com',
             },
           ]),
-      ).rejects.toThrow('In the ScenarioTest, "when" cannot be empty')
+      ).rejects.toThrow('In the ScenarioTest, the when-step cannot be empty')
     })
   })
 })

@@ -18,12 +18,9 @@ import { isEqual } from '@utils/isEqual/isEqual.ts'
 import { makeStreamKey } from '@utils/streamKey/index.ts'
 import { isIntegrationEvent } from '../EventBus/utils/isIntegrationEvent.ts'
 
-type GivenInput = (DomainEvent<any> | IntegrationEvent<any>)[]
-type WhenInput = Command<string, any>
-  | Query
-  | DomainEvent<any>
-  | IntegrationEvent<any>
-type ThenInput = DomainEvent<any> | Record<string, any>[]
+type GivenInput = (DomainEvent | IntegrationEvent)[]
+type WhenInput = Command | Query | DomainEvent | IntegrationEvent
+type ThenInput = DomainEvent | Array<Record<string, unknown>>
 
 export class ScenarioTest<TState, TEvent extends DomainEvent<TEvent['payload']>> {
   private givenInput: GivenInput = []
@@ -71,45 +68,32 @@ export class ScenarioTest<TState, TEvent extends DomainEvent<TEvent['payload']>>
     ])
 
     if (!this.whenInput) {
-      throw new Error('In the ScenarioTest, "when" cannot be empty')
+      throw new Error('In the ScenarioTest, the when-step cannot be empty')
     }
 
     if (isCommand(this.whenInput)) {
+      invariant(isDomainEvent(thenInput), fail(new TypeError('When \"command\" expects a domain event in the then-step')))
       await this.handleCommand(this.whenInput, thenInput)
     }
 
     if (isQuery(this.whenInput)) {
+      invariant(Array.isArray(thenInput), fail(new TypeError('When \"query\" expects an array of expected results in the then-step')))
       await this.handleQuery(this.whenInput, thenInput)
     }
 
-    if (this.isDomainEvent(this.whenInput) || this.isIntegrationEvent(this.whenInput)) {
+    if (isDomainEvent(this.whenInput) || isIntegrationEvent(this.whenInput)) {
+      invariant(isDomainEvent(thenInput), fail(new TypeError('When \"domain event\" or \"integration event\" expects a domain event in the then-step')))
       await this.handleEvent(this.whenInput, thenInput)
     }
   }
 
-  private isDomainEvent(candidate: WhenInput | ThenInput): candidate is DomainEvent<any> {
-    return isEvent(candidate) && isDomainEvent(candidate)
-  }
-
-  private isIntegrationEvent(
-    candidate: WhenInput | ThenInput,
-  ): candidate is IntegrationEvent<unknown> {
-    return isEvent(candidate) && isIntegrationEvent(candidate)
-  }
-
-  private async handleCommand(command: Command<string, unknown>, outcome: ThenInput): Promise<void> {
-    if (!this.isDomainEvent(outcome)) {
-      throw new TypeError(
-        `In the ScenarioTest, when triggering a command, then a domain event is expected`,
-      )
-    }
-
+  private async handleCommand(command: Command<string, unknown>, outcome: DomainEvent): Promise<void> {
     await this.commandBus.execute(command)
     const streamKey = makeStreamKey(this.streamName, outcome.aggregateId)
     const actualEvents = await this.eventStore.load(streamKey)
     const foundEvent = actualEvents.findLast(
       event =>
-        this.isDomainEvent(event)
+        isDomainEvent(event)
         && event.aggregateId === outcome.aggregateId
         && event.type === outcome.type,
     )
@@ -128,7 +112,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent<TEvent['payload']>>
     )
   }
 
-  private async handleQuery(query: Query, expected: ThenInput): Promise<void> {
+  private async handleQuery(query: Query, expected: Array<Record<string, unknown>>): Promise<void> {
     await this.outboxWorker.tick()
     const actual = await this.queryBus.execute(query)
     invariant(
@@ -138,16 +122,10 @@ export class ScenarioTest<TState, TEvent extends DomainEvent<TEvent['payload']>>
   }
 
   private async handleEvent(
-    event: DomainEvent<any> | IntegrationEvent<any>,
-    outcome: ThenInput,
+    event: DomainEvent | IntegrationEvent,
+    outcome: DomainEvent,
   ): Promise<void> {
     await this.eventBus.publish(event)
-    if (!this.isDomainEvent(outcome)) {
-      throw new TypeError(
-        `In the ScenarioTest, when triggering from event, then an event is expected`,
-      )
-    }
-
     const streamKey = makeStreamKey(this.streamName, outcome.aggregateId)
     const actualEvents = await this.eventStore.load(streamKey)
     const foundEvent = actualEvents.findLast(

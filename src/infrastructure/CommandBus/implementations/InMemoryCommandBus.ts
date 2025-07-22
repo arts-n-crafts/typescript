@@ -15,7 +15,7 @@ export class InMemoryCommandBus implements CommandBus {
     this.handlers.set(aTypeOfCommand, anHandler as CommandHandler)
   }
 
-  async execute<TResult = CommandHandlerResult>(aCommand: Command<string, unknown>): Promise<TResult> {
+  async execute<TResult = CommandHandlerResult>(aCommand: Command): Promise<TResult> {
     const handler = this.handlers.get(aCommand.type)
     if (!handler) {
       throw new Error(`No handler found for command type: ${aCommand.type}`)
