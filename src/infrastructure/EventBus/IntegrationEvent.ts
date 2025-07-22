@@ -15,7 +15,7 @@ export interface IntegrationEventMetadata {
  *
  * These helpers ensure correct typing, structure, and metadata assignment.
  */
-export interface IntegrationEvent<TPayload> {
+export interface IntegrationEvent<TPayload = unknown> {
   id: string
   type: string
   source: 'external'

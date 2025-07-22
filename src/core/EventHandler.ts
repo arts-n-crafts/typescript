@@ -1,5 +1,5 @@
 import type { BaseEvent } from '@domain/BaseEvent.ts'
 
-export interface EventHandler<TEvent extends BaseEvent<TEvent['payload']>> {
-  handle: (anEvent: TEvent) => Promise<void>
+export interface EventHandler<TEvent extends BaseEvent, TResult = void> {
+  handle: (anEvent: TEvent) => Promise<TResult>
 }

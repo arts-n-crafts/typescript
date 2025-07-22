@@ -20,7 +20,7 @@ export class UserProjectionHandler implements ProjectionHandler<UserEvent> {
     this.eventBus.subscribe('UserNameUpdated', this)
   }
 
-  async handle(anEvent: unknown): Promise<void> {
+  async handle(anEvent: UserEvent): Promise<void> {
     if (isDomainEvent(anEvent) && anEvent.type === 'UserCreated') {
       const user = { id: anEvent.aggregateId, ...(anEvent.payload as UserCreatedPayload) }
       await this.database.execute('users', { operation: Operation.CREATE, payload: user })
