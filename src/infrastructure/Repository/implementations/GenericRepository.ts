@@ -4,7 +4,7 @@ import type { Repository } from '@domain/Repository.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import { makeStreamKey } from '@utils/streamKey/index.ts'
 
-export class InMemoryRepository<TState, TCommand, TEvent extends DomainEvent<TEvent['payload']>> implements Repository<TState, TEvent> {
+export class GenericRepository<TState, TCommand, TEvent extends DomainEvent<TEvent['payload']>> implements Repository<TState, TEvent> {
   constructor(
     private readonly eventStore: EventStore,
     readonly streamName: string,
@@ -13,14 +13,15 @@ export class InMemoryRepository<TState, TCommand, TEvent extends DomainEvent<TEv
   ) {
   }
 
-  async load(aggregateId: string): Promise<TState> {
+  async load<TResult = TState>(aggregateId: string): Promise<TResult> {
     const pastEvents = await this.eventStore.load<TEvent>(
       makeStreamKey(this.streamName, aggregateId),
     )
-    return pastEvents.reduce<TState>(this.evolveFn, this.initialState(aggregateId))
+    return pastEvents
+      .reduce<TState>(this.evolveFn, this.initialState(aggregateId)) as unknown as TResult
   }
 
-  async store(events: TEvent[]): Promise<void> {
+  async store<TResult = void>(events: TEvent[]): Promise<TResult> {
     await Promise.all(
       events.map(
         async event => this.eventStore.append(
@@ -29,5 +30,6 @@ export class InMemoryRepository<TState, TCommand, TEvent extends DomainEvent<TEv
         ),
       ),
     )
+    return undefined as TResult
   }
 }

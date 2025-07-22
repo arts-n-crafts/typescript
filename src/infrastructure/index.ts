@@ -25,6 +25,6 @@ export * from './Outbox/utils/createOutboxEntry.ts'
 export * from './QueryBus/implementations/InMemoryQueryBus.ts'
 export * from './QueryBus/QueryBus.ts'
 
-export * from './Repository/implementations/InMemoryRepository.ts'
+export * from './Repository/implementations/GenericRepository.ts'
 
 export * from './ScenarioTest/ScenarioTest.ts'
