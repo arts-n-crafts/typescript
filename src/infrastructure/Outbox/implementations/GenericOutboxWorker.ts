@@ -2,7 +2,7 @@ import type { EventBus } from '@infrastructure/EventBus/EventBus.ts'
 import type { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.js'
 import type { Outbox } from '../Outbox.ts'
 
-export class InMemoryOutboxWorker implements OutboxWorker {
+export class GenericOutboxWorker implements OutboxWorker {
   constructor(
     private outbox: Outbox,
     private eventBus: EventBus,
