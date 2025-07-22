@@ -1,6 +1,33 @@
 # Changelog
 
 
+## v3.8.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.7.2...v3.8.0)
+
+### 🚀 Enhancements
+
+- Initial v2 ScenarioTest api ([03c8234](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/03c8234))
+
+### 💅 Refactors
+
+- Update EventStore and DomainEvent typing ([e925a61](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/e925a61))
+- Update repository typing with TResult and rename InMemoryRepository to GenericRepository ([4656fa6](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/4656fa6))
+- Rename InMemoryOutboxWorker to GenericOutboxWorker ([ebf7ad4](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/ebf7ad4))
+- Update the returntype of commandbus, handler and command ([b7286f8](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/b7286f8))
+- Update the returntype of eventbus, handler and event ([bfc3804](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/bfc3804))
+- Update the returntype of querybus, handler and query ([bb2ce38](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/bb2ce38))
+- Update scenariotest to implement recent changes and tidy commandBus ([4ee2105](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/4ee2105))
+
+### 🏡 Chore
+
+- Tidying ([e403457](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/e403457))
+- Update lint script to only lint src/ ([a24b1b6](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/a24b1b6))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.7.2
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.7.1...v3.7.2)
