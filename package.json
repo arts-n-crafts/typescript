@@ -54,8 +54,8 @@
   "scripts": {
     "prepare": "husky",
     "commit": "cz",
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
+    "lint": "eslint src/",
+    "lint:fix": "eslint --fix src/",
     "test": "NODE_ENV=test vitest",
     "test:watch": "NODE_ENV=test vitest --coverage --watch",
     "test:ui": "NODE_ENV=test vitest --watch --coverage --ui",
