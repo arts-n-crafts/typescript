@@ -4,7 +4,7 @@ export interface DomainEventMetadata {
   [key: string]: unknown
 }
 
-export interface DomainEvent<TPayload> {
+export interface DomainEvent<TPayload = unknown> {
   id: string
   type: string
   aggregateId: string

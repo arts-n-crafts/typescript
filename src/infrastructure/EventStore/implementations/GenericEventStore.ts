@@ -25,14 +25,14 @@ export class GenericEventStore implements EventStore {
     this.outbox = config.outbox
   }
 
-  async load<TEvent extends DomainEvent<TEvent['payload']>>(streamKey: StreamKey): Promise<TEvent[]> {
+  async load<TEvent extends DomainEvent = DomainEvent, TReturn = TEvent[]>(streamKey: StreamKey): Promise<TReturn> {
     const specification = new FieldEquals('streamKey', streamKey)
     const storedEvents = await this.db.query<StoredEvent<TEvent>>(this.tableName, specification)
     return storedEvents
-      .map(storedEvent => storedEvent.event)
+      .map(storedEvent => storedEvent.event) as TReturn
   }
 
-  async append<TEvent extends DomainEvent<TEvent['payload']>>(streamKey: StreamKey, events: TEvent[]): Promise<void> {
+  async append<TResult = void>(streamKey: StreamKey, events: DomainEvent[]): Promise<TResult> {
     const currentStream = await this.load(streamKey)
     const eventsToStore = events.map(event => createStoredEvent(streamKey, currentStream.length + 1, event) as unknown as DatabaseRecord)
     await Promise.all(
@@ -40,5 +40,6 @@ export class GenericEventStore implements EventStore {
       ),
     )
     await Promise.all(events.map(async event => this.outbox?.enqueue(event)))
+    return undefined as TResult
   }
 }
