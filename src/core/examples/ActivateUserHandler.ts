@@ -9,8 +9,9 @@ export class ActivateUserHandler implements CommandHandler<'ActivateUser', Activ
     private readonly repository: UserRepository,
   ) {}
 
-  async execute(command: Command<'ActivateUser', ActivateUserProps>): Promise<CommandHandlerResult> {
+  async execute<TResult = CommandHandlerResult>(command: Command<'ActivateUser', ActivateUserProps>): Promise<TResult> {
     const currentState = await this.repository.load(command.aggregateId)
     await this.repository.store(User.decide(command, currentState))
+    return { id: command.aggregateId } as TResult
   }
 }

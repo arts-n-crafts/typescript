@@ -9,9 +9,9 @@ export class UpdateUserNameHandler implements CommandHandler<'UpdateUserName', U
     private readonly repository: UserRepository,
   ) { }
 
-  async execute(command: Command<'UpdateUserName', UpdateUserNameProps>): Promise<CommandHandlerResult> {
+  async execute<TResult = CommandHandlerResult>(command: Command<'UpdateUserName', UpdateUserNameProps>): Promise<TResult> {
     const currentState = await this.repository.load(command.aggregateId)
     await this.repository.store(User.decide(command, currentState))
-    return { id: command.aggregateId }
+    return { id: command.aggregateId } as TResult
   }
 }

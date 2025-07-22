@@ -3,19 +3,19 @@ import type { CommandHandler, CommandHandlerResult } from '@core/CommandHandler.
 import type { CommandBus } from '../CommandBus.ts'
 
 export class InMemoryCommandBus implements CommandBus {
-  private handlers: Map<string, CommandHandler<any, any>> = new Map()
+  private handlers: Map<string, CommandHandler> = new Map()
 
-  register(
+  register<TType = string, TPayload = unknown>(
     aTypeOfCommand: string,
-    anHandler: CommandHandler<any, any>,
+    anHandler: CommandHandler<TType, TPayload>,
   ): void {
     if (this.handlers.has(aTypeOfCommand)) {
       throw new Error(`Handler already registered for command type: ${aTypeOfCommand}`)
     }
-    this.handlers.set(aTypeOfCommand, anHandler)
+    this.handlers.set(aTypeOfCommand, anHandler as CommandHandler)
   }
 
-  async execute(aCommand: Command<string, unknown>): Promise<CommandHandlerResult> {
+  async execute<TResult = CommandHandlerResult>(aCommand: Command<string, unknown>): Promise<TResult> {
     const handler = this.handlers.get(aCommand.type)
     if (!handler) {
       throw new Error(`No handler found for command type: ${aCommand.type}`)
