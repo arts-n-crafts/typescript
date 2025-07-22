@@ -7,7 +7,7 @@ describe('isQuery util', () => {
   })
 
   it('should confirm that the candidate is a query', () => {
-    const query: Query<object> = {
+    const query: Query = {
       type: 'TestQuery',
       payload: {},
       kind: 'query',

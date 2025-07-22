@@ -5,6 +5,8 @@ export interface GetUserByEmailProps {
   email: string
 }
 
-export function GetUserByEmail(payload: GetUserByEmailProps, metadata?: Partial<QueryMetadata>): Query<GetUserByEmailProps> {
+export function createGetUserByEmailQuery(payload: GetUserByEmailProps, metadata?: Partial<QueryMetadata>): Query<'GetUserByEmail', GetUserByEmailProps> {
   return createQuery('GetUserByEmail', payload, metadata)
 }
+
+export type GetUserByEmail = ReturnType<typeof createGetUserByEmailQuery>

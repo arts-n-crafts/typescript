@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto'
-import { GetUserByEmail } from '@core/examples/GetUserByEmail.ts'
+import { createGetUserByEmailQuery } from '@core/examples/GetUserByEmail.ts'
 import { Operation } from '@infrastructure/Database/Database.ts'
 import { InMemoryDatabase } from '@infrastructure/Database/implementations/InMemoryDatabase.ts'
 import { GetUserByEmailHandler } from './examples/GetUserByEmailHandler.ts'
@@ -20,7 +20,7 @@ describe('queryHandler', () => {
   })
 
   it('should return the requested data', async () => {
-    const query = GetUserByEmail({ email: user.email })
+    const query = createGetUserByEmailQuery({ email: user.email })
     const handler = new GetUserByEmailHandler(database)
 
     const results = await handler.execute(query)

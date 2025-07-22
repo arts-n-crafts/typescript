@@ -1,6 +1,6 @@
 import type { GetUserByEmailProps } from '@core/examples/GetUserByEmail.ts'
 import type { Query } from './Query.ts'
-import { GetUserByEmail } from '@core/examples/GetUserByEmail.ts'
+import { createGetUserByEmailQuery } from '@core/examples/GetUserByEmail.ts'
 import { createQuery } from '@core/utils/createQuery.ts'
 
 describe('query', () => {
@@ -17,7 +17,7 @@ describe('query', () => {
   })
 
   it('should contain the valid information', () => {
-    const getUserByEmailQuery = GetUserByEmail(payload)
+    const getUserByEmailQuery = createGetUserByEmailQuery(payload)
     expect(getUserByEmailQuery.type).toBe('GetUserByEmail')
     expect(getUserByEmailQuery.payload.email).toBe('test')
     expect(getUserByEmailQuery.kind).toBe('query')

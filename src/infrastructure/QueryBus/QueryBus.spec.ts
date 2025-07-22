@@ -1,7 +1,7 @@
 import type { GetUserByEmailProps } from '@core/examples/GetUserByEmail.ts'
 import type { GetUserByEmailResult } from '@core/examples/GetUserByEmailHandler.ts'
 import { randomUUID } from 'node:crypto'
-import { GetUserByEmail } from '@core/examples/GetUserByEmail.ts'
+import { createGetUserByEmailQuery } from '@core/examples/GetUserByEmail.ts'
 import { GetUserByEmailHandler } from '@core/examples/GetUserByEmailHandler.ts'
 import { Operation } from '../Database/Database.ts'
 import { InMemoryDatabase } from '../Database/implementations/InMemoryDatabase.ts'
@@ -26,25 +26,27 @@ describe('queryBus', () => {
   })
 
   it('should be able to register a handler', () => {
+    const query = createGetUserByEmailQuery(payload)
     const bus = new InMemoryQueryBus()
     const handler = new GetUserByEmailHandler(database)
-    expect(bus.register('GetUserByEmail', handler)).toBeUndefined()
+    expect(bus.register(query.type, handler)).toBeUndefined()
   })
 
   it('should throw an error if the query handler is already registered', () => {
+    const query = createGetUserByEmailQuery(payload)
     const bus = new InMemoryQueryBus()
     const handler = new GetUserByEmailHandler(database)
 
-    bus.register('GetUserByEmail', handler)
+    bus.register(query.type, handler)
 
-    expect(() => bus.register('GetUserByEmail', handler)).toThrow(`Handler already registered for query type: ${GetUserByEmail.name}`)
+    expect(() => bus.register(query.type, handler)).toThrow(`Handler already registered for query type: ${query.type}`)
   })
 
   it('should execute a query', async () => {
-    const query = GetUserByEmail(payload)
+    const query = createGetUserByEmailQuery(payload)
     const handler = new GetUserByEmailHandler(database)
     const bus = new InMemoryQueryBus()
-    bus.register('GetUserByEmail', handler)
+    bus.register(query.type, handler)
 
     const results = await bus.execute<GetUserByEmailResult[]>(query)
 
@@ -53,9 +55,9 @@ describe('queryBus', () => {
   })
 
   it('should throw an error if the query handler is not registered', async () => {
-    const query = GetUserByEmail(payload)
+    const query = createGetUserByEmailQuery(payload)
     const bus = new InMemoryQueryBus()
     const promised = bus.execute(query)
-    await expect(promised).rejects.toThrowError(`No handler found for query type: ${GetUserByEmail.name}`)
+    await expect(promised).rejects.toThrowError(`No handler found for query type: ${query.type}`)
   })
 })
