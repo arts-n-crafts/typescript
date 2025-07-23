@@ -4,7 +4,7 @@ import type { Repository } from '@domain/Repository.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import { makeStreamKey } from '@utils/streamKey/index.ts'
 
-export class GenericRepository<TState, TCommand, TEvent extends DomainEvent<TEvent['payload']>> implements Repository<TState, TEvent> {
+export class GenericRepository<TState, TCommand, TEvent extends DomainEvent> implements Repository<TState, TEvent> {
   constructor(
     private readonly eventStore: EventStore,
     readonly streamName: string,
@@ -13,8 +13,8 @@ export class GenericRepository<TState, TCommand, TEvent extends DomainEvent<TEve
   ) {
   }
 
-  async load<TResult = TState>(aggregateId: string): Promise<TResult> {
-    const pastEvents = await this.eventStore.load<TEvent>(
+  async load<TResult>(aggregateId: string): Promise<TResult> {
+    const pastEvents = await this.eventStore.load<TEvent[]>(
       makeStreamKey(this.streamName, aggregateId),
     )
     return pastEvents

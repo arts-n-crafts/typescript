@@ -1,4 +1,5 @@
 import type { CreateUserProps } from '@core/examples/CreateUser.ts'
+import type { UserEvent } from '@domain/examples/User.ts'
 import { randomUUID } from 'node:crypto'
 import { CreateUser } from '@core/examples/CreateUser.ts'
 import { UpdateUserName } from '@core/examples/UpdateUserName.ts'
@@ -31,7 +32,7 @@ describe('commandHandler', async () => {
 
   it('should process the MockCreateUser Command and emit the MockUserCreated Event', async () => {
     const streamKey = makeStreamKey('users', aggregateId)
-    const events = await eventStore.load(streamKey)
+    const events = await eventStore.load<UserEvent[]>(streamKey)
     const event = events.at(0)
     expect(events).toHaveLength(1)
     expect(event?.type).toBe('UserCreated')
@@ -43,7 +44,7 @@ describe('commandHandler', async () => {
     const updateUserNameCommand = UpdateUserName(aggregateId, { name: 'test' })
     await updateUserNameHandler.execute(updateUserNameCommand)
     const streamKey = makeStreamKey('users', aggregateId)
-    const events = await eventStore.load(streamKey)
+    const events = await eventStore.load<UserEvent[]>(streamKey)
     const event = events.at(1)
     expect(events).toHaveLength(2)
     expect(event?.type).toBe('UserNameUpdated')

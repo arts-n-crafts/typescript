@@ -1,3 +1,4 @@
+import type { UserEvent } from '@domain/examples/User.ts'
 import type { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
 import { randomUUID } from 'node:crypto'
 import { CreateUser } from '@core/examples/CreateUser.ts'
@@ -44,7 +45,7 @@ describe('commandBus', () => {
       { timestamp: new Date() },
     )
     await commandBus.execute(updateUserNameCommand)
-    const events = await eventStore.load(streamKey)
+    const events = await eventStore.load<UserEvent[]>(streamKey)
     const event = events.at(-1) as ReturnType<typeof UserNameUpdated>
 
     expect(events).toHaveLength(2)

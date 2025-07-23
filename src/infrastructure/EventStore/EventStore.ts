@@ -1,7 +1,7 @@
-import type { DomainEvent } from '@domain/DomainEvent.js'
-import type { StreamKey } from '@utils/streamKey/index.js'
+import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { StreamKey } from '@utils/streamKey/index.ts'
 
 export interface EventStore {
-  load: <TEvent extends DomainEvent = DomainEvent, TReturn = TEvent[]>(streamKey: StreamKey) => Promise<TReturn>
-  append: <TResult = void>(streamKey: StreamKey, events: DomainEvent<unknown>[]) => Promise<TResult>
+  load: <TReturn>(streamKey: StreamKey) => Promise<TReturn>
+  append: <TEvent extends DomainEvent, TReturn>(streamKey: StreamKey, events: TEvent[]) => Promise<TReturn>
 }

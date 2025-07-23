@@ -22,7 +22,7 @@ type GivenInput = (DomainEvent | IntegrationEvent)[]
 type WhenInput = Command | Query | DomainEvent | IntegrationEvent
 type ThenInput = DomainEvent | Array<Record<string, unknown>>
 
-export class ScenarioTest<TState, TEvent extends DomainEvent<TEvent['payload']>> {
+export class ScenarioTest<TState, TEvent extends DomainEvent> {
   private givenInput: GivenInput = []
   private whenInput: WhenInput | undefined
 
@@ -90,7 +90,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent<TEvent['payload']>>
   private async handleCommand(command: Command<string, unknown>, outcome: DomainEvent): Promise<void> {
     await this.commandBus.execute(command)
     const streamKey = makeStreamKey(this.streamName, outcome.aggregateId)
-    const actualEvents = await this.eventStore.load(streamKey)
+    const actualEvents = await this.eventStore.load<TEvent[]>(streamKey)
     const foundEvent = actualEvents.findLast(
       event =>
         isDomainEvent(event)
@@ -127,7 +127,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent<TEvent['payload']>>
   ): Promise<void> {
     await this.eventBus.publish(event)
     const streamKey = makeStreamKey(this.streamName, outcome.aggregateId)
-    const actualEvents = await this.eventStore.load(streamKey)
+    const actualEvents = await this.eventStore.load<TEvent[]>(streamKey)
     const foundEvent = actualEvents.findLast(
       event =>
         isEvent(event) && event.aggregateId === outcome.aggregateId && event.type === outcome.type,

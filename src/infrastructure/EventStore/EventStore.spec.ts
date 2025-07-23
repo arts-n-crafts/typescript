@@ -32,13 +32,13 @@ describe('eventStore', () => {
   describe('eventStore', () => {
     it('should load the given event', async () => {
       const streamId = makeStreamKey(STREAM, event1.aggregateId)
-      const events = await eventStore.load(streamId)
+      const events = await eventStore.load<UserEvent[]>(streamId)
       expect(events[0]).toEqual(event1)
     })
 
     it('should store and load multiple events', async () => {
       const streamId = makeStreamKey(STREAM, event1.aggregateId)
-      const events = await eventStore.load(streamId)
+      const events = await eventStore.load<UserEvent[]>(streamId)
 
       expect(events).toHaveLength(2)
       expect(events[0]).toEqual(event1)

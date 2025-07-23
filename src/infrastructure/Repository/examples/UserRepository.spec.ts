@@ -1,4 +1,5 @@
 import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { UserState } from '@domain/examples/User.ts'
 import type { UserCreatedPayload } from '@domain/examples/UserCreated.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
@@ -28,7 +29,7 @@ describe('repository', () => {
   })
 
   it('should contain the stored events', async () => {
-    const state = await repository.load(event.aggregateId)
+    const state = await repository.load<UserState>(event.aggregateId)
     expect(state.name).toBe(event.payload.name)
   })
 })

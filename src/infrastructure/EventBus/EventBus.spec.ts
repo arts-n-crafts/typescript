@@ -1,3 +1,4 @@
+import type { UserEvent } from '@domain/examples/User.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import { randomUUID } from 'node:crypto'
@@ -31,7 +32,7 @@ describe('eventBus', () => {
     const createdEvent = UserCreated(randomUUID(), { name: 'test', email: 'musk@x.com' })
     await eventBus.publish(createdEvent)
 
-    const events = await eventStore.load(
+    const events = await eventStore.load<UserEvent[]>(
       makeStreamKey('users', createdEvent.aggregateId),
     )
     const sentEventCausedByCreatedEventIndex = events.findIndex(event => event.metadata.causationId === createdEvent.id)

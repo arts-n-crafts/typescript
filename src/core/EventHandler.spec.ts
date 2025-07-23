@@ -1,4 +1,5 @@
 import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { UserEvent } from '@domain/examples/User.ts'
 import type { UserRegistrationEmailSentPayload } from '@domain/examples/UserRegistrationEmailSent.ts'
 import { randomUUID } from 'node:crypto'
 import { ContractSignedHandler } from '@core/examples/ContractSignedHandler.ts'
@@ -25,7 +26,7 @@ describe('eventHandler', () => {
     await handler.handle(event)
     await repository.load(event.aggregateId)
 
-    const events = await eventStore.load(
+    const events = await eventStore.load<UserEvent[]>(
       makeStreamKey('users', event.aggregateId),
     )
     const sentEvent = events[0] as DomainEvent<UserRegistrationEmailSentPayload>
