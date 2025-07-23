@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v3.8.1
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.8.0...v3.8.1)
+
+### 💅 Refactors
+
+- Update ReturnType typing in EventStore and Repository ([7110169](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/7110169))
+- **repository:** Tidying ([6da1675](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/6da1675))
+- Fix ReturnType type in EventStore, Repository, CommandBus and rename to ReturnType ([e644fdf](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/e644fdf))
+- Various interfaces should allow flexible ReturnType ([7b7aeb0](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/7b7aeb0))
+
+### 🏡 Chore
+
+- **eslint:** Disable @typescript-eslint/method-signature-style ([44a7f31](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/44a7f31))
+- **eslint:** Set @typescript-eslint/method-signature-style to method ([29bee3e](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/29bee3e))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.8.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.7.2...v3.8.0)
