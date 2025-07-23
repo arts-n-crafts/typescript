@@ -6,8 +6,8 @@ export interface DatabaseRecord {
 }
 
 export interface Database {
-  query: <T>(collectionName: string, specification: Specification<T>) => Promise<T[]>
-  execute: (tableName: string, statement: Statement) => Promise<void>
+  query<T>(collectionName: string, specification: Specification<T>): Promise<T[]>
+  execute(tableName: string, statement: Statement): Promise<void>
 }
 
 export enum Operation {

@@ -1,3 +1,3 @@
 export interface Module {
-  registerModule: () => void
+  registerModule(): void
 }

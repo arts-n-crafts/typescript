@@ -35,11 +35,11 @@ function initialUserState(id: string): UserState {
   }
 }
 
-function isInitialState(state: UserState): boolean {
+function isInitialState(this: void, state: UserState): boolean {
   return state.name === '' && state.email === '' && state.prospect
 }
 
-function evolveUserState(currentState: UserState, event: UserEvent): UserState {
+function evolveUserState(this: void, currentState: UserState, event: UserEvent): UserState {
   switch (event.type) {
     case 'UserCreated':
       return { ...currentState, ...(event as ReturnType<typeof UserCreated>).payload }
@@ -52,7 +52,7 @@ function evolveUserState(currentState: UserState, event: UserEvent): UserState {
   }
 }
 
-function decideUserState(command: UserCommand, currentState: UserState): UserEvent[] {
+function decideUserState(this: void, command: UserCommand, currentState: UserState): UserEvent[] {
   switch (command.type) {
     case 'CreateUser': {
       if (!isInitialState(currentState)) {

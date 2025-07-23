@@ -14,11 +14,11 @@ interface ScenarioContext {
 
 export interface ScenarioTestConfig {
   testRunnerAdapter: {
-    equals: (actual: unknown, expected: unknown, message?: string) => void
+    equals(actual: unknown, expected: unknown, message?: string): void
   }
   hooks?: {
-    before?: (phase: ScenarioPhase, ctx: ScenarioContext, step: Step) => Promise<void> | void
-    after?: (phase: ScenarioPhase, ctx: ScenarioContext, step: Step) => Promise<void> | void
+    before?(phase: ScenarioPhase, ctx: ScenarioContext, step: Step): Promise<void> | void
+    after?(phase: ScenarioPhase, ctx: ScenarioContext, step: Step): Promise<void> | void
   }
   dsl: Record<string, (ctx: ScenarioContext, payload: any) => Promise<void> | void>
 }
@@ -29,7 +29,7 @@ export interface ScenarioTestConfig {
 // export const when: ScenarioStepFn = (description, payload) => ({ type: 'when', description, payload })
 // export const then: ScenarioStepFn = (description, payload) => ({ type: 'then', description, payload })
 
-export function createScenarioTest(config: ScenarioTestConfig): void {
+export function createScenarioTest(_config: ScenarioTestConfig): void {
 //   return async (...steps: Step[]) => {
 //     const ctx: ScenarioContext = { events: [], commands: [] }
 

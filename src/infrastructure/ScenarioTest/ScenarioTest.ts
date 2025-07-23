@@ -37,8 +37,8 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
   ) {}
 
   given(...events: GivenInput): {
-    when: (action: WhenInput) => ReturnType<ScenarioTest<TState, TEvent>['when']>
-    then: (outcome: ThenInput) => Promise<void>
+    when(action: WhenInput): ReturnType<ScenarioTest<TState, TEvent>['when']>
+    then(outcome: ThenInput): Promise<void>
   } {
     this.givenInput = events
     return {
@@ -48,7 +48,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
   }
 
   when(action: WhenInput): {
-    then: (outcome: ThenInput) => Promise<void>
+    then(outcome: ThenInput): Promise<void>
   } {
     this.whenInput = action
     return {
