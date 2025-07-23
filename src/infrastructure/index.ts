@@ -3,6 +3,7 @@ export * from './CommandBus/implementations/InMemoryCommandBus.ts'
 
 export * from './Database/Database.ts'
 export * from './Database/implementations/InMemoryDatabase.ts'
+export * from './Database/implementations/OfflineDatabase.ts'
 
 export * from './EventBus/EventBus.ts'
 export * from './EventBus/implementations/InMemoryEventBus.ts'
@@ -17,6 +18,7 @@ export * from './EventStore/utils/createStoredEvent.ts'
 
 export * from './Outbox/implementations/GenericOutboxWorker.ts'
 export * from './Outbox/implementations/InMemoryOutbox.ts'
+export * from './Outbox/implementations/OfflineOutbox.ts'
 export * from './Outbox/Outbox.ts'
 export * from './Outbox/OutboxEntry.ts'
 export * from './Outbox/OutboxWorker.ts'

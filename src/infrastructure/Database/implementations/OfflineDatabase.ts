@@ -1,0 +1,23 @@
+import type { Specification } from '@domain/Specification/Specification.ts'
+import type { Database, Statement } from '../Database.ts'
+
+export class OfflineDatabase implements Database {
+  constructor(
+    private readonly allowQuery: boolean = false,
+    private readonly allowWrite: boolean = false,
+  ) {
+  }
+
+  async query<T>(_tableName: string, _specification: Specification<T>): Promise<T[]> {
+    if (!this.allowQuery) {
+      throw new Error('Database read offline!')
+    }
+    return []
+  }
+
+  async execute(_tableName: string, _statement: Statement): Promise<void> {
+    if (!this.allowWrite) {
+      throw new Error('Database write offline!')
+    }
+  }
+}
