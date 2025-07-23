@@ -1,5 +1,6 @@
 import type { Command } from '@core/Command.ts'
-import type { CommandHandler, CommandHandlerResult } from '@core/CommandHandler.ts'
+import type { CommandHandler } from '@core/CommandHandler.ts'
+import type { EventStoreResult } from '@infrastructure/EventStore/EventStore.ts'
 import type { CommandBus } from '../CommandBus.ts'
 
 export class InMemoryCommandBus implements CommandBus {
@@ -15,7 +16,7 @@ export class InMemoryCommandBus implements CommandBus {
     this.handlers.set(aTypeOfCommand, anHandler as CommandHandler)
   }
 
-  async execute<TResult = CommandHandlerResult>(aCommand: Command): Promise<TResult> {
+  async execute(aCommand: Command): Promise<EventStoreResult> {
     const handler = this.handlers.get(aCommand.type)
     if (!handler) {
       throw new Error(`No handler found for command type: ${aCommand.type}`)

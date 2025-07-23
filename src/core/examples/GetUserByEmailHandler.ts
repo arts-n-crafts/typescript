@@ -13,9 +13,9 @@ export class GetUserByEmailHandler implements QueryHandler<'GetUserByEmail', Get
     private readonly database: Database,
   ) {}
 
-  async execute<TResult = GetUserByEmailResult>(aQuery: GetUserByEmail): Promise<TResult[]> {
+  async execute<TReturnType = GetUserByEmailResult>(aQuery: GetUserByEmail): Promise<TReturnType[]> {
     const specification = new FieldEquals<GetUserByEmailResult>('email', aQuery.payload.email)
     const data = await this.database.query<GetUserByEmailResult>('users', specification)
-    return data as TResult[]
+    return data as TReturnType[]
   }
 }

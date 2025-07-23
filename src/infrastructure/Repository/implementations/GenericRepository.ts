@@ -13,15 +13,15 @@ export class GenericRepository<TState, TCommand, TEvent extends DomainEvent> imp
   ) {
   }
 
-  async load<TResult>(aggregateId: string): Promise<TResult> {
+  async load(aggregateId: string): Promise<TState> {
     const pastEvents = await this.eventStore.load<TEvent[]>(
       makeStreamKey(this.streamName, aggregateId),
     )
     return pastEvents
-      .reduce<TState>(this.evolveFn, this.initialState(aggregateId)) as unknown as TResult
+      .reduce<TState>(this.evolveFn, this.initialState(aggregateId))
   }
 
-  async store<TResult = void>(events: TEvent[]): Promise<TResult> {
+  async store(events: TEvent[]): Promise<void> {
     await Promise.all(
       events.map(
         async event => this.eventStore.append(
@@ -30,6 +30,5 @@ export class GenericRepository<TState, TCommand, TEvent extends DomainEvent> imp
         ),
       ),
     )
-    return undefined as TResult
   }
 }

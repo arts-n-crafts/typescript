@@ -15,11 +15,11 @@ export class InMemoryQueryBus implements QueryBus {
     this.handlers.set(aTypeOfQuery, anHandler as QueryHandler)
   }
 
-  async execute<TResult = unknown>(aQuery: Query): Promise<TResult> {
+  async execute<TReturnType = unknown>(aQuery: Query): Promise<TReturnType> {
     const handler = this.handlers.get(aQuery.type)
     if (!handler) {
       throw new Error(`No handler found for query type: ${aQuery.type}`)
     }
-    return handler.execute(aQuery) as TResult
+    return handler.execute(aQuery) as TReturnType
   }
 }
