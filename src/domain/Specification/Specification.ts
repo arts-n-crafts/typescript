@@ -1,28 +1,28 @@
 import type { QueryNode } from './QueryNode.ts'
 
-export abstract class Specification<T> {
-  abstract isSatisfiedBy(entity: T): boolean
+export abstract class Specification {
+  abstract isSatisfiedBy(entity: unknown): boolean
   abstract toQuery(): QueryNode
 
-  and(other: Specification<T>): Specification<T> {
+  and(other: Specification): Specification {
     return new AndSpecification(this, other)
   }
 
-  or(other: Specification<T>): Specification<T> {
+  or(other: Specification): Specification {
     return new OrSpecification(this, other)
   }
 
-  not(): Specification<T> {
+  not(): Specification {
     return new NotSpecification(this)
   }
 }
 
-export class AndSpecification<T> extends Specification<T> {
-  constructor(private left: Specification<T>, private right: Specification<T>) {
+export class AndSpecification extends Specification {
+  constructor(private left: Specification, private right: Specification) {
     super()
   }
 
-  isSatisfiedBy(entity: T): boolean {
+  isSatisfiedBy(entity: unknown): boolean {
     return this.left.isSatisfiedBy(entity) && this.right.isSatisfiedBy(entity)
   }
 
@@ -34,12 +34,12 @@ export class AndSpecification<T> extends Specification<T> {
   }
 }
 
-export class OrSpecification<T> extends Specification<T> {
-  constructor(private left: Specification<T>, private right: Specification<T>) {
+export class OrSpecification extends Specification {
+  constructor(private left: Specification, private right: Specification) {
     super()
   }
 
-  isSatisfiedBy(entity: T): boolean {
+  isSatisfiedBy(entity: unknown): boolean {
     return this.left.isSatisfiedBy(entity) || this.right.isSatisfiedBy(entity)
   }
 
@@ -51,12 +51,12 @@ export class OrSpecification<T> extends Specification<T> {
   }
 }
 
-export class NotSpecification<T> extends Specification<T> {
-  constructor(private spec: Specification<T>) {
+export class NotSpecification extends Specification {
+  constructor(private spec: Specification) {
     super()
   }
 
-  isSatisfiedBy(entity: T): boolean {
+  isSatisfiedBy(entity: unknown): boolean {
     return !this.spec.isSatisfiedBy(entity)
   }
 

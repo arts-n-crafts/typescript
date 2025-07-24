@@ -1,11 +1,9 @@
 import { FieldEquals } from './implementations/FieldEquals.specification.ts'
 import { FieldGreaterThan } from './implementations/FieldGreaterThan.specification.ts'
 
-interface User { status: string, age?: number }
-
 describe('specification combinators', () => {
-  const isActive = new FieldEquals<User>('status', 'active')
-  const isAdult = new FieldGreaterThan<User>('age', 17)
+  const isActive = new FieldEquals('status', 'active')
+  const isAdult = new FieldGreaterThan('age', 17)
 
   it('andSpecification', () => {
     const spec = isActive.and(isAdult)

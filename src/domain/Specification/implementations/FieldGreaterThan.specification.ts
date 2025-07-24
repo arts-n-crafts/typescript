@@ -4,9 +4,9 @@ import { invariant } from '@utils/invariant/invariant.ts'
 import { Specification } from '../Specification.ts'
 import { createQueryNode } from '../utils/createQueryNode.ts'
 
-export class FieldGreaterThan<T> extends Specification<T> {
+export class FieldGreaterThan extends Specification {
   constructor(
-    private field: keyof T,
+    private field: string,
     private value: number,
   ) {
     super()
@@ -16,8 +16,15 @@ export class FieldGreaterThan<T> extends Specification<T> {
     return typeof value === 'number'
   }
 
-  isSatisfiedBy(entity: T): boolean {
-    const field = entity[this.field]
+  isSatisfiedBy(entity: unknown): boolean {
+    if (entity === null)
+      return false
+    if (typeof entity !== 'object')
+      return false
+    if (!(this.field in entity))
+      return false
+
+    const field = entity[this.field as keyof typeof entity]
     invariant(
       this.isNumber(field),
       fail(new TypeError(`Field ${String(this.field)} is not a number`),
