@@ -6,7 +6,7 @@ export interface DatabaseRecord {
 }
 
 export interface Database {
-  query<T>(collectionName: string, specification: Specification<T>): Promise<T[]>
+  query(collectionName: string, specification: Specification): Promise<unknown>
   execute(tableName: string, statement: Statement): Promise<void>
 }
 

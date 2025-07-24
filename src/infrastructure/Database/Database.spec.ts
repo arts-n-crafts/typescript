@@ -8,7 +8,7 @@ describe('database', () => {
   const store = 'users'
   let database: InMemoryDatabase
   const user = { id: randomUUID(), name: 'John Doe' }
-  let specification = new FieldEquals<typeof user>('name', user.name)
+  let specification = new FieldEquals('name', user.name)
 
   beforeEach(async () => {
     database = new InMemoryDatabase()
@@ -37,7 +37,7 @@ describe('database', () => {
   describe('update', () => {
     it('should execute the UPDATE statement', async () => {
       const updatedUser = { id: user.id, name: 'Jane Doe' }
-      specification = new FieldEquals<typeof user>('name', updatedUser.name)
+      specification = new FieldEquals('name', updatedUser.name)
 
       await database.execute(store, { operation: Operation.UPDATE, payload: updatedUser })
       const query = database.query(store, specification)

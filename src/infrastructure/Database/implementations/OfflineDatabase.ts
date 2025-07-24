@@ -8,7 +8,7 @@ export class OfflineDatabase implements Database {
   ) {
   }
 
-  async query<T>(_tableName: string, _specification: Specification<T>): Promise<T[]> {
+  async query(_tableName: string, _specification: Specification): Promise<unknown> {
     if (!this.allowQuery) {
       throw new Error('Database read offline!')
     }
