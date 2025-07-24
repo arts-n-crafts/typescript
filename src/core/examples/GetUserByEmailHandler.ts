@@ -1,6 +1,6 @@
-import type { GetUserByEmail, GetUserByEmailProps } from '@core/examples/GetUserByEmail.ts'
+import type { GetUserByEmail } from '@core/examples/GetUserByEmail.ts'
 import type { QueryHandler } from '@core/QueryHandler.ts'
-import type { Database } from '@infrastructure/Database/Database.ts'
+import type { InMemoryDatabase } from '@infrastructure/Database/implementations/InMemoryDatabase.js'
 import { FieldEquals } from '@domain/Specification/implementations/FieldEquals.specification.ts'
 
 export interface GetUserByEmailResult {
@@ -8,14 +8,13 @@ export interface GetUserByEmailResult {
   email: string
 }
 
-export class GetUserByEmailHandler implements QueryHandler<'GetUserByEmail', GetUserByEmailProps> {
+export class GetUserByEmailHandler implements QueryHandler<GetUserByEmailResult[]> {
   constructor(
-    private readonly database: Database,
+    private readonly database: InMemoryDatabase,
   ) {}
 
-  async execute<TReturnType = GetUserByEmailResult>(aQuery: GetUserByEmail): Promise<TReturnType[]> {
-    const specification = new FieldEquals<GetUserByEmailResult>('email', aQuery.payload.email)
-    const data = await this.database.query<GetUserByEmailResult>('users', specification)
-    return data as TReturnType[]
+  async execute(aQuery: GetUserByEmail): Promise<GetUserByEmailResult[]> {
+    const specification = new FieldEquals('email', aQuery.payload.email)
+    return this.database.query<GetUserByEmailResult>('users', specification)
   }
 }

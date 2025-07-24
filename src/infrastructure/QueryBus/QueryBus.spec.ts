@@ -48,7 +48,7 @@ describe('queryBus', () => {
     const bus = new InMemoryQueryBus()
     bus.register(query.type, handler)
 
-    const results = await bus.execute<GetUserByEmailResult[]>(query)
+    const results = await bus.execute<GetUserByEmailResult>(query)
 
     expect(results[0]?.id).toEqual(user.id)
     expect(results).toHaveLength(1)
