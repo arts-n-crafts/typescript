@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v3.8.2
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.8.1...v3.8.2)
+
+### 💅 Refactors
+
+- **Specification:** Move typing to implementation ([40e2d22](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/40e2d22))
+- **Repository:** Move typing to implementation ([23c22eb](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/23c22eb))
+- **Decider:** Remove unnecessary typing ([456199d](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/456199d))
+- **Query:** Move typing to implementation ([418c462](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/418c462))
+- **Database:** Move typing to implementation ([8efd20e](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/8efd20e))
+- **Command:** Move typing to implementation ([096a611](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/096a611))
+- Update typings of EventStore, Database, EventBUs ([33fe0e8](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/33fe0e8))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt
+
 ## v3.8.1
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.8.0...v3.8.1)
