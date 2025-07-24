@@ -1,12 +1,12 @@
 import type { Decider } from '@domain/Decider.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { Repository } from '@domain/Repository.ts'
-import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
+import type { GenericEventStore } from '@infrastructure/EventStore/implementations/GenericEventStore.js'
 import { makeStreamKey } from '@utils/streamKey/index.ts'
 
-export class GenericRepository<TState, TCommand, TEvent extends DomainEvent> implements Repository<TState, TEvent> {
+export class GenericRepository<TState, TCommand, TEvent extends DomainEvent> implements Repository<TEvent> {
   constructor(
-    private readonly eventStore: EventStore,
+    private readonly eventStore: GenericEventStore,
     readonly streamName: string,
     private readonly evolveFn: Decider<TState, TCommand, TEvent>['evolve'],
     private readonly initialState: Decider<TState, TCommand, TEvent>['initialState'],
