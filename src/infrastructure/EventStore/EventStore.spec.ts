@@ -1,5 +1,4 @@
 import type { UserEvent } from '@domain/examples/User.ts'
-import type { Database } from '@infrastructure/Database/Database.ts'
 import { randomUUID } from 'node:crypto'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
 import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
@@ -10,7 +9,7 @@ import { GenericEventStore } from './implementations/GenericEventStore.ts'
 
 describe('eventStore', () => {
   const STREAM = 'users'
-  let database: Database
+  let database: InMemoryDatabase
   let eventStore: GenericEventStore
 
   let event1: UserEvent

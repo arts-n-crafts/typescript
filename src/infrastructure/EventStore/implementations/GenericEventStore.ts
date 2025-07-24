@@ -1,5 +1,5 @@
 import type { DomainEvent } from '@domain/DomainEvent.ts'
-import type { Database } from '@infrastructure/Database/Database.ts'
+import type { InMemoryDatabase } from '@infrastructure/Database/implementations/InMemoryDatabase.js'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import type { Outbox } from '@infrastructure/Outbox/Outbox.ts'
 import type { StreamKey } from '@utils/streamKey/StreamKey.ts'
@@ -18,7 +18,7 @@ export class GenericEventStore implements EventStore {
   private readonly outbox?: GenericEventStoreConfig['outbox']
 
   constructor(
-    private readonly db: Database,
+    private readonly db: InMemoryDatabase,
     config: GenericEventStoreConfig = {},
   ) {
     this.tableName = config.tableName ?? 'event_store'
@@ -27,12 +27,12 @@ export class GenericEventStore implements EventStore {
 
   async load<TReturnType>(streamKey: StreamKey): Promise<TReturnType> {
     const specification = new FieldEquals('streamKey', streamKey)
-    const storedEvents = await this.db.query<StoredEvent<DomainEvent>>(this.tableName, specification)
+    const storedEvents = await this.db.query<StoredEvent<DomainEvent>[]>(this.tableName, specification)
 
     return storedEvents.map(storedEvent => storedEvent.event) as unknown as TReturnType
   }
 
-  async append<TEvent extends DomainEvent, TReturnType>(streamKey: StreamKey, events: TEvent[]): Promise<TReturnType> {
+  async append<TEvent extends DomainEvent>(streamKey: StreamKey, events: TEvent[]): Promise<void> {
     const currentStream = await this.load<TEvent[]>(streamKey)
     const eventsToStore = events
       .map(event => createStoredEvent(streamKey, currentStream.length + 1, event))
@@ -41,6 +41,5 @@ export class GenericEventStore implements EventStore {
       ),
     )
     await Promise.all(events.map(async event => this.outbox?.enqueue(event)))
-    return undefined as TReturnType
   }
 }

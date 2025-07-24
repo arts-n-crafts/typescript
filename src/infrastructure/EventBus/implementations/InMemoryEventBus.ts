@@ -3,18 +3,18 @@ import type { BaseEvent } from '@domain/BaseEvent.ts'
 import type { EventBus } from '../EventBus.ts'
 
 export class InMemoryEventBus implements EventBus {
-  private handlers = new Map<BaseEvent['type'], EventHandler<BaseEvent>[]>()
+  private handlers = new Map<BaseEvent['type'], EventHandler[]>()
 
-  subscribe<TEvent extends BaseEvent>(
-    anEventType: TEvent['type'],
-    aHandler: EventHandler<TEvent>,
+  subscribe(
+    anEventType: BaseEvent['type'],
+    aHandler: EventHandler,
   ): void {
     const handlersForType = this.handlers.get(anEventType) ?? []
-    handlersForType.push(aHandler as EventHandler<BaseEvent>)
+    handlersForType.push(aHandler)
     this.handlers.set(anEventType, handlersForType)
   }
 
-  async publish<TEvent extends BaseEvent>(anEvent: TEvent): Promise<void> {
+  async publish(anEvent: BaseEvent): Promise<void> {
     const handlersForType = this.handlers.get(anEvent.type) ?? []
     await Promise.all(
       handlersForType.map(async handler => handler.handle(anEvent)),

@@ -15,7 +15,7 @@ export interface EventStoreTryConfig {
   outbox?: Outbox
 }
 
-export class EventStoreTry implements EventStore<Try<void, Error>> {
+export class EventStoreTry implements EventStore {
   private readonly tableName: Required<EventStoreTryConfig>['tableName']
   private readonly outbox?: EventStoreTryConfig['outbox']
 
@@ -27,16 +27,16 @@ export class EventStoreTry implements EventStore<Try<void, Error>> {
     this.outbox = config.outbox
   }
 
-  async load<TEvent extends DomainEvent>(streamKey: StreamKey): Promise<Try<TEvent[], Error>> {
+  async load<TEvent extends DomainEvent>(streamKey: StreamKey): Promise<Try<TEvent[]>> {
     const specification = new FieldEquals('streamKey', streamKey)
-    const [storedEvents, err] = await goTryCatch(this.db.query<StoredEvent<TEvent>>(this.tableName, specification))
+    const [storedEvents, err] = await goTryCatch(this.db.query<StoredEvent<TEvent>[]>(this.tableName, specification))
     if (err) {
       return [undefined, new Error('Failed to load stream from the EventStore')]
     }
     return [storedEvents.map(storedEvent => storedEvent.event), undefined]
   }
 
-  async append<TEvent extends DomainEvent>(streamKey: StreamKey, events: TEvent[]): Promise<Try<void, Error>> {
+  async append<TEvent extends DomainEvent>(streamKey: StreamKey, events: TEvent[]): Promise<Try<void>> {
     const [currentStream, loadErr] = await this.load<TEvent>(streamKey)
     if (loadErr) {
       return [undefined, new Error('Failed to load stream from the EventStore')]

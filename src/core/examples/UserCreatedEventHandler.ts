@@ -5,7 +5,7 @@ import { UserRegistrationEmailSent } from '@domain/examples/UserRegistrationEmai
 
 type UserCreatedEvent = ReturnType<typeof UserCreated>
 
-export class UserCreatedEventHandler implements EventHandler<UserCreatedEvent> {
+export class UserCreatedEventHandler implements EventHandler {
   constructor(
     private readonly repository: UserRepository,
   ) { }

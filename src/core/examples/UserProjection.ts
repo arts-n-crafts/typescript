@@ -9,7 +9,7 @@ import { Operation } from '@infrastructure/Database/Database.ts'
 
 export type UserModel = UserCreatedPayload & DatabaseRecord
 
-export class UserProjectionHandler implements ProjectionHandler<UserEvent> {
+export class UserProjectionHandler implements ProjectionHandler {
   constructor(
     private eventBus: EventBus,
     private database: Database,

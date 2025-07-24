@@ -6,10 +6,10 @@ import { DuplicateRecordException, OperationNotSupported, RecordNotFoundExceptio
 export class InMemoryDatabase implements Database {
   private readonly datasource = new Map<string, DatabaseRecord[]>()
 
-  async query<T>(tableName: string, specification: Specification): Promise<T[]> {
+  async query<TReturnType>(tableName: string, specification: Specification): Promise<TReturnType> {
     const tableRecords = this.datasource.get(tableName) || []
     return tableRecords
-      .filter((record: DatabaseRecord) => specification.isSatisfiedBy(record)) as T[]
+      .filter((record: DatabaseRecord) => specification.isSatisfiedBy(record)) as TReturnType
   }
 
   async execute(tableName: string, statement: Statement): Promise<void> {

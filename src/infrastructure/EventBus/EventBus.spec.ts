@@ -1,6 +1,4 @@
 import type { UserEvent } from '@domain/examples/User.ts'
-import type { Database } from '@infrastructure/Database/Database.ts'
-import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import { randomUUID } from 'node:crypto'
 import { UserCreatedEventHandler } from '@core/examples/UserCreatedEventHandler.ts'
 import { User } from '@domain/examples/User.ts'
@@ -12,9 +10,9 @@ import { GenericEventStore } from '../EventStore/implementations/GenericEventSto
 import { InMemoryEventBus } from './implementations/InMemoryEventBus.ts'
 
 describe('eventBus', () => {
-  let database: Database
+  let database: InMemoryDatabase
   const eventBus = new InMemoryEventBus()
-  let eventStore: EventStore
+  let eventStore: GenericEventStore
   let repository: UserRepository
 
   beforeEach(() => {

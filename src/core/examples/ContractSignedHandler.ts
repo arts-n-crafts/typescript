@@ -1,17 +1,16 @@
 import type { EventHandler } from '@core/EventHandler.ts'
 import type { CommandBus } from '@infrastructure/CommandBus/CommandBus.ts'
-import type { ContractSigned, ContractSignedPayload } from '@infrastructure/EventBus/examples/ContractSigned.ts'
-import type { IntegrationEvent } from '@infrastructure/EventBus/IntegrationEvent.ts'
+import type { ContractSigned } from '@infrastructure/EventBus/examples/ContractSigned.ts'
 import { ActivateUser } from '@core/examples/ActivateUser.ts'
 
 type ContractSignedEvent = ReturnType<typeof ContractSigned>
 
-export class ContractSignedHandler implements EventHandler<ContractSignedEvent> {
+export class ContractSignedHandler implements EventHandler {
   constructor(
     private readonly commandBus: CommandBus,
   ) { }
 
-  async handle(anEvent: IntegrationEvent<ContractSignedPayload>): Promise<void> {
+  async handle(anEvent: ContractSignedEvent): Promise<void> {
     const command = ActivateUser(anEvent.payload.userId, {})
     await this.commandBus.execute(command)
   }

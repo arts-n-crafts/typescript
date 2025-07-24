@@ -1,7 +1,6 @@
 import type { Module } from '@core/Module.interface.ts'
-import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
+import type { GenericEventStore } from '@infrastructure/EventStore/implementations/GenericEventStore.js'
 import type { CommandBus } from '../../CommandBus/CommandBus.ts'
-import type { Database } from '../../Database/Database.ts'
 import type { EventBus } from '../../EventBus/EventBus.ts'
 import type { QueryBus } from '../../QueryBus/QueryBus.ts'
 import { ActivateUserHandler } from '@core/examples/ActivateUserHandler.ts'
@@ -18,10 +17,10 @@ import { UserRepository } from '../../Repository/examples/UserRepository.ts'
 export class UserModule implements Module {
   private readonly repository: UserRepository
 
-  private readonly database: Database
+  private readonly database: InMemoryDatabase
 
   constructor(
-    private readonly eventStore: EventStore,
+    private readonly eventStore: GenericEventStore,
     private readonly eventBus: EventBus,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,

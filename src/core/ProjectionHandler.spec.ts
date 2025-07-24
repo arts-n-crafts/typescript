@@ -1,7 +1,4 @@
 import type { UserModel } from '@core/examples/UserProjection.ts'
-import type { ProjectionHandler } from '@core/ProjectionHandler.ts'
-import type { UserEvent } from '@domain/examples/User.ts'
-import type { Database } from '@infrastructure/Database/Database.ts'
 import type { EventBus } from '@infrastructure/EventBus/EventBus.ts'
 import type { UUID } from 'node:crypto'
 import { randomUUID } from 'node:crypto'
@@ -15,10 +12,10 @@ import { InMemoryEventBus } from '@infrastructure/EventBus/implementations/InMem
 describe('projectionHandler', () => {
   const id: UUID = randomUUID()
   const payload = { name: 'Elon', email: 'musk@x.com' }
-  const database: Database = new InMemoryDatabase()
-  let specification: FieldEquals<UserModel> = new FieldEquals<UserModel>('name', payload.name)
+  const database = new InMemoryDatabase()
+  let specification: FieldEquals = new FieldEquals('name', payload.name)
   let eventBus: EventBus
-  let handler: ProjectionHandler<UserEvent>
+  let handler: UserProjectionHandler
 
   beforeEach(async () => {
     eventBus = new InMemoryEventBus()
@@ -33,16 +30,16 @@ describe('projectionHandler', () => {
   it('should update projection with create event', async () => {
     const event = UserCreated(id, payload)
     await eventBus.publish(event)
-    const results = await database.query<UserModel>('users', specification)
+    const results = await database.query<UserModel[]>('users', specification)
     expect(results.at(0)).toStrictEqual({ id, ...payload, prospect: true })
   })
 
   it('should update projection with update event', async () => {
     const updatePayload = { name: 'Donald' }
-    specification = new FieldEquals<UserModel>('name', updatePayload.name)
+    specification = new FieldEquals('name', updatePayload.name)
     const event = UserNameUpdated(id, updatePayload)
     await eventBus.publish(event)
-    const results = await database.query<UserModel>('users', specification)
+    const results = await database.query<UserModel[]>('users', specification)
     expect(results.at(0)).toStrictEqual({ id, ...payload, ...updatePayload, prospect: true })
   })
 })

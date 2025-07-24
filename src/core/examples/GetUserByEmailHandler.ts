@@ -15,6 +15,6 @@ export class GetUserByEmailHandler implements QueryHandler<GetUserByEmailResult[
 
   async execute(aQuery: GetUserByEmail): Promise<GetUserByEmailResult[]> {
     const specification = new FieldEquals('email', aQuery.payload.email)
-    return this.database.query<GetUserByEmailResult>('users', specification)
+    return this.database.query<GetUserByEmailResult[]>('users', specification)
   }
 }

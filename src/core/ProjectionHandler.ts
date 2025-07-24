@@ -1,7 +1,7 @@
 import type { EventHandler } from '@core/EventHandler.ts'
 import type { BaseEvent } from '@domain/BaseEvent.ts'
 
-export interface ProjectionHandler<TEvent extends BaseEvent, TReturnType = void> extends EventHandler<TEvent, TReturnType> {
+export interface ProjectionHandler<TReturnType = void> extends EventHandler<TReturnType> {
   start(): void
-  handle(anEvent: TEvent): Promise<TReturnType>
+  handle(anEvent: BaseEvent): Promise<TReturnType>
 }

@@ -2,7 +2,7 @@ import type { Command } from '@core/Command.ts'
 import type { Query } from '@core/Query.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { Repository } from '@domain/Repository.ts'
-import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
+import type { GenericEventStore } from '@infrastructure/EventStore/implementations/GenericEventStore.js'
 import type { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.js'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { EventBus } from '../EventBus/EventBus.ts'
@@ -29,10 +29,10 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
   constructor(
     private readonly streamName: string,
     private readonly eventBus: EventBus,
-    private readonly eventStore: EventStore,
+    private readonly eventStore: GenericEventStore,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-    private readonly repository: Repository<TState, TEvent>,
+    private readonly repository: Repository<TEvent>,
     private readonly outboxWorker: OutboxWorker,
   ) {}
 
@@ -87,7 +87,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
     }
   }
 
-  private async handleCommand(command: Command<string, unknown>, outcome: DomainEvent): Promise<void> {
+  private async handleCommand(command: Command, outcome: DomainEvent): Promise<void> {
     await this.commandBus.execute(command)
     const streamKey = makeStreamKey(this.streamName, outcome.aggregateId)
     const actualEvents = await this.eventStore.load<TEvent[]>(streamKey)

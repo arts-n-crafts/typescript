@@ -8,11 +8,11 @@ export class OfflineDatabase implements Database {
   ) {
   }
 
-  async query(_tableName: string, _specification: Specification): Promise<unknown> {
+  async query<TReturnType>(_tableName: string, _specification: Specification): Promise<TReturnType> {
     if (!this.allowQuery) {
       throw new Error('Database read offline!')
     }
-    return []
+    return [] as TReturnType
   }
 
   async execute(_tableName: string, _statement: Statement): Promise<void> {

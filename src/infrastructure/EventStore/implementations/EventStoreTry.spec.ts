@@ -1,5 +1,5 @@
 import type { UserEvent } from '@domain/examples/User.ts'
-import type { Database } from '@infrastructure/Database/Database.ts'
+import type { Database } from '@infrastructure/Database/Database.js'
 import { randomUUID } from 'node:crypto'
 import { UserCreated } from '@domain/examples/UserCreated.ts'
 import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
