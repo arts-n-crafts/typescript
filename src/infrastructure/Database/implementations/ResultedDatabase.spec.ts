@@ -1,0 +1,161 @@
+import type { UserState } from '@domain/examples/User.ts'
+import type { Result } from 'oxide.ts'
+import type { CreateStatement, Database, DeleteStatement, PatchStatement, PutStatement } from '../Database.ts'
+import type { ResultedDatabaseExecuteReturnType } from './ResultedDatabase.ts'
+import { randomUUID } from 'node:crypto'
+import { FieldEquals } from '@domain/Specification/implementations/FieldEquals.specification.ts'
+import { Operation } from '../Database.ts'
+import { ResultedDatabase } from './ResultedDatabase.ts'
+import { DatabaseOfflineException, DuplicateRecordException, RecordNotFoundException } from './SimpleDatabase.exceptions.ts'
+
+describe('resulted database', () => {
+  const tableName = 'users'
+  let database: Database<UserState, ResultedDatabaseExecuteReturnType, Result<UserState[], Error>>
+  const createStatement: CreateStatement<UserState> = {
+    operation: Operation.CREATE,
+    payload: {
+      id: randomUUID(),
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      prospect: true,
+    },
+  }
+  const specification = new FieldEquals('id', createStatement.payload.id)
+
+  beforeEach(() => {
+    database = new ResultedDatabase()
+  })
+
+  it('should be defined', () => {
+    expect(ResultedDatabase).toBeDefined()
+  })
+
+  it('should execute a Operation.CREATE statement', async () => {
+    const result = await database.execute(tableName, createStatement)
+    expect(result.isOk()).toBeTruthy()
+    expect(result.unwrap()).toStrictEqual({ id: createStatement.payload.id })
+  })
+
+  it('should be able to query for Users', async () => {
+    await database.execute(tableName, createStatement)
+    const result = await database.query(tableName, specification)
+    expect(result.isOk()).toBeTruthy()
+    expect(result.unwrap()).toStrictEqual([createStatement.payload])
+  })
+
+  it('should execute a Operation.PUT statement', async () => {
+    await database.execute(tableName, createStatement)
+    const queryResult = await database.query(tableName, specification)
+    const currentState = queryResult.unwrap()
+
+    const statement: PutStatement<UserState> = {
+      operation: Operation.PUT,
+      payload: {
+        ...currentState[0],
+        prospect: true,
+      },
+    }
+    const putResult = await database.execute(tableName, statement)
+    const result = await database.query(tableName, specification)
+    expect(putResult.isOk()).toBeTruthy()
+    expect(putResult.unwrap()).toStrictEqual({ id: statement.payload.id })
+    expect(result.isOk()).toBeTruthy()
+    expect(result.unwrap()).toStrictEqual([statement.payload])
+  })
+
+  it('should execute a Operation.PATCH statement', async () => {
+    await database.execute(tableName, createStatement)
+
+    const statement: PatchStatement<UserState> = {
+      operation: Operation.PATCH,
+      payload: {
+        id: createStatement.payload.id,
+        prospect: true,
+      },
+    }
+    const patchResult = await database.execute(tableName, statement)
+    const result = await database.query(tableName, specification)
+    expect(patchResult.isOk()).toBeTruthy()
+    expect(patchResult.unwrap()).toStrictEqual({ id: statement.payload.id })
+    expect(result.isOk()).toBeTruthy()
+    expect(result.unwrap()[0]).not.toBe(createStatement.payload)
+    expect(result.unwrap()[0].prospect).toBe(true)
+    expect(result.unwrap()[0].id).toBe(createStatement.payload.id)
+  })
+
+  it('should execute a Operation.DELETE statement', async () => {
+    await database.execute(tableName, createStatement)
+    const statement: DeleteStatement = {
+      operation: Operation.DELETE,
+      payload: {
+        id: createStatement.payload.id,
+      },
+    }
+    const deleteResult = await database.execute(tableName, statement)
+    const result = await database.query(tableName, specification)
+    expect(deleteResult.isOk()).toBeTruthy()
+    expect(deleteResult.unwrap()).toStrictEqual({ id: statement.payload.id })
+    expect(result.isOk()).toBeTruthy()
+    expect(result.unwrap()).toHaveLength(0)
+  })
+
+  describe('exceptions', () => {
+    it('should throw DuplicateRecordException, on create', async () => {
+      await database.execute(tableName, createStatement)
+      const result = await database.execute(tableName, createStatement)
+      expect(result.isErr()).toBeTruthy()
+      expect(result.unwrapErr()).toBeInstanceOf(DuplicateRecordException)
+    })
+    it('should throw RecordNotFoundException, on put', async () => {
+      const statement: PutStatement<UserState> = {
+        operation: Operation.PUT,
+        payload: {
+          ...createStatement.payload,
+          prospect: true,
+        },
+      }
+      const result = await database.execute(tableName, statement)
+      expect(result.isErr()).toBeTruthy()
+      expect(result.unwrapErr()).toBeInstanceOf(RecordNotFoundException)
+    })
+    it('should throw RecordNotFoundException, on patch', async () => {
+      const statement: PatchStatement<UserState> = {
+        operation: Operation.PATCH,
+        payload: {
+          id: createStatement.payload.id,
+          prospect: true,
+        },
+      }
+      const result = await database.execute(tableName, statement)
+      expect(result.isErr()).toBeTruthy()
+      expect(result.unwrapErr()).toBeInstanceOf(RecordNotFoundException)
+    })
+    it('should throw RecordNotFoundException, on delete', async () => {
+      const statement: DeleteStatement = {
+        operation: Operation.DELETE,
+        payload: {
+          id: createStatement.payload.id,
+        },
+      }
+      const result = await database.execute(tableName, statement)
+      expect(result.isErr()).toBeTruthy()
+      expect(result.unwrapErr()).toBeInstanceOf(RecordNotFoundException)
+    })
+
+    describe('offline mode', () => {
+      const db = new ResultedDatabase()
+      db.goOffline()
+
+      it('should throw DatabaseOfflineException when performing a query', async () => {
+        const result = await db.query(tableName, specification)
+        expect(result.isErr()).toBeTruthy()
+        expect(result.unwrapErr()).toBeInstanceOf(DatabaseOfflineException)
+      })
+      it('should throw DatabaseOfflineException when performing an operation', async () => {
+        const result = await db.execute(tableName, createStatement)
+        expect(result.isErr()).toBeTruthy()
+        expect(result.unwrapErr()).toBeInstanceOf(DatabaseOfflineException)
+      })
+    })
+  })
+})

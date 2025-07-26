@@ -43,11 +43,11 @@ interface Executable<TModel, TReturnType> {
   execute(tableName: string, statement: DeleteStatement): Promise<TReturnType>
 }
 
-interface QueryAble<TModel> {
-  query(collectionName: string, specification: Specification<TModel>): Promise<TModel[]>
+interface QueryAble<TModel, TReturnType = TModel[]> {
+  query(collectionName: string, specification: Specification<TModel>): Promise<TReturnType>
 }
 
-export interface Database<TModel, TExecuteReturnType>
+export interface Database<TModel, TExecuteReturnType, TQueryReturnType = TModel[]>
   extends
-  QueryAble<TModel>,
+  QueryAble<TModel, TQueryReturnType>,
   Executable<TModel, TExecuteReturnType> { }
