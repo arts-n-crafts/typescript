@@ -3,21 +3,13 @@ import type { QueryNode } from '../QueryNode.ts'
 import { Specification } from '../Specification.ts'
 import { createQueryNode } from '../utils/createQueryNode.ts'
 
-export class FieldEquals extends Specification {
-  constructor(private field: string, private value: Primitive) {
+export class FieldEquals<T> extends Specification<T> {
+  constructor(private field: keyof T, private value: Primitive) {
     super()
   }
 
-  isSatisfiedBy(entity: unknown): boolean {
-    if (entity === null)
-      return false
-    if (typeof entity !== 'object')
-      return false
-    if (!(this.field in entity))
-      return false
-
-    const field = entity[this.field as keyof typeof entity]
-    return field === this.value
+  isSatisfiedBy(entity: T): boolean {
+    return entity[this.field] === this.value
   }
 
   toQuery(): QueryNode {
