@@ -1,9 +1,15 @@
-import type { DomainEvent } from '@domain/DomainEvent.ts'
+interface Loadable<TReturnType> {
+  load(aggregateId: string): Promise<TReturnType>
+}
 
-export interface Repository<TEvent extends DomainEvent> {
+interface Storeable<TEvent, TReturnType> {
+  store(events: TEvent[]): Promise<TReturnType>
+}
+
+export interface Repository<TEvent, TStoreReturnType, TLoadReturnType>
+  extends
+  Loadable<TLoadReturnType>,
+  Storeable<TEvent, TStoreReturnType>
+{
   readonly streamName: string
-
-  load(aggregateId: string): Promise<unknown>
-
-  store(events: TEvent[]): Promise<unknown>
 }
