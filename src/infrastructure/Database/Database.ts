@@ -1,22 +1,53 @@
 import type { Specification } from '@domain/Specification/Specification.ts'
 
-export interface DatabaseRecord {
-  id: string
-  [key: string]: unknown
-}
-
-export interface Database {
-  query<TReturnType>(collectionName: string, specification: Specification): Promise<TReturnType>
-  execute(tableName: string, statement: Statement): Promise<void>
-}
-
 export enum Operation {
   CREATE = 'CREATE',
-  UPDATE = 'UPDATE',
+  PUT = 'PUT',
+  PATCH = 'PATCH',
   DELETE = 'DELETE',
 }
 
-export interface Statement {
-  operation: Operation
-  payload: object & { id: string }
+export interface WithIdentifier {
+  id: string
 }
+
+interface Statement<TModel> {
+  operation: Operation
+  payload: TModel
+}
+
+export interface CreateStatement<TModel> extends Statement<TModel> {
+  operation: Operation.CREATE
+  payload: TModel
+}
+
+export interface PutStatement<TModel> extends Statement<TModel> {
+  operation: Operation.PUT
+  payload: TModel
+}
+
+export interface PatchStatement<TModel> extends Statement<Partial<TModel>> {
+  operation: Operation.PATCH
+  payload: Partial<TModel> & WithIdentifier
+}
+
+export interface DeleteStatement extends Statement<WithIdentifier> {
+  operation: Operation.DELETE
+  payload: WithIdentifier
+}
+
+interface Executable<TModel, TReturnType> {
+  execute(tableName: string, statement: CreateStatement<TModel>): Promise<TReturnType>
+  execute(tableName: string, statement: PutStatement<TModel>): Promise<TReturnType>
+  execute(tableName: string, statement: PatchStatement<TModel>): Promise<TReturnType>
+  execute(tableName: string, statement: DeleteStatement): Promise<TReturnType>
+}
+
+interface QueryAble<TModel> {
+  query(collectionName: string, specification: Specification<TModel>): Promise<TModel[]>
+}
+
+export interface Database<TModel, TExecuteReturnType>
+  extends
+  QueryAble<TModel>,
+  Executable<TModel, TExecuteReturnType> { }

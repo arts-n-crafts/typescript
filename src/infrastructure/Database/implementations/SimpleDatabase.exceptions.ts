@@ -10,8 +10,8 @@ export class DuplicateRecordException extends Error {
   }
 }
 
-export class OperationNotSupported extends Error {
-  constructor(operation: string) {
-    super(`Operation not supported: ${operation}`)
+export class DatabaseOfflineException extends Error {
+  constructor() {
+    super(`Database is offline`)
   }
 }
