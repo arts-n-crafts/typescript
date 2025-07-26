@@ -4,11 +4,11 @@ interface Loadable<TReturnType> {
   load(streamKey: StreamKey): Promise<TReturnType>
 }
 
-interface Appendable<TEvent, TAppendReturnType = void> {
-  append(streamKey: StreamKey, events: TEvent[]): Promise<TAppendReturnType>
+interface Appendable<TEvent, TReturnType = void> {
+  append(streamKey: StreamKey, events: TEvent[]): Promise<TReturnType>
 }
 
-export interface EventStore<TEvent, TAppendReturnType>
+export interface EventStore<TEvent, TAppendReturnType, TLoadReturnType = TEvent[]>
   extends
-  Loadable<TEvent[]>,
+  Loadable<TLoadReturnType>,
   Appendable<TEvent, TAppendReturnType> { }
