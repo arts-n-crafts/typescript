@@ -1,9 +1,14 @@
-import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { StreamKey } from '@utils/streamKey/index.ts'
 
-export type EventStoreResult = { id: string } | void
-
-export interface EventStore {
-  load(streamKey: StreamKey): Promise<unknown>
-  append<TEvent extends DomainEvent>(streamKey: StreamKey, events: TEvent[]): Promise<unknown>
+interface Loadable<TReturnType> {
+  load(streamKey: StreamKey): Promise<TReturnType>
 }
+
+interface Appendable<TEvent, TAppendReturnType = void> {
+  append(streamKey: StreamKey, events: TEvent[]): Promise<TAppendReturnType>
+}
+
+export interface EventStore<TEvent, TAppendReturnType>
+  extends
+  Loadable<TEvent[]>,
+  Appendable<TEvent, TAppendReturnType> { }

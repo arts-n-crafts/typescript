@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto'
-import { UserCreated } from '@domain/examples/UserCreated.ts'
+import { createUserCreatedEvent } from '@domain/examples/UserCreated.ts'
 import { makeStreamKey } from '@utils/index.ts'
 import { createStoredEvent } from './utils/createStoredEvent.ts'
 
@@ -9,7 +9,7 @@ describe('storedEvent', () => {
   })
 
   it('should create a new StoredEvent', () => {
-    const event = UserCreated(randomUUID(), { name: 'John Doe', email: 'john.doe@example.com', age: 30 })
+    const event = createUserCreatedEvent(randomUUID(), { name: 'John Doe', email: 'john.doe@example.com', age: 30 })
     const streamKey = makeStreamKey('users', event.aggregateId)
     const storedEvent = createStoredEvent(streamKey, 1, event)
 
