@@ -7,7 +7,7 @@ import type { StoredEvent } from '@infrastructure/EventStore/StoredEvent.ts'
 import type { Result } from 'oxide.ts'
 import type { ResultedRepositoryResult } from './ResultedRepository.ts'
 import { randomUUID } from 'node:crypto'
-import { CreateUser } from '@core/examples/CreateUser.ts'
+import { createRegisterUserCommand } from '@core/examples/CreateUser.ts'
 import { User } from '@domain/examples/User.ts'
 import { ResultedDatabase } from '@infrastructure/Database/implementations/ResultedDatabase.ts'
 import { ResultedEventStore } from '@infrastructure/EventStore/implementations/ResultedEventStore.ts'
@@ -19,7 +19,7 @@ describe('resulted repository', () => {
   let eventStore: EventStore<UserEvent, ResultedEventStoreAppendReturnType, Result<UserEvent[], Error>>
   let repository: Repository<UserEvent, Result<ResultedRepositoryResult, Error>, Result<UserState, Error>>
 
-  const createCommand = CreateUser(randomUUID(), { name: 'Elon', email: 'elon@x.com' })
+  const createCommand = createRegisterUserCommand(randomUUID(), { name: 'Elon', email: 'elon@x.com' })
 
   beforeEach(() => {
     database = new ResultedDatabase()

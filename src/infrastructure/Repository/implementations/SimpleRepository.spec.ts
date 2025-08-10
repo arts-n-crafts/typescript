@@ -7,7 +7,7 @@ import type { SimpleEventStoreResult } from '@infrastructure/EventStore/implemen
 import type { StoredEvent } from '@infrastructure/EventStore/StoredEvent.ts'
 import type { SimpleRepositoryResult } from './SimpleRepository.ts'
 import { randomUUID } from 'node:crypto'
-import { CreateUser } from '@core/examples/CreateUser.ts'
+import { createRegisterUserCommand } from '@core/examples/CreateUser.ts'
 import { User } from '@domain/examples/User.ts'
 import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
@@ -19,7 +19,7 @@ describe('simple repository', () => {
   let eventStore: EventStore<UserEvent, SimpleEventStoreResult>
   let repository: Repository<UserEvent, SimpleRepositoryResult, UserState>
 
-  const createCommand = CreateUser(randomUUID(), { name: 'Elon', email: 'elon@x.com' })
+  const createCommand = createRegisterUserCommand(randomUUID(), { name: 'Elon', email: 'elon@x.com' })
 
   beforeEach(() => {
     database = new SimpleDatabase()
