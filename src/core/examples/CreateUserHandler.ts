@@ -1,19 +1,19 @@
-import type { Command } from '@core/Command.ts'
 import type { CommandHandler } from '@core/CommandHandler.ts'
-import type { CreateUserProps } from '@core/examples/CreateUser.ts'
-import type { EventStoreResult } from '@infrastructure/EventStore/EventStore.js'
-import type { UserRepository } from '@infrastructure/Repository/examples/UserRepository.ts'
+import type { RegisterUserCommand } from '@core/examples/CreateUser.ts'
+import type { UserEvent, UserState } from '@domain/examples/User.ts'
+import type { Repository } from '@domain/Repository.ts'
+import type { SimpleRepositoryResult } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 import { User } from '@domain/examples/User.ts'
 
-export class CreateUserHandler implements CommandHandler {
+export class CreateUserHandler implements CommandHandler<RegisterUserCommand> {
   constructor(
-    private readonly repository: UserRepository,
+    private readonly repository: Repository<UserEvent, SimpleRepositoryResult, UserState>,
   ) {
   }
 
-  async execute(command: Command<'CreateUser', CreateUserProps>): Promise<EventStoreResult> {
-    const currentState = await this.repository.load(command.aggregateId)
-    await this.repository.store(User.decide(command, currentState))
-    return { id: command.aggregateId }
+  async execute(aCommand: RegisterUserCommand): Promise<SimpleRepositoryResult> {
+    const currentState = await this.repository.load(aCommand.aggregateId)
+    await this.repository.store(User.decide(aCommand, currentState))
+    return { id: aCommand.aggregateId }
   }
 }

@@ -1,8 +1,7 @@
 import type { Command } from '@core/Command.ts'
-import type { EventStoreResult } from '@infrastructure/EventStore/EventStore.ts'
 
 export type CommandHandlerResult = { id: string } | void
 
-export interface CommandHandler<TReturnType = EventStoreResult> {
-  execute(aCommand: Command): Promise<TReturnType>
+export interface CommandHandler<CommandType extends Command, TReturnType = CommandHandlerResult> {
+  execute(aCommand: CommandType): Promise<TReturnType>
 }

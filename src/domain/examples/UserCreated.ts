@@ -8,7 +8,9 @@ export interface UserCreatedPayload {
   prospect: boolean
 }
 
-export function UserCreated(aggregateId: string, payload: Omit<UserCreatedPayload, 'prospect'>, metadata?: Partial<DomainEventMetadata>): DomainEvent<UserCreatedPayload> {
+export function createUserCreatedEvent(aggregateId: string, payload: Omit<UserCreatedPayload, 'prospect'>, metadata?: Partial<DomainEventMetadata>): DomainEvent<UserCreatedPayload> {
   const props: UserCreatedPayload = { prospect: true, ...payload }
   return createDomainEvent('UserCreated', aggregateId, props, metadata)
 }
+
+export type UserCreatedEvent = ReturnType<typeof createUserCreatedEvent>

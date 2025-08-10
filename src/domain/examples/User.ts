@@ -1,16 +1,19 @@
-import type { ActivateUser } from '@core/examples/ActivateUser.ts'
-import type { CreateUser } from '@core/examples/CreateUser.ts'
-import type { UpdateUserName } from '@core/examples/UpdateUserName.ts'
+import type { ActivateUserCommand } from '@core/examples/ActivateUser.ts'
+import type { RegisterUserCommand } from '@core/examples/CreateUser.ts'
+import type { UpdateUserNameCommand } from '@core/examples/UpdateUserName.ts'
 import type { Decider } from '@domain/Decider.ts'
-import type { UserRegistrationEmailSent } from '@domain/examples/UserRegistrationEmailSent.ts'
-import { UserActivated } from '@domain/examples/UserActivated.ts'
-import { UserCreated } from '@domain/examples/UserCreated.ts'
-import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
+import type { UserActivatedEvent } from '@domain/examples/UserActivated.ts'
+import type { UserCreatedEvent } from '@domain/examples/UserCreated.ts'
+import type { UserNameUpdatedEvent } from '@domain/examples/UserNameUpdated.ts'
+import type { UserRegistrationEmailSentEvent } from '@domain/examples/UserRegistrationEmailSent.ts'
+import { createUserActivatedEvent } from '@domain/examples/UserActivated.ts'
+import { createUserCreatedEvent } from '@domain/examples/UserCreated.ts'
+import { createUserNameUpdatedEvent } from '@domain/examples/UserNameUpdated.ts'
 import { fail } from '@utils/fail/fail.ts'
 import { invariant } from '@utils/invariant/invariant.ts'
 
-export type UserEvent = ReturnType<typeof UserCreated> | ReturnType<typeof UserNameUpdated> | ReturnType<typeof UserRegistrationEmailSent> | ReturnType<typeof UserActivated>
-export type UserCommand = ReturnType<typeof CreateUser> | ReturnType<typeof UpdateUserName> | ReturnType<typeof ActivateUser>
+export type UserEvent = UserCreatedEvent | UserNameUpdatedEvent | UserRegistrationEmailSentEvent | UserActivatedEvent
+export type UserCommand = RegisterUserCommand | UpdateUserNameCommand | ActivateUserCommand
 
 class UnexpectedUserState extends Error {
   constructor(msg: string) {
@@ -42,9 +45,9 @@ function isInitialState(this: void, state: UserState): boolean {
 function evolveUserState(this: void, currentState: UserState, event: UserEvent): UserState {
   switch (event.type) {
     case 'UserCreated':
-      return { ...currentState, ...(event as ReturnType<typeof UserCreated>).payload }
+      return { ...currentState, ...(event as ReturnType<typeof createUserCreatedEvent>).payload }
     case 'UserNameUpdated':
-      return { ...currentState, name: (event as ReturnType<typeof UserNameUpdated>).payload.name }
+      return { ...currentState, name: (event as ReturnType<typeof createUserNameUpdatedEvent>).payload.name }
     case 'UserActivated':
       return { ...currentState, prospect: false }
     default:
@@ -58,21 +61,21 @@ function decideUserState(this: void, command: UserCommand, currentState: UserSta
       if (!isInitialState(currentState)) {
         return []
       }
-      return [UserCreated(command.aggregateId, command.payload, command.metadata)]
+      return [createUserCreatedEvent(command.aggregateId, command.payload, command.metadata)]
     }
     case 'UpdateUserName': {
       invariant(!isInitialState(currentState), fail(new UnexpectedUserState('expected mutated state during update')))
       if (currentState.name === command.payload.name) {
         return []
       }
-      return [UserNameUpdated(command.aggregateId, command.payload, command.metadata)]
+      return [createUserNameUpdatedEvent(command.aggregateId, command.payload, command.metadata)]
     }
     case 'ActivateUser': {
       invariant(!isInitialState(currentState), fail(new UnexpectedUserState('expected mutated state during update')))
       if (!currentState.prospect) {
         return []
       }
-      return [UserActivated(command.aggregateId, command.payload, command.metadata)]
+      return [createUserActivatedEvent(command.aggregateId, command.payload, command.metadata)]
     }
   }
 }

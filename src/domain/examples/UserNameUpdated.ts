@@ -5,6 +5,8 @@ export interface UserNameUpdatedPayload {
   name: string
 }
 
-export function UserNameUpdated(aggregateId: string, props: UserNameUpdatedPayload, metadata?: Partial<DomainEventMetadata>): DomainEvent<UserNameUpdatedPayload> {
+export function createUserNameUpdatedEvent(aggregateId: string, props: UserNameUpdatedPayload, metadata?: Partial<DomainEventMetadata>): DomainEvent<UserNameUpdatedPayload> {
   return createDomainEvent('UserNameUpdated', aggregateId, props, metadata)
 }
+
+export type UserNameUpdatedEvent = ReturnType<typeof createUserNameUpdatedEvent>

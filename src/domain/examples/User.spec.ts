@@ -1,21 +1,21 @@
 import type { UserEvent } from '@domain/examples/User.ts'
 import { randomUUID } from 'node:crypto'
-import { ActivateUser } from '@core/examples/ActivateUser.ts'
-import { CreateUser } from '@core/examples/CreateUser.ts'
-import { UpdateUserName } from '@core/examples/UpdateUserName.ts'
+import { createActivateUserCommand } from '@core/examples/ActivateUser.ts'
+import { createRegisterUserCommand } from '@core/examples/CreateUser.ts'
+import { createUpdateNameOfUserCommand } from '@core/examples/UpdateUserName.ts'
 import { User } from '@domain/examples/User.ts'
-import { UserActivated } from '@domain/examples/UserActivated.ts'
-import { UserCreated } from '@domain/examples/UserCreated.ts'
-import { UserNameUpdated } from '@domain/examples/UserNameUpdated.ts'
+import { createUserActivatedEvent } from '@domain/examples/UserActivated.ts'
+import { createUserCreatedEvent } from '@domain/examples/UserCreated.ts'
+import { createUserNameUpdatedEvent } from '@domain/examples/UserNameUpdated.ts'
 import { beforeEach } from 'vitest'
 
 describe('user decider', () => {
   let pastEvents: UserEvent[]
-  const createCommand = CreateUser(randomUUID(), { name: 'Elon', email: 'elon@x.com' })
-  const updateUserName = UpdateUserName(createCommand.aggregateId, { name: 'Donald' })
-  const userCreated = UserCreated(createCommand.aggregateId, createCommand.payload)
-  const userNameUpdated = UserNameUpdated(createCommand.aggregateId, updateUserName.payload)
-  const activateUser = ActivateUser(createCommand.aggregateId, {})
+  const createCommand = createRegisterUserCommand(randomUUID(), { name: 'Elon', email: 'elon@x.com' })
+  const updateUserName = createUpdateNameOfUserCommand(createCommand.aggregateId, { name: 'Donald' })
+  const userCreated = createUserCreatedEvent(createCommand.aggregateId, createCommand.payload)
+  const userNameUpdated = createUserNameUpdatedEvent(createCommand.aggregateId, updateUserName.payload)
+  const activateUser = createActivateUserCommand(createCommand.aggregateId, {})
 
   beforeEach(() => {
     pastEvents = []
@@ -107,7 +107,7 @@ describe('user decider', () => {
 
   describe('user: activate user', () => {
     it('should decide to activate the user', () => {
-      pastEvents = [userCreated, UserActivated(createCommand.aggregateId, {})]
+      pastEvents = [userCreated, createUserActivatedEvent(createCommand.aggregateId, {})]
 
       const currentState = pastEvents.reduce(User.evolve, User.initialState(createCommand.aggregateId))
 
@@ -121,7 +121,7 @@ describe('user decider', () => {
     })
 
     it('should decide that nothing should happen', () => {
-      pastEvents = [userCreated, UserActivated(createCommand.aggregateId, {})]
+      pastEvents = [userCreated, createUserActivatedEvent(createCommand.aggregateId, {})]
 
       const currentState = pastEvents.reduce(User.evolve, User.initialState(createCommand.aggregateId))
       const decide = User.decide(activateUser, currentState)

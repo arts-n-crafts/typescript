@@ -2,7 +2,7 @@ import type { UpdateUserNameProps } from '@core/examples/UpdateUserName.ts'
 import type { UUID } from 'node:crypto'
 import type { Command, CommandMetadata } from './Command.ts'
 import { randomUUID } from 'node:crypto'
-import { UpdateUserName } from '@core/examples/UpdateUserName.ts'
+import { createUpdateNameOfUserCommand } from '@core/examples/UpdateUserName.ts'
 
 describe('command', () => {
   let aggregateId: UUID
@@ -14,7 +14,7 @@ describe('command', () => {
     aggregateId = randomUUID()
     payload = { name: 'test' }
     metadata = { causationId: randomUUID() }
-    command = UpdateUserName(aggregateId, payload, metadata)
+    command = createUpdateNameOfUserCommand(aggregateId, payload, metadata)
   })
 
   it('should be defined', () => {
@@ -26,14 +26,14 @@ describe('command', () => {
   })
 
   it('should contain the valid information', () => {
-    const command = UpdateUserName(aggregateId, payload, metadata)
+    const command = createUpdateNameOfUserCommand(aggregateId, payload, metadata)
     expect(command.payload.name).toBe('test')
     expect(command.metadata?.causationId).toBe(metadata.causationId)
     expect(command.timestamp).toBeDefined()
   })
 
   it('should have a kind', () => {
-    const command = UpdateUserName(aggregateId, payload, metadata)
+    const command = createUpdateNameOfUserCommand(aggregateId, payload, metadata)
     expect(command.kind).toBe('command')
   })
 })

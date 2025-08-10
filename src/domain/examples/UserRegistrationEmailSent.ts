@@ -8,3 +8,5 @@ export interface UserRegistrationEmailSentPayload {
 export function UserRegistrationEmailSent(aggregateId: string, props: UserRegistrationEmailSentPayload, metadata?: Partial<DomainEventMetadata>): DomainEvent<UserRegistrationEmailSentPayload> {
   return createDomainEvent('UserRegistrationEmailSent', aggregateId, props, metadata)
 }
+
+export type UserRegistrationEmailSentEvent = ReturnType<typeof UserRegistrationEmailSent>
