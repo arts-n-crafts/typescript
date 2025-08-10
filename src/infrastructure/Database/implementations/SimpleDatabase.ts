@@ -1,5 +1,6 @@
 import type { Specification } from '@domain/Specification/Specification.ts'
-import type { CreateStatement, Database, DeleteStatement, PatchStatement, PutStatement, WithIdentifier } from '../Database.ts'
+import type { WithIdentifier } from '../../../core/types/WithIdentifier.ts'
+import type { CreateStatement, Database, DeleteStatement, PatchStatement, PutStatement } from '../Database.ts'
 import { Operation } from '../Database.ts'
 import { DatabaseOfflineException, DuplicateRecordException, RecordNotFoundException } from './SimpleDatabase.exceptions.ts'
 

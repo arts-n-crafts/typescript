@@ -1,14 +1,11 @@
 import type { Specification } from '@domain/Specification/Specification.ts'
+import type { WithIdentifier } from '../../core/types/WithIdentifier.ts'
 
 export enum Operation {
   CREATE = 'CREATE',
   PUT = 'PUT',
   PATCH = 'PATCH',
   DELETE = 'DELETE',
-}
-
-export interface WithIdentifier {
-  id: string
 }
 
 interface Statement<TModel> {
