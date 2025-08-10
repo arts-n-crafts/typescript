@@ -10,9 +10,7 @@ interface Executable<TCommand extends Command, TResult = void> {
 }
 
 export interface CommandBus<TCommand extends Command, TExecutionResult = void, TRegisterResult = void>
-  extends Registerable<TCommand, TRegisterResult>, Executable<TCommand, TExecutionResult>
-{
-  register(aTypeOfCommand: string, anHandler: CommandHandler<TCommand>): TRegisterResult
-
-  execute(aCommand: Command): Promise<TExecutionResult>
-}
+  extends
+  Executable<TCommand, TExecutionResult>,
+  Registerable<TCommand, TRegisterResult>
+{ }
