@@ -1,4 +1,5 @@
 import type { Query } from '@core/Query.ts'
+import { randomUUID } from 'node:crypto'
 import { isQuery } from './isQuery.ts'
 
 describe('isQuery util', () => {
@@ -8,6 +9,7 @@ describe('isQuery util', () => {
 
   it('should confirm that the candidate is a query', () => {
     const query: Query = {
+      id: randomUUID(),
       type: 'TestQuery',
       payload: {},
       kind: 'query',
@@ -23,6 +25,7 @@ describe('isQuery util', () => {
     {
       __scenario: 'CANDIDATE_IS_MISSING_TYPE',
       input: {
+        id: randomUUID(),
         payload: {},
         kind: 'query',
         timestamp: new Date().toISOString(),
@@ -32,6 +35,7 @@ describe('isQuery util', () => {
     {
       __scenario: 'CANDIDATE_METADATA_KIND_IS_NOT_COMMAND',
       input: {
+        id: randomUUID(),
         type: 'TestQuery',
         payload: {},
         kind: undefined,
@@ -42,6 +46,7 @@ describe('isQuery util', () => {
     {
       __scenario: 'CANDIDATE_IS_MISSING_METADATA_KIND',
       input: {
+        id: randomUUID(),
         type: 'TestQuery',
         payload: {},
         metadata: {
@@ -52,6 +57,7 @@ describe('isQuery util', () => {
     {
       __scenario: 'CANDIDATE_IS_MISSING_METADATA',
       input: {
+        id: randomUUID(),
         type: 'TestQuery',
         payload: {},
       },
@@ -59,6 +65,7 @@ describe('isQuery util', () => {
     {
       __scenario: 'CANDIDATE_IS_MISSING_METADATA',
       input: {
+        id: randomUUID(),
         type: 'TestQuery',
         payload: {},
         metadata: 'Test',
@@ -67,6 +74,7 @@ describe('isQuery util', () => {
     {
       __scenario: 'CANDIDATE_IS_MISSING_METADATA',
       input: {
+        id: randomUUID(),
         type: 'TestQuery',
         payload: {},
         metadata: null,
