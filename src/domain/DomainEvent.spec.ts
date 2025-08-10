@@ -3,8 +3,8 @@ import type { UserCreatedPayload } from './examples/UserCreated.ts'
 import type { UserNameUpdatedPayload } from './examples/UserNameUpdated.ts'
 import type { UserRegistrationEmailSentPayload } from './examples/UserRegistrationEmailSent.ts'
 import { randomUUID } from 'node:crypto'
-import { UserCreated } from './examples/UserCreated.ts'
-import { UserNameUpdated } from './examples/UserNameUpdated.ts'
+import { createUserCreatedEvent } from './examples/UserCreated.ts'
+import { createUserNameUpdatedEvent } from './examples/UserNameUpdated.ts'
 import { UserRegistrationEmailSent } from './examples/UserRegistrationEmailSent.ts'
 import { createDomainEvent } from './utils/createDomainEvent.ts'
 import { isDomainEvent } from './utils/isDomainEvent.ts'
@@ -24,7 +24,7 @@ describe('domainEvent', () => {
 
   it('should consider the event as a domainEvent', () => {
     const payload: UserNameUpdatedPayload = { name: '' }
-    const event = UserNameUpdated(aggregateId, payload, metadata)
+    const event = createUserNameUpdatedEvent(aggregateId, payload, metadata)
     expect(isDomainEvent(event)).toBeTruthy()
   })
 
@@ -35,7 +35,7 @@ describe('domainEvent', () => {
       age: 52,
       prospect: true,
     }
-    const event = UserCreated(aggregateId, payload, metadata)
+    const event = createUserCreatedEvent(aggregateId, payload, metadata)
     expect(event.type).toBe('UserCreated')
     expect(event.id).toBeDefined()
     expect(event.aggregateId).toBe(aggregateId)
@@ -45,7 +45,7 @@ describe('domainEvent', () => {
 
   it('should create the UserNameUpdated event', () => {
     const payload: UserNameUpdatedPayload = { name: '' }
-    const event = UserNameUpdated(aggregateId, payload, metadata)
+    const event = createUserNameUpdatedEvent(aggregateId, payload, metadata)
     expect(event.id).toBeDefined()
     expect(event.type).toBe('UserNameUpdated')
     expect(event.aggregateId).toBe(aggregateId)
