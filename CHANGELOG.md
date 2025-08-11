@@ -1,6 +1,43 @@
 # Changelog
 
 
+## v3.9.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.8.2...v3.9.0)
+
+### 🚀 Enhancements
+
+- **Database:** Reimplement Database ([e971df3](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/e971df3))
+- **EventStore:** Reimplement EventStore ([38bff0c](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/38bff0c))
+- **Database:** ResultedDatabase ([3d92e23](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/3d92e23))
+- **EventStore:** ResultedEventStore ([c02189a](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/c02189a))
+- **Repository:** Reimplement and add ResultedRepository ([c1885e2](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/c1885e2))
+- **Outbox:** Update to allow flexible ReturnType ([7734259](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/7734259))
+- **Module:** Implement changes accordingly ([7358d4c](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/7358d4c))
+
+### 💅 Refactors
+
+- **Database:** Extract WithIdentifier to seperate file and update accordingly ([98be5d0](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/98be5d0))
+- **CommandBus:** Update to allow ReturnType ([6d574e2](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/6d574e2))
+- **Repository:** Update to commandBus changes and delete legacy files ([140608b](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/140608b))
+- **QueryBus:** Update to allow flexible returnType ([8be41a8](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/8be41a8))
+- **EventBus:** Update to allow flexible returnType ([5efceb7](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/5efceb7))
+
+### 🏡 Chore
+
+- Add dev oxide.ts ([8416f0c](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/8416f0c))
+- Remove unused files due to refactors ([8f7b5be](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/8f7b5be))
+- **DomainEvent:** Update imports and naming of events ([8850b0e](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/8850b0e))
+- Remove scenario test v2 ([b91c6e8](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/b91c6e8))
+
+### 🎨 Styles
+
+- **CommandBus:** Lint ([fdd6454](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/fdd6454))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.8.2
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.8.1...v3.8.2)
