@@ -1,5 +1,15 @@
+import type { CommandHandlerResult } from '@core/CommandHandler.ts'
+import type { GetUserByEmail } from '@core/examples/GetUserByEmail.ts'
+import type { UserModel } from '@core/examples/UserProjection.ts'
 import type { Module } from '@core/Module.interface.ts'
-import type { GenericEventStore } from '@infrastructure/EventStore/implementations/GenericEventStore.js'
+import type { BaseEvent } from '@domain/BaseEvent.ts'
+import type { UserCommand, UserEvent, UserState } from '@domain/examples/User.ts'
+import type { Repository } from '@domain/Repository.ts'
+import type { Database } from '@infrastructure/Database/Database.ts'
+import type { SimpleDatabaseResult } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
+import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
+import type { SimpleEventStoreResult } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
+import type { SimpleRepositoryResult } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 import type { CommandBus } from '../../CommandBus/CommandBus.ts'
 import type { EventBus } from '../../EventBus/EventBus.ts'
 import type { QueryBus } from '../../QueryBus/QueryBus.ts'
@@ -11,31 +21,32 @@ import { UpdateUserNameHandler } from '@core/examples/UpdateUserNameHandler.ts'
 import { UserCreatedEventHandler } from '@core/examples/UserCreatedEventHandler.ts'
 import { UserProjectionHandler } from '@core/examples/UserProjection.ts'
 import { User } from '@domain/examples/User.ts'
-import { InMemoryDatabase } from '../../Database/implementations/InMemoryDatabase.ts'
-import { UserRepository } from '../../Repository/examples/UserRepository.ts'
+import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
+import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 
 export class UserModule implements Module {
-  private readonly repository: UserRepository
-
-  private readonly database: InMemoryDatabase
+  private readonly database: Database<UserModel, SimpleDatabaseResult>
+  private readonly repository: Repository<UserEvent, SimpleRepositoryResult, UserState>
 
   constructor(
-    private readonly eventStore: GenericEventStore,
-    private readonly eventBus: EventBus,
-    private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus,
+    eventStore: EventStore<UserEvent, SimpleEventStoreResult>,
+    private readonly eventBus: EventBus<BaseEvent>,
+    private readonly commandBus: CommandBus<UserCommand, CommandHandlerResult>,
+    private readonly queryBus: QueryBus<GetUserByEmail, Array<Record<string, unknown>>>,
   ) {
-    this.repository = new UserRepository(this.eventStore, 'users', User.evolve, User.initialState)
-    this.database = new InMemoryDatabase()
+    this.repository = new SimpleRepository(eventStore, 'users', User.evolve, User.initialState)
+    this.database = new SimpleDatabase()
   }
 
   registerModule(): void {
-    new UserProjectionHandler(this.eventBus, this.database).start()
+    new UserProjectionHandler(this.database).start(this.eventBus)
+    new UserCreatedEventHandler(this.repository).start(this.eventBus)
+    new ContractSignedHandler(this.commandBus).start(this.eventBus)
+
     this.commandBus.register('CreateUser', new CreateUserHandler(this.repository))
     this.commandBus.register('UpdateUserName', new UpdateUserNameHandler(this.repository))
     this.commandBus.register('ActivateUser', new ActivateUserHandler(this.repository))
-    this.eventBus.subscribe('UserCreated', new UserCreatedEventHandler(this.repository))
-    this.eventBus.subscribe('ContractSigned', new ContractSignedHandler(this.commandBus))
+
     this.queryBus.register('GetUserByEmail', new GetUserByEmailHandler(this.database))
   }
 };

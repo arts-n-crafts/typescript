@@ -1,9 +1,14 @@
 import type { Command } from '@core/Command.ts'
+import type { CommandHandlerResult } from '@core/CommandHandler.ts'
 import type { Query } from '@core/Query.ts'
+import type { BaseEvent } from '@domain/BaseEvent.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { UserEvent, UserState } from '@domain/examples/User.ts'
 import type { Repository } from '@domain/Repository.ts'
-import type { GenericEventStore } from '@infrastructure/EventStore/implementations/GenericEventStore.js'
+import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
+import type { SimpleEventStoreResult } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
 import type { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.js'
+import type { SimpleRepositoryResult } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { EventBus } from '../EventBus/EventBus.ts'
 import type { IntegrationEvent } from '../EventBus/IntegrationEvent.ts'
@@ -28,11 +33,11 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
 
   constructor(
     private readonly streamName: string,
-    private readonly eventBus: EventBus,
-    private readonly eventStore: GenericEventStore,
-    private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus,
-    private readonly repository: Repository<TEvent>,
+    private readonly eventBus: EventBus<BaseEvent>,
+    private readonly eventStore: EventStore<UserEvent, SimpleEventStoreResult>,
+    private readonly commandBus: CommandBus<Command, CommandHandlerResult>,
+    private readonly queryBus: QueryBus<Query, Array<Record<string, unknown>>>,
+    private readonly repository: Repository<DomainEvent, SimpleRepositoryResult, UserState>,
     private readonly outboxWorker: OutboxWorker,
   ) {}
 
@@ -58,7 +63,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
 
   async then(thenInput: ThenInput): Promise<void> {
     const domainEvents = this.givenInput
-      .filter(isDomainEvent<TEvent>)
+      .filter(isDomainEvent)
     const integrationEvents = this.givenInput
       .filter(isIntegrationEvent)
 
@@ -90,7 +95,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
   private async handleCommand(command: Command, outcome: DomainEvent): Promise<void> {
     await this.commandBus.execute(command)
     const streamKey = makeStreamKey(this.streamName, outcome.aggregateId)
-    const actualEvents = await this.eventStore.load<TEvent[]>(streamKey)
+    const actualEvents = await this.eventStore.load(streamKey)
     const foundEvent = actualEvents.findLast(
       event =>
         isDomainEvent(event)
@@ -127,7 +132,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
   ): Promise<void> {
     await this.eventBus.publish(event)
     const streamKey = makeStreamKey(this.streamName, outcome.aggregateId)
-    const actualEvents = await this.eventStore.load<TEvent[]>(streamKey)
+    const actualEvents = await this.eventStore.load(streamKey)
     const foundEvent = actualEvents.findLast(
       event =>
         isEvent(event) && event.aggregateId === outcome.aggregateId && event.type === outcome.type,
