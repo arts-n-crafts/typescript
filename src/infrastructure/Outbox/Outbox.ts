@@ -1,8 +1,18 @@
 import type { OutboxEntry } from '@infrastructure/Outbox/OutboxEntry.ts'
 
-export interface Outbox {
-  enqueue(event: OutboxEntry['event']): Promise<void>
-  getPending(limit?: number): Promise<OutboxEntry[]>
-  markAsPublished(id: string): Promise<void>
-  markAsFailed(id: string): Promise<void>
+interface Enqueueable<TReturnType = void> {
+  enqueue(event: OutboxEntry['event']): Promise<TReturnType>
+}
+
+export interface Outbox<
+  TEnqueueReturnType = void,
+  TGetPendingReturnType = OutboxEntry[],
+  TMarkAsPublishedReturnType = void,
+  TMarkAsFailedReturnType = void,
+>
+  extends Enqueueable<TEnqueueReturnType>
+{
+  getPending(limit?: number): Promise<TGetPendingReturnType>
+  markAsPublished(id: string): Promise<TMarkAsPublishedReturnType>
+  markAsFailed(id: string): Promise<TMarkAsFailedReturnType>
 }

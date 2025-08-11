@@ -1,3 +1,4 @@
+import type { BaseEvent } from '@domain/BaseEvent.ts'
 import type { EventBus } from '@infrastructure/EventBus/EventBus.ts'
 import type { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.js'
 import type { Outbox } from '../Outbox.ts'
@@ -5,7 +6,7 @@ import type { Outbox } from '../Outbox.ts'
 export class GenericOutboxWorker implements OutboxWorker {
   constructor(
     private outbox: Outbox,
-    private eventBus: EventBus,
+    private eventBus: EventBus<BaseEvent>,
   ) {}
 
   async runOnce(): Promise<void> {

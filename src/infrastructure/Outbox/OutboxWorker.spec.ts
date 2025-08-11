@@ -1,21 +1,23 @@
+import type { UserEvent } from '@domain/examples/User.ts'
 import type { EventBus } from '@infrastructure/EventBus/EventBus.ts'
 import type { Outbox } from './Outbox.ts'
 import { createDomainEvent } from '@domain/utils/createDomainEvent.ts'
-import { InMemoryEventBus } from '@infrastructure/EventBus/implementations/InMemoryEventBus.ts'
+import { SimpleEventBus } from '@infrastructure/EventBus/implementations/SimpleEventBus.ts'
 import { GenericOutboxWorker } from './implementations/GenericOutboxWorker.ts'
 import { InMemoryOutbox } from './implementations/InMemoryOutbox.ts'
 
 describe('outboxWorker with InMemoryEventBus', () => {
   let outbox: Outbox
-  let eventBus: EventBus
+  let eventBus: EventBus<UserEvent>
   let worker: GenericOutboxWorker
   const handler = {
     handle: vi.fn().mockResolvedValue(undefined),
+    start: vi.fn().mockResolvedValue(undefined),
   }
 
   beforeEach(() => {
     outbox = new InMemoryOutbox()
-    eventBus = new InMemoryEventBus()
+    eventBus = new SimpleEventBus()
     worker = new GenericOutboxWorker(outbox, eventBus)
     handler.handle.mockClear()
   })
@@ -38,6 +40,7 @@ describe('outboxWorker with InMemoryEventBus', () => {
   it('marks failed events and increments retry count', async () => {
     eventBus.subscribe('FailEvent', {
       handle: vi.fn().mockRejectedValue(new Error('fail')),
+      start: vi.fn().mockResolvedValue(undefined),
     })
 
     const event = createDomainEvent('FailEvent', 'agg-2', {})

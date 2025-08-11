@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto'
-import { UserCreated } from '@domain/examples/UserCreated.ts'
+import { createUserCreatedEvent } from '@domain/examples/UserCreated.ts'
 import { createOutboxEntry } from './utils/createOutboxEntry.ts'
 
 describe('outbox entry', () => {
@@ -8,7 +8,7 @@ describe('outbox entry', () => {
   })
 
   it('should create a new outbox entry', () => {
-    const event = UserCreated(randomUUID(), { name: 'John Doe', email: 'john.doe@example.com', age: 30 })
+    const event = createUserCreatedEvent(randomUUID(), { name: 'John Doe', email: 'john.doe@example.com', age: 30 })
     const outboxEntry = createOutboxEntry(event)
 
     expect(outboxEntry.id).toBeDefined()
