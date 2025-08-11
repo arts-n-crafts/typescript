@@ -5,7 +5,7 @@ import type { UserRegistrationEmailSentPayload } from './examples/UserRegistrati
 import { randomUUID } from 'node:crypto'
 import { createUserCreatedEvent } from './examples/UserCreated.ts'
 import { createUserNameUpdatedEvent } from './examples/UserNameUpdated.ts'
-import { UserRegistrationEmailSent } from './examples/UserRegistrationEmailSent.ts'
+import { createUserRegistrationEmailSent } from './examples/UserRegistrationEmailSent.ts'
 import { createDomainEvent } from './utils/createDomainEvent.ts'
 import { isDomainEvent } from './utils/isDomainEvent.ts'
 
@@ -55,7 +55,7 @@ describe('domainEvent', () => {
 
   it('should create the UserRegistrationEmailSent event', () => {
     const payload: UserRegistrationEmailSentPayload = { status: 'SUCCESS' }
-    const event = UserRegistrationEmailSent(aggregateId, payload, metadata)
+    const event = createUserRegistrationEmailSent(aggregateId, payload, metadata)
     expect(event.id).toBeDefined()
     expect(event.type).toBe('UserRegistrationEmailSent')
     expect(event.aggregateId).toBe(aggregateId)

@@ -1,17 +1,24 @@
 import type { EventHandler } from '@core/EventHandler.ts'
+import type { UserEvent, UserState } from '@domain/examples/User.ts'
 import type { createUserCreatedEvent } from '@domain/examples/UserCreated.ts'
-import type { UserRepository } from '@infrastructure/Repository/examples/UserRepository.ts'
-import { UserRegistrationEmailSent } from '@domain/examples/UserRegistrationEmailSent.ts'
+import type { Repository } from '@domain/Repository.ts'
+import type { EventBus } from '@infrastructure/EventBus/EventBus.ts'
+import type { SimpleRepositoryResult } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
+import { createUserRegistrationEmailSent } from '@domain/examples/UserRegistrationEmailSent.ts'
 
 type UserCreatedEvent = ReturnType<typeof createUserCreatedEvent>
 
-export class UserCreatedEventHandler implements EventHandler {
+export class UserCreatedEventHandler implements EventHandler<UserCreatedEvent> {
   constructor(
-    private readonly repository: UserRepository,
+    private readonly repository: Repository<UserEvent, SimpleRepositoryResult, UserState>,
   ) { }
 
+  start(eventBus: EventBus<UserEvent>): void {
+    eventBus.subscribe('UserCreated', this)
+  }
+
   async handle(anEvent: UserCreatedEvent): Promise<void> {
-    const emailSentEvent = UserRegistrationEmailSent(
+    const emailSentEvent = createUserRegistrationEmailSent(
       anEvent.aggregateId,
       { status: 'SUCCESS' },
       { causationId: anEvent.id },

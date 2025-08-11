@@ -5,8 +5,12 @@ export interface UserRegistrationEmailSentPayload {
   status: 'SUCCESS' | 'FAILED'
 }
 
-export function UserRegistrationEmailSent(aggregateId: string, props: UserRegistrationEmailSentPayload, metadata?: Partial<DomainEventMetadata>): DomainEvent<UserRegistrationEmailSentPayload> {
+export function createUserRegistrationEmailSent(
+  aggregateId: string,
+  props: UserRegistrationEmailSentPayload,
+  metadata?: Partial<DomainEventMetadata>,
+): DomainEvent<UserRegistrationEmailSentPayload> {
   return createDomainEvent('UserRegistrationEmailSent', aggregateId, props, metadata)
 }
 
-export type UserRegistrationEmailSentEvent = ReturnType<typeof UserRegistrationEmailSent>
+export type UserRegistrationEmailSentEvent = ReturnType<typeof createUserRegistrationEmailSent>

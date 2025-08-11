@@ -9,3 +9,5 @@ export interface ContractSignedPayload {
 export function ContractSigned(props: ContractSignedPayload, metadata?: Partial<IntegrationEventMetadata>): IntegrationEvent<ContractSignedPayload> {
   return createIntegrationEvent('ContractSigned', props, metadata)
 }
+
+export type ContractSignedEvent = ReturnType<typeof ContractSigned>

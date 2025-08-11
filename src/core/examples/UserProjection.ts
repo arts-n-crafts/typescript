@@ -1,4 +1,4 @@
-import type { ProjectionHandler } from '@core/ProjectionHandler.ts'
+import type { EventHandler } from '@core/EventHandler.ts'
 import type { WithIdentifier } from '@core/types/WithIdentifier.ts'
 import type { UserEvent } from '@domain/examples/User.ts'
 import type { UserCreatedPayload } from '@domain/examples/UserCreated.ts'
@@ -10,15 +10,14 @@ import { Operation } from '@infrastructure/Database/Database.ts'
 
 export type UserModel = UserCreatedPayload & WithIdentifier
 
-export class UserProjectionHandler implements ProjectionHandler {
+export class UserProjectionHandler implements EventHandler<UserEvent> {
   constructor(
-    private eventBus: EventBus,
     private database: Database<UserModel, SimpleDatabaseResult>,
   ) { }
 
-  start(): void {
-    this.eventBus.subscribe('UserCreated', this)
-    this.eventBus.subscribe('UserNameUpdated', this)
+  start(eventBus: EventBus<UserEvent>): void {
+    eventBus.subscribe('UserCreated', this)
+    eventBus.subscribe('UserNameUpdated', this)
   }
 
   async handle(anEvent: UserEvent): Promise<void> {

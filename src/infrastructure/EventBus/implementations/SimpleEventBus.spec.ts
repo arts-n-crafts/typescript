@@ -1,6 +1,4 @@
 import type { UserEvent, UserState } from '@domain/examples/User.ts'
-import type { UserCreatedEvent } from '@domain/examples/UserCreated.ts'
-import type { UserRegistrationEmailSentEvent } from '@domain/examples/UserRegistrationEmailSent.ts'
 import type { Repository } from '@domain/Repository.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
 import type { SimpleDatabaseResult } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
@@ -8,9 +6,8 @@ import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
 import type { SimpleEventStoreResult } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
 import type { StoredEvent } from '@infrastructure/EventStore/StoredEvent.ts'
 import type { SimpleRepositoryResult } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
-import type { EventHandler } from './EventHandler.ts'
+import type { EventBus } from '../EventBus.ts'
 import { randomUUID } from 'node:crypto'
-import { ContractSignedHandler } from '@core/examples/ContractSignedHandler.ts'
 import { UserCreatedEventHandler } from '@core/examples/UserCreatedEventHandler.ts'
 import { User } from '@domain/examples/User.ts'
 import { createUserCreatedEvent } from '@domain/examples/UserCreated.ts'
@@ -18,35 +15,35 @@ import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleD
 import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
 import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 import { makeStreamKey } from '@utils/streamKey/index.ts'
+import { SimpleEventBus } from './SimpleEventBus.ts'
 
-describe('eventHandler', () => {
-  const store = 'users'
+describe('eventBus', () => {
   let database: Database<StoredEvent<UserEvent>, SimpleDatabaseResult>
   let eventStore: EventStore<UserEvent, SimpleEventStoreResult>
   let repository: Repository<UserEvent, SimpleRepositoryResult, UserState>
-  let handler: EventHandler<UserCreatedEvent>
+  let eventBus: EventBus<UserEvent>
 
   beforeEach(() => {
     database = new SimpleDatabase()
     eventStore = new SimpleEventStore(database)
-    repository = new SimpleRepository(eventStore, store, User.evolve, User.initialState)
-    handler = new UserCreatedEventHandler(repository)
+    repository = new SimpleRepository(eventStore, 'users', User.evolve, User.initialState)
+    eventBus = new SimpleEventBus()
   })
 
   it('should be defined', () => {
-    expect(UserCreatedEventHandler).toBeDefined()
-    expect(ContractSignedHandler).toBeDefined()
+    expect(SimpleEventBus).toBeDefined()
   })
 
-  it('should process the MockUserCreated event and dispatch the MockUserRegistrationEmailSentEvent', async () => {
-    const event = createUserCreatedEvent(randomUUID(), { name: 'test', email: 'musk@x.com' })
-    await handler.handle(event)
-    await repository.load(event.aggregateId)
+  it('should be able publish events', async () => {
+    eventBus.subscribe('UserCreated', new UserCreatedEventHandler(repository))
+    const createdEvent = createUserCreatedEvent(randomUUID(), { name: 'test', email: 'musk@x.com' })
+    await eventBus.publish(createdEvent)
 
-    const events = await eventStore.load(makeStreamKey(store, event.aggregateId))
-    const userRegistrationEmailSentEvent = events[0]
-
-    expect(userRegistrationEmailSentEvent.type).toBe('UserRegistrationEmailSent')
-    expect((userRegistrationEmailSentEvent as UserRegistrationEmailSentEvent).payload.status).toBe('SUCCESS')
+    const events = await eventStore.load(
+      makeStreamKey('users', createdEvent.aggregateId),
+    )
+    const sentEventCausedByCreatedEventIndex = events.findIndex(event => event.metadata.causationId === createdEvent.id)
+    expect(sentEventCausedByCreatedEventIndex !== -1).toBeTruthy()
+    expect(events[sentEventCausedByCreatedEventIndex].type).toBe('UserRegistrationEmailSent')
   })
 })
