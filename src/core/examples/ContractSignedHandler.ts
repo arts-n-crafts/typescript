@@ -1,4 +1,3 @@
-import type { CommandHandlerResult } from '@core/CommandHandler.ts'
 import type { EventHandler } from '@core/EventHandler.ts'
 import type { UserCommand } from '@domain/examples/User.ts'
 import type { CommandBus } from '@infrastructure/CommandBus/CommandBus.ts'
@@ -8,7 +7,7 @@ import { createActivateUserCommand } from '@core/examples/ActivateUser.ts'
 
 export class ContractSignedHandler implements EventHandler<ContractSignedEvent> {
   constructor(
-    private readonly commandBus: CommandBus<UserCommand, CommandHandlerResult>,
+    private readonly commandBus: CommandBus<UserCommand>,
   ) { }
 
   start(eventBus: EventBus<ContractSignedEvent>): void {

@@ -9,13 +9,11 @@ import { Operation } from '@infrastructure/Database/Database.ts'
 import { createStoredEvent } from '../utils/createStoredEvent.ts'
 import { MultipleAggregatesException } from './SimpleEventStore.exceptions.ts'
 
-export type SimpleEventStoreResult = { id: string } | void
-
-export class SimpleEventStore<TEvent extends DomainEvent> implements EventStore<TEvent, SimpleEventStoreResult> {
+export class SimpleEventStore<TEvent extends DomainEvent> implements EventStore<TEvent> {
   private readonly tableName: string = 'event_store'
 
   constructor(
-    private readonly database: Database<StoredEvent<TEvent>, SimpleEventStoreResult>,
+    private readonly database: Database<StoredEvent<TEvent>>,
     private readonly outbox?: Outbox,
   ) { }
 
@@ -25,7 +23,7 @@ export class SimpleEventStore<TEvent extends DomainEvent> implements EventStore<
     return storedEvents.map(storedEvent => storedEvent.event)
   }
 
-  async append(streamKey: StreamKey, events: TEvent[]): Promise<SimpleEventStoreResult> {
+  async append(streamKey: StreamKey, events: TEvent[]): Promise<void> {
     const uniqueAggregateIds = new Set(events.map(event => event.aggregateId))
     if (uniqueAggregateIds.size > 1)
       throw new MultipleAggregatesException()

@@ -10,7 +10,7 @@ import { Ok } from 'oxide.ts'
 export interface ResultedRepositoryResult { id: string }
 
 export class ResultedRepository<TState, TCommand, TEvent extends DomainEvent>
-implements Repository<TEvent, Result<ResultedRepositoryResult, Error>, Result<TState, Error>> {
+implements Repository<TEvent, Result<TState, Error>, Result<ResultedRepositoryResult, Error>> {
   constructor(
     private readonly eventStore: EventStore<TEvent, ResultedEventStoreAppendReturnType, Result<TEvent[], Error>>,
     readonly streamName: string,

@@ -2,11 +2,9 @@ import type { GetUserByEmail } from '@core/examples/GetUserByEmail.ts'
 import type { UserCommand, UserEvent, UserState } from '@domain/examples/User.ts'
 import type { Repository } from '@domain/Repository.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
-import type { SimpleEventStoreResult } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
 import type { StoredEvent } from '@infrastructure/EventStore/StoredEvent.ts'
 import type { Outbox } from '@infrastructure/Outbox/Outbox.ts'
 import type { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.ts'
-import type { SimpleRepositoryResult } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 import { randomUUID } from 'node:crypto'
 import { createRegisterUserCommand } from '@core/examples/CreateUser.ts'
 import { createGetUserByEmailQuery } from '@core/examples/GetUserByEmail.ts'
@@ -32,13 +30,13 @@ import { ScenarioTest } from './ScenarioTest.ts'
 describe('scenario test', () => {
   const collectionName = 'users'
   const id = randomUUID()
-  let database: Database<StoredEvent<UserEvent>, SimpleEventStoreResult>
+  let database: Database<StoredEvent<UserEvent>>
   let eventStore: SimpleEventStore<UserEvent>
   let eventBus: SimpleEventBus<UserEvent>
   let outbox: Outbox
   let commandBus: SimpleCommandBus<UserCommand>
   let queryBus: SimpleQueryBus<GetUserByEmail, Array<Record<string, unknown>>>
-  let repository: Repository<UserEvent, SimpleRepositoryResult, UserState>
+  let repository: Repository<UserEvent, UserState>
   let outboxWorker: OutboxWorker
   let scenarioTest: ScenarioTest<UserState, UserEvent>
 

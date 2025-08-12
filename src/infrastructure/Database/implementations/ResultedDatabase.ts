@@ -8,25 +8,25 @@ import { DatabaseOfflineException, DuplicateRecordException, RecordNotFoundExcep
 
 export type ResultedDatabaseExecuteReturnType = Result<{ id: string }, Error>
 
-export class ResultedDatabase<TModels extends WithIdentifier> implements Database<TModels, ResultedDatabaseExecuteReturnType, Result<TModels[], Error>> {
-  private readonly datasource = new Map<string, TModels[]>()
+export class ResultedDatabase<TModel extends WithIdentifier> implements Database<TModel, ResultedDatabaseExecuteReturnType, Result<TModel[], Error>> {
+  private readonly datasource = new Map<string, TModel[]>()
   private simulateOffline = false
 
   async query(
     tableName: string,
-    specification: Specification<TModels>,
-  ): Promise<Result<TModels[], Error>> {
+    specification: Specification<TModel>,
+  ): Promise<Result<TModel[], Error>> {
     if (this.simulateOffline)
       return Err(new DatabaseOfflineException())
 
     const tableRecords = (this.datasource.get(tableName) || [])
     return Ok(tableRecords
-      .filter((record: TModels) => specification.isSatisfiedBy(record)))
+      .filter((record: TModel) => specification.isSatisfiedBy(record)))
   }
 
   async execute(
     tableName: string,
-    statement: CreateStatement<TModels> | PutStatement<TModels> | PatchStatement<TModels> | DeleteStatement,
+    statement: CreateStatement<TModel> | PutStatement<TModel> | PatchStatement<TModel> | DeleteStatement,
   ): Promise<ResultedDatabaseExecuteReturnType> {
     if (this.simulateOffline)
       return Err(new DatabaseOfflineException())

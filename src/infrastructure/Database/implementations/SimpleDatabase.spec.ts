@@ -1,6 +1,5 @@
 import type { UserState } from '@domain/examples/User.ts'
 import type { CreateStatement, Database, DeleteStatement, PatchStatement, PutStatement } from '../Database.ts'
-import type { SimpleDatabaseResult } from './SimpleDatabase.ts'
 import { randomUUID } from 'node:crypto'
 import { FieldEquals } from '@domain/index.ts'
 import { Operation } from '../Database.ts'
@@ -9,7 +8,7 @@ import { SimpleDatabase } from './SimpleDatabase.ts'
 
 describe('simple database', () => {
   const tableName = 'users'
-  let database: Database<UserState, SimpleDatabaseResult>
+  let database: Database<UserState>
   const createStatement: CreateStatement<UserState> = {
     operation: Operation.CREATE,
     payload: {

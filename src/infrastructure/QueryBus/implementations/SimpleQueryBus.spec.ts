@@ -1,6 +1,5 @@
 import type { GetUserByEmail, GetUserByEmailProps } from '@core/examples/GetUserByEmail.ts'
 import type { UserModel } from '@core/examples/UserProjection.ts'
-import type { SimpleDatabaseResult } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import type { CreateStatement, Database } from '../../Database/Database.ts'
 import type { QueryBus } from '../QueryBus.ts'
 import { randomUUID } from 'node:crypto'
@@ -12,7 +11,7 @@ import { SimpleQueryBus } from './SimpleQueryBus.ts'
 
 describe('simple query bus', () => {
   const store = 'users'
-  let database: Database<UserModel, SimpleDatabaseResult>
+  let database: Database<UserModel>
   let statement: CreateStatement<UserModel>
   let payload: GetUserByEmailProps
   let bus: QueryBus<GetUserByEmail, UserModel[]>

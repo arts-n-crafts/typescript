@@ -1,6 +1,5 @@
 import type { GetUserByEmail, GetUserByEmailProps } from '@core/examples/GetUserByEmail.ts'
 import type { UserModel } from '@core/examples/UserProjection.ts'
-import type { SimpleDatabaseResult } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import type { Result } from 'oxide.ts'
 import type { CreateStatement, Database } from '../../Database/Database.ts'
 import type { QueryBus } from '../QueryBus.ts'
@@ -13,7 +12,7 @@ import { ResultedQueryBus } from './ResultedQueryBus.ts'
 
 describe('resulted query bus', () => {
   const store = 'users'
-  let database: Database<UserModel, SimpleDatabaseResult>
+  let database: Database<UserModel>
   let statement: CreateStatement<UserModel>
   let payload: GetUserByEmailProps
   let bus: QueryBus<GetUserByEmail, Result<UserModel[], Error>, Result<void, Error>>

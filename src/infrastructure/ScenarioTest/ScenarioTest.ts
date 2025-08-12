@@ -1,14 +1,11 @@
 import type { Command } from '@core/Command.ts'
-import type { CommandHandlerResult } from '@core/CommandHandler.ts'
 import type { Query } from '@core/Query.ts'
 import type { BaseEvent } from '@domain/BaseEvent.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { UserEvent, UserState } from '@domain/examples/User.ts'
 import type { Repository } from '@domain/Repository.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
-import type { SimpleEventStoreResult } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
 import type { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.js'
-import type { SimpleRepositoryResult } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
 import type { EventBus } from '../EventBus/EventBus.ts'
 import type { IntegrationEvent } from '../EventBus/IntegrationEvent.ts'
@@ -34,10 +31,10 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
   constructor(
     private readonly streamName: string,
     private readonly eventBus: EventBus<BaseEvent>,
-    private readonly eventStore: EventStore<UserEvent, SimpleEventStoreResult>,
-    private readonly commandBus: CommandBus<Command, CommandHandlerResult>,
+    private readonly eventStore: EventStore<UserEvent>,
+    private readonly commandBus: CommandBus<Command>,
     private readonly queryBus: QueryBus<Query, Array<Record<string, unknown>>>,
-    private readonly repository: Repository<DomainEvent, SimpleRepositoryResult, UserState>,
+    private readonly repository: Repository<DomainEvent, UserState>,
     private readonly outboxWorker: OutboxWorker,
   ) {}
 

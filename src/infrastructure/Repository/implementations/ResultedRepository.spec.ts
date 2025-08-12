@@ -17,7 +17,7 @@ describe('resulted repository', () => {
   const streamName = 'users'
   let database: Database<StoredEvent<UserEvent>, ResultedEventStoreAppendReturnType, Result<StoredEvent<UserEvent>[], Error>>
   let eventStore: EventStore<UserEvent, ResultedEventStoreAppendReturnType, Result<UserEvent[], Error>>
-  let repository: Repository<UserEvent, Result<ResultedRepositoryResult, Error>, Result<UserState, Error>>
+  let repository: Repository<UserEvent, Result<UserState, Error>, Result<ResultedRepositoryResult, Error>>
 
   const createCommand = createRegisterUserCommand(randomUUID(), { name: 'Elon', email: 'elon@x.com' })
 

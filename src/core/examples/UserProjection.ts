@@ -3,16 +3,15 @@ import type { WithIdentifier } from '@core/types/WithIdentifier.ts'
 import type { UserEvent } from '@domain/examples/User.ts'
 import type { UserCreatedPayload } from '@domain/examples/UserCreated.ts'
 import type { Database, PatchStatement } from '@infrastructure/Database/Database.ts'
-import type { SimpleDatabaseResult } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import type { EventBus } from '@infrastructure/EventBus/EventBus.ts'
 import { isDomainEvent } from '@domain/utils/isDomainEvent.ts'
 import { Operation } from '@infrastructure/Database/Database.ts'
 
-export type UserModel = UserCreatedPayload & WithIdentifier
+export type UserModel = WithIdentifier<UserCreatedPayload>
 
 export class UserProjectionHandler implements EventHandler<UserEvent> {
   constructor(
-    private database: Database<UserModel, SimpleDatabaseResult>,
+    private database: Database<UserModel>,
   ) { }
 
   start(eventBus: EventBus<UserEvent>): void {

@@ -3,14 +3,13 @@ import type { UserEvent, UserState } from '@domain/examples/User.ts'
 import type { createUserCreatedEvent } from '@domain/examples/UserCreated.ts'
 import type { Repository } from '@domain/Repository.ts'
 import type { EventBus } from '@infrastructure/EventBus/EventBus.ts'
-import type { SimpleRepositoryResult } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 import { createUserRegistrationEmailSent } from '@domain/examples/UserRegistrationEmailSent.ts'
 
 type UserCreatedEvent = ReturnType<typeof createUserCreatedEvent>
 
 export class UserCreatedEventHandler implements EventHandler<UserCreatedEvent> {
   constructor(
-    private readonly repository: Repository<UserEvent, SimpleRepositoryResult, UserState>,
+    private readonly repository: Repository<UserEvent, UserState>,
   ) { }
 
   start(eventBus: EventBus<UserEvent>): void {

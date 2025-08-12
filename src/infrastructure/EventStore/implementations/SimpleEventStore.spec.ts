@@ -2,7 +2,6 @@ import type { UserEvent } from '@domain/examples/User.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
 import type { EventStore } from '../EventStore.ts'
 import type { StoredEvent } from '../StoredEvent.ts'
-import type { SimpleEventStoreResult } from './SimpleEventStore.ts'
 import { randomUUID } from 'node:crypto'
 import { createUserCreatedEvent } from '@domain/examples/UserCreated.ts'
 import { createUserNameUpdatedEvent } from '@domain/examples/UserNameUpdated.ts'
@@ -13,8 +12,8 @@ import { SimpleEventStore } from './SimpleEventStore.ts'
 
 describe('simpleEventStore', () => {
   const streamName = 'users'
-  let database: Database<StoredEvent<UserEvent>, SimpleEventStoreResult>
-  let eventStore: EventStore<UserEvent, SimpleEventStoreResult>
+  let database: Database<StoredEvent<UserEvent>>
+  let eventStore: EventStore<UserEvent>
 
   const userCreatedEvent = createUserCreatedEvent(randomUUID(), { name: 'John Doe', email: 'john.doe@example.com' })
   const userNameUpdatedEvent = createUserNameUpdatedEvent(userCreatedEvent.aggregateId, { name: 'Jack Doe' })

@@ -7,7 +7,9 @@ export * from './QueryHandler.ts'
 
 export * from './types/FilledArray.ts'
 export * from './types/Maybe.ts'
+export * from './types/Nullable.ts'
 export * from './types/Primitive.ts'
+export * from './types/WithIdentifier.ts'
 
 export * from './utils/createCommand.ts'
 export * from './utils/createQuery.ts'

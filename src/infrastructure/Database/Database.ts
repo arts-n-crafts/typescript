@@ -25,7 +25,7 @@ export interface PutStatement<TModel> extends Statement<TModel> {
 
 export interface PatchStatement<TModel> extends Statement<Partial<TModel>> {
   operation: Operation.PATCH
-  payload: Partial<TModel> & WithIdentifier
+  payload: WithIdentifier<Partial<TModel>>
 }
 
 export interface DeleteStatement extends Statement<WithIdentifier> {
@@ -33,7 +33,7 @@ export interface DeleteStatement extends Statement<WithIdentifier> {
   payload: WithIdentifier
 }
 
-interface Executable<TModel, TReturnType> {
+interface Executable<TModel, TReturnType = void> {
   execute(tableName: string, statement: CreateStatement<TModel>): Promise<TReturnType>
   execute(tableName: string, statement: PutStatement<TModel>): Promise<TReturnType>
   execute(tableName: string, statement: PatchStatement<TModel>): Promise<TReturnType>
@@ -44,7 +44,7 @@ interface QueryAble<TModel, TReturnType = TModel[]> {
   query(collectionName: string, specification: Specification<TModel>): Promise<TReturnType>
 }
 
-export interface Database<TModel, TExecuteReturnType, TQueryReturnType = TModel[]>
+export interface Database<TModel, TExecuteReturnType = void, TQueryReturnType = TModel[]>
   extends
   QueryAble<TModel, TQueryReturnType>,
   Executable<TModel, TExecuteReturnType> { }

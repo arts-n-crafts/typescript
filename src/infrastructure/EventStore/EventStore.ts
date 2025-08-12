@@ -8,7 +8,7 @@ interface Appendable<TEvent, TReturnType = void> {
   append(streamKey: StreamKey, events: TEvent[]): Promise<TReturnType>
 }
 
-export interface EventStore<TEvent, TAppendReturnType, TLoadReturnType = TEvent[]>
+export interface EventStore<TEvent, TAppendReturnType = void, TLoadReturnType = TEvent[]>
   extends
   Loadable<TLoadReturnType>,
   Appendable<TEvent, TAppendReturnType> { }

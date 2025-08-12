@@ -1,4 +1,3 @@
-import type { CommandHandlerResult } from '@core/CommandHandler.ts'
 import type { GetUserByEmail } from '@core/examples/GetUserByEmail.ts'
 import type { UserModel } from '@core/examples/UserProjection.ts'
 import type { Module } from '@core/Module.interface.ts'
@@ -6,10 +5,7 @@ import type { BaseEvent } from '@domain/BaseEvent.ts'
 import type { UserCommand, UserEvent, UserState } from '@domain/examples/User.ts'
 import type { Repository } from '@domain/Repository.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
-import type { SimpleDatabaseResult } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
-import type { SimpleEventStoreResult } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
-import type { SimpleRepositoryResult } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 import type { CommandBus } from '../../CommandBus/CommandBus.ts'
 import type { EventBus } from '../../EventBus/EventBus.ts'
 import type { QueryBus } from '../../QueryBus/QueryBus.ts'
@@ -25,13 +21,13 @@ import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleD
 import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 
 export class UserModule implements Module {
-  private readonly database: Database<UserModel, SimpleDatabaseResult>
-  private readonly repository: Repository<UserEvent, SimpleRepositoryResult, UserState>
+  private readonly database: Database<UserModel>
+  private readonly repository: Repository<UserEvent, UserState>
 
   constructor(
-    eventStore: EventStore<UserEvent, SimpleEventStoreResult>,
+    eventStore: EventStore<UserEvent>,
     private readonly eventBus: EventBus<BaseEvent>,
-    private readonly commandBus: CommandBus<UserCommand, CommandHandlerResult>,
+    private readonly commandBus: CommandBus<UserCommand>,
     private readonly queryBus: QueryBus<GetUserByEmail, Array<Record<string, unknown>>>,
   ) {
     this.repository = new SimpleRepository(eventStore, 'users', User.evolve, User.initialState)

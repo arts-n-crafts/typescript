@@ -1,11 +1,8 @@
 import type { UserCommand, UserEvent, UserState } from '@domain/examples/User.ts'
 import type { Repository } from '@domain/Repository.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
-import type { SimpleDatabaseResult } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
-import type { SimpleEventStoreResult } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
 import type { StoredEvent } from '@infrastructure/EventStore/StoredEvent.ts'
-import type { SimpleRepositoryResult } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 import { randomUUID } from 'node:crypto'
 import { createRegisterUserCommand } from '@core/examples/CreateUser.ts'
 import { CreateUserHandler } from '@core/examples/CreateUserHandler.ts'
@@ -19,9 +16,9 @@ import { ResultedCommandBus } from './ResultedCommandBus.ts'
 
 describe('resulted commandBus', () => {
   const command = createRegisterUserCommand(randomUUID(), { name: 'Elon', email: 'musk@x.com', age: 52 })
-  let database: Database<StoredEvent<UserEvent>, SimpleDatabaseResult>
-  let eventStore: EventStore<UserEvent, SimpleEventStoreResult>
-  let repository: Repository<UserEvent, SimpleRepositoryResult, UserState>
+  let database: Database<StoredEvent<UserEvent>>
+  let eventStore: EventStore<UserEvent>
+  let repository: Repository<UserEvent, UserState>
   let commandBus: ResultedCommandBus<UserCommand>
   let handler: UpdateUserNameHandler
 
@@ -54,7 +51,6 @@ describe('resulted commandBus', () => {
     const result = await commandBus.execute(updateUserNameCommand)
 
     expect(result.isOk()).toBeTruthy()
-    expect(result.unwrap().id).toBe(command.aggregateId)
   })
 
   it('should throw an error if no handler is registered for the command type', async () => {

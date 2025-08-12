@@ -1,5 +1,4 @@
 import type { CreateStatement, Database } from '@infrastructure/Database/Database.ts'
-import type { SimpleDatabaseResult } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import type { UserModel } from './examples/UserProjection.ts'
 import { randomUUID } from 'node:crypto'
 import { createGetUserByEmailQuery } from '@core/examples/GetUserByEmail.ts'
@@ -9,7 +8,7 @@ import { GetUserByEmailHandler } from './examples/GetUserByEmailHandler.ts'
 
 describe('queryHandler', () => {
   const store = 'users'
-  let database: Database<UserModel, SimpleDatabaseResult>
+  let database: Database<UserModel>
   let statement: CreateStatement<UserModel>
 
   beforeEach(async () => {

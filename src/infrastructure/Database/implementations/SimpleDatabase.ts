@@ -4,28 +4,26 @@ import type { CreateStatement, Database, DeleteStatement, PatchStatement, PutSta
 import { Operation } from '../Database.ts'
 import { DatabaseOfflineException, DuplicateRecordException, RecordNotFoundException } from './SimpleDatabase.exceptions.ts'
 
-export type SimpleDatabaseResult = { id: string } | void
-
-export class SimpleDatabase<TModels extends WithIdentifier> implements Database<TModels, SimpleDatabaseResult> {
-  private readonly datasource = new Map<string, TModels[]>()
+export class SimpleDatabase<TModel extends WithIdentifier> implements Database<TModel> {
+  private readonly datasource = new Map<string, TModel[]>()
   private simulateOffline = false
 
   async query(
     tableName: string,
-    specification: Specification<TModels>,
-  ): Promise<TModels[]> {
+    specification: Specification<TModel>,
+  ): Promise<TModel[]> {
     if (this.simulateOffline)
       throw new DatabaseOfflineException()
 
     const tableRecords = (this.datasource.get(tableName) || [])
     return tableRecords
-      .filter((record: TModels) => specification.isSatisfiedBy(record))
+      .filter((record: TModel) => specification.isSatisfiedBy(record))
   }
 
   async execute(
     tableName: string,
-    statement: CreateStatement<TModels> | PutStatement<TModels> | PatchStatement<TModels> | DeleteStatement,
-  ): Promise<SimpleDatabaseResult> {
+    statement: CreateStatement<TModel> | PutStatement<TModel> | PatchStatement<TModel> | DeleteStatement,
+  ): Promise<void> {
     if (this.simulateOffline)
       throw new DatabaseOfflineException()
 
