@@ -1,11 +1,9 @@
-import type { StreamKey } from '@utils/streamKey/index.ts'
-
 interface Loadable<TReturnType> {
-  load(streamKey: StreamKey): Promise<TReturnType>
+  load(streamName: string, aggregateId: string): Promise<TReturnType>
 }
 
 interface Appendable<TEvent, TReturnType = void> {
-  append(streamKey: StreamKey, events: TEvent[]): Promise<TReturnType>
+  append(streamName: string, events: TEvent[]): Promise<TReturnType>
 }
 
 export interface EventStore<TEvent, TAppendReturnType = void, TLoadReturnType = TEvent[]>

@@ -13,7 +13,6 @@ import { User } from '@domain/examples/User.ts'
 import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
 import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
-import { makeStreamKey } from '@utils/streamKey/makeStreamKey.ts'
 import { SimpleCommandBus } from './SimpleCommandBus.ts'
 
 describe('commandBus', () => {
@@ -44,7 +43,6 @@ describe('commandBus', () => {
   })
 
   it('should process the command via commandBus and return the event', async () => {
-    const streamKey = makeStreamKey('users', command.aggregateId)
     commandBus.register('UpdateUserName', handler)
     const updateUserNameCommand = createUpdateNameOfUserCommand(
       command.aggregateId,
@@ -52,7 +50,7 @@ describe('commandBus', () => {
       { timestamp: new Date() },
     )
     await commandBus.execute(updateUserNameCommand)
-    const events = await eventStore.load(streamKey)
+    const events = await eventStore.load('users', command.aggregateId)
     const event = events.at(-1) as ReturnType<typeof createUserNameUpdatedEvent>
 
     expect(events).toHaveLength(2)

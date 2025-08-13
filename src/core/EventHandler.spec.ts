@@ -14,7 +14,6 @@ import { createUserCreatedEvent } from '@domain/examples/UserCreated.ts'
 import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
 import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
-import { makeStreamKey } from '@utils/streamKey/index.ts'
 
 describe('eventHandler', () => {
   const store = 'users'
@@ -40,7 +39,7 @@ describe('eventHandler', () => {
     await handler.handle(event)
     await repository.load(event.aggregateId)
 
-    const events = await eventStore.load(makeStreamKey(store, event.aggregateId))
+    const events = await eventStore.load(store, event.aggregateId)
     const userRegistrationEmailSentEvent = events[0]
 
     expect(userRegistrationEmailSentEvent.type).toBe('UserRegistrationEmailSent')

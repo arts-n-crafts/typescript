@@ -4,7 +4,6 @@ import type { Repository } from '@domain/Repository.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
 import type { ResultedEventStoreAppendReturnType } from '@infrastructure/EventStore/implementations/ResultedEventStore.ts'
 import type { Result } from 'oxide.ts'
-import { makeStreamKey } from '@utils/streamKey/index.ts'
 import { Ok } from 'oxide.ts'
 
 export interface ResultedRepositoryResult { id: string }
@@ -20,9 +19,7 @@ implements Repository<TEvent, Result<TState, Error>, Result<ResultedRepositoryRe
   }
 
   async load(aggregateId: string): Promise<Result<TState, Error>> {
-    const pastEventsResult = await this.eventStore.load(
-      makeStreamKey(this.streamName, aggregateId),
-    )
+    const pastEventsResult = await this.eventStore.load(this.streamName, aggregateId)
     return Ok(
       pastEventsResult.unwrap()
         .reduce<TState>(this.evolveFn, this.initialState(aggregateId)),
@@ -33,7 +30,7 @@ implements Repository<TEvent, Result<TState, Error>, Result<ResultedRepositoryRe
     await Promise.all(
       events.map(
         async event => this.eventStore.append(
-          makeStreamKey(this.streamName, event.aggregateId),
+          this.streamName,
           [event],
         ),
       ),

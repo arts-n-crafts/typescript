@@ -2,10 +2,10 @@ import type { DomainEvent } from '@domain/index.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import type { Outbox } from '@infrastructure/Outbox/Outbox.ts'
-import type { StreamKey } from '@utils/streamKey/StreamKey.ts'
 import type { StoredEvent } from '../StoredEvent.ts'
 import { FieldEquals } from '@domain/index.ts'
 import { Operation } from '@infrastructure/Database/Database.ts'
+import { makeStreamKey } from '@utils/index.ts'
 import { createStoredEvent } from '../utils/createStoredEvent.ts'
 import { MultipleAggregatesException } from './SimpleEventStore.exceptions.ts'
 
@@ -17,20 +17,22 @@ export class SimpleEventStore<TEvent extends DomainEvent> implements EventStore<
     private readonly outbox?: Outbox,
   ) { }
 
-  async load(streamKey: StreamKey): Promise<TEvent[]> {
+  async load(streamName: string, aggregateId: string): Promise<TEvent[]> {
+    const streamKey = makeStreamKey(streamName, aggregateId)
     const specification = new FieldEquals('streamKey', streamKey)
     const storedEvents = await this.database.query(this.tableName, specification)
     return storedEvents.map(storedEvent => storedEvent.event)
   }
 
-  async append(streamKey: StreamKey, events: TEvent[]): Promise<void> {
+  async append(streamName: string, events: TEvent[]): Promise<void> {
     const uniqueAggregateIds = new Set(events.map(event => event.aggregateId))
     if (uniqueAggregateIds.size > 1)
       throw new MultipleAggregatesException()
 
-    const currentStream = await this.load(streamKey)
+    const event = events[0]
+    const currentStream = await this.load(streamName, event.aggregateId)
     const eventsToStore = events
-      .map(event => createStoredEvent(streamKey, currentStream.length + 1, event))
+      .map(event => createStoredEvent(streamName, currentStream.length + 1, event))
     await Promise.all(
       eventsToStore.map(async payload => this.database.execute(this.tableName, { operation: Operation.CREATE, payload }),
       ),

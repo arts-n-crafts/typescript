@@ -2,7 +2,6 @@ import type { Decider } from '@domain/Decider.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { Repository } from '@domain/Repository.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
-import { makeStreamKey } from '@utils/streamKey/index.ts'
 
 export class SimpleRepository<TState, TCommand, TEvent extends DomainEvent> implements Repository<TEvent, TState> {
   constructor(
@@ -14,9 +13,7 @@ export class SimpleRepository<TState, TCommand, TEvent extends DomainEvent> impl
   }
 
   async load(aggregateId: string): Promise<TState> {
-    const pastEvents = await this.eventStore.load(
-      makeStreamKey(this.streamName, aggregateId),
-    )
+    const pastEvents = await this.eventStore.load(this.streamName, aggregateId)
     return pastEvents
       .reduce<TState>(this.evolveFn, this.initialState(aggregateId))
   }
@@ -25,7 +22,7 @@ export class SimpleRepository<TState, TCommand, TEvent extends DomainEvent> impl
     await Promise.all(
       events.map(
         async event => this.eventStore.append(
-          makeStreamKey(this.streamName, event.aggregateId),
+          this.streamName,
           [event],
         ),
       ),

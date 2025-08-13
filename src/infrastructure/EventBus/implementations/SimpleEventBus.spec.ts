@@ -11,7 +11,6 @@ import { createUserCreatedEvent } from '@domain/examples/UserCreated.ts'
 import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
 import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
-import { makeStreamKey } from '@utils/streamKey/index.ts'
 import { SimpleEventBus } from './SimpleEventBus.ts'
 
 describe('eventBus', () => {
@@ -36,9 +35,7 @@ describe('eventBus', () => {
     const createdEvent = createUserCreatedEvent(randomUUID(), { name: 'test', email: 'musk@x.com' })
     await eventBus.publish(createdEvent)
 
-    const events = await eventStore.load(
-      makeStreamKey('users', createdEvent.aggregateId),
-    )
+    const events = await eventStore.load('users', createdEvent.aggregateId)
     const sentEventCausedByCreatedEventIndex = events.findIndex(event => event.metadata.causationId === createdEvent.id)
     expect(sentEventCausedByCreatedEventIndex !== -1).toBeTruthy()
     expect(events[sentEventCausedByCreatedEventIndex].type).toBe('UserRegistrationEmailSent')

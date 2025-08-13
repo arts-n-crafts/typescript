@@ -1,15 +1,15 @@
-import type { StreamKey } from '@utils/index.ts'
+import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { StoredEvent } from '../StoredEvent.ts'
-import { randomUUID } from 'node:crypto'
+import { makeStreamKey } from '@utils/index.ts'
 
-export function createStoredEvent<TEvent>(
-  streamKey: StreamKey,
+export function createStoredEvent<TEvent extends DomainEvent>(
+  streamName: string,
   version: number,
   event: TEvent,
 ): StoredEvent<TEvent> {
   return Object.freeze({
-    id: randomUUID(),
-    streamKey,
+    id: event.id,
+    streamKey: makeStreamKey(streamName, event.aggregateId),
     version,
     createdAt: new Date().toISOString(),
     event,

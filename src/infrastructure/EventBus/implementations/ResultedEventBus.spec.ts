@@ -12,7 +12,6 @@ import { createUserCreatedEvent } from '@domain/examples/UserCreated.ts'
 import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
 import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
-import { makeStreamKey } from '@utils/streamKey/index.ts'
 import { ResultedEventBus } from './ResultedEventBus.ts'
 
 describe('resulted event bus', () => {
@@ -38,7 +37,7 @@ describe('resulted event bus', () => {
 
     const subscribeResult = eventBus.subscribe(createdEvent.type, new UserCreatedEventHandler(repository))
     const publishResult = await eventBus.publish(createdEvent)
-    const events = await eventStore.load(makeStreamKey(store, createdEvent.aggregateId))
+    const events = await eventStore.load(store, createdEvent.aggregateId)
     const sentEventCausedByCreatedEventIndex = events.findIndex(event => event.metadata.causationId === createdEvent.id)
 
     expect(publishResult.isOk()).toBeTruthy()
@@ -51,7 +50,7 @@ describe('resulted event bus', () => {
     const createdEvent = createUserCreatedEvent(randomUUID(), { name: 'test', email: 'musk@x.com' })
 
     const publishResult = await eventBus.publish(createdEvent)
-    const events = await eventStore.load(makeStreamKey(store, createdEvent.aggregateId))
+    const events = await eventStore.load(store, createdEvent.aggregateId)
 
     expect(publishResult.isOk()).toBeTruthy()
     expect(events.length).toBe(0)

@@ -11,7 +11,6 @@ import { isDomainEvent } from '@domain/utils/isDomainEvent.ts'
 import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
 import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
-import { makeStreamKey } from '@utils/streamKey/index.ts'
 import { CreateUserHandler } from './examples/CreateUserHandler.ts'
 import { UpdateUserNameHandler } from './examples/UpdateUserNameHandler.ts'
 
@@ -25,7 +24,6 @@ describe('commandHandler', async () => {
     email: 'musk@x.com',
     age: 52,
   })
-  const streamKey = makeStreamKey('users', command.aggregateId)
 
   beforeEach(async () => {
     database = new SimpleDatabase()
@@ -40,7 +38,7 @@ describe('commandHandler', async () => {
   })
 
   it('should process the MockCreateUser Command and emit the MockUserCreated Event', async () => {
-    const events = await eventStore.load(streamKey)
+    const events = await eventStore.load('users', command.aggregateId)
     const event = events.at(0)
     expect(events).toHaveLength(1)
     expect(event?.type).toBe('UserCreated')
@@ -51,7 +49,7 @@ describe('commandHandler', async () => {
     const updateUserNameHandler = new UpdateUserNameHandler(repository)
     const updateUserNameCommand = createUpdateNameOfUserCommand(command.aggregateId, { name: 'test' })
     await updateUserNameHandler.execute(updateUserNameCommand)
-    const events = await eventStore.load(streamKey)
+    const events = await eventStore.load('users', command.aggregateId)
     const event = events.at(1)
     expect(events).toHaveLength(2)
     expect(event?.type).toBe('UserNameUpdated')

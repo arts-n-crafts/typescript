@@ -17,7 +17,6 @@ import { isEvent } from '@domain/utils/isEvent.ts'
 import { fail } from '@utils/fail/fail.ts'
 import { invariant } from '@utils/invariant/invariant.ts'
 import { isEqual } from '@utils/isEqual/isEqual.ts'
-import { makeStreamKey } from '@utils/streamKey/index.ts'
 import { isIntegrationEvent } from '../EventBus/utils/isIntegrationEvent.ts'
 
 type GivenInput = (DomainEvent | IntegrationEvent)[]
@@ -91,8 +90,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
 
   private async handleCommand(command: Command, outcome: DomainEvent): Promise<void> {
     await this.commandBus.execute(command)
-    const streamKey = makeStreamKey(this.streamName, outcome.aggregateId)
-    const actualEvents = await this.eventStore.load(streamKey)
+    const actualEvents = await this.eventStore.load(this.streamName, outcome.aggregateId)
     const foundEvent = actualEvents.findLast(
       event =>
         isDomainEvent(event)
@@ -128,8 +126,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
     outcome: DomainEvent,
   ): Promise<void> {
     await this.eventBus.publish(event)
-    const streamKey = makeStreamKey(this.streamName, outcome.aggregateId)
-    const actualEvents = await this.eventStore.load(streamKey)
+    const actualEvents = await this.eventStore.load(this.streamName, outcome.aggregateId)
     const foundEvent = actualEvents.findLast(
       event =>
         isEvent(event) && event.aggregateId === outcome.aggregateId && event.type === outcome.type,
