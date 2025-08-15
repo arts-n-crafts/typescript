@@ -1,3 +1,1 @@
-export interface Module {
-  registerModule(): void
-}
+export type Module = Record<symbol, unknown>

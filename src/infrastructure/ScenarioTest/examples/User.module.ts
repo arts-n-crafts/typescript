@@ -1,6 +1,5 @@
 import type { GetUserByEmail } from '@core/examples/GetUserByEmail.ts'
 import type { UserModel } from '@core/examples/UserProjection.ts'
-import type { Module } from '@core/Module.interface.ts'
 import type { BaseEvent } from '@domain/BaseEvent.ts'
 import type { UserCommand, UserEvent, UserState } from '@domain/examples/User.ts'
 import type { Repository } from '@domain/Repository.ts'
@@ -20,7 +19,7 @@ import { User } from '@domain/examples/User.ts'
 import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 
-export class UserModule implements Module {
+export class UserModule {
   private readonly database: Database<UserModel>
   private readonly repository: Repository<UserEvent, UserState>
 
