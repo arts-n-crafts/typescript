@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v3.10.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.9.0...v3.10.0)
+
+### 🚀 Enhancements
+
+- **StoredEvent:** Should take streamName, and use the id of the event as id ([88f6fb7](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/88f6fb7))
+
+### 💅 Refactors
+
+- Update typing of simple examples ([5f1eed2](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/5f1eed2))
+
+### 🏡 Chore
+
+- Update exports and linting ([db8632f](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/db8632f))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.9.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.8.2...v3.9.0)
