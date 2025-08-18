@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.10.1
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.10.0...v3.10.1)
+
+### 💅 Refactors
+
+- Update tying and privacy ([830fc31](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/830fc31))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.10.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.9.0...v3.10.0)
