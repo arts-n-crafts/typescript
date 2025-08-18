@@ -5,8 +5,8 @@ import type { Outbox } from '../Outbox.ts'
 
 export class GenericOutboxWorker implements OutboxWorker {
   constructor(
-    private outbox: Outbox,
-    private eventBus: EventBus<BaseEvent>,
+    protected outbox: Outbox,
+    protected eventBus: EventBus<BaseEvent>,
   ) {}
 
   async runOnce(): Promise<void> {

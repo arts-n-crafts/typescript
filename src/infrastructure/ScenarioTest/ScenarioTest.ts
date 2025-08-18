@@ -2,7 +2,6 @@ import type { Command } from '@core/Command.ts'
 import type { Query } from '@core/Query.ts'
 import type { BaseEvent } from '@domain/BaseEvent.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
-import type { UserEvent, UserState } from '@domain/examples/User.ts'
 import type { Repository } from '@domain/Repository.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
 import type { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.js'
@@ -30,10 +29,10 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
   constructor(
     private readonly streamName: string,
     private readonly eventBus: EventBus<BaseEvent>,
-    private readonly eventStore: EventStore<UserEvent>,
+    private readonly eventStore: EventStore<TEvent>,
     private readonly commandBus: CommandBus<Command>,
     private readonly queryBus: QueryBus<Query, Array<Record<string, unknown>>>,
-    private readonly repository: Repository<DomainEvent, UserState>,
+    private readonly repository: Repository<DomainEvent, TState>,
     private readonly outboxWorker: OutboxWorker,
   ) {}
 

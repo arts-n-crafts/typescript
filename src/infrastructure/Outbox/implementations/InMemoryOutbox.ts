@@ -3,8 +3,8 @@ import type { Outbox } from '../Outbox.ts'
 import type { OutboxEntry } from '../OutboxEntry.ts'
 
 export class InMemoryOutbox implements Outbox {
-  private entries: OutboxEntry[] = []
-  private idCounter = 0
+  protected entries: OutboxEntry[] = []
+  protected idCounter = 0
 
   async enqueue(event: DomainEvent<unknown>): Promise<void> {
     this.entries.push({
