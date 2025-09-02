@@ -6,7 +6,7 @@ import { Err, Ok } from 'oxide.ts'
 
 export type ResultedCommandBusExecutionReturnType = Result<void, Error>
 
-export class ResultedCommandBus<TCommand extends Command> implements CommandBus<TCommand, ResultedCommandBusExecutionReturnType, Result<void, Error>> {
+export class ResultedCommandBus<TCommand extends Command> implements CommandBus<TCommand, Promise<ResultedCommandBusExecutionReturnType>, Result<void, Error>> {
   private handlers: Map<TCommand['type'], CommandHandler<TCommand>> = new Map()
 
   register(aTypeOfCommand: TCommand['type'], anHandler: CommandHandler<TCommand>): Result<void, Error> {

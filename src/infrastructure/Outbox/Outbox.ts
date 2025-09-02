@@ -5,14 +5,14 @@ interface Queueable<TReturnType = Promise<void>> {
 }
 
 export interface Outbox<
-  TEnqueueReturnType = void,
+  TEnqueueReturnType = Promise<void>,
   TGetPendingReturnType = Promise<OutboxEntry[]>,
   TMarkAsPublishedReturnType = Promise<void>,
   TMarkAsFailedReturnType = Promise<void>,
 >
   extends Queueable<TEnqueueReturnType>
 {
-  getPending(limit?: number): Promise<TGetPendingReturnType>
-  markAsPublished(id: string): Promise<TMarkAsPublishedReturnType>
-  markAsFailed(id: string): Promise<TMarkAsFailedReturnType>
+  getPending(limit?: number): TGetPendingReturnType
+  markAsPublished(id: string): TMarkAsPublishedReturnType
+  markAsFailed(id: string): TMarkAsFailedReturnType
 }

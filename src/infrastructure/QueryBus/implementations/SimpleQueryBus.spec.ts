@@ -11,10 +11,10 @@ import { SimpleQueryBus } from './SimpleQueryBus.ts'
 
 describe('simple query bus', () => {
   const store = 'users'
-  let database: Database<UserModel>
+  let database: Database<UserModel, Promise<void>, Promise<UserModel[]>>
   let statement: CreateStatement<UserModel>
   let payload: GetUserByEmailProps
-  let bus: QueryBus<GetUserByEmail, UserModel[]>
+  let bus: QueryBus<GetUserByEmail, Promise<UserModel[]>>
 
   beforeEach(async () => {
     bus = new SimpleQueryBus<GetUserByEmail, UserModel[]>()

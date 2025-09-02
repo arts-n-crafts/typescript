@@ -11,7 +11,7 @@ export type UserModel = WithIdentifier<UserCreatedPayload>
 
 export class UserProjectionHandler implements EventHandler<UserEvent> {
   constructor(
-    private database: Database<UserModel>,
+    private database: Database<UserModel, Promise<void>, Promise<UserModel[]>>,
   ) { }
 
   start(eventBus: EventBus<UserEvent>): void {

@@ -9,7 +9,7 @@ interface Publishing<TEvent extends BaseEvent, TReturnType = Promise<void>> {
   publish(anEvent: TEvent): TReturnType
 }
 
-export interface EventBus<TEvent extends BaseEvent, TPublisherReturnType = void, TSubscriberReturnType = void>
+export interface EventBus<TEvent extends BaseEvent, TPublisherReturnType = Promise<void>, TSubscriberReturnType = void>
   extends
   Subscribing<TEvent, TSubscriberReturnType>,
   Publishing<TEvent, TPublisherReturnType>

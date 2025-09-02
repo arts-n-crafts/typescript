@@ -9,7 +9,7 @@ interface Executable<TCommand extends Command, TResult = Promise<void>> {
   execute(aCommand: TCommand): TResult
 }
 
-export interface CommandBus<TCommand extends Command, TExecutionResult = void, TRegisterResult = void>
+export interface CommandBus<TCommand extends Command, TExecutionResult = Promise<void>, TRegisterResult = void>
   extends
   Executable<TCommand, TExecutionResult>,
   Registerable<TCommand, TRegisterResult>

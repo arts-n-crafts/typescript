@@ -30,13 +30,13 @@ import { ScenarioTest } from './ScenarioTest.ts'
 describe('scenario test', () => {
   const collectionName = 'users'
   const id = randomUUID()
-  let database: Database<StoredEvent<UserEvent>>
+  let database: Database<StoredEvent<UserEvent>, Promise<void>, Promise<StoredEvent<UserEvent>[]>>
   let eventStore: SimpleEventStore<UserEvent>
   let eventBus: SimpleEventBus<UserEvent>
   let outbox: Outbox
   let commandBus: SimpleCommandBus<UserCommand>
-  let queryBus: SimpleQueryBus<GetUserByEmail, Array<Record<string, unknown>>>
-  let repository: Repository<UserEvent, UserState>
+  let queryBus: SimpleQueryBus<GetUserByEmail, Record<string, unknown>[]>
+  let repository: Repository<UserEvent, Promise<UserState>, Promise<void>>
   let outboxWorker: OutboxWorker
   let scenarioTest: ScenarioTest<UserState, UserEvent>
 
@@ -50,7 +50,7 @@ describe('scenario test', () => {
     outboxWorker = new GenericOutboxWorker(outbox, eventBus)
     repository = new SimpleRepository(eventStore, collectionName, User.evolve, User.initialState)
 
-    scenarioTest = new ScenarioTest(collectionName, eventBus, eventStore, commandBus, queryBus, repository, outboxWorker)
+    scenarioTest = new ScenarioTest<UserState, UserEvent>(collectionName, eventBus, eventStore, commandBus, queryBus, repository, outboxWorker)
     new UserModule(eventStore, eventBus, commandBus, queryBus).registerModule()
   })
 

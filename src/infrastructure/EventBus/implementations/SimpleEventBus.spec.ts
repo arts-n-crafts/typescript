@@ -14,10 +14,10 @@ import { SimpleRepository } from '@infrastructure/Repository/implementations/Sim
 import { SimpleEventBus } from './SimpleEventBus.ts'
 
 describe('eventBus', () => {
-  let database: Database<StoredEvent<UserEvent>>
-  let eventStore: EventStore<UserEvent>
-  let repository: Repository<UserEvent, UserState>
-  let eventBus: EventBus<UserEvent>
+  let database: Database<StoredEvent<UserEvent>, Promise<void>, Promise<StoredEvent<UserEvent>[]>>
+  let eventStore: EventStore<UserEvent, Promise<void>, Promise<UserEvent[]>>
+  let repository: Repository<UserEvent, Promise<UserState>, Promise<void>>
+  let eventBus: EventBus<UserEvent, Promise<void>, void>
 
   beforeEach(() => {
     database = new SimpleDatabase()

@@ -20,14 +20,14 @@ import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleD
 import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 
 export class UserModule {
-  private readonly database: Database<UserModel>
-  private readonly repository: Repository<UserEvent, UserState>
+  private readonly database: Database<UserModel, Promise<void>, Promise<UserModel[]>>
+  private readonly repository: Repository<UserEvent, Promise<UserState>, Promise<void>>
 
   constructor(
-    eventStore: EventStore<UserEvent>,
+    eventStore: EventStore<UserEvent, Promise<void>, Promise<UserEvent[]>>,
     private readonly eventBus: EventBus<BaseEvent>,
     private readonly commandBus: CommandBus<UserCommand>,
-    private readonly queryBus: QueryBus<GetUserByEmail, Array<Record<string, unknown>>>,
+    private readonly queryBus: QueryBus<GetUserByEmail, Promise<Record<string, unknown>[]>>,
   ) {
     this.repository = new SimpleRepository(eventStore, 'users', User.evolve, User.initialState)
     this.database = new SimpleDatabase()

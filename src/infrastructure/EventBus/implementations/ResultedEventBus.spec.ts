@@ -16,10 +16,10 @@ import { ResultedEventBus } from './ResultedEventBus.ts'
 
 describe('resulted event bus', () => {
   const store = 'users'
-  let database: Database<StoredEvent<UserEvent>>
-  let eventStore: EventStore<UserEvent>
-  let repository: Repository<UserEvent, UserState>
-  let eventBus: EventBus<UserEvent, Result<void, never>, Result<void, never>>
+  let database: Database<StoredEvent<UserEvent>, Promise<void>, Promise<StoredEvent<UserEvent>[]>>
+  let eventStore: EventStore<UserEvent, Promise<void>, Promise<UserEvent[]>>
+  let repository: Repository<UserEvent, Promise<UserState>, Promise<void>>
+  let eventBus: EventBus<UserEvent, Promise<Result<void, never>>, Result<void, never>>
 
   beforeEach(() => {
     database = new SimpleDatabase()

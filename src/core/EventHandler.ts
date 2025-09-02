@@ -9,6 +9,6 @@ interface Startable {
   start(eventBus: EventBus<BaseEvent>): void
 }
 
-export interface EventHandler<TEvent extends BaseEvent, TReturnType = void>
+export interface EventHandler<TEvent extends BaseEvent, TReturnType = Promise<void>>
   extends Handling<TEvent, TReturnType>, Startable
 {}

@@ -12,10 +12,10 @@ import { ResultedQueryBus } from './ResultedQueryBus.ts'
 
 describe('resulted query bus', () => {
   const store = 'users'
-  let database: Database<UserModel>
+  let database: Database<UserModel, Promise<void>, Promise<UserModel[]>>
   let statement: CreateStatement<UserModel>
   let payload: GetUserByEmailProps
-  let bus: QueryBus<GetUserByEmail, Result<UserModel[], Error>, Result<void, Error>>
+  let bus: QueryBus<GetUserByEmail, Promise<Result<UserModel[], Error>>, Result<void, Error>>
 
   beforeEach(async () => {
     bus = new ResultedQueryBus<GetUserByEmail, UserModel[]>()

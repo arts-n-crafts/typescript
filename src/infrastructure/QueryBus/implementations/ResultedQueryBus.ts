@@ -5,10 +5,10 @@ import type { QueryBus } from '../QueryBus.ts'
 import { Err, Ok } from 'oxide.ts'
 
 export class ResultedQueryBus<TQuery extends Query, TProjection>
-implements QueryBus<TQuery, Result<TProjection, Error>, Result<void, Error>> {
-  private handlers: Map<TQuery['type'], QueryHandler<TQuery, TProjection>> = new Map()
+implements QueryBus<TQuery, Promise<Result<TProjection, Error>>, Result<void, Error>> {
+  private handlers: Map<TQuery['type'], QueryHandler<TQuery, Promise<TProjection>>> = new Map()
 
-  register(aTypeOfQuery: TQuery['type'], anHandler: QueryHandler<TQuery, TProjection>): Result<void, Error> {
+  register(aTypeOfQuery: TQuery['type'], anHandler: QueryHandler<TQuery, Promise<TProjection>>): Result<void, Error> {
     if (this.handlers.has(aTypeOfQuery)) {
       return Err(new Error(`Handler already registered for query type: ${aTypeOfQuery}`))
     }

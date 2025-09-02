@@ -17,9 +17,9 @@ import { SimpleCommandBus } from './SimpleCommandBus.ts'
 
 describe('commandBus', () => {
   const command = createRegisterUserCommand(randomUUID(), { name: 'Elon', email: 'musk@x.com', age: 52 })
-  let database: Database<StoredEvent<UserEvent>>
-  let eventStore: EventStore<UserEvent>
-  let repository: Repository<UserEvent, UserState>
+  let database: Database<StoredEvent<UserEvent>, Promise<void>, Promise<StoredEvent<UserEvent>[]>>
+  let eventStore: EventStore<UserEvent, Promise<void>, Promise<UserEvent[]>>
+  let repository: Repository<UserEvent, Promise<UserState>, Promise<void>>
   let commandBus: SimpleCommandBus<UserCommand>
   let handler: UpdateUserNameHandler
 

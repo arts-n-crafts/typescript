@@ -2,7 +2,7 @@ import type { EventHandler } from '@core/EventHandler.ts'
 import type { BaseEvent } from '@domain/BaseEvent.ts'
 import type { EventBus } from '../EventBus.ts'
 
-export class SimpleEventBus<TEvent extends BaseEvent> implements EventBus<TEvent> {
+export class SimpleEventBus<TEvent extends BaseEvent> implements EventBus<TEvent, Promise<void>> {
   private handlers = new Map<TEvent['type'], EventHandler<TEvent>[]>()
 
   subscribe(
