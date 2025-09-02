@@ -3,9 +3,9 @@ import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { Repository } from '@domain/Repository.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
 
-export class SimpleRepository<TState, TCommand, TEvent extends DomainEvent> implements Repository<TEvent, TState> {
+export class SimpleRepository<TState, TCommand, TEvent extends DomainEvent> implements Repository<TEvent, Promise<TState>, Promise<void>> {
   constructor(
-    private readonly eventStore: EventStore<TEvent, void>,
+    private readonly eventStore: EventStore<TEvent, Promise<void>, Promise<TEvent[]>>,
     readonly streamName: string,
     private readonly evolveFn: Decider<TState, TCommand, TEvent>['evolve'],
     private readonly initialState: Decider<TState, TCommand, TEvent>['initialState'],

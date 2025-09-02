@@ -9,9 +9,9 @@ import { Ok } from 'oxide.ts'
 export interface ResultedRepositoryResult { id: string }
 
 export class ResultedRepository<TState, TCommand, TEvent extends DomainEvent>
-implements Repository<TEvent, Result<TState, Error>, Result<ResultedRepositoryResult, Error>> {
+implements Repository<TEvent, Promise<Result<TState, Error>>, Promise<Result<ResultedRepositoryResult, Error>>> {
   constructor(
-    private readonly eventStore: EventStore<TEvent, ResultedEventStoreAppendReturnType, Result<TEvent[], Error>>,
+    private readonly eventStore: EventStore<TEvent, Promise<ResultedEventStoreAppendReturnType>, Promise<Result<TEvent[], Error>>>,
     readonly streamName: string,
     private readonly evolveFn: Decider<TState, TCommand, TEvent>['evolve'],
     private readonly initialState: Decider<TState, TCommand, TEvent>['initialState'],

@@ -7,9 +7,9 @@ import { createUserRegistrationEmailSent } from '@domain/examples/UserRegistrati
 
 type UserCreatedEvent = ReturnType<typeof createUserCreatedEvent>
 
-export class UserCreatedEventHandler implements EventHandler<UserCreatedEvent> {
+export class UserCreatedEventHandler implements EventHandler<UserCreatedEvent, Promise<void>> {
   constructor(
-    private readonly repository: Repository<UserEvent, UserState>,
+    private readonly repository: Repository<UserEvent, Promise<UserState>, Promise<void>>,
   ) { }
 
   start(eventBus: EventBus<UserEvent>): void {

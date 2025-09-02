@@ -11,8 +11,8 @@ import { SimpleEventStore } from './SimpleEventStore.ts'
 
 describe('simpleEventStore', () => {
   const streamName = 'users'
-  let database: Database<StoredEvent<UserEvent>>
-  let eventStore: EventStore<UserEvent>
+  let database: Database<StoredEvent<UserEvent>, Promise<void>, Promise<StoredEvent<UserEvent>[]>>
+  let eventStore: EventStore<UserEvent, Promise<void>, Promise<UserEvent[]>>
 
   const userCreatedEvent = createUserCreatedEvent(randomUUID(), { name: 'John Doe', email: 'john.doe@example.com' })
   const userNameUpdatedEvent = createUserNameUpdatedEvent(userCreatedEvent.aggregateId, { name: 'Jack Doe' })

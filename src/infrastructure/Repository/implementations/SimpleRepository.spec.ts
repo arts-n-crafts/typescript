@@ -12,9 +12,9 @@ import { SimpleRepository } from './SimpleRepository.ts'
 
 describe('simple repository', () => {
   const streamName = 'users'
-  let database: Database<StoredEvent<UserEvent>>
-  let eventStore: EventStore<UserEvent>
-  let repository: Repository<UserEvent, UserState>
+  let database: Database<StoredEvent<UserEvent>, Promise<void>, Promise<StoredEvent<UserEvent>[]>>
+  let eventStore: EventStore<UserEvent, Promise<void>, Promise<UserEvent[]>>
+  let repository: Repository<UserEvent, Promise<UserState>, Promise<void>>
 
   const createCommand = createRegisterUserCommand(randomUUID(), { name: 'Elon', email: 'elon@x.com' })
 

@@ -8,7 +8,7 @@ import { GetUserByEmailHandler } from './examples/GetUserByEmailHandler.ts'
 
 describe('queryHandler', () => {
   const store = 'users'
-  let database: Database<UserModel>
+  let database: Database<UserModel, Promise<void>, Promise<UserModel[]>>
   let statement: CreateStatement<UserModel>
 
   beforeEach(async () => {

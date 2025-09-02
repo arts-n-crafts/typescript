@@ -6,7 +6,7 @@ interface Storable<TEvent, TReturnType = Promise<void>> {
   store(events: TEvent[]): TReturnType
 }
 
-export interface Repository<TEvent, TLoadReturnType, TStoreReturnType = void>
+export interface Repository<TEvent, TLoadReturnType, TStoreReturnType = Promise<void>>
   extends
   Loadable<TLoadReturnType>,
   Storable<TEvent, TStoreReturnType>

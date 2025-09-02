@@ -15,9 +15,9 @@ import { ResultedRepository } from './ResultedRepository.ts'
 
 describe('resulted repository', () => {
   const streamName = 'users'
-  let database: Database<StoredEvent<UserEvent>, ResultedEventStoreAppendReturnType, Result<StoredEvent<UserEvent>[], Error>>
-  let eventStore: EventStore<UserEvent, ResultedEventStoreAppendReturnType, Result<UserEvent[], Error>>
-  let repository: Repository<UserEvent, Result<UserState, Error>, Result<ResultedRepositoryResult, Error>>
+  let database: Database<StoredEvent<UserEvent>, Promise<ResultedEventStoreAppendReturnType>, Promise<Result<StoredEvent<UserEvent>[], Error>>>
+  let eventStore: EventStore<UserEvent, Promise<ResultedEventStoreAppendReturnType>, Promise<Result<UserEvent[], Error>>>
+  let repository: Repository<UserEvent, Promise<Result<UserState, Error>>, Promise<Result<ResultedRepositoryResult, Error>>>
 
   const createCommand = createRegisterUserCommand(randomUUID(), { name: 'Elon', email: 'elon@x.com' })
 

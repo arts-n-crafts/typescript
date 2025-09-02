@@ -4,7 +4,7 @@ import type { CreateStatement, Database, DeleteStatement, PatchStatement, PutSta
 import { Operation } from '../Database.ts'
 import { DatabaseOfflineException, DuplicateRecordException, RecordNotFoundException } from './SimpleDatabase.exceptions.ts'
 
-export class SimpleDatabase<TModel extends WithIdentifier> implements Database<TModel> {
+export class SimpleDatabase<TModel extends WithIdentifier> implements Database<TModel, Promise<void>, Promise<TModel[]>> {
   private readonly datasource = new Map<string, TModel[]>()
   private simulateOffline = false
 

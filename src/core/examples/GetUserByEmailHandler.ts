@@ -9,9 +9,9 @@ export interface GetUserByEmailResult {
   email: string
 }
 
-export class GetUserByEmailHandler implements QueryHandler<GetUserByEmail, GetUserByEmailResult[]> {
+export class GetUserByEmailHandler implements QueryHandler<GetUserByEmail, Promise<GetUserByEmailResult[]>> {
   constructor(
-    private readonly database: Database<UserModel>,
+    private readonly database: Database<UserModel, Promise<void>, Promise<UserModel[]>>,
   ) {}
 
   async execute(aQuery: GetUserByEmail): Promise<GetUserByEmailResult[]> {

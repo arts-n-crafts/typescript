@@ -1,5 +1,6 @@
 import type { DomainEvent } from '@domain/index.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
+import type { ResultedDatabaseExecuteReturnType } from '@infrastructure/Database/implementations/ResultedDatabase.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import type { Outbox } from '@infrastructure/Outbox/Outbox.ts'
 import type { Result } from 'oxide.ts'
@@ -13,11 +14,11 @@ import { MultipleAggregatesException } from './SimpleEventStore.exceptions.ts'
 
 export type ResultedEventStoreAppendReturnType = Result<{ id: string }, Error>
 
-export class ResultedEventStore<TEvent extends DomainEvent> implements EventStore<TEvent, ResultedEventStoreAppendReturnType, Result<TEvent[], Error>> {
+export class ResultedEventStore<TEvent extends DomainEvent> implements EventStore<TEvent, Promise<ResultedEventStoreAppendReturnType>, Promise<Result<TEvent[], Error>>> {
   private readonly tableName: string = 'event_store'
 
   constructor(
-    private readonly database: Database<StoredEvent<TEvent>, ResultedEventStoreAppendReturnType, Result<StoredEvent<TEvent>[], Error>>,
+    private readonly database: Database<StoredEvent<TEvent>, Promise<ResultedDatabaseExecuteReturnType>, Promise<Result<StoredEvent<TEvent>[], Error>>>,
     private readonly outbox?: Outbox,
   ) { }
 

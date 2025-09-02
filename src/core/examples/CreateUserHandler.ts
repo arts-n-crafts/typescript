@@ -6,7 +6,7 @@ import { User } from '@domain/examples/User.ts'
 
 export class CreateUserHandler implements CommandHandler<RegisterUserCommand> {
   constructor(
-    private readonly repository: Repository<UserEvent, UserState>,
+    private readonly repository: Repository<UserEvent, Promise<UserState>, Promise<void>>,
   ) {
   }
 

@@ -1,5 +1,6 @@
 import type { UserEvent } from '@domain/examples/User.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
+import type { ResultedDatabaseExecuteReturnType } from '@infrastructure/Database/implementations/ResultedDatabase.ts'
 import type { Result } from 'oxide.ts'
 import type { EventStore } from '../EventStore.ts'
 import type { StoredEvent } from '../StoredEvent.ts'
@@ -13,8 +14,8 @@ import { MultipleAggregatesException } from './SimpleEventStore.exceptions.ts'
 
 describe('resultedEventStore', () => {
   const streamName = 'users'
-  let database: Database<StoredEvent<UserEvent>, ResultedEventStoreAppendReturnType, Result<StoredEvent<UserEvent>[], Error>>
-  let eventStore: EventStore<UserEvent, ResultedEventStoreAppendReturnType, Result<UserEvent[], Error>>
+  let database: Database<StoredEvent<UserEvent>, Promise<ResultedDatabaseExecuteReturnType>, Promise<Result<StoredEvent<UserEvent>[], Error>>>
+  let eventStore: EventStore<UserEvent, Promise<ResultedEventStoreAppendReturnType>, Promise<Result<UserEvent[], Error>>>
 
   const userCreatedEvent = createUserCreatedEvent(randomUUID(), { name: 'John Doe', email: 'john.doe@example.com' })
   const userNameUpdatedEvent = createUserNameUpdatedEvent(userCreatedEvent.aggregateId, { name: 'Jack Doe' })

@@ -1,6 +1,6 @@
+import type { WithIdentifier } from '@core/types/WithIdentifier.js'
 import type { Specification } from '@domain/Specification/Specification.ts'
 import type { Result } from 'oxide.ts'
-import type { WithIdentifier } from '../../../core/types/WithIdentifier.ts'
 import type { CreateStatement, Database, DeleteStatement, PatchStatement, PutStatement } from '../Database.ts'
 import { Err, Ok } from 'oxide.ts'
 import { Operation } from '../Database.ts'
@@ -8,7 +8,7 @@ import { DatabaseOfflineException, DuplicateRecordException, RecordNotFoundExcep
 
 export type ResultedDatabaseExecuteReturnType = Result<{ id: string }, Error>
 
-export class ResultedDatabase<TModel extends WithIdentifier> implements Database<TModel, ResultedDatabaseExecuteReturnType, Result<TModel[], Error>> {
+export class ResultedDatabase<TModel extends WithIdentifier> implements Database<TModel, Promise<ResultedDatabaseExecuteReturnType>, Promise<Result<TModel[], Error>>> {
   private readonly datasource = new Map<string, TModel[]>()
   private simulateOffline = false
 

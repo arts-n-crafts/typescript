@@ -15,9 +15,9 @@ import { CreateUserHandler } from './examples/CreateUserHandler.ts'
 import { UpdateUserNameHandler } from './examples/UpdateUserNameHandler.ts'
 
 describe('commandHandler', async () => {
-  let database: Database<StoredEvent<UserEvent>>
-  let eventStore: EventStore<UserEvent>
-  let repository: Repository<UserEvent, UserState>
+  let database: Database<StoredEvent<UserEvent>, Promise<void>, Promise<StoredEvent<UserEvent>[]>>
+  let eventStore: EventStore<UserEvent, Promise<void>, Promise<UserEvent[]>>
+  let repository: Repository<UserEvent, Promise<UserState>, Promise<void>>
   let createUserHandler: CreateUserHandler
   const command = createRegisterUserCommand(randomUUID(), {
     name: 'Elon',

@@ -5,9 +5,9 @@ import type { EventBus } from '@infrastructure/EventBus/EventBus.ts'
 import type { ContractSignedEvent } from '@infrastructure/EventBus/examples/ContractSigned.ts'
 import { createActivateUserCommand } from '@core/examples/ActivateUser.ts'
 
-export class ContractSignedHandler implements EventHandler<ContractSignedEvent> {
+export class ContractSignedHandler implements EventHandler<ContractSignedEvent, Promise<void>> {
   constructor(
-    private readonly commandBus: CommandBus<UserCommand>,
+    private readonly commandBus: CommandBus<UserCommand, Promise<void>>,
   ) { }
 
   start(eventBus: EventBus<ContractSignedEvent>): void {

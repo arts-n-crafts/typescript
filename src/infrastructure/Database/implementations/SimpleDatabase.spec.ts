@@ -8,7 +8,7 @@ import { SimpleDatabase } from './SimpleDatabase.ts'
 
 describe('simple database', () => {
   const tableName = 'users'
-  let database: Database<UserState>
+  let database: Database<UserState, Promise<void>, Promise<UserState[]>>
   const createStatement: CreateStatement<UserState> = {
     operation: Operation.CREATE,
     payload: {

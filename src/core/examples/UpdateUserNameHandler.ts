@@ -6,7 +6,7 @@ import { User } from '@domain/examples/User.ts'
 
 export class UpdateUserNameHandler implements CommandHandler<UpdateUserNameCommand> {
   constructor(
-    private readonly repository: Repository<UserEvent, UserState>,
+    private readonly repository: Repository<UserEvent, Promise<UserState>, Promise<void>>,
   ) {
   }
 

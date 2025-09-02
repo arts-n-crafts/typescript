@@ -2,6 +2,7 @@ import type { DomainEvent } from '@domain/index.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
 import type { Outbox } from '@infrastructure/Outbox/Outbox.ts'
+import type { StreamKey } from '@utils/index.ts'
 import type { StoredEvent } from '../StoredEvent.ts'
 import { FieldEquals } from '@domain/index.ts'
 import { Operation } from '@infrastructure/Database/Database.ts'
@@ -9,16 +10,16 @@ import { makeStreamKey } from '@utils/index.ts'
 import { createStoredEvent } from '../utils/createStoredEvent.ts'
 import { MultipleAggregatesException } from './SimpleEventStore.exceptions.ts'
 
-export class SimpleEventStore<TEvent extends DomainEvent> implements EventStore<TEvent> {
+export class SimpleEventStore<TEvent extends DomainEvent> implements EventStore<TEvent, Promise<void>, Promise<TEvent[]>> {
   private readonly tableName: string = 'event_store'
 
   constructor(
-    private readonly database: Database<StoredEvent<TEvent>>,
+    private readonly database: Database<StoredEvent<TEvent>, Promise<void>, Promise<StoredEvent<TEvent>[]>>,
     private readonly outbox?: Outbox,
   ) { }
 
   async load(streamName: string, aggregateId: string): Promise<TEvent[]> {
-    const streamKey = makeStreamKey(streamName, aggregateId)
+    const streamKey: StreamKey = makeStreamKey(streamName, aggregateId)
     const specification = new FieldEquals('streamKey', streamKey)
     const storedEvents = await this.database.query(this.tableName, specification)
     return storedEvents.map(storedEvent => storedEvent.event)

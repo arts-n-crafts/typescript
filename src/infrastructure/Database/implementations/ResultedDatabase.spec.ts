@@ -10,7 +10,7 @@ import { DatabaseOfflineException, DuplicateRecordException, RecordNotFoundExcep
 
 describe('resulted database', () => {
   const tableName = 'users'
-  let database: Database<UserState, ResultedDatabaseExecuteReturnType, Result<UserState[], Error>>
+  let database: Database<UserState, Promise<ResultedDatabaseExecuteReturnType>, Promise<Result<UserState[], Error>>>
   const createStatement: CreateStatement<UserState> = {
     operation: Operation.CREATE,
     payload: {

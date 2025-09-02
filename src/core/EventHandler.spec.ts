@@ -17,10 +17,10 @@ import { SimpleRepository } from '@infrastructure/Repository/implementations/Sim
 
 describe('eventHandler', () => {
   const store = 'users'
-  let database: Database<StoredEvent<UserEvent>>
-  let eventStore: EventStore<UserEvent>
-  let repository: Repository<UserEvent, UserState>
-  let handler: EventHandler<UserCreatedEvent>
+  let database: Database<StoredEvent<UserEvent>, Promise<void>, Promise<StoredEvent<UserEvent>[]>>
+  let eventStore: EventStore<UserEvent, Promise<void>, Promise<UserEvent[]>>
+  let repository: Repository<UserEvent, Promise<UserState>, Promise<void>>
+  let handler: EventHandler<UserCreatedEvent, Promise<void>>
 
   beforeEach(() => {
     database = new SimpleDatabase()
