@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v3.11.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.10.1...v3.11.0)
+
+### 💅 Refactors
+
+- Update ResultTypes to be not promise ([c65f3fe](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/c65f3fe))
+
+### 🏡 Chore
+
+- Flexible resultType in domain, core and database, evenstore and repository ([fd5d2ce](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/fd5d2ce))
+- Flexible resultType ([a7a846f](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/a7a846f))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt
+
 ## v3.10.1
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.10.0...v3.10.1)
