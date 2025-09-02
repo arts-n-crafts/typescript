@@ -5,8 +5,8 @@ interface Subscribing<TEvent extends BaseEvent, TReturnType = void> {
   subscribe(anEventType: TEvent['type'], aHandler: EventHandler<TEvent>): TReturnType
 }
 
-interface Publishing<TEvent extends BaseEvent, TReturnType = void> {
-  publish(anEvent: TEvent): Promise<TReturnType>
+interface Publishing<TEvent extends BaseEvent, TReturnType = Promise<void>> {
+  publish(anEvent: TEvent): TReturnType
 }
 
 export interface EventBus<TEvent extends BaseEvent, TPublisherReturnType = void, TSubscriberReturnType = void>

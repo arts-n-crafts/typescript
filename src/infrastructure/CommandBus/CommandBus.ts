@@ -5,8 +5,8 @@ interface Registerable<TCommand extends Command, TResult = void> {
   register(aTypeOfCommand: TCommand['type'], anHandler: CommandHandler<TCommand>): TResult
 }
 
-interface Executable<TCommand extends Command, TResult = void> {
-  execute(aCommand: TCommand): Promise<TResult>
+interface Executable<TCommand extends Command, TResult = Promise<void>> {
+  execute(aCommand: TCommand): TResult
 }
 
 export interface CommandBus<TCommand extends Command, TExecutionResult = void, TRegisterResult = void>

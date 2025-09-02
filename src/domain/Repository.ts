@@ -1,15 +1,15 @@
 interface Loadable<TReturnType> {
-  load(aggregateId: string): Promise<TReturnType>
+  load(aggregateId: string): TReturnType
 }
 
-interface Storeable<TEvent, TReturnType = void> {
-  store(events: TEvent[]): Promise<TReturnType>
+interface Storable<TEvent, TReturnType = Promise<void>> {
+  store(events: TEvent[]): TReturnType
 }
 
 export interface Repository<TEvent, TLoadReturnType, TStoreReturnType = void>
   extends
   Loadable<TLoadReturnType>,
-  Storeable<TEvent, TStoreReturnType>
+  Storable<TEvent, TStoreReturnType>
 {
   readonly streamName: string
 }

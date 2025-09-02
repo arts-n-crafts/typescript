@@ -5,8 +5,8 @@ interface Registerable<TQuery extends Query, TResult = void> {
   register(aTypeOfQuery: TQuery['type'], anHandler: QueryHandler<TQuery>): TResult
 }
 
-interface Executable<TQuery extends Query, TResult> {
-  execute(aQuery: TQuery): Promise<TResult>
+interface Executable<TQuery extends Query, TResult = Promise<unknown>> {
+  execute(aQuery: TQuery): TResult
 }
 
 export interface QueryBus<TQuery extends Query, TExecutionResult, TRegisterResult = void>

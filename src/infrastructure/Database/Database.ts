@@ -33,15 +33,15 @@ export interface DeleteStatement extends Statement<WithIdentifier> {
   payload: WithIdentifier
 }
 
-interface Executable<TModel, TReturnType = void> {
-  execute(tableName: string, statement: CreateStatement<TModel>): Promise<TReturnType>
-  execute(tableName: string, statement: PutStatement<TModel>): Promise<TReturnType>
-  execute(tableName: string, statement: PatchStatement<TModel>): Promise<TReturnType>
-  execute(tableName: string, statement: DeleteStatement): Promise<TReturnType>
+interface Executable<TModel, TReturnType = Promise<void>> {
+  execute(tableName: string, statement: CreateStatement<TModel>): TReturnType
+  execute(tableName: string, statement: PutStatement<TModel>): TReturnType
+  execute(tableName: string, statement: PatchStatement<TModel>): TReturnType
+  execute(tableName: string, statement: DeleteStatement): TReturnType
 }
 
-interface QueryAble<TModel, TReturnType = TModel[]> {
-  query(collectionName: string, specification: Specification<TModel>): Promise<TReturnType>
+interface QueryAble<TModel, TReturnType = Promise<TModel[]>> {
+  query(collectionName: string, specification: Specification<TModel>): TReturnType
 }
 
 export interface Database<TModel, TExecuteReturnType = void, TQueryReturnType = TModel[]>

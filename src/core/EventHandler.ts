@@ -1,8 +1,8 @@
 import type { BaseEvent } from '@domain/BaseEvent.ts'
 import type { EventBus } from '@infrastructure/EventBus/EventBus.ts'
 
-interface Handling<TEvent extends BaseEvent, TReturnType = void> {
-  handle(anEvent: TEvent): Promise<TReturnType>
+interface Handling<TEvent extends BaseEvent, TReturnType = Promise<void>> {
+  handle(anEvent: TEvent): TReturnType
 }
 
 interface Startable {

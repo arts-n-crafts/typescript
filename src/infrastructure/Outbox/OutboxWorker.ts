@@ -1,9 +1,9 @@
-interface Runnable<TReturnType = void> {
-  runOnce(): Promise<TReturnType>
+interface Runnable<TReturnType = Promise<void>> {
+  runOnce(): TReturnType
 }
 
-interface Tickable<TReturnType = void> {
-  tick(): Promise<TReturnType>
+interface Tickable<TReturnType = Promise<void>> {
+  tick(): TReturnType
 }
 
 interface Startable<TReturnType = void> {
