@@ -1,4 +1,4 @@
-import type { WithIdentifier } from '@core/types/WithIdentifier.js'
+import type { WithIdentifier } from '@core/types/WithIdentifier.ts'
 import type { Specification } from '@domain/Specification/Specification.ts'
 import type { Result } from 'oxide.ts'
 import type { CreateStatement, Database, DeleteStatement, PatchStatement, PutStatement } from '../Database.ts'

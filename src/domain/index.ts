@@ -1,3 +1,4 @@
+export * from './AggregateRoot.ts'
 export * from './BaseEvent.ts'
 export * from './Decider.ts'
 export * from './DomainEvent.ts'

@@ -1,6 +1,6 @@
 import type { BaseEvent } from '@domain/BaseEvent.ts'
 import type { EventBus } from '@infrastructure/EventBus/EventBus.ts'
-import type { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.js'
+import type { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.ts'
 import type { Outbox } from '../Outbox.ts'
 
 export class GenericOutboxWorker implements OutboxWorker {

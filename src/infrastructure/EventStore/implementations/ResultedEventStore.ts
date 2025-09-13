@@ -1,7 +1,7 @@
 import type { DomainEvent } from '@domain/index.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
 import type { ResultedDatabaseExecuteReturnType } from '@infrastructure/Database/implementations/ResultedDatabase.ts'
-import type { EventStore } from '@infrastructure/EventStore/EventStore.js'
+import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
 import type { Outbox } from '@infrastructure/Outbox/Outbox.ts'
 import type { Result } from 'oxide.ts'
 import type { StoredEvent } from '../StoredEvent.ts'
