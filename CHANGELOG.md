@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.12.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.11.0...v3.12.0)
+
+### 🚀 Enhancements
+
+- **AggregateRoot:** Add state- and event-based aggregate roots ([e6587c7](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/e6587c7))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.11.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.10.1...v3.11.0)
