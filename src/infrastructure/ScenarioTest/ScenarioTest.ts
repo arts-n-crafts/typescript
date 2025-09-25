@@ -3,10 +3,10 @@ import type { Query } from '@core/Query.ts'
 import type { BaseEvent } from '@domain/BaseEvent.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { Repository } from '@domain/Repository.ts'
+import type { EventConsumer, EventProducer } from '@infrastructure/EventBus/EventBus.js'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
 import type { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.ts'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
-import type { EventBus } from '../EventBus/EventBus.ts'
 import type { IntegrationEvent } from '../EventBus/IntegrationEvent.ts'
 import type { QueryBus } from '../QueryBus/QueryBus.ts'
 import { isCommand } from '@core/utils/isCommand.ts'
@@ -28,7 +28,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
 
   constructor(
     private readonly streamName: string,
-    private readonly eventBus: EventBus<BaseEvent>,
+    private readonly eventBus: EventProducer<BaseEvent> & EventConsumer<BaseEvent>,
     private readonly eventStore: EventStore<TEvent, Promise<void>, Promise<TEvent[]>>,
     private readonly commandBus: CommandBus<Command>,
     private readonly queryBus: QueryBus<Query, Promise<Record<string, unknown>[]>>,
@@ -64,7 +64,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
 
     await Promise.all([
       this.repository.store(domainEvents),
-      integrationEvents.map(async event => this.eventBus.publish(event)),
+      integrationEvents.map(async event => this.eventBus.consume(this.streamName, event)),
     ])
 
     if (!this.whenInput) {
@@ -124,7 +124,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
     event: DomainEvent | IntegrationEvent,
     outcome: DomainEvent,
   ): Promise<void> {
-    await this.eventBus.publish(event)
+    await this.eventBus.publish(this.streamName, event)
     const actualEvents = await this.eventStore.load(this.streamName, outcome.aggregateId)
     const foundEvent = actualEvents.findLast(
       event =>

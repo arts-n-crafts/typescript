@@ -47,7 +47,7 @@ describe('scenario test', () => {
     eventStore = new SimpleEventStore(database, outbox)
     commandBus = new SimpleCommandBus()
     queryBus = new SimpleQueryBus()
-    outboxWorker = new GenericOutboxWorker(outbox, eventBus)
+    outboxWorker = new GenericOutboxWorker(outbox, eventBus, 'users')
     repository = new SimpleRepository(eventStore, collectionName, User.evolve, User.initialState)
 
     scenarioTest = new ScenarioTest<UserState, UserEvent>(collectionName, eventBus, eventStore, commandBus, queryBus, repository, outboxWorker)

@@ -1,10 +1,10 @@
 import type { EventHandler } from '@core/EventHandler.ts'
 import type { WithIdentifier } from '@core/types/WithIdentifier.ts'
+import type { BaseEvent } from '@domain/BaseEvent.js'
 import type { UserEvent } from '@domain/examples/User.ts'
-import type { UserCreatedPayload } from '@domain/examples/UserCreated.ts'
+import type { UserCreatedEvent, UserCreatedPayload } from '@domain/examples/UserCreated.ts'
+import type { UserNameUpdatedEvent } from '@domain/examples/UserNameUpdated.js'
 import type { Database, PatchStatement } from '@infrastructure/Database/Database.ts'
-import type { EventBus } from '@infrastructure/EventBus/EventBus.ts'
-import { isDomainEvent } from '@domain/utils/isDomainEvent.ts'
 import { Operation } from '@infrastructure/Database/Database.ts'
 
 export type UserModel = WithIdentifier<UserCreatedPayload>
@@ -14,18 +14,21 @@ export class UserProjectionHandler implements EventHandler<UserEvent> {
     private database: Database<UserModel, Promise<void>, Promise<UserModel[]>>,
   ) { }
 
-  start(eventBus: EventBus<UserEvent>): void {
-    eventBus.subscribe('UserCreated', this)
-    eventBus.subscribe('UserNameUpdated', this)
+  isUserCreatedEvent(anEvent: BaseEvent): anEvent is UserCreatedEvent {
+    return anEvent.type === 'UserCreated'
+  }
+
+  isUserNameUpdatedEvent(anEvent: BaseEvent): anEvent is UserNameUpdatedEvent {
+    return anEvent.type === 'UserNameUpdated'
   }
 
   async handle(anEvent: UserEvent): Promise<void> {
-    if (isDomainEvent(anEvent) && anEvent.type === 'UserCreated') {
-      const user = { id: anEvent.aggregateId, ...(anEvent.payload as UserCreatedPayload) }
+    if (this.isUserCreatedEvent(anEvent)) {
+      const user = { id: anEvent.aggregateId, ...anEvent.payload }
       await this.database.execute('users', { operation: Operation.CREATE, payload: user })
     }
-    if (isDomainEvent(anEvent) && anEvent.type === 'UserNameUpdated') {
-      const updatePayload = { id: anEvent.aggregateId, ...(anEvent.payload) }
+    if (this.isUserNameUpdatedEvent(anEvent)) {
+      const updatePayload = { id: anEvent.aggregateId, ...anEvent.payload }
       const statement: PatchStatement<UserModel> = { operation: Operation.PATCH, payload: updatePayload }
       await this.database.execute('users', statement)
     }

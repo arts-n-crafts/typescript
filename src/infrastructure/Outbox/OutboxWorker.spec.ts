@@ -1,5 +1,5 @@
 import type { UserEvent } from '@domain/examples/User.ts'
-import type { EventBus } from '@infrastructure/EventBus/EventBus.ts'
+import type { EventConsumer, EventProducer } from '@infrastructure/EventBus/EventBus.ts'
 import type { Outbox } from './Outbox.ts'
 import { createDomainEvent } from '@domain/utils/createDomainEvent.ts'
 import { SimpleEventBus } from '@infrastructure/EventBus/implementations/SimpleEventBus.ts'
@@ -8,7 +8,7 @@ import { InMemoryOutbox } from './implementations/InMemoryOutbox.ts'
 
 describe('outboxWorker with InMemoryEventBus', () => {
   let outbox: Outbox
-  let eventBus: EventBus<UserEvent>
+  let eventBus: EventConsumer<UserEvent> & EventProducer<UserEvent>
   let worker: GenericOutboxWorker
   const handler = {
     handle: vi.fn().mockResolvedValue(undefined),
@@ -18,12 +18,12 @@ describe('outboxWorker with InMemoryEventBus', () => {
   beforeEach(() => {
     outbox = new InMemoryOutbox()
     eventBus = new SimpleEventBus()
-    worker = new GenericOutboxWorker(outbox, eventBus)
+    worker = new GenericOutboxWorker(outbox, eventBus, 'users')
     handler.handle.mockClear()
   })
 
   it('publishes outbox events and calls subscribed handlers', async () => {
-    eventBus.subscribe('MyEvent', handler)
+    eventBus.subscribe('users', handler)
 
     const event = createDomainEvent('MyEvent', 'agg-1', { foo: 'bar' })
     await outbox.enqueue(event)
@@ -38,9 +38,8 @@ describe('outboxWorker with InMemoryEventBus', () => {
   })
 
   it('marks failed events and increments retry count', async () => {
-    eventBus.subscribe('FailEvent', {
+    eventBus.subscribe('users', {
       handle: vi.fn().mockRejectedValue(new Error('fail')),
-      start: vi.fn().mockResolvedValue(undefined),
     })
 
     const event = createDomainEvent('FailEvent', 'agg-2', {})
@@ -55,7 +54,7 @@ describe('outboxWorker with InMemoryEventBus', () => {
 
   it('start() runs tick periodically', async () => {
     vi.useFakeTimers()
-    eventBus.subscribe('IntervalEvent', handler)
+    eventBus.subscribe('users', handler)
 
     const event = createDomainEvent('IntervalEvent', 'agg-3', {})
     await outbox.enqueue(event)
