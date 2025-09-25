@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v3.13.0
+
+[compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.12.0...v3.13.0)
+
+### 🚀 Enhancements
+
+- Split producer/consumer eventBus ([9cfa134](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/9cfa134))
+- Implement split producer/consumer eventBus ([2a67f64](https://github.com/jvhellemondt/arts-and-crafts.ts/commit/2a67f64))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt
+
 ## v3.12.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.11.0...v3.12.0)
