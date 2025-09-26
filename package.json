@@ -1,9 +1,9 @@
 {
-  "name": "@jvhellemondt/arts-and-crafts.ts",
+  "name": "@arts-n-crafts/ts",
   "version": "3.13.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jvhellemondt/arts-and-crafts.ts.git"
+    "url": "git+https://github.com/arts-n-crafts/typescript.git"
   },
   "config": {
     "commitizen": {
