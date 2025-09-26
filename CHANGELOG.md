@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v3.13.1
+
+[compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.13.0...v3.13.1)
+
+### 💅 Refactors
+
+- **Database:** Fix typing defaults ([772eb61](https://github.com/arts-n-crafts/typescript/commit/772eb61))
+- **EventStore:** Fix typing defaults ([23e08ce](https://github.com/arts-n-crafts/typescript/commit/23e08ce))
+
+### 🏡 Chore
+
+- Update package ([e0e3fd2](https://github.com/arts-n-crafts/typescript/commit/e0e3fd2))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.13.0
 
 [compare changes](https://github.com/jvhellemondt/arts-and-crafts.ts/compare/v3.12.0...v3.13.0)
