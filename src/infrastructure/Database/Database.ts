@@ -44,7 +44,7 @@ interface QueryAble<TModel, TReturnType = Promise<TModel[]>> {
   query(collectionName: string, specification: Specification<TModel>): TReturnType
 }
 
-export interface Database<TModel, TExecuteReturnType = void, TQueryReturnType = TModel[]>
+export interface Database<TModel, TExecuteReturnType = void, TQueryReturnType = Promise<TModel[]>>
   extends
   QueryAble<TModel, TQueryReturnType>,
   Executable<TModel, TExecuteReturnType> { }
