@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.13.2
+
+[compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.13.1...v3.13.2)
+
+### 💅 Refactors
+
+- **Database:** Fix typing defaults (2) ([9221fd1](https://github.com/arts-n-crafts/typescript/commit/9221fd1))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.13.1
 
 [compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.13.0...v3.13.1)
