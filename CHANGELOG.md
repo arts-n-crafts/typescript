@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v3.14.0
+
+[compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.13.2...v3.14.0)
+
+### 🚀 Enhancements
+
+- Directive interface ([1272a2b](https://github.com/arts-n-crafts/typescript/commit/1272a2b))
+
+### 💅 Refactors
+
+- Separate Specification interface from CompositeSpecification abstract class ([428746b](https://github.com/arts-n-crafts/typescript/commit/428746b))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.13.2
 
 [compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.13.1...v3.13.2)
