@@ -1,4 +1,4 @@
-import type { Specification } from '@domain/Specification/Specification.ts'
+import type { CompositeSpecification } from '@domain/Specification/Specification.ts'
 import type { WithIdentifier } from '../../core/types/WithIdentifier.ts'
 
 export enum Operation {
@@ -41,7 +41,7 @@ interface Executable<TModel, TReturnType = Promise<void>> {
 }
 
 interface QueryAble<TModel, TReturnType = Promise<TModel[]>> {
-  query(collectionName: string, specification: Specification<TModel>): TReturnType
+  query(collectionName: string, specification: CompositeSpecification<TModel>): TReturnType
 }
 
 export interface Database<TModel, TExecuteReturnType = Promise<void>, TQueryReturnType = Promise<TModel[]>>
