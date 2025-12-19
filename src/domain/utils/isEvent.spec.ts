@@ -13,7 +13,7 @@ describe('isEvent util', () => {
       type: 'TestEvent',
       payload: {},
       source: 'internal',
-      timestamp: new Date().toISOString(),
+      timestamp: Math.floor(new Date().getTime() / 1000),
       metadata: {},
     }
     expect(isEvent(event)).toBeTruthy()
@@ -28,7 +28,7 @@ describe('isEvent util', () => {
         id: '123',
         payload: {},
         source: 'internal',
-        timestamp: new Date().toISOString(),
+        timestamp: Math.floor(new Date().getTime() / 1000),
         metadata: {},
       },
     },
@@ -64,7 +64,7 @@ describe('isEvent util', () => {
         id: '123',
         type: 'TestEvent',
         payload: {},
-        timestamp: new Date().toISOString(),
+        timestamp: Math.floor(new Date().getTime() / 1000),
         metadata: {},
       },
     },

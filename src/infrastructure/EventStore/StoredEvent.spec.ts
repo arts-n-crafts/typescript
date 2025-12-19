@@ -14,6 +14,6 @@ describe('storedEvent', () => {
     expect(storedEvent.id).toBeDefined()
     expect(storedEvent.version).toBe(1)
     expect(storedEvent.event).toBe(event)
-    expect(storedEvent.createdAt).toBeDefined()
+    expect(storedEvent.timestamp).toBeDefined()
   })
 })
