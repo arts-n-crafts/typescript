@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.15.0
+
+[compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.14.0...v3.15.0)
+
+### 🚀 Enhancements
+
+- Use unix timestamps in DomainEvent and StoredEvent ([da0b2cc](https://github.com/arts-n-crafts/typescript/commit/da0b2cc))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.14.0
 
 [compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.13.2...v3.14.0)
