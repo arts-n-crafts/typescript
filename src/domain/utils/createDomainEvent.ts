@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto'
 export function createDomainEvent<TPayload = unknown>(
   type: string,
   aggregateId: string,
+  aggregateType: string,
   payload: TPayload,
   metadata: Partial<DomainEventMetadata> = {},
 ): DomainEvent<TPayload> {
@@ -11,8 +12,9 @@ export function createDomainEvent<TPayload = unknown>(
     id: randomUUID(),
     type,
     aggregateId,
+    aggregateType,
     payload,
-    source: 'internal',
+    kind: 'domain',
     timestamp: Math.floor(new Date().getTime() / 1000),
     metadata,
   })

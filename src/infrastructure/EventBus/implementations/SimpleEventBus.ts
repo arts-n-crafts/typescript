@@ -1,8 +1,10 @@
 import type { EventHandler } from '@core/EventHandler.ts'
-import type { BaseEvent } from '@domain/BaseEvent.ts'
+import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { ExternalEvent } from '@infrastructure/EventBus/ExternalEvent.ts'
+import type { IntegrationEvent } from '@infrastructure/EventBus/IntegrationEvent.ts'
 import type { EventConsumer, EventProducer } from '../EventBus.ts'
 
-export class SimpleEventBus<TEvent extends BaseEvent>
+export class SimpleEventBus<TEvent extends DomainEvent | IntegrationEvent | ExternalEvent>
 implements EventConsumer<TEvent>, EventProducer<TEvent> {
   private handlers = new Map<string, EventHandler<TEvent>[]>()
 

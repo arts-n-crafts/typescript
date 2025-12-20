@@ -1,9 +1,11 @@
 import type { EventHandler } from '@core/EventHandler.ts'
-import type { BaseEvent } from '@domain/BaseEvent.ts'
+import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { EventConsumer, EventProducer } from '@infrastructure/EventBus/EventBus.js'
+import type { ExternalEvent } from '@infrastructure/EventBus/ExternalEvent.ts'
+import type { IntegrationEvent } from '@infrastructure/EventBus/IntegrationEvent.ts'
 import { Err, Ok, Result } from 'oxide.ts'
 
-export class ResultedEventBus<TEvent extends BaseEvent>
+export class ResultedEventBus<TEvent extends DomainEvent | IntegrationEvent | ExternalEvent>
 implements EventConsumer<TEvent, EventHandler<TEvent>, Promise<Result<void, Error>>, Result<void, never>>,
         EventProducer<TEvent, Promise<Result<void, Error>>> {
   private handlers = new Map<string, EventHandler<TEvent>[]>()

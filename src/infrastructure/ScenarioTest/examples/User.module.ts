@@ -1,10 +1,12 @@
 import type { GetUserByEmail } from '@core/examples/GetUserByEmail.ts'
 import type { UserModel } from '@core/examples/UserProjection.ts'
-import type { BaseEvent } from '@domain/BaseEvent.js'
+import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { UserCommand, UserEvent, UserState } from '@domain/examples/User.ts'
 import type { Repository } from '@domain/Repository.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
 import type { EventConsumer, EventProducer } from '@infrastructure/EventBus/EventBus.js'
+import type { ExternalEvent } from '@infrastructure/EventBus/ExternalEvent.ts'
+import type { IntegrationEvent } from '@infrastructure/EventBus/IntegrationEvent.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
 import type { CommandBus } from '../../CommandBus/CommandBus.ts'
 import type { QueryBus } from '../../QueryBus/QueryBus.ts'
@@ -25,7 +27,7 @@ export class UserModule {
 
   constructor(
     eventStore: EventStore<UserEvent, Promise<void>, Promise<UserEvent[]>>,
-    private readonly eventBus: EventProducer<BaseEvent> & EventConsumer<BaseEvent>,
+    private readonly eventBus: EventProducer<DomainEvent | IntegrationEvent | ExternalEvent> & EventConsumer<DomainEvent | IntegrationEvent | ExternalEvent>,
     private readonly commandBus: CommandBus<UserCommand>,
     private readonly queryBus: QueryBus<GetUserByEmail, Promise<Record<string, unknown>[]>>,
   ) {

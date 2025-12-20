@@ -1,12 +1,14 @@
-import type { BaseEvent } from '@domain/BaseEvent.ts'
+import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { EventProducer } from '@infrastructure/EventBus/EventBus.js'
+import type { ExternalEvent } from '@infrastructure/EventBus/ExternalEvent.ts'
+import type { IntegrationEvent } from '@infrastructure/EventBus/IntegrationEvent.ts'
 import type { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.ts'
 import type { Outbox } from '../Outbox.ts'
 
 export class GenericOutboxWorker implements OutboxWorker {
   constructor(
     protected outbox: Outbox,
-    protected eventBus: EventProducer<BaseEvent>,
+    protected eventBus: EventProducer<DomainEvent | IntegrationEvent | ExternalEvent>,
     protected stream: string,
   ) {}
 

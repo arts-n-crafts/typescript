@@ -12,10 +12,11 @@ describe('inMemoryOutbox', () => {
       id: 'evt-1',
       type: 'TestEvent',
       aggregateId: 'agg-1',
-      source: 'internal',
+      aggregateType: 'TestAggregate',
       payload: { foo: 'bar' },
       timestamp: Math.floor(new Date().getTime() / 1000),
       metadata: {},
+      kind: 'domain',
     }
   })
 

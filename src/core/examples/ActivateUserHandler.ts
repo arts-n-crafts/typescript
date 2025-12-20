@@ -11,7 +11,7 @@ export class ActivateUserHandler implements CommandHandler<ActivateUserCommand> 
   }
 
   async execute(command: ActivateUserCommand): Promise<void> {
-    const currentState = await this.repository.load(command.aggregateId)
+    const currentState = await this.repository.load(<string>command.aggregateId)
     await this.repository.store(User.decide(command, currentState))
   }
 }

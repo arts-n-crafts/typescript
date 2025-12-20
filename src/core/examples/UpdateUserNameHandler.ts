@@ -11,7 +11,7 @@ export class UpdateUserNameHandler implements CommandHandler<UpdateUserNameComma
   }
 
   async execute(command: UpdateUserNameCommand): Promise<void> {
-    const currentState = await this.repository.load(command.aggregateId)
+    const currentState = await this.repository.load(<string>command.aggregateId)
     await this.repository.store(User.decide(command, currentState))
   }
 }

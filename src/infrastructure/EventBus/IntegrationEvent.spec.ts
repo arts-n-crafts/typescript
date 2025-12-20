@@ -1,9 +1,10 @@
-import type { ContractSignedPayload } from './examples/ContractSigned.ts'
-import type { ProductCreatedPayload } from './examples/ProductCreated.ts'
+import type { UserCreationRejectedDueToInvalidEmailPayload } from '@infrastructure/EventBus/examples/UserCreationRejectedDueToInvalidEmail.ts'
 import type { IntegrationEventMetadata } from './IntegrationEvent.ts'
 import { randomUUID } from 'node:crypto'
-import { ContractSigned } from './examples/ContractSigned.ts'
-import { ProductCreated } from './examples/ProductCreated.ts'
+import {
+  UserCreationRejectedDueToInvalidEmail,
+
+} from '@infrastructure/EventBus/examples/UserCreationRejectedDueToInvalidEmail.ts'
 import { createIntegrationEvent } from './utils/createIntegrationEvent.ts'
 import { isIntegrationEvent } from './utils/isIntegrationEvent.ts'
 
@@ -11,7 +12,13 @@ describe('integrationEvent', () => {
   let metadata: IntegrationEventMetadata
 
   beforeEach(() => {
-    metadata = {}
+    metadata = {
+      aggregateId: randomUUID(),
+      aggregateType: 'User',
+      commandId: randomUUID(),
+      commandType: 'CreateUser',
+      outcome: 'rejected',
+    }
   })
 
   it('should be defined', () => {
@@ -19,35 +26,23 @@ describe('integrationEvent', () => {
   })
 
   it('should consider the event as IntegrationEvent', () => {
-    const payload: ContractSignedPayload = {
-      userId: randomUUID(),
-      product: '1',
+    const payload: UserCreationRejectedDueToInvalidEmailPayload = {
+      userEmail: 'not-an-email',
     }
-    const event = ContractSigned(payload, metadata)
+    const event = UserCreationRejectedDueToInvalidEmail(payload, metadata)
     expect(isIntegrationEvent(event)).toBeTruthy()
   })
 
-  it('should create the ContractSigned event', () => {
-    const payload: ContractSignedPayload = {
-      userId: randomUUID(),
-      product: '1',
+  it('should create the UserCreationRejectedDueToInvalidEmail event', () => {
+    const payload: UserCreationRejectedDueToInvalidEmailPayload = {
+      userEmail: 'not-an-email',
     }
-    const event = ContractSigned(payload, metadata)
+    const event = UserCreationRejectedDueToInvalidEmail(payload, metadata)
     expect(event.id).toBeDefined()
-    expect(event.type).toBe('ContractSigned')
+    expect(event.type).toBe('UserCreationRejectedDueToInvalidEmail')
     expect(event.payload).toBe(payload)
     expect(event).toHaveProperty('timestamp')
-  })
-
-  it('should create the ProductCreated event', () => {
-    const payload: ProductCreatedPayload = {
-      productId: '1',
-      name: 'starlink',
-    }
-    const event = ProductCreated(payload, metadata)
-    expect(event.id).toBeDefined()
-    expect(event.type).toBe('ProductCreated')
-    expect(event.payload).toBe(payload)
-    expect(event).toHaveProperty('timestamp')
+    expect(event.kind).toBe('integration')
+    expect(event.metadata.outcome).toBe('rejected')
   })
 })

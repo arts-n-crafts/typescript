@@ -1,12 +1,14 @@
 import type { EventHandler } from '@core/EventHandler.ts'
-import type { BaseEvent } from '@domain/BaseEvent.ts'
+import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { ExternalEvent } from '@infrastructure/EventBus/ExternalEvent.ts'
+import type { IntegrationEvent } from '@infrastructure/EventBus/IntegrationEvent.ts'
 
-export interface EventProducer<TEvent extends BaseEvent, TReturnType = Promise<void>> {
+export interface EventProducer<TEvent extends DomainEvent | IntegrationEvent | ExternalEvent, TReturnType = Promise<void>> {
   publish(stream: string, anEvent: TEvent): TReturnType
 }
 
 export interface EventConsumer<
-  TEvent extends BaseEvent,
+  TEvent extends DomainEvent | IntegrationEvent | ExternalEvent,
   TEventHandler = EventHandler<TEvent>,
   TConsumeReturnType = Promise<void>,
   TSubscribeReturnType = void,

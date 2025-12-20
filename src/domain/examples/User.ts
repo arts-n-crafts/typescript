@@ -61,21 +61,21 @@ function decideUserState(this: void, command: UserCommand, currentState: UserSta
       if (!isInitialState(currentState)) {
         return []
       }
-      return [createUserCreatedEvent(command.aggregateId, command.payload, command.metadata)]
+      return [createUserCreatedEvent(<string>command.aggregateId, command.payload, command.metadata)]
     }
     case 'UpdateUserName': {
       invariant(!isInitialState(currentState), fail(new UnexpectedUserState('expected mutated state during update')))
       if (currentState.name === command.payload.name) {
         return []
       }
-      return [createUserNameUpdatedEvent(command.aggregateId, command.payload, command.metadata)]
+      return [createUserNameUpdatedEvent(<string>command.aggregateId, command.payload, command.metadata)]
     }
     case 'ActivateUser': {
       invariant(!isInitialState(currentState), fail(new UnexpectedUserState('expected mutated state during update')))
       if (!currentState.prospect) {
         return []
       }
-      return [createUserActivatedEvent(command.aggregateId, command.payload, command.metadata)]
+      return [createUserActivatedEvent(<string>command.aggregateId, command.payload, command.metadata)]
     }
   }
 }

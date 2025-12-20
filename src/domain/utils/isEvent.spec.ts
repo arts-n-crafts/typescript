@@ -11,8 +11,9 @@ describe('isEvent util', () => {
       id: '123',
       aggregateId: '456',
       type: 'TestEvent',
+      aggregateType: 'TestAggregate',
       payload: {},
-      source: 'internal',
+      kind: 'domain',
       timestamp: Math.floor(new Date().getTime() / 1000),
       metadata: {},
     }

@@ -25,7 +25,7 @@ describe('outboxWorker with InMemoryEventBus', () => {
   it('publishes outbox events and calls subscribed handlers', async () => {
     eventBus.subscribe('users', handler)
 
-    const event = createDomainEvent('MyEvent', 'agg-1', { foo: 'bar' })
+    const event = createDomainEvent('MyEvent', 'agg-1', 'TestAggregate', { foo: 'bar' })
     await outbox.enqueue(event)
 
     await worker.tick()
@@ -42,7 +42,7 @@ describe('outboxWorker with InMemoryEventBus', () => {
       handle: vi.fn().mockRejectedValue(new Error('fail')),
     })
 
-    const event = createDomainEvent('FailEvent', 'agg-2', {})
+    const event = createDomainEvent('FailEvent', 'agg-2', 'TestAggregate', {})
     await outbox.enqueue(event)
 
     await worker.tick()
@@ -56,7 +56,7 @@ describe('outboxWorker with InMemoryEventBus', () => {
     vi.useFakeTimers()
     eventBus.subscribe('users', handler)
 
-    const event = createDomainEvent('IntervalEvent', 'agg-3', {})
+    const event = createDomainEvent('IntervalEvent', 'agg-3', 'TestAggregate', {})
     await outbox.enqueue(event)
 
     worker.start(1000)
