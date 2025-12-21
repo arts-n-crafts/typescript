@@ -1,5 +1,6 @@
 import type { Query } from '@core/Query.ts'
 import { randomUUID } from 'node:crypto'
+import { getTimestamp } from '@core/utils/getTimestamp.ts'
 import { isQuery } from './isQuery.ts'
 
 describe('isQuery util', () => {
@@ -13,7 +14,7 @@ describe('isQuery util', () => {
       type: 'TestQuery',
       payload: {},
       kind: 'query',
-      timestamp: Math.floor(new Date().getTime() / 1000),
+      timestamp: getTimestamp(),
       metadata: {},
     }
     expect(isQuery(query)).toBeTruthy()
@@ -28,7 +29,7 @@ describe('isQuery util', () => {
         id: randomUUID(),
         payload: {},
         kind: 'query',
-        timestamp: Math.floor(new Date().getTime() / 1000),
+        timestamp: getTimestamp(),
         metadata: {},
       },
     },
@@ -39,7 +40,7 @@ describe('isQuery util', () => {
         type: 'TestQuery',
         payload: {},
         kind: undefined,
-        timestamp: Math.floor(new Date().getTime() / 1000),
+        timestamp: getTimestamp(),
         metadata: {},
       },
     },
@@ -50,7 +51,7 @@ describe('isQuery util', () => {
         type: 'TestQuery',
         payload: {},
         metadata: {
-          timestamp: Math.floor(new Date().getTime() / 1000),
+          timestamp: getTimestamp(),
         },
       },
     },

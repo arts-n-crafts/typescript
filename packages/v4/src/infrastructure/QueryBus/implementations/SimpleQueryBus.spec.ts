@@ -1,5 +1,6 @@
 import type { GetUserByEmail, GetUserByEmailProps } from '@core/examples/GetUserByEmail.ts'
-import type { UserModel } from '@core/examples/UserProjection.ts'
+import type { WithIdentifier } from '@core/types/WithIdentifier.ts'
+import type { UserCreatedPayload } from '@domain/examples/UserCreated.ts'
 import type { CreateStatement, Database } from '../../Database/Database.ts'
 import type { QueryBus } from '../QueryBus.ts'
 import { randomUUID } from 'node:crypto'
@@ -11,13 +12,13 @@ import { SimpleQueryBus } from './SimpleQueryBus.ts'
 
 describe('simple query bus', () => {
   const store = 'users'
-  let database: Database<UserModel, Promise<void>, Promise<UserModel[]>>
-  let statement: CreateStatement<UserModel>
+  let database: Database<WithIdentifier<UserCreatedPayload>, Promise<void>, Promise<WithIdentifier<UserCreatedPayload>[]>>
+  let statement: CreateStatement<WithIdentifier<UserCreatedPayload>>
   let payload: GetUserByEmailProps
-  let bus: QueryBus<GetUserByEmail, Promise<UserModel[]>>
+  let bus: QueryBus<GetUserByEmail, Promise<WithIdentifier<UserCreatedPayload>[]>>
 
   beforeEach(async () => {
-    bus = new SimpleQueryBus<GetUserByEmail, UserModel[]>()
+    bus = new SimpleQueryBus<GetUserByEmail, WithIdentifier<UserCreatedPayload>[]>()
     database = new SimpleDatabase()
     statement = { operation: Operation.CREATE, payload: { id: randomUUID(), name: 'Elon', email: 'elon@x.com', prospect: true } }
     await database.execute(store, statement)

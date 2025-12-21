@@ -1,5 +1,6 @@
 import type { GetUserByEmail, GetUserByEmailProps } from '@core/examples/GetUserByEmail.ts'
-import type { UserModel } from '@core/examples/UserProjection.ts'
+import type { WithIdentifier } from '@core/types/WithIdentifier.ts'
+import type { UserCreatedPayload } from '@domain/examples/UserCreated.ts'
 import type { Result } from 'oxide.ts'
 import type { CreateStatement, Database } from '../../Database/Database.ts'
 import type { QueryBus } from '../QueryBus.ts'
@@ -12,13 +13,13 @@ import { ResultedQueryBus } from './ResultedQueryBus.ts'
 
 describe('resulted query bus', () => {
   const store = 'users'
-  let database: Database<UserModel, Promise<void>, Promise<UserModel[]>>
-  let statement: CreateStatement<UserModel>
+  let database: Database<WithIdentifier<UserCreatedPayload>, Promise<void>, Promise<WithIdentifier<UserCreatedPayload>[]>>
+  let statement: CreateStatement<WithIdentifier<UserCreatedPayload>>
   let payload: GetUserByEmailProps
-  let bus: QueryBus<GetUserByEmail, Promise<Result<UserModel[], Error>>, Result<void, Error>>
+  let bus: QueryBus<GetUserByEmail, Promise<Result<WithIdentifier<UserCreatedPayload>[], Error>>, Result<void, Error>>
 
   beforeEach(async () => {
-    bus = new ResultedQueryBus<GetUserByEmail, UserModel[]>()
+    bus = new ResultedQueryBus<GetUserByEmail, WithIdentifier<UserCreatedPayload>[]>()
     database = new SimpleDatabase()
     statement = { operation: Operation.CREATE, payload: { id: randomUUID(), name: 'Elon', email: 'elon@x.com', prospect: true } }
     await database.execute(store, statement)

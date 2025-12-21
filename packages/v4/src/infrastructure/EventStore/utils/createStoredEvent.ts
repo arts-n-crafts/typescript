@@ -1,5 +1,6 @@
 import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { StoredEvent } from '../StoredEvent.ts'
+import { getTimestamp } from '@core/utils/getTimestamp.ts'
 import { makeStreamKey } from '@utils/index.ts'
 
 export function createStoredEvent<TEvent extends DomainEvent>(
@@ -11,7 +12,7 @@ export function createStoredEvent<TEvent extends DomainEvent>(
     id: event.id,
     streamKey: makeStreamKey(streamName, event.aggregateId),
     version,
-    timestamp: Math.floor(new Date().getTime() / 1000),
+    timestamp: getTimestamp(),
     event,
   })
 }

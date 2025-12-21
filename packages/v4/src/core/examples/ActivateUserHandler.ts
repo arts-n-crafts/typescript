@@ -6,12 +6,12 @@ import { User } from '@domain/examples/User.ts'
 
 export class ActivateUserHandler implements CommandHandler<ActivateUserCommand> {
   constructor(
-    private readonly repository: Repository<UserEvent, Promise<UserState>, Promise<void>>,
+    private readonly repository: Repository<UserEvent, Promise<UserState>>,
   ) {
   }
 
   async execute(command: ActivateUserCommand): Promise<void> {
-    const currentState = await this.repository.load(command.aggregateId)
+    const currentState = await this.repository.load(<string>command.aggregateId)
     await this.repository.store(User.decide(command, currentState))
   }
 }

@@ -1,5 +1,6 @@
+import type { WithIdentifier } from '@core/types/WithIdentifier.ts'
+import type { UserCreatedPayload } from '@domain/examples/UserCreated.ts'
 import type { CreateStatement, Database } from '@infrastructure/Database/Database.ts'
-import type { UserModel } from './examples/UserProjection.ts'
 import { randomUUID } from 'node:crypto'
 import { createGetUserByEmailQuery } from '@core/examples/GetUserByEmail.ts'
 import { Operation } from '@infrastructure/Database/Database.ts'
@@ -8,8 +9,8 @@ import { GetUserByEmailHandler } from './examples/GetUserByEmailHandler.ts'
 
 describe('queryHandler', () => {
   const store = 'users'
-  let database: Database<UserModel, Promise<void>, Promise<UserModel[]>>
-  let statement: CreateStatement<UserModel>
+  let database: Database<WithIdentifier<UserCreatedPayload>, Promise<void>, Promise<WithIdentifier<UserCreatedPayload>[]>>
+  let statement: CreateStatement<WithIdentifier<UserCreatedPayload>>
 
   beforeEach(async () => {
     database = new SimpleDatabase()

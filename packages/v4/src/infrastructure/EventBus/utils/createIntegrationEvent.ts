@@ -6,10 +6,10 @@ export function createIntegrationEvent<TPayload = unknown>(type: string, payload
     id: randomUUID(),
     type,
     payload,
-    source: 'external',
     timestamp: new Date().toISOString(),
     metadata: {
       ...metadata,
     },
+    kind: 'integration',
   })
 }

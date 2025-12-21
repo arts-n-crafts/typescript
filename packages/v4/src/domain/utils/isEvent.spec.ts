@@ -1,4 +1,5 @@
 import type { DomainEvent } from '../DomainEvent.ts'
+import { getTimestamp } from '@core/utils/getTimestamp.ts'
 import { isEvent } from './isEvent.ts'
 
 describe('isEvent util', () => {
@@ -11,9 +12,10 @@ describe('isEvent util', () => {
       id: '123',
       aggregateId: '456',
       type: 'TestEvent',
+      aggregateType: 'TestAggregate',
       payload: {},
-      source: 'internal',
-      timestamp: Math.floor(new Date().getTime() / 1000),
+      kind: 'domain',
+      timestamp: getTimestamp(),
       metadata: {},
     }
     expect(isEvent(event)).toBeTruthy()
@@ -28,7 +30,7 @@ describe('isEvent util', () => {
         id: '123',
         payload: {},
         source: 'internal',
-        timestamp: Math.floor(new Date().getTime() / 1000),
+        timestamp: getTimestamp(),
         metadata: {},
       },
     },
@@ -64,7 +66,7 @@ describe('isEvent util', () => {
         id: '123',
         type: 'TestEvent',
         payload: {},
-        timestamp: Math.floor(new Date().getTime() / 1000),
+        timestamp: getTimestamp(),
         metadata: {},
       },
     },

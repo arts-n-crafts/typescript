@@ -12,10 +12,10 @@ import { beforeEach } from 'vitest'
 describe('user decider', () => {
   let pastEvents: UserEvent[]
   const createCommand = createRegisterUserCommand(randomUUID(), { name: 'Elon', email: 'elon@x.com' })
-  const updateUserName = createUpdateNameOfUserCommand(createCommand.aggregateId, { name: 'Donald' })
-  const userCreated = createUserCreatedEvent(createCommand.aggregateId, createCommand.payload)
-  const userNameUpdated = createUserNameUpdatedEvent(createCommand.aggregateId, updateUserName.payload)
-  const activateUser = createActivateUserCommand(createCommand.aggregateId, {})
+  const updateUserName = createUpdateNameOfUserCommand(<string>createCommand.aggregateId, { name: 'Donald' })
+  const userCreated = createUserCreatedEvent(<string>createCommand.aggregateId, createCommand.payload)
+  const userNameUpdated = createUserNameUpdatedEvent(<string>createCommand.aggregateId, updateUserName.payload)
+  const activateUser = createActivateUserCommand(<string>createCommand.aggregateId, {})
 
   beforeEach(() => {
     pastEvents = []
@@ -28,7 +28,7 @@ describe('user decider', () => {
   describe('user: create user', () => {
     it('should create the user', () => {
       pastEvents = []
-      const currentState = pastEvents.reduce(User.evolve, User.initialState(createCommand.aggregateId))
+      const currentState = pastEvents.reduce(User.evolve, User.initialState(<string>createCommand.aggregateId))
 
       const decide = User.decide(createCommand, currentState)
       const event = decide.at(0)
@@ -56,7 +56,7 @@ describe('user decider', () => {
   describe('user: update name', () => {
     it('should update the name of the user', () => {
       pastEvents = [userCreated]
-      const currentState = pastEvents.reduce(User.evolve, User.initialState(createCommand.aggregateId))
+      const currentState = pastEvents.reduce(User.evolve, User.initialState(<string>createCommand.aggregateId))
 
       const decide = User.decide(updateUserName, currentState)
       const event = decide.at(0)
@@ -76,7 +76,7 @@ describe('user decider', () => {
     it('should have the updated name as its current name', () => {
       pastEvents = [userCreated, userNameUpdated]
 
-      const currentState = pastEvents.reduce(User.evolve, User.initialState(createCommand.aggregateId))
+      const currentState = pastEvents.reduce(User.evolve, User.initialState(<string>createCommand.aggregateId))
 
       expect(currentState).toStrictEqual({
         email: 'elon@x.com',
@@ -89,7 +89,7 @@ describe('user decider', () => {
 
     it('should not decide to trigger a new userNameUpdated event if the name is not changed by the command', () => {
       pastEvents = [userCreated, userNameUpdated]
-      const currentState = pastEvents.reduce(User.evolve, User.initialState(createCommand.aggregateId))
+      const currentState = pastEvents.reduce(User.evolve, User.initialState(<string>createCommand.aggregateId))
 
       const decide = User.decide(updateUserName, currentState)
 
@@ -97,7 +97,7 @@ describe('user decider', () => {
     })
 
     it('should not update the name of the user if the user does not exist', () => {
-      const currentState = pastEvents.reduce(User.evolve, User.initialState(createCommand.aggregateId))
+      const currentState = pastEvents.reduce(User.evolve, User.initialState(<string>createCommand.aggregateId))
 
       const command = updateUserName
 
@@ -107,23 +107,26 @@ describe('user decider', () => {
 
   describe('user: activate user', () => {
     it('should decide to activate the user', () => {
-      pastEvents = [userCreated, createUserActivatedEvent(createCommand.aggregateId, {})]
+      pastEvents = [userCreated]
 
-      const currentState = pastEvents.reduce(User.evolve, User.initialState(createCommand.aggregateId))
+      const currentState = pastEvents.reduce(User.evolve, User.initialState(<string>createCommand.aggregateId))
 
-      expect(currentState).toStrictEqual({
-        email: 'elon@x.com',
-        // eslint-disable-next-line ts/no-unsafe-assignment
-        id: expect.any(String),
-        name: 'Elon',
-        prospect: false,
-      })
+      const decision = User.decide(activateUser, currentState)
+      expect(decision).toHaveLength(1)
+      expect(decision).toStrictEqual(expect.arrayContaining([
+        expect.objectContaining({
+          aggregateType: 'User',
+          kind: 'domain',
+          type: 'UserActivated',
+          payload: activateUser.payload,
+        }),
+      ]))
     })
 
     it('should decide that nothing should happen', () => {
-      pastEvents = [userCreated, createUserActivatedEvent(createCommand.aggregateId, {})]
+      pastEvents = [userCreated, createUserActivatedEvent(<string>createCommand.aggregateId, {})]
 
-      const currentState = pastEvents.reduce(User.evolve, User.initialState(createCommand.aggregateId))
+      const currentState = pastEvents.reduce(User.evolve, User.initialState(<string>createCommand.aggregateId))
       const decide = User.decide(activateUser, currentState)
 
       expect(decide).toHaveLength(0)

@@ -1,5 +1,6 @@
 import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { Outbox } from './Outbox.ts'
+import { getTimestamp } from '@core/utils/getTimestamp.ts'
 import { InMemoryOutbox } from './implementations/InMemoryOutbox.ts'
 
 describe('inMemoryOutbox', () => {
@@ -12,10 +13,11 @@ describe('inMemoryOutbox', () => {
       id: 'evt-1',
       type: 'TestEvent',
       aggregateId: 'agg-1',
-      source: 'internal',
+      aggregateType: 'TestAggregate',
       payload: { foo: 'bar' },
-      timestamp: Math.floor(new Date().getTime() / 1000),
+      timestamp: getTimestamp(),
       metadata: {},
+      kind: 'domain',
     }
   })
 

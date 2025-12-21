@@ -28,5 +28,3 @@ export * from './QueryBus/implementations/SimpleQueryBus.ts'
 export * from './QueryBus/QueryBus.ts'
 
 export * from './Repository/implementations/SimpleRepository.ts'
-
-export * from './ScenarioTest/ScenarioTest.ts'

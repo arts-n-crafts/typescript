@@ -45,12 +45,12 @@ describe('commandBus', () => {
   it('should process the command via commandBus and return the event', async () => {
     commandBus.register('UpdateUserName', handler)
     const updateUserNameCommand = createUpdateNameOfUserCommand(
-      command.aggregateId,
+      <string>command.aggregateId,
       { name: 'test' },
       { timestamp: new Date() },
     )
     await commandBus.execute(updateUserNameCommand)
-    const events = await eventStore.load('users', command.aggregateId)
+    const events = await eventStore.load('users', <string>command.aggregateId)
     const event = events.at(-1) as ReturnType<typeof createUserNameUpdatedEvent>
 
     expect(events).toHaveLength(2)
@@ -58,7 +58,7 @@ describe('commandBus', () => {
   })
 
   it('should throw an error if no handler is registered for the command type', async () => {
-    const updateUserNameCommand = createUpdateNameOfUserCommand(command.aggregateId, { name: 'test' }, { timestamp: new Date() })
+    const updateUserNameCommand = createUpdateNameOfUserCommand(<string>command.aggregateId, { name: 'test' }, { timestamp: new Date() })
 
     await expect(commandBus.execute(updateUserNameCommand)).rejects.toThrow('No handler found for command type: UpdateUserName')
   })

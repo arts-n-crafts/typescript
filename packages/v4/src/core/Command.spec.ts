@@ -13,7 +13,7 @@ describe('command', () => {
   beforeEach(() => {
     aggregateId = randomUUID()
     payload = { name: 'test' }
-    metadata = { causationId: randomUUID() }
+    metadata = { causationId: randomUUID(), source: 'test' }
     command = createUpdateNameOfUserCommand(aggregateId, payload, metadata)
   })
 

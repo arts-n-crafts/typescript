@@ -1,7 +1,8 @@
 import type { GetUserByEmail } from '@core/examples/GetUserByEmail.ts'
 import type { QueryHandler } from '@core/QueryHandler.ts'
+import type { WithIdentifier } from '@core/types/WithIdentifier.ts'
+import type { UserCreatedPayload } from '@domain/examples/UserCreated.ts'
 import type { Database } from '@infrastructure/Database/Database.ts'
-import type { UserModel } from './UserProjection.ts'
 import { FieldEquals } from '@domain/Specification/implementations/FieldEquals.specification.ts'
 
 export interface GetUserByEmailResult {
@@ -11,7 +12,7 @@ export interface GetUserByEmailResult {
 
 export class GetUserByEmailHandler implements QueryHandler<GetUserByEmail, Promise<GetUserByEmailResult[]>> {
   constructor(
-    private readonly database: Database<UserModel, Promise<void>, Promise<UserModel[]>>,
+    private readonly database: Database<WithIdentifier<UserCreatedPayload>, Promise<void>, Promise<WithIdentifier<UserCreatedPayload>[]>>,
   ) {}
 
   async execute(aQuery: GetUserByEmail): Promise<GetUserByEmailResult[]> {

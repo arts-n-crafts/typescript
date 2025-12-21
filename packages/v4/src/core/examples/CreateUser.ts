@@ -12,7 +12,7 @@ export function createRegisterUserCommand(
   payload: CreateUserProps,
   metadata?: Partial<CommandMetadata>,
 ): Command<'CreateUser', CreateUserProps> {
-  return createCommand('CreateUser', aggregateId, payload, metadata)
+  return createCommand('CreateUser', aggregateId, 'User', payload, metadata)
 }
 
 export type RegisterUserCommand = ReturnType<typeof createRegisterUserCommand>

@@ -1,5 +1,6 @@
 import type { Command } from '@core/Command.ts'
 import { randomUUID } from 'node:crypto'
+import { getTimestamp } from '@core/utils/getTimestamp.ts'
 import { isCommand } from './isCommand.ts'
 
 describe('isCommand util', () => {
@@ -14,7 +15,7 @@ describe('isCommand util', () => {
       aggregateId: '123',
       payload: { foo: 'bar' },
       kind: 'command',
-      timestamp: Math.floor(new Date().getTime() / 1000),
+      timestamp: getTimestamp(),
       metadata: {
       },
     }
@@ -31,7 +32,7 @@ describe('isCommand util', () => {
         aggregateId: '123',
         payload: {},
         kind: 'command',
-        timestamp: Math.floor(new Date().getTime() / 1000),
+        timestamp: getTimestamp(),
         metadata: {
         },
       },
@@ -44,7 +45,7 @@ describe('isCommand util', () => {
         aggregateId: '123',
         payload: {},
         kind: undefined,
-        timestamp: Math.floor(new Date().getTime() / 1000),
+        timestamp: getTimestamp(),
         metadata: {
         },
       },
@@ -56,7 +57,7 @@ describe('isCommand util', () => {
         type: 'TestCommand',
         aggregateId: '123',
         payload: {},
-        timestamp: Math.floor(new Date().getTime() / 1000),
+        timestamp: getTimestamp(),
         metadata: {
         },
       },

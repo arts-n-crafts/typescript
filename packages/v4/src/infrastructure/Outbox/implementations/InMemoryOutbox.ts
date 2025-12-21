@@ -1,6 +1,7 @@
 import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { Outbox } from '../Outbox.ts'
 import type { OutboxEntry } from '../OutboxEntry.ts'
+import { getTimestamp } from '@core/utils/getTimestamp.ts'
 
 export class InMemoryOutbox implements Outbox {
   protected entries: OutboxEntry[] = []
@@ -30,7 +31,7 @@ export class InMemoryOutbox implements Outbox {
     const entry = this.entries.find(e => e.id === id)
     if (entry) {
       entry.retryCount += 1
-      entry.lastAttemptAt = Math.floor(new Date().getTime() / 1000)
+      entry.lastAttemptAt = getTimestamp()
     }
   }
 }
