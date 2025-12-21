@@ -1,4 +1,4 @@
-import type { CompositeSpecification } from '@domain/Specification/Specification.ts'
+import type { Specification } from '@domain/Specification/Specification.ts'
 import type { WithIdentifier } from '../../../core/types/WithIdentifier.ts'
 import type { CreateStatement, Database, DeleteStatement, PatchStatement, PutStatement } from '../Database.ts'
 import { Operation } from '../Database.ts'
@@ -10,7 +10,7 @@ export class SimpleDatabase<TModel extends WithIdentifier> implements Database<T
 
   async query(
     tableName: string,
-    specification: CompositeSpecification<TModel>,
+    specification: Specification<TModel>,
   ): Promise<TModel[]> {
     if (this.simulateOffline)
       throw new DatabaseOfflineException()

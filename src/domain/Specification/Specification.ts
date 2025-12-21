@@ -1,29 +1,24 @@
 import type { QueryNode } from './QueryNode.ts'
 
-export interface Specification<T> {
-  isSatisfiedBy(entity: T): boolean
-}
-
-export abstract class CompositeSpecification<T> implements Specification<T> {
+export abstract class Specification<T> {
   abstract isSatisfiedBy(entity: T): boolean
-
   abstract toQuery(): QueryNode
 
-  and(other: CompositeSpecification<T>): CompositeSpecification<T> {
+  and(other: Specification<T>): Specification<T> {
     return new AndSpecification(this, other)
   }
 
-  or(other: CompositeSpecification<T>): CompositeSpecification<T> {
+  or(other: Specification<T>): Specification<T> {
     return new OrSpecification(this, other)
   }
 
-  not(): CompositeSpecification<T> {
+  not(): Specification<T> {
     return new NotSpecification(this)
   }
 }
 
-export class AndSpecification<T> extends CompositeSpecification<T> {
-  constructor(private left: CompositeSpecification<T>, private right: CompositeSpecification<T>) {
+export class AndSpecification<T> extends Specification<T> {
+  constructor(private left: Specification<T>, private right: Specification<T>) {
     super()
   }
 
@@ -39,8 +34,8 @@ export class AndSpecification<T> extends CompositeSpecification<T> {
   }
 }
 
-export class OrSpecification<T> extends CompositeSpecification<T> {
-  constructor(private left: CompositeSpecification<T>, private right: CompositeSpecification<T>) {
+export class OrSpecification<T> extends Specification<T> {
+  constructor(private left: Specification<T>, private right: Specification<T>) {
     super()
   }
 
@@ -56,8 +51,8 @@ export class OrSpecification<T> extends CompositeSpecification<T> {
   }
 }
 
-export class NotSpecification<T> extends CompositeSpecification<T> {
-  constructor(private spec: CompositeSpecification<T>) {
+export class NotSpecification<T> extends Specification<T> {
+  constructor(private spec: Specification<T>) {
     super()
   }
 

@@ -1,5 +1,5 @@
 import type { WithIdentifier } from '@core/types/WithIdentifier.ts'
-import type { CompositeSpecification } from '@domain/Specification/Specification.ts'
+import type { Specification } from '@domain/Specification/Specification.ts'
 import type { Result } from 'oxide.ts'
 import type { CreateStatement, Database, DeleteStatement, PatchStatement, PutStatement } from '../Database.ts'
 import { Err, Ok } from 'oxide.ts'
@@ -14,7 +14,7 @@ export class ResultedDatabase<TModel extends WithIdentifier> implements Database
 
   async query(
     tableName: string,
-    specification: CompositeSpecification<TModel>,
+    specification: Specification<TModel>,
   ): Promise<Result<TModel[], Error>> {
     if (this.simulateOffline)
       return Err(new DatabaseOfflineException())

@@ -1,10 +1,10 @@
 import type { QueryNode } from '../QueryNode.ts'
 import { fail } from '@utils/fail/fail.ts'
 import { invariant } from '@utils/invariant/invariant.ts'
-import { CompositeSpecification } from '../Specification.ts'
+import { Specification } from '../Specification.ts'
 import { createQueryNode } from '../utils/createQueryNode.ts'
 
-export class FieldGreaterThan<T> extends CompositeSpecification<T> {
+export class FieldGreaterThan<T> extends Specification<T> {
   constructor(
     private field: keyof T,
     private value: number,

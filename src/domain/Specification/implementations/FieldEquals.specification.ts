@@ -1,9 +1,9 @@
 import type { Primitive } from '@core/types/Primitive.ts'
 import type { QueryNode } from '../QueryNode.ts'
-import { CompositeSpecification } from '../Specification.ts'
+import { Specification } from '../Specification.ts'
 import { createQueryNode } from '../utils/createQueryNode.ts'
 
-export class FieldEquals<T> extends CompositeSpecification<T> {
+export class FieldEquals<T> extends Specification<T> {
   constructor(private field: keyof T, private value: Primitive) {
     super()
   }
