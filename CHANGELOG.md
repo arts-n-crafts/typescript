@@ -1,6 +1,37 @@
 # Changelog
 
 
+## v3.16.0
+
+[compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.15.0...v3.16.0)
+
+### 🚀 Enhancements
+
+- Update DomainEvent, IntegrationEvent, add ExternalEvent and update accordingly (unverified) ([1452fdb](https://github.com/arts-n-crafts/typescript/commit/1452fdb))
+- Update DomainEvent, IntegrationEvent, add ExternalEvent and update accordingly (unverified)" ([ecdd335](https://github.com/arts-n-crafts/typescript/commit/ecdd335))
+- Use unix timestamps in DomainEvent and StoredEvent" ([e41f428](https://github.com/arts-n-crafts/typescript/commit/e41f428))
+- Directive interface" ([d79f473](https://github.com/arts-n-crafts/typescript/commit/d79f473))
+- Directive interface ([ace1557](https://github.com/arts-n-crafts/typescript/commit/ace1557))
+- Use unix timestamps in general ([a27aa12](https://github.com/arts-n-crafts/typescript/commit/a27aa12))
+- Update DomainEvent, IntegrationEvent, add ExternalEvent and update accordingly ([2280b0b](https://github.com/arts-n-crafts/typescript/commit/2280b0b))
+
+### 💅 Refactors
+
+- Separate Specification interface from CompositeSpecification abstract class" ([eb30a79](https://github.com/arts-n-crafts/typescript/commit/eb30a79))
+- Separate Specification interface from CompositeSpecification abstract class ([c11786a](https://github.com/arts-n-crafts/typescript/commit/c11786a))
+
+### 🏡 Chore
+
+- **release:** V3.15.0" ([b6a32dc](https://github.com/arts-n-crafts/typescript/commit/b6a32dc))
+- **release:** V3.14.0" ([f1c65ea](https://github.com/arts-n-crafts/typescript/commit/f1c65ea))
+- Split into v3 and v4 packages ([8017af0](https://github.com/arts-n-crafts/typescript/commit/8017af0))
+- Add check-exports to release-it flow ([5253c71](https://github.com/arts-n-crafts/typescript/commit/5253c71))
+- Add lint script to package.json ([06e08ab](https://github.com/arts-n-crafts/typescript/commit/06e08ab))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.13.2
 
 [compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.13.1...v3.13.2)

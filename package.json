@@ -1,6 +1,6 @@
 {
   "name": "@arts-n-crafts/ts",
-  "version": "3.13.2",
+  "version": "3.16.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/arts-n-crafts/typescript.git"
@@ -90,7 +90,7 @@
     "coverage": "bun run --workspaces coverage",
     "lint": "bun run --workspaces lint",
     "lint:fix": "bun run --workspaces lint:fix",
-    "typecheck":  "bun run --workspaces typecheck",
+    "typecheck": "bun run --workspaces typecheck",
     "check-exports": "attw --pack . --profile node16"
   },
   "type": "module"
