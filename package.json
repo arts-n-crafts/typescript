@@ -88,7 +88,8 @@
     "release": "release-it && npm publish --access=public",
     "build": "bun run --workspaces build",
     "coverage": "bun run --workspaces coverage",
-    "lint:fix": "bun run --workspaces lint:fix ",
+    "lint": "bun run --workspaces lint",
+    "lint:fix": "bun run --workspaces lint:fix",
     "typecheck":  "bun run --workspaces typecheck",
     "check-exports": "attw --pack . --profile node16"
   },
