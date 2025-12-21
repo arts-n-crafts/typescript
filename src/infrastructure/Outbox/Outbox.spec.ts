@@ -14,7 +14,7 @@ describe('inMemoryOutbox', () => {
       aggregateId: 'agg-1',
       source: 'internal',
       payload: { foo: 'bar' },
-      timestamp: Math.floor(new Date().getTime() / 1000),
+      timestamp: new Date().toISOString(),
       metadata: {},
     }
   })

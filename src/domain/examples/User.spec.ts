@@ -39,7 +39,7 @@ describe('user decider', () => {
         // eslint-disable-next-line ts/no-unsafe-assignment
         id: expect.any(String),
         // eslint-disable-next-line ts/no-unsafe-assignment
-        timestamp: expect.any(Number),
+        timestamp: expect.any(String),
         metadata: {},
       })
     })
@@ -67,7 +67,7 @@ describe('user decider', () => {
         // eslint-disable-next-line ts/no-unsafe-assignment
         id: expect.any(String),
         // eslint-disable-next-line ts/no-unsafe-assignment
-        timestamp: expect.any(Number),
+        timestamp: expect.any(String),
         metadata: {
         },
       })

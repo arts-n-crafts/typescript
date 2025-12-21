@@ -4,6 +4,6 @@ export interface StoredEvent<TEvent> {
   id: string
   streamKey: StreamKey
   version: number
-  timestamp: number
+  createdAt: string
   event: TEvent
 }

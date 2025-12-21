@@ -13,7 +13,7 @@ export function createDomainEvent<TPayload = unknown>(
     aggregateId,
     payload,
     source: 'internal',
-    timestamp: Math.floor(new Date().getTime() / 1000),
+    timestamp: new Date().toISOString(),
     metadata,
   })
 }

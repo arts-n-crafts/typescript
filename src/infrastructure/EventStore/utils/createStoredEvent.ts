@@ -11,7 +11,7 @@ export function createStoredEvent<TEvent extends DomainEvent>(
     id: event.id,
     streamKey: makeStreamKey(streamName, event.aggregateId),
     version,
-    timestamp: Math.floor(new Date().getTime() / 1000),
+    createdAt: new Date().toISOString(),
     event,
   })
 }
