@@ -1,9 +1,9 @@
 import type { Command } from '@core/Command.ts'
 import type { Query } from '@core/Query.ts'
+import type { BaseEvent } from '@domain/BaseEvent.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
 import type { Repository } from '@domain/Repository.ts'
 import type { EventConsumer, EventProducer } from '@infrastructure/EventBus/EventBus.js'
-import type { ExternalEvent } from '@infrastructure/EventBus/ExternalEvent.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
 import type { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.ts'
 import type { CommandBus } from '../CommandBus/CommandBus.ts'
@@ -28,7 +28,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
 
   constructor(
     private readonly streamName: string,
-    private readonly eventBus: EventProducer<DomainEvent | IntegrationEvent | ExternalEvent> & EventConsumer<DomainEvent | IntegrationEvent | ExternalEvent>,
+    private readonly eventBus: EventProducer<BaseEvent> & EventConsumer<BaseEvent>,
     private readonly eventStore: EventStore<TEvent, Promise<void>, Promise<TEvent[]>>,
     private readonly commandBus: CommandBus<Command>,
     private readonly queryBus: QueryBus<Query, Promise<Record<string, unknown>[]>>,

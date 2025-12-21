@@ -14,7 +14,7 @@ describe('simple repository', () => {
   const streamName = 'users'
   let database: Database<StoredEvent<UserEvent>, Promise<void>, Promise<StoredEvent<UserEvent>[]>>
   let eventStore: EventStore<UserEvent, Promise<void>, Promise<UserEvent[]>>
-  let repository: Repository<UserEvent, Promise<UserState>>
+  let repository: Repository<UserEvent, Promise<UserState>, Promise<void>>
 
   const createCommand = createRegisterUserCommand(randomUUID(), { name: 'Elon', email: 'elon@x.com' })
 
@@ -30,7 +30,7 @@ describe('simple repository', () => {
 
   it('should store the decider user event', async () => {
     const pastEvents: UserEvent[] = []
-    const currentState = pastEvents.reduce(User.evolve, User.initialState(<string>createCommand.aggregateId))
+    const currentState = pastEvents.reduce(User.evolve, User.initialState(createCommand.aggregateId))
 
     const events = User.decide(createCommand, currentState)
     const result = await repository.store(events)
@@ -38,11 +38,11 @@ describe('simple repository', () => {
   })
   it('should load the current user state', async () => {
     const pastEvents: UserEvent[] = []
-    const currentState = pastEvents.reduce(User.evolve, User.initialState(<string>createCommand.aggregateId))
+    const currentState = pastEvents.reduce(User.evolve, User.initialState(createCommand.aggregateId))
 
     const events = User.decide(createCommand, currentState)
     await repository.store(events)
-    const userState = await repository.load(<string>createCommand.aggregateId)
+    const userState = await repository.load(createCommand.aggregateId)
     expect(userState).toStrictEqual({
       ...events[0].payload,
       id: createCommand.aggregateId,

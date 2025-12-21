@@ -33,7 +33,7 @@ describe('resulted repository', () => {
 
   it('should store the decider user event', async () => {
     const pastEvents: UserEvent[] = []
-    const currentState = pastEvents.reduce(User.evolve, User.initialState(<string>createCommand.aggregateId))
+    const currentState = pastEvents.reduce(User.evolve, User.initialState(createCommand.aggregateId))
 
     const events = User.decide(createCommand, currentState)
     const result = await repository.store(events)
@@ -42,11 +42,11 @@ describe('resulted repository', () => {
   })
   it('should load the current user state', async () => {
     const pastEvents: UserEvent[] = []
-    const currentState = pastEvents.reduce(User.evolve, User.initialState(<string>createCommand.aggregateId))
+    const currentState = pastEvents.reduce(User.evolve, User.initialState(createCommand.aggregateId))
 
     const events = User.decide(createCommand, currentState)
     await repository.store(events)
-    const userStateResult = await repository.load(<string>createCommand.aggregateId)
+    const userStateResult = await repository.load(createCommand.aggregateId)
     expect(userStateResult.isOk()).toBe(true)
     expect(userStateResult.unwrap()).toStrictEqual({
       ...events[0].payload,

@@ -11,7 +11,7 @@ export class CreateUserHandler implements CommandHandler<RegisterUserCommand> {
   }
 
   async execute(aCommand: RegisterUserCommand): Promise<void> {
-    const currentState = await this.repository.load(<string>aCommand.aggregateId)
+    const currentState = await this.repository.load(aCommand.aggregateId)
     await this.repository.store(User.decide(aCommand, currentState))
   }
 }

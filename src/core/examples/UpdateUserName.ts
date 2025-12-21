@@ -10,7 +10,7 @@ export function createUpdateNameOfUserCommand(
   payload: UpdateUserNameProps,
   metadata?: Partial<CommandMetadata>,
 ): Command<'UpdateUserName', UpdateUserNameProps> {
-  return createCommand('UpdateUserName', aggregateId, 'User', payload, metadata)
+  return createCommand('UpdateUserName', aggregateId, payload, metadata)
 }
 
 export type UpdateUserNameCommand = ReturnType<typeof createUpdateNameOfUserCommand>

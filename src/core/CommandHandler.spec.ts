@@ -17,7 +17,7 @@ import { UpdateUserNameHandler } from './examples/UpdateUserNameHandler.ts'
 describe('commandHandler', async () => {
   let database: Database<StoredEvent<UserEvent>, Promise<void>, Promise<StoredEvent<UserEvent>[]>>
   let eventStore: EventStore<UserEvent, Promise<void>, Promise<UserEvent[]>>
-  let repository: Repository<UserEvent, Promise<UserState>>
+  let repository: Repository<UserEvent, Promise<UserState>, Promise<void>>
   let createUserHandler: CreateUserHandler
   const command = createRegisterUserCommand(randomUUID(), {
     name: 'Elon',
@@ -38,7 +38,7 @@ describe('commandHandler', async () => {
   })
 
   it('should process the MockCreateUser Command and emit the MockUserCreated Event', async () => {
-    const events = await eventStore.load('users', <string>command.aggregateId)
+    const events = await eventStore.load('users', command.aggregateId)
     const event = events.at(0)
     expect(events).toHaveLength(1)
     expect(event?.type).toBe('UserCreated')
@@ -47,9 +47,9 @@ describe('commandHandler', async () => {
 
   it('should process the MockUpdateUserName Command and emit the MockUserNameUpdated Event', async () => {
     const updateUserNameHandler = new UpdateUserNameHandler(repository)
-    const updateUserNameCommand = createUpdateNameOfUserCommand(<string>command.aggregateId, { name: 'test' })
+    const updateUserNameCommand = createUpdateNameOfUserCommand(command.aggregateId, { name: 'test' })
     await updateUserNameHandler.execute(updateUserNameCommand)
-    const events = await eventStore.load('users', <string>command.aggregateId)
+    const events = await eventStore.load('users', command.aggregateId)
     const event = events.at(1)
     expect(events).toHaveLength(2)
     expect(event?.type).toBe('UserNameUpdated')

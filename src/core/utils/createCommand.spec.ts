@@ -10,7 +10,7 @@ describe('createCommand util', () => {
 
   it('should create an command-like object', () => {
     const aggregateId = randomUUID()
-    const command = createCommand('testCommand', aggregateId, 'User', { value: 'test' }, {})
+    const command = createCommand('testCommand', aggregateId, { value: 'test' }, {})
     expect(command).toStrictEqual(
       expect.objectContaining({
         id: expect.any(String),

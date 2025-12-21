@@ -34,7 +34,6 @@ export class SimpleEventStore<TEvent extends DomainEvent> implements EventStore<
     const currentStream = await this.load(streamName, event.aggregateId)
     const eventsToStore = events
       .map(event => createStoredEvent(streamName, currentStream.length + 1, event))
-
     await Promise.all(
       eventsToStore.map(async payload => this.database.execute(this.tableName, { operation: Operation.CREATE, payload }),
       ),

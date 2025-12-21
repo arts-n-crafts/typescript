@@ -10,7 +10,7 @@ export function createUserRegistrationEmailSent(
   props: UserRegistrationEmailSentPayload,
   metadata?: Partial<DomainEventMetadata>,
 ): DomainEvent<UserRegistrationEmailSentPayload> {
-  return createDomainEvent('UserRegistrationEmailSent', aggregateId, 'User', props, metadata)
+  return createDomainEvent('UserRegistrationEmailSent', aggregateId, props, metadata)
 }
 
 export type UserRegistrationEmailSentEvent = ReturnType<typeof createUserRegistrationEmailSent>
