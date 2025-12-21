@@ -4,8 +4,6 @@ export * from './CommandBus/implementations/SimpleCommandBus.ts'
 export * from './Database/Database.ts'
 export * from './Database/implementations/SimpleDatabase.ts'
 
-export * from './Directive/Directive.ts'
-
 export * from './EventBus/EventBus.ts'
 export * from './EventBus/implementations/SimpleEventBus.ts'
 export * from './EventBus/IntegrationEvent.ts'
