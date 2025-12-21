@@ -10,6 +10,6 @@ export interface DomainEvent<TPayload = unknown> {
   aggregateId: string
   source: 'internal'
   payload: TPayload
-  timestamp: string
+  timestamp: number
   metadata: Partial<DomainEventMetadata>
 }

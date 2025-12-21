@@ -5,5 +5,5 @@ export interface OutboxEntry {
   event: DomainEvent
   published: boolean
   retryCount: number
-  lastAttemptAt?: string
+  lastAttemptAt?: number
 }

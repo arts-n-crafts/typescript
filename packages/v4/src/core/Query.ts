@@ -8,6 +8,6 @@ export interface Query<TType = string, TPayload = unknown> extends WithIdentifie
   type: TType
   payload: TPayload
   kind: 'query'
-  timestamp: string
+  timestamp: number
   metadata: Partial<QueryMetadata>
 }

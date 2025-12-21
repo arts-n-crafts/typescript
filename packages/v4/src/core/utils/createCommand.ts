@@ -8,7 +8,7 @@ export function createCommand<TType extends string, TPayload>(type: TType, aggre
     aggregateId: String(aggregateId),
     payload,
     kind: 'command' as const,
-    timestamp: new Date().toISOString(),
+    timestamp: Math.floor(new Date().getTime() / 1000),
     metadata,
   })
 }

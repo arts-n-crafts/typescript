@@ -13,7 +13,7 @@ describe('createQuery util', () => {
       expect.objectContaining({
         id: expect.any(String),
         kind: 'query',
-        timestamp: expect.any(String),
+        timestamp: expect.any(Number),
         metadata: expect.objectContaining({
         }),
         payload: {

@@ -11,6 +11,6 @@ export interface Command<TType = string, TPayload = unknown> extends WithIdentif
   aggregateId: string
   payload: TPayload
   kind: 'command'
-  timestamp: string
+  timestamp: number
   metadata: Partial<CommandMetadata>
 }

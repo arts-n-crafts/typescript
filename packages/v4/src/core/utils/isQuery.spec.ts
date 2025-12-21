@@ -13,7 +13,7 @@ describe('isQuery util', () => {
       type: 'TestQuery',
       payload: {},
       kind: 'query',
-      timestamp: new Date().toISOString(),
+      timestamp: Math.floor(new Date().getTime() / 1000),
       metadata: {},
     }
     expect(isQuery(query)).toBeTruthy()
@@ -28,7 +28,7 @@ describe('isQuery util', () => {
         id: randomUUID(),
         payload: {},
         kind: 'query',
-        timestamp: new Date().toISOString(),
+        timestamp: Math.floor(new Date().getTime() / 1000),
         metadata: {},
       },
     },
@@ -39,7 +39,7 @@ describe('isQuery util', () => {
         type: 'TestQuery',
         payload: {},
         kind: undefined,
-        timestamp: new Date().toISOString(),
+        timestamp: Math.floor(new Date().getTime() / 1000),
         metadata: {},
       },
     },
@@ -50,7 +50,7 @@ describe('isQuery util', () => {
         type: 'TestQuery',
         payload: {},
         metadata: {
-          timestamp: new Date().toISOString(),
+          timestamp: Math.floor(new Date().getTime() / 1000),
         },
       },
     },

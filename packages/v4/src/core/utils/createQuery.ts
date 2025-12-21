@@ -7,7 +7,7 @@ export function createQuery<TType extends string, TPayload>(type: TType, payload
     type,
     payload,
     kind: 'query',
-    timestamp: new Date().toISOString(),
+    timestamp: Math.floor(new Date().getTime() / 1000),
     metadata,
   })
 }

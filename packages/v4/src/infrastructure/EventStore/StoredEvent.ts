@@ -1,9 +1,9 @@
-import type { StreamKey } from '@utils/streamKey/StreamKey.ts'
+import type { StreamKey } from '@utils/index.ts'
 
 export interface StoredEvent<TEvent> {
   id: string
   streamKey: StreamKey
   version: number
-  createdAt: string
+  timestamp: number
   event: TEvent
 }

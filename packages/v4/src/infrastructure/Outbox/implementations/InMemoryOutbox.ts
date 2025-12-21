@@ -30,7 +30,7 @@ export class InMemoryOutbox implements Outbox {
     const entry = this.entries.find(e => e.id === id)
     if (entry) {
       entry.retryCount += 1
-      entry.lastAttemptAt = new Date().toISOString()
+      entry.lastAttemptAt = Math.floor(new Date().getTime() / 1000)
     }
   }
 }
