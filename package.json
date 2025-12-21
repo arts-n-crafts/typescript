@@ -42,29 +42,55 @@
     "typescript": "^5.8.3"
   },
   "exports": {
-    "./package.json": "./package.json",
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    }
+      "import": {
+        "types": "./packages/v3/dist/index.d.ts",
+        "default": "./packages/v3/dist/index.js"
+      },
+      "require": {
+        "types": "./packages/v3/dist/index.d.cts",
+        "default": "./packages/v3/dist/index.cjs"
+      }
+    },
+    "./v3": {
+      "import": {
+        "types": "./packages/v3/dist/index.d.ts",
+        "default": "./packages/v3/dist/index.js"
+      },
+      "require": {
+        "types": "./packages/v3/dist/index.d.cts",
+        "default": "./packages/v3/dist/index.cjs"
+      }
+    },
+    "./v4": {
+      "import": {
+        "types": "./packages/v4/dist/index.d.ts",
+        "default": "./packages/v4/dist/index.js"
+      },
+      "require": {
+        "types": "./packages/v4/dist/index.d.cts",
+        "default": "./packages/v4/dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
   },
   "files": [
-    "dist"
+    "packages/v3/dist",
+    "packages/v4/dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
   ],
   "private": false,
   "scripts": {
     "prepare": "husky",
     "commit": "cz",
-    "lint": "eslint src/",
-    "lint:fix": "eslint --fix src/",
-    "test": "NODE_ENV=test vitest",
-    "test:watch": "NODE_ENV=test vitest --coverage --watch",
-    "test:ui": "NODE_ENV=test vitest --watch --coverage --ui",
-    "coverage": "NODE_ENV=test vitest --coverage",
-    "typecheck": "tsc --noEmit",
     "release": "release-it && npm publish --access=public",
-    "build": "rimraf dist && tsup",
-    "check-exports": "attw --pack ."
+    "build": "bun run --workspaces build",
+    "coverage": "bun run --workspaces coverage",
+    "lint:fix": "bun run --workspaces lint:fix ",
+    "typecheck":  "bun run --workspaces typecheck",
+    "check-exports": "attw --pack . --profile node16"
   },
   "type": "module"
 }
