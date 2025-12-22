@@ -64,7 +64,7 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
 
     await Promise.all([
       this.repository.store(domainEvents),
-      integrationEvents.map(async event => this.eventBus.consume(this.streamName, event)),
+      ...integrationEvents.map(async event => this.eventBus.consume(this.streamName, event)),
     ])
 
     if (!this.whenInput) {

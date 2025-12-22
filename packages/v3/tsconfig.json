@@ -17,7 +17,7 @@
       "@infrastructure/*": ["src/infrastructure/*"],
       "@utils/*": ["src/utils/*"]
     },
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals", "bun"],
     "allowImportingTsExtensions": true,
     "allowJs": true,
     // Best practices
