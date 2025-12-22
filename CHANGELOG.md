@@ -1,6 +1,31 @@
 # Changelog
 
 
+## v3.17.0
+
+[compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.16.0...v3.17.0)
+
+### 🚀 Enhancements
+
+- CreateRejection and utils ([f227a51](https://github.com/arts-n-crafts/typescript/commit/f227a51))
+
+### 🏡 Chore
+
+- Update deps ([9851385](https://github.com/arts-n-crafts/typescript/commit/9851385))
+
+### ✅ Tests
+
+- Update getTimestamp with TZ ([980f49f](https://github.com/arts-n-crafts/typescript/commit/980f49f))
+
+### 🤖 CI
+
+- Update install script ([0f0b042](https://github.com/arts-n-crafts/typescript/commit/0f0b042))
+- Fix release ([5ea2f3a](https://github.com/arts-n-crafts/typescript/commit/5ea2f3a))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt
+
 ## v3.16.0
 
 [compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.15.0...v3.16.0)
