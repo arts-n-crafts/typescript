@@ -11,6 +11,10 @@ export interface RejectionMetadata extends BaseMetadata {
 export interface Rejection<TDetails = unknown> {
   /** Unique id; derive from commandId if possible for dedupe. */
   id: string
+  /** Rejection type, format e.g., "{commandType}Rejected", "{commandType}Failed". Example "CreateUserRejected" */
+  type: string
+  /** Discriminator for the message intent. */
+  kind: 'rejection'
   /** Aggregate type when known (for correlation). */
   aggregateType?: string
   /** Aggregate id when known (for correlation/partitioning). */
@@ -22,7 +26,7 @@ export interface Rejection<TDetails = unknown> {
   commandType: string
 
   /** Short machine-readable code, e.g., "VERSION_CONFLICT", "VALIDATION_FAILED". */
-  reasonCode: string
+  reasonCode: string | 'VERSION_CONFLICT' | 'VALIDATION_FAILED'
   /** Human-readable summary (avoid PII if externalized). */
   reason?: string
   /** Classification for routing/metrics. */

@@ -7,6 +7,7 @@ import { User } from '@domain/examples/User.ts'
 import { createUserActivatedEvent } from '@domain/examples/UserActivated.ts'
 import { createUserCreatedEvent } from '@domain/examples/UserCreated.ts'
 import { createUserNameUpdatedEvent } from '@domain/examples/UserNameUpdated.ts'
+import { isRejection } from '@domain/utils/isRejection.ts'
 import { beforeEach } from 'vitest'
 
 describe('user decider', () => {
@@ -49,7 +50,8 @@ describe('user decider', () => {
       const dirtyState = { id: 'abc-123', name: 'NotInitial', email: 'AlsoNotInitial', prospect: false }
       const currentState = pastEvents.reduce(User.evolve, dirtyState)
       const decision = User.decide(createCommand, currentState)
-      expect(decision).toHaveLength(0)
+      expect(decision).toHaveLength(1)
+      expect(isRejection(decision[0])).toBeTruthy()
     })
   })
 

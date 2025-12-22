@@ -6,6 +6,7 @@ import type { StoredEvent } from '@infrastructure/EventStore/StoredEvent.ts'
 import { randomUUID } from 'node:crypto'
 import { createRegisterUserCommand } from '@core/examples/CreateUser.ts'
 import { User } from '@domain/examples/User.ts'
+import { isDomainEvent } from '@domain/utils/isDomainEvent.ts'
 import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
 import { SimpleRepository } from './SimpleRepository.ts'
@@ -33,7 +34,12 @@ describe('simple repository', () => {
     const currentState = pastEvents.reduce(User.evolve, User.initialState(<string>createCommand.aggregateId))
 
     const events = User.decide(createCommand, currentState)
-    const result = await repository.store(events)
+    const event = events[0]
+    if (!isDomainEvent(event)) {
+      throw new Error('Expected DomainEvent')
+    }
+
+    const result = await repository.store([event])
     expect(result).toBeUndefined()
   })
   it('should load the current user state', async () => {
@@ -41,10 +47,15 @@ describe('simple repository', () => {
     const currentState = pastEvents.reduce(User.evolve, User.initialState(<string>createCommand.aggregateId))
 
     const events = User.decide(createCommand, currentState)
-    await repository.store(events)
+    const event = events[0]
+    if (!isDomainEvent(event)) {
+      throw new Error('Expected DomainEvent')
+    }
+
+    await repository.store([event])
     const userState = await repository.load(<string>createCommand.aggregateId)
     expect(userState).toStrictEqual({
-      ...events[0].payload,
+      ...event.payload,
       id: createCommand.aggregateId,
     })
   })

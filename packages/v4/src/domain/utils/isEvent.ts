@@ -1,8 +1,9 @@
 import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { Rejection } from '@domain/Rejection.ts'
 import type { ExternalEvent } from '@infrastructure/EventBus/ExternalEvent.ts'
 import type { IntegrationEvent } from '@infrastructure/EventBus/IntegrationEvent.ts'
 
-export function isEvent(event: unknown): event is DomainEvent | IntegrationEvent | ExternalEvent {
+export function isEvent(event: unknown): event is DomainEvent | IntegrationEvent | ExternalEvent | Rejection {
   if (typeof event !== 'object')
     return false
   if (event === null)

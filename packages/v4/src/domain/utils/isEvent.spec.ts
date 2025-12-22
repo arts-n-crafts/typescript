@@ -1,5 +1,9 @@
 import type { DomainEvent } from '../DomainEvent.ts'
+import { randomUUID } from 'node:crypto'
 import { getTimestamp } from '@core/utils/getTimestamp.ts'
+import { createRejection } from '@domain/utils/createRejection.ts'
+import { isDomainEvent } from '@domain/utils/isDomainEvent.ts'
+import { isRejection } from '@domain/utils/isRejection.ts'
 import { isEvent } from './isEvent.ts'
 
 describe('isEvent util', () => {
@@ -19,6 +23,7 @@ describe('isEvent util', () => {
       metadata: {},
     }
     expect(isEvent(event)).toBeTruthy()
+    expect(isDomainEvent(event)).toBeTruthy()
   })
 
   it.each([
@@ -72,5 +77,20 @@ describe('isEvent util', () => {
     },
   ])('should confirm that the candidate is NOT an event ($__scenario)', ({ input }: { input: unknown }) => {
     expect(isEvent(input)).toBeFalsy()
+  })
+
+  it('should count a rejection as an event', () => {
+    const rejection = createRejection(
+      {
+        classification: 'technical',
+        type: 'Failed',
+        commandId: randomUUID(),
+        commandType: 'CreateUser',
+        reasonCode: 'User already registered',
+      },
+    )
+
+    expect(isEvent(rejection)).toBeTruthy()
+    expect(isRejection(rejection)).toBeTruthy()
   })
 })
