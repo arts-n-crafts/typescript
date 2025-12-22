@@ -6,7 +6,7 @@ describe('getTimestamp util', () => {
   })
 
   it('should create a unix timestamp in seconds', () => {
-    const unix = getTimestamp(new Date('12-12-2012'))
-    expect(unix).toBe(1355266800)
+    const unix = getTimestamp(new Date('2012-12-12T00:00:00Z'))
+    expect(unix).toBe(1355270400)
   })
 })
