@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.17.1
+
+[compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.17.0...v3.17.1)
+
+### 🏡 Chore
+
+- Export the isRejection guard ([c12c6cb](https://github.com/arts-n-crafts/typescript/commit/c12c6cb))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt
+
 ## v3.17.0
 
 [compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.16.0...v3.17.0)
