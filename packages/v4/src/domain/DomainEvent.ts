@@ -6,6 +6,10 @@ import type { BaseMetadata } from '@core/types/BaseMetadata.ts'
  */
 
 export interface DomainEventMetadata extends BaseMetadata {
+  /** The command that was triggered to emit this DomainEvent. */
+  commandId?: string
+  /** The command type, e.g., "CreateOrder". */
+  commandType?: string
 }
 
 export interface DomainEvent<TPayload = unknown> {

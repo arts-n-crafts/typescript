@@ -6,6 +6,10 @@ import type { BaseMetadata } from '@core/types/BaseMetadata.ts'
  * IntegrationEvent with outcome="rejected" for external consumers.
  */
 export interface RejectionMetadata extends BaseMetadata {
+  /** Aggregate type when known (for correlation). */
+  aggregateType?: string
+  /** Aggregate id when known (for correlation/partitioning). */
+  aggregateId?: string
 }
 
 export interface Rejection<TDetails = unknown> {
@@ -15,16 +19,11 @@ export interface Rejection<TDetails = unknown> {
   type: string
   /** Discriminator for the message intent. */
   kind: 'rejection'
-  /** Aggregate type when known (for correlation). */
-  aggregateType?: string
-  /** Aggregate id when known (for correlation/partitioning). */
-  aggregateId?: string
 
   /** The command that was rejected. */
   commandId: string
   /** The command type, e.g., "CreateOrder". */
   commandType: string
-
   /** Short machine-readable code, e.g., "VERSION_CONFLICT", "VALIDATION_FAILED". */
   reasonCode: string | 'VERSION_CONFLICT' | 'VALIDATION_FAILED'
   /** Human-readable summary (avoid PII if externalized). */

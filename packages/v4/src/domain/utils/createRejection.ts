@@ -8,8 +8,6 @@ export function createRejection<TDetails = unknown>(
     commandType: Rejection['commandType']
     reasonCode: Rejection['reasonCode']
     reason?: Rejection['reason']
-    aggregateType?: Rejection['aggregateType']
-    aggregateId?: Rejection['aggregateId']
     classification: Rejection['classification']
     retryable?: Rejection['retryable']
     validationErrors?: Rejection['validationErrors']
@@ -24,8 +22,6 @@ export function createRejection<TDetails = unknown>(
     commandType: rejectionSpecifics.commandType,
     reasonCode: rejectionSpecifics.reasonCode,
     reason: rejectionSpecifics.reason,
-    aggregateType: rejectionSpecifics.aggregateType,
-    aggregateId: rejectionSpecifics.aggregateId,
     classification: rejectionSpecifics.classification,
     retryable: rejectionSpecifics.retryable,
     validationErrors: rejectionSpecifics.validationErrors,
