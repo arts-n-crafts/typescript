@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v3.18.0
+
+[compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.17.1...v3.18.0)
+
+### 🚀 Enhancements
+
+- MapRejectionToIntegrationEvent & mapDomainEventToIntegrationEvent ([14e864e](https://github.com/arts-n-crafts/typescript/commit/14e864e))
+
+### 🏡 Chore
+
+- Enable Decider to have optional TRejection ([4beef9f](https://github.com/arts-n-crafts/typescript/commit/4beef9f))
+- Add workspaces to package.json ([4ed1c06](https://github.com/arts-n-crafts/typescript/commit/4ed1c06))
+
+### ❤️ Contributors
+
+- Jvhellemondt <j62676@eon.com>
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.17.1
 
 [compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.17.0...v3.17.1)
