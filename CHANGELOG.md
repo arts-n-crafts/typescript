@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.18.1
+
+[compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.18.0...v3.18.1)
+
+### 🏡 Chore
+
+- Export mapXToIntegrationEvent ([fe71685](https://github.com/arts-n-crafts/typescript/commit/fe71685))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+
 ## v3.18.0
 
 [compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.17.1...v3.18.0)
@@ -16,7 +28,6 @@
 
 ### ❤️ Contributors
 
-- Jvhellemondt <j62676@eon.com>
 - Jens Van Hellemondt <jens@invictus.codes>
 
 ## v3.17.1
