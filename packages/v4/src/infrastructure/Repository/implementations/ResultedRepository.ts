@@ -1,6 +1,5 @@
 import type { Decider } from '@domain/Decider.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
-import type { Rejection } from '@domain/Rejection.ts'
 import type { Repository } from '@domain/Repository.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
 import type { ResultedEventStoreAppendReturnType } from '@infrastructure/EventStore/implementations/ResultedEventStore.ts'
@@ -9,13 +8,13 @@ import { Ok } from 'oxide.ts'
 
 export interface ResultedRepositoryResult { id: string }
 
-export class ResultedRepository<TState, TCommand, TEvent extends DomainEvent, TRejection extends Rejection>
+export class ResultedRepository<TState, TCommand, TEvent extends DomainEvent>
 implements Repository<TEvent, Promise<Result<TState, Error>>, Promise<Result<ResultedRepositoryResult, Error>>> {
   constructor(
     private readonly eventStore: EventStore<TEvent, Promise<ResultedEventStoreAppendReturnType>, Promise<Result<TEvent[], Error>>>,
     readonly streamName: string,
-    private readonly evolveFn: Decider<TState, TCommand, TEvent, TRejection>['evolve'],
-    private readonly initialState: Decider<TState, TCommand, TEvent, TRejection>['initialState'],
+    private readonly evolveFn: Decider<TState, TCommand, TEvent>['evolve'],
+    private readonly initialState: Decider<TState, TCommand, TEvent>['initialState'],
   ) {
   }
 

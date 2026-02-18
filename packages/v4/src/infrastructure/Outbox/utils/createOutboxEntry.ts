@@ -1,15 +1,15 @@
-import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { IntegrationEvent } from '@infrastructure/EventBus/IntegrationEvent.ts'
 import type { OutboxEntry } from '../OutboxEntry.ts'
 import { randomUUID } from 'node:crypto'
 
 export function createOutboxEntry(
-  event: DomainEvent<unknown>,
+  event: IntegrationEvent,
 ): OutboxEntry {
-  return Object.freeze({
+  return {
     id: randomUUID(),
     event,
     published: false,
     retryCount: 0,
     lastAttemptAt: undefined,
-  })
+  }
 }

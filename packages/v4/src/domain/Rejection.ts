@@ -12,7 +12,7 @@ export interface RejectionMetadata extends BaseMetadata {
   aggregateId?: string
 }
 
-export interface Rejection<TDetails = unknown> {
+export interface Rejection<TDetails = object> {
   /** Unique id; derive from commandId if possible for dedupe. */
   id: string
   /** Rejection type, format e.g., "{commandType}Rejected", "{commandType}Failed". Example "CreateUserRejected" */

@@ -1,7 +1,9 @@
+import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { Rejection } from '@domain/Rejection.ts'
 import type { OutboxEntry } from '@infrastructure/Outbox/OutboxEntry.ts'
 
 interface Queueable<TReturnType = Promise<void>> {
-  enqueue(event: OutboxEntry['event']): TReturnType
+  enqueue(event: DomainEvent | Rejection): TReturnType
 }
 
 export interface Outbox<

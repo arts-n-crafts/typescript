@@ -1,7 +1,6 @@
 export * from './Command.ts'
 export * from './CommandHandler.ts'
 export * from './EventHandler.ts'
-export * from './Module.interface.ts'
 export * from './Query.ts'
 export * from './QueryHandler.ts'
 

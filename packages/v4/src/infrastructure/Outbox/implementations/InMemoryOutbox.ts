@@ -1,19 +1,22 @@
 import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { Rejection } from '@domain/Rejection.ts'
 import type { Outbox } from '../Outbox.ts'
 import type { OutboxEntry } from '../OutboxEntry.ts'
 import { getTimestamp } from '@core/utils/getTimestamp.ts'
+import { convertDomainEventToIntegrationEvent } from '@domain/utils/convertDomainEventToIntegrationEvent.ts'
+import { convertRejectionToIntegrationEvent } from '@domain/utils/convertRejectionToIntegrationEvent.ts'
+import { isRejection } from '@domain/utils/isRejection.ts'
+import { createOutboxEntry } from '../utils/createOutboxEntry.ts'
 
 export class InMemoryOutbox implements Outbox {
   protected entries: OutboxEntry[] = []
   protected idCounter = 0
 
-  async enqueue(event: DomainEvent<unknown>): Promise<void> {
-    this.entries.push({
-      id: (this.idCounter++).toString(),
-      event,
-      published: false,
-      retryCount: 0,
-    })
+  async enqueue(event: DomainEvent | Rejection): Promise<void> {
+    const integrationEvent = isRejection(event)
+      ? convertRejectionToIntegrationEvent(event)
+      : convertDomainEventToIntegrationEvent(event)
+    this.entries.push(createOutboxEntry(integrationEvent))
   }
 
   async getPending(limit = 100): Promise<OutboxEntry[]> {

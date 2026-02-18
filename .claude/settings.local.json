@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__plugin_qmd-plugin_qmd__search",
+      "mcp__plugin_qmd-plugin_qmd__vector_search",
+      "mcp__plugin_qmd-plugin_qmd__get",
+      "Bash(bun run lint:fix:*)",
+      "Bash(bun run typecheck:*)",
+      "Bash(bun run coverage:*)",
+      "Bash(bun run test:*)",
+      "Bash(bun run check-exports:*)"
+    ]
+  }
+}

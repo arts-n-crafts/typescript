@@ -14,12 +14,14 @@ import { SimpleCommandBus } from '@infrastructure/CommandBus/implementations/Sim
 import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import { createContractSigned } from '@infrastructure/EventBus/examples/CreateContractSigned.ts'
 import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
+import { InMemoryOutbox } from '@infrastructure/Outbox/implementations/InMemoryOutbox.ts'
 import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 
 describe('contractSignedHandler', () => {
   let database: Database<StoredEvent<UserEvent>, Promise<void>, Promise<StoredEvent<UserEvent>[]>>
   let eventStore: EventStore<UserEvent, Promise<void>, Promise<UserEvent[]>>
   let repository: Repository<UserEvent, Promise<UserState>>
+  let outbox: InMemoryOutbox
   let commandBus: SimpleCommandBus<UserCommand>
   let createUserHandler: CreateUserHandler
   let contractSignedHandler: ContractSignedHandler
@@ -36,10 +38,11 @@ describe('contractSignedHandler', () => {
 
   beforeEach(async () => {
     database = new SimpleDatabase()
-    eventStore = new SimpleEventStore(database)
+    outbox = new InMemoryOutbox()
+    eventStore = new SimpleEventStore(database, outbox)
     repository = new SimpleRepository(eventStore, 'users', User.evolve, User.initialState)
     commandBus = new SimpleCommandBus()
-    createUserHandler = new CreateUserHandler(repository)
+    createUserHandler = new CreateUserHandler(repository, outbox)
     await createUserHandler.execute(createUserCommand)
     contractSignedHandler = new ContractSignedHandler(commandBus)
     activateUserHandler = new ActivateUserHandler(repository)

@@ -1,8 +1,8 @@
-import type { DomainEvent } from '@domain/DomainEvent.ts'
+import type { IntegrationEvent } from '@infrastructure/EventBus/IntegrationEvent.ts'
 
 export interface OutboxEntry {
   id: string
-  event: DomainEvent
+  event: IntegrationEvent
   published: boolean
   retryCount: number
   lastAttemptAt?: number

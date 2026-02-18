@@ -7,7 +7,7 @@ import type { UserActivatedEvent } from '@domain/examples/UserActivated.ts'
 import type { UserCreatedEvent } from '@domain/examples/UserCreated.ts'
 import type { UserNameUpdatedEvent } from '@domain/examples/UserNameUpdated.ts'
 import type { UserRegistrationEmailSentEvent } from '@domain/examples/UserRegistrationEmailSent.ts'
-import { createUserAlreadyExistsRejection } from '@core/examples/UserAlreadyExists.ts'
+import type { Rejection } from '@domain/Rejection.ts'
 import { createUserActivatedEvent } from '@domain/examples/UserActivated.ts'
 import { createUserCreatedEvent } from '@domain/examples/UserCreated.ts'
 import { createUserNameUpdatedEvent } from '@domain/examples/UserNameUpdated.ts'
@@ -58,11 +58,26 @@ function evolveUserState(this: void, currentState: UserState, event: UserEvent):
   }
 }
 
-function decideUserState(this: void, command: UserCommand, currentState: UserState): (UserEvent | UserRejection)[] {
+function decideUserState(this: void, command: UserCommand, currentState: UserState): UserEvent[] | Rejection {
   switch (command.type) {
     case 'CreateUser': {
       if (!isInitialState(currentState)) {
-        return [createUserAlreadyExistsRejection(command)]
+        return {
+          id: command.id,
+          type: 'CreateUserRejected',
+          kind: 'rejection',
+          commandId: command.id,
+          commandType: command.type,
+          reasonCode: 'ALREADY_EXISTS',
+          reason: 'User already exists',
+          classification: 'business',
+          retryable: false,
+          timestamp: command.timestamp,
+          metadata: {
+            aggregateType: command.aggregateType,
+            aggregateId: <string>command.aggregateId,
+          },
+        } satisfies Rejection
       }
       return [createUserCreatedEvent(<string>command.aggregateId, command.payload, command.metadata)]
     }
@@ -83,7 +98,7 @@ function decideUserState(this: void, command: UserCommand, currentState: UserSta
   }
 }
 
-export const User: Decider<UserState, UserCommand, UserEvent, UserRejection> = {
+export const User: Decider<UserState, UserCommand, UserEvent> = {
   initialState: initialUserState,
   evolve: evolveUserState,
   decide: decideUserState,

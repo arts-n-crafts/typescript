@@ -1,15 +1,14 @@
 import type { Decider } from '@domain/Decider.ts'
 import type { DomainEvent } from '@domain/DomainEvent.ts'
-import type { Rejection } from '@domain/Rejection.ts'
 import type { Repository } from '@domain/Repository.ts'
 import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
 
-export class SimpleRepository<TState, TCommand, TEvent extends DomainEvent, TRejection extends Rejection> implements Repository<TEvent, Promise<TState>, Promise<void>> {
+export class SimpleRepository<TState, TCommand, TEvent extends DomainEvent> implements Repository<TEvent, Promise<TState>, Promise<void>> {
   constructor(
     private readonly eventStore: EventStore<TEvent, Promise<void>, Promise<TEvent[]>>,
     readonly streamName: string,
-    private readonly evolveFn: Decider<TState, TCommand, TEvent, TRejection>['evolve'],
-    private readonly initialState: Decider<TState, TCommand, TEvent, TRejection>['initialState'],
+    private readonly evolveFn: Decider<TState, TCommand, TEvent>['evolve'],
+    private readonly initialState: Decider<TState, TCommand, TEvent>['initialState'],
   ) {
   }
 
