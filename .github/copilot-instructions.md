@@ -103,9 +103,13 @@ Use Read/Glob only if qmd doesn’t return enough results.
 
 ## Rule: after completing a plan run checks
 
-Run the checks: 
+Run the checks:
 
 - bun run lint:fix                 # Auto-fix lint issues
 - bun run typecheck                # Type-check all packages
 - bun run coverage                 # Run tests with coverage for all packages
 - bun run check-exports            # Validate package exports with attw
+
+## Rule: use Context7 for update to date documentation
+
+Always use Context7 MCP when I need library/API documentation, code generation, setup or configuration steps without me having to explicitly ask.

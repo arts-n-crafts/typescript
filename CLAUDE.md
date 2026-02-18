@@ -1,6 +1,6 @@
-# CLAUDE.md
+# copilot-instructions.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Github CoPilot when working with code in this repository.
 
 ## Commands
 
@@ -29,7 +29,7 @@ bun run build                    # Build this package only
 Run a single test file:
 
 ```bash
-cd packages/v3
+cd packages/v4
 bun run test src/path/to/file.test.ts
 ```
 
@@ -101,3 +101,27 @@ Use qmd search for quick lookups and qmd query for complex questions.
 
 Use Read/Glob only if qmd doesn’t return enough results.
 
+## Rule: after completing a plan run checks
+
+Run the checks:
+
+- bun run lint:fix                 # Auto-fix lint issues
+- bun run typecheck                # Type-check all packages
+- bun run coverage                 # Run tests with coverage for all packages
+- bun run check-exports            # Validate package exports with attw
+
+## Rule: use Context7 for update to date documentation
+
+Always use Context7 MCP when I need library/API documentation, code generation, setup or configuration steps without me having to explicitly ask.
+
+## Rule: use Copilots instructions for code generation
+
+When generating code, always follow the instructions in .github/copilot-instructions.md to ensure consistency with project conventions and tooling.
+
+## Rule: store prompts in .github/prompts
+
+Store all prompts in .github/prompts/ with descriptive filenames. This keeps the repository organized and allows for easy reference and reuse of prompts.
+
+## Rule: use ADRs for architectural decisions
+
+Document all significant architectural decisions in the docs/adr/ directory using the ADR template. This provides context and rationale for future maintainers and helps track the evolution of the codebase.
