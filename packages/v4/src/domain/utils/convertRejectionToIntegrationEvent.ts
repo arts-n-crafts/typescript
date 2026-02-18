@@ -8,8 +8,8 @@ export function convertRejectionToIntegrationEvent(rejection: Rejection): Integr
     { ...rejection.details, reasonCode: rejection.reasonCode },
     {
       outcome: 'rejected',
-      aggregateType: rejection.aggregateType,
-      aggregateId: rejection.aggregateId,
+      aggregateType: rejection.metadata?.aggregateType,
+      aggregateId: rejection.metadata?.aggregateId,
       commandType: rejection.commandType,
       commandId: rejection.commandId,
     },

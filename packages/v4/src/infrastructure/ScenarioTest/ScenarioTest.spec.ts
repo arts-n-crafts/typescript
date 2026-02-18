@@ -128,6 +128,8 @@ describe('scenarioTest', () => {
         .when(createRegisterUserCommand(id, { name: 'Elon', email: 'musk@theboringcompany.com' }))
         .then({
           id: randomUUID(),
+          type: 'CreateUserRejected',
+          kind: 'rejection',
           commandId: randomUUID(),
           commandType: 'CreateUser',
           reasonCode: 'ALREADY_EXISTS',
@@ -141,6 +143,8 @@ describe('scenarioTest', () => {
           .when(createRegisterUserCommand(id, { name: 'Elon', email: 'musk@theboringcompany.com' }))
           .then({
             id: randomUUID(),
+            type: 'CreateUserRejected',
+            kind: 'rejection',
             commandId: randomUUID(),
             commandType: 'CreateUser',
             reasonCode: 'ALREADY_EXISTS',

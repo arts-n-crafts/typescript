@@ -7,7 +7,6 @@ import { User } from '@domain/examples/User.ts'
 import { createUserActivatedEvent } from '@domain/examples/UserActivated.ts'
 import { createUserCreatedEvent } from '@domain/examples/UserCreated.ts'
 import { createUserNameUpdatedEvent } from '@domain/examples/UserNameUpdated.ts'
-import { isRejection } from '@domain/utils/isRejection.ts'
 import { beforeEach } from 'vitest'
 
 describe('user decider', () => {

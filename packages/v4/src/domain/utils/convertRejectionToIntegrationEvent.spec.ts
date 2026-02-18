@@ -6,14 +6,18 @@ import { convertRejectionToIntegrationEvent } from './convertRejectionToIntegrat
 describe('convertRejectionToIntegrationEvent', () => {
   const rejection: Rejection = {
     id: randomUUID(),
+    type: 'CreateUserRejected',
+    kind: 'rejection',
     commandId: randomUUID(),
     commandType: 'CreateUser',
-    aggregateType: 'User',
-    aggregateId: randomUUID(),
     reasonCode: 'ALREADY_EXISTS',
     reason: 'User already exists',
     classification: 'business',
     timestamp: Date.now(),
+    metadata: {
+      aggregateType: 'User',
+      aggregateId: randomUUID(),
+    },
   }
 
   it('should produce an integration event with kind integration', () => {
@@ -39,8 +43,8 @@ describe('convertRejectionToIntegrationEvent', () => {
 
   it('should carry aggregateType and aggregateId in metadata', () => {
     const result = convertRejectionToIntegrationEvent(rejection)
-    expect(result.metadata.aggregateType).toBe(rejection.aggregateType)
-    expect(result.metadata.aggregateId).toBe(rejection.aggregateId)
+    expect(result.metadata.aggregateType).toBe(rejection.metadata?.aggregateType)
+    expect(result.metadata.aggregateId).toBe(rejection.metadata?.aggregateId)
   })
 
   it('should include reasonCode in the payload', () => {

@@ -64,15 +64,19 @@ function decideUserState(this: void, command: UserCommand, currentState: UserSta
       if (!isInitialState(currentState)) {
         return {
           id: command.id,
+          type: 'CreateUserRejected',
+          kind: 'rejection',
           commandId: command.id,
           commandType: command.type,
-          aggregateType: command.aggregateType,
-          aggregateId: command.aggregateId,
           reasonCode: 'ALREADY_EXISTS',
           reason: 'User already exists',
           classification: 'business',
           retryable: false,
           timestamp: command.timestamp,
+          metadata: {
+            aggregateType: command.aggregateType,
+            aggregateId: <string>command.aggregateId,
+          },
         } satisfies Rejection
       }
       return [createUserCreatedEvent(<string>command.aggregateId, command.payload, command.metadata)]

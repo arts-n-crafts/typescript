@@ -6,6 +6,8 @@ import { isRejection } from './isRejection.ts'
 describe('isRejection', () => {
   const rejection: Rejection = {
     id: randomUUID(),
+    type: 'CreateUserRejected',
+    kind: 'rejection',
     commandId: randomUUID(),
     commandType: 'CreateUser',
     reasonCode: 'ALREADY_EXISTS',
