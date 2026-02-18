@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__plugin_qmd-plugin_qmd__search",
+      "mcp__plugin_qmd-plugin_qmd__vector_search",
+      "mcp__plugin_qmd-plugin_qmd__get"
+    ]
+  }
+}

@@ -81,3 +81,23 @@ Each package is bundled with `tsup` producing both ESM (`.js`) and CJS (`.cjs`) 
 - **ESLint**: `@antfu/eslint-config` with flat config (`eslint.config.mjs`). Method signatures must use method style (`method()` not `method: () =>`).
 - **Commits**: Conventional commits enforced by `commitlint` + Husky. Use `bun run commit` for interactive commit via `commitizen`.
 - **Release**: `release-it` with `changelogen` for changelog generation.
+
+
+## Rule: always use qmd before reading files
+
+Before reading files or exploring directories, always use qmd to search for information in local projects.
+
+Available tools:
+
+- `qmd search “query”` — fast keyword search (BM25)
+
+- `qmd query “query”` — hybrid search with reranking (best quality)
+
+- `qmd vsearch “query”` — semantic vector search
+
+- `qmd get <file>` — retrieve a specific document
+
+Use qmd search for quick lookups and qmd query for complex questions.
+
+Use Read/Glob only if qmd doesn’t return enough results.
+
