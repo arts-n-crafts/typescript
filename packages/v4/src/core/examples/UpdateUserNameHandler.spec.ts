@@ -14,19 +14,22 @@ import { UpdateUserNameHandler } from './UpdateUserNameHandler.ts'
 
 describe('updateUserNameHandler', () => {
   const aggregateId = randomUUID()
+  const createUserCommand = createRegisterUserCommand(aggregateId, { name: 'Elon', email: 'elon@boring.com' })
   let outbox: InMemoryOutbox
+  let eventStore: SimpleEventStore<UserEvent>
+
   let createHandler: CreateUserHandler
   let updateHandler: UpdateUserNameHandler
 
   beforeEach(async () => {
     const database = new SimpleDatabase<StoredEvent<UserEvent>>()
     outbox = new InMemoryOutbox()
-    const eventStore = new SimpleEventStore<UserEvent>(database, outbox)
+    eventStore = new SimpleEventStore<UserEvent>(database, outbox)
     const repository = new SimpleRepository<UserState, UserEvent, UserEvent>(eventStore, 'users', User.evolve, User.initialState)
     createHandler = new CreateUserHandler(repository, outbox)
     updateHandler = new UpdateUserNameHandler(repository)
 
-    await createHandler.execute(createRegisterUserCommand(aggregateId, { name: 'Elon', email: 'elon@boring.com' }))
+    await createHandler.execute(createUserCommand)
     const pending = await outbox.getPending()
     await outbox.markAsPublished(pending[0].id)
   })
@@ -43,5 +46,15 @@ describe('updateUserNameHandler', () => {
     await updateHandler.execute(createUpdateNameOfUserCommand(aggregateId, { name: 'Elon' }))
     const pending = await outbox.getPending()
     expect(pending).toHaveLength(0)
+  })
+
+  it('should do nothing on rejection', async () => {
+    // @ts-expect-error test rejection path
+    const result = await updateHandler.execute(createUserCommand)
+    const events = await eventStore.load('users', <string>createUserCommand.aggregateId)
+    const currentState = events.reduce(User.evolve, User.initialState(<string>createUserCommand.aggregateId))
+    expect(events).toHaveLength(1)
+    expect(currentState.prospect).toBe(true)
+    expect(result).toBeUndefined()
   })
 })

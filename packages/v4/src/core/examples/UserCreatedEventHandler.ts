@@ -25,7 +25,6 @@ export class UserCreatedEventHandler implements EventHandler<UserCreatedEvent, P
         { status: 'SUCCESS' },
         { causationId: anEvent.id },
       )
-
       await this.repository.store([emailSentEvent])
     }
   }

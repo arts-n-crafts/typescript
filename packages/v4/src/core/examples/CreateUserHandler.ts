@@ -10,16 +10,15 @@ export class CreateUserHandler implements CommandHandler<RegisterUserCommand> {
   constructor(
     private readonly repository: Repository<UserEvent, Promise<UserState>, Promise<void>>,
     private readonly outbox: Outbox,
-  ) {}
+  ) {
+  }
 
   async execute(aCommand: RegisterUserCommand): Promise<void> {
     const currentState = await this.repository.load(<string>aCommand.aggregateId)
-    const result = User.decide(aCommand, currentState)
-    if (isRejection(result)) {
-      await this.outbox.enqueue(result)
+    const decision = User.decide(aCommand, currentState)
+    if (!isRejection(decision)) {
+      return this.repository.store(decision)
     }
-    else {
-      await this.repository.store(result)
-    }
+    await this.outbox.enqueue(decision)
   }
 }
