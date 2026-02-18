@@ -19,7 +19,6 @@ import { isRejection } from '@domain/utils/isRejection.ts'
 import { fail } from '@utils/fail/fail.ts'
 import { invariant } from '@utils/invariant/invariant.ts'
 import { isEqual } from '@utils/isEqual/isEqual.ts'
-import { isIntegrationEvent } from '../EventBus/utils/isIntegrationEvent.ts'
 
 type GivenInput = DomainEvent[]
 type WhenInput = Command | Query | DomainEvent | IntegrationEvent | ExternalEvent
@@ -88,13 +87,11 @@ export class ScenarioTest<TState, TEvent extends DomainEvent> {
       return
     }
 
-    if (isDomainEvent(this.whenInput) || isIntegrationEvent(this.whenInput) || isEvent(this.whenInput)) {
-      invariant(
-        isDomainEvent(thenInput),
-        fail(new TypeError('When "domain event" or "integration event" expects a domain event in the then-step')),
-      )
-      await this.handleEvent(this.whenInput as DomainEvent | IntegrationEvent, thenInput)
-    }
+    invariant(
+      isDomainEvent(thenInput),
+      fail(new TypeError('When "domain event" or "integration event" expects a domain event in the then-step')),
+    )
+    await this.handleEvent(this.whenInput as DomainEvent | IntegrationEvent, thenInput)
   }
 
   private async handleCommand(command: Command, outcome: DomainEvent | Rejection): Promise<void> {

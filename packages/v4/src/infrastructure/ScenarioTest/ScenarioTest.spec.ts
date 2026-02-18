@@ -25,6 +25,7 @@ import { SimpleCommandBus } from '@infrastructure/CommandBus/implementations/Sim
 import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import { createContractSigned } from '@infrastructure/EventBus/examples/CreateContractSigned.ts'
 import { SimpleEventBus } from '@infrastructure/EventBus/implementations/SimpleEventBus.ts'
+import { createIntegrationEvent } from '@infrastructure/EventBus/utils/createIntegrationEvent.ts'
 import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
 import { GenericOutboxWorker } from '@infrastructure/Outbox/implementations/GenericOutboxWorker.ts'
 import { InMemoryOutbox } from '@infrastructure/Outbox/implementations/InMemoryOutbox.ts'
@@ -76,8 +77,8 @@ describe('scenarioTest', () => {
     eventBus.subscribe(collectionName, new UserProjectionHandler(userDatabase))
 
     commandBus.register('CreateUser', new CreateUserHandler(repository, outbox))
-    commandBus.register('UpdateUserName', new UpdateUserNameHandler(repository, outbox))
-    commandBus.register('ActivateUser', new ActivateUserHandler(repository, outbox))
+    commandBus.register('UpdateUserName', new UpdateUserNameHandler(repository))
+    commandBus.register('ActivateUser', new ActivateUserHandler(repository))
 
     queryBus.register('GetUserByEmail', new GetUserByEmailHandler(userDatabase) as unknown as Parameters<typeof queryBus.register>[1])
   })
@@ -197,6 +198,13 @@ describe('scenarioTest', () => {
       await scenarioTest
         .given(createUserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }))
         .when(createContractSigned({ userId: id, product: '1' }))
+        .then(createUserActivatedEvent(id, {}))
+    })
+
+    it('should handle a pure integration event in the when step', async () => {
+      await scenarioTest
+        .given(createUserCreatedEvent(id, { name: 'Elon', email: 'musk@theboringcompany.com' }))
+        .when(createIntegrationEvent('createContractSigned', { userId: id, product: '1' }))
         .then(createUserActivatedEvent(id, {}))
     })
   })
