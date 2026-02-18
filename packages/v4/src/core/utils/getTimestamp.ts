@@ -1,1 +1,1 @@
-export const getTimestamp = (date: Date = new Date()): number => Math.floor(date.getTime() / 1000)
+export const getTimestamp = (date: Date = new Date()): number => date.getTime()
