@@ -49,7 +49,7 @@ describe('commandHandler', async () => {
   })
 
   it('should process the MockUpdateUserName Command and emit the MockUserNameUpdated Event', async () => {
-    const updateUserNameHandler = new UpdateUserNameHandler(repository, outbox)
+    const updateUserNameHandler = new UpdateUserNameHandler(repository)
     const updateUserNameCommand = createUpdateNameOfUserCommand(<string>command.aggregateId, { name: 'test' })
     await updateUserNameHandler.execute(updateUserNameCommand)
     const events = await eventStore.load('users', <string>command.aggregateId)

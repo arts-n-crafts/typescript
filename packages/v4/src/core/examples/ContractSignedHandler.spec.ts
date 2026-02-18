@@ -45,7 +45,7 @@ describe('contractSignedHandler', () => {
     createUserHandler = new CreateUserHandler(repository, outbox)
     await createUserHandler.execute(createUserCommand)
     contractSignedHandler = new ContractSignedHandler(commandBus)
-    activateUserHandler = new ActivateUserHandler(repository, outbox)
+    activateUserHandler = new ActivateUserHandler(repository)
     commandBus.register('ActivateUser', activateUserHandler)
 
     const events = await eventStore.load('users', <string>createUserCommand.aggregateId)

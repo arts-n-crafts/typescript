@@ -31,7 +31,7 @@ describe('resulted commandBus', () => {
     repository = new SimpleRepository(eventStore, 'users', User.evolve, User.initialState)
 
     commandBus = new ResultedCommandBus()
-    handler = new UpdateUserNameHandler(repository, outbox)
+    handler = new UpdateUserNameHandler(repository)
     const createUserHandler = new CreateUserHandler(repository, outbox)
     await createUserHandler.execute(command)
   })

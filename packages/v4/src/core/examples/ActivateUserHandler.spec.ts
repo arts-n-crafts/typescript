@@ -35,7 +35,7 @@ describe('activateUserHandler', () => {
     repository = new SimpleRepository(eventStore, 'users', User.evolve, User.initialState)
     createUserHandler = new CreateUserHandler(repository, outbox)
     await createUserHandler.execute(createUserCommand)
-    activateUserHandler = new ActivateUserHandler(repository, outbox)
+    activateUserHandler = new ActivateUserHandler(repository)
 
     const events = await eventStore.load('users', <string>createUserCommand.aggregateId)
     const currentState = events.reduce(User.evolve, User.initialState(<string>createUserCommand.aggregateId))

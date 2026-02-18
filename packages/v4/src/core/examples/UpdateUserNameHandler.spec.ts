@@ -24,7 +24,7 @@ describe('updateUserNameHandler', () => {
     const eventStore = new SimpleEventStore<UserEvent>(database, outbox)
     const repository = new SimpleRepository<UserState, UserEvent, UserEvent>(eventStore, 'users', User.evolve, User.initialState)
     createHandler = new CreateUserHandler(repository, outbox)
-    updateHandler = new UpdateUserNameHandler(repository, outbox)
+    updateHandler = new UpdateUserNameHandler(repository)
 
     await createHandler.execute(createRegisterUserCommand(aggregateId, { name: 'Elon', email: 'elon@boring.com' }))
     const pending = await outbox.getPending()
