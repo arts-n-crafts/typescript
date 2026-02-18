@@ -1,6 +1,41 @@
 # Changelog
 
 
+## v3.19.0
+
+[compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.18.0...v3.19.0)
+
+### 🚀 Enhancements
+
+- **getTimestamp:** Use epoch as ms ([3aaf3ab](https://github.com/arts-n-crafts/typescript/commit/3aaf3ab))
+- Add-scenario-test-to-v4 ([9700738](https://github.com/arts-n-crafts/typescript/commit/9700738))
+- **v4:** Support pure integration events in ScenarioTest when step ([c4fe3cc](https://github.com/arts-n-crafts/typescript/commit/c4fe3cc))
+
+### 💅 Refactors
+
+- **v4:** Remove outbox dependency from example command handlers ([e132a93](https://github.com/arts-n-crafts/typescript/commit/e132a93))
+
+### 📖 Documentation
+
+- Add CLAUDE ([eee4368](https://github.com/arts-n-crafts/typescript/commit/eee4368))
+- Add capilot-instructions ([fad762b](https://github.com/arts-n-crafts/typescript/commit/fad762b))
+- Update AI instructions ([d1c6f94](https://github.com/arts-n-crafts/typescript/commit/d1c6f94))
+
+### 🏡 Chore
+
+- Export mapXToIntegrationEvent ([fe71685](https://github.com/arts-n-crafts/typescript/commit/fe71685))
+- **release:** V3.18.1 ([7405ccd](https://github.com/arts-n-crafts/typescript/commit/7405ccd))
+- Add qmd for CLAUDE ([cd1e19f](https://github.com/arts-n-crafts/typescript/commit/cd1e19f))
+- Remove Module ([e100eb5](https://github.com/arts-n-crafts/typescript/commit/e100eb5))
+- Update claude permissions ([8d33940](https://github.com/arts-n-crafts/typescript/commit/8d33940))
+- Solve merge conflicts ([b0d5c43](https://github.com/arts-n-crafts/typescript/commit/b0d5c43))
+- Tidying ([6440586](https://github.com/arts-n-crafts/typescript/commit/6440586))
+
+### ❤️ Contributors
+
+- Jens Van Hellemondt <jens@invictus.codes>
+- Jvhellemondt <j62676@eon.com>
+
 ## v3.18.1
 
 [compare changes](https://github.com/arts-n-crafts/typescript/compare/v3.18.0...v3.18.1)
