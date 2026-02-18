@@ -11,6 +11,7 @@ import { createUserCreatedEvent } from '@domain/examples/UserCreated.ts'
 import { createUserNameUpdatedEvent } from '@domain/examples/UserNameUpdated.ts'
 import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
+import { InMemoryOutbox } from '@infrastructure/Outbox/implementations/InMemoryOutbox.ts'
 import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 
 describe('userCreatedEventHandler', () => {
@@ -26,7 +27,8 @@ describe('userCreatedEventHandler', () => {
 
   beforeEach(async () => {
     database = new SimpleDatabase()
-    eventStore = new SimpleEventStore(database)
+    const outbox = new InMemoryOutbox()
+    eventStore = new SimpleEventStore(database, outbox)
     repository = new SimpleRepository(eventStore, 'users', User.evolve, User.initialState)
     handler = new UserCreatedEventHandler(repository)
   })

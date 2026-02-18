@@ -12,6 +12,7 @@ import { UpdateUserNameHandler } from '@core/examples/UpdateUserNameHandler.ts'
 import { User } from '@domain/examples/User.ts'
 import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
+import { InMemoryOutbox } from '@infrastructure/Outbox/implementations/InMemoryOutbox.ts'
 import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 import { SimpleCommandBus } from './SimpleCommandBus.ts'
 
@@ -22,15 +23,17 @@ describe('commandBus', () => {
   let repository: Repository<UserEvent, Promise<UserState>, Promise<void>>
   let commandBus: SimpleCommandBus<UserCommand>
   let handler: UpdateUserNameHandler
+  let outbox: InMemoryOutbox
 
   beforeEach(async () => {
     database = new SimpleDatabase()
-    eventStore = new SimpleEventStore(database)
+    outbox = new InMemoryOutbox()
+    eventStore = new SimpleEventStore(database, outbox)
     repository = new SimpleRepository(eventStore, 'users', User.evolve, User.initialState)
 
     commandBus = new SimpleCommandBus()
-    handler = new UpdateUserNameHandler(repository)
-    const createUserHandler = new CreateUserHandler(repository)
+    handler = new UpdateUserNameHandler(repository, outbox)
+    const createUserHandler = new CreateUserHandler(repository, outbox)
     await createUserHandler.execute(command)
   })
 

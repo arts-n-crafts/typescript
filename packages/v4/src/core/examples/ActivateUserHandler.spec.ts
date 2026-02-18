@@ -11,12 +11,14 @@ import { CreateUserHandler } from '@core/examples/CreateUserHandler.ts'
 import { User } from '@domain/examples/User.ts'
 import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
+import { InMemoryOutbox } from '@infrastructure/Outbox/implementations/InMemoryOutbox.ts'
 import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 
 describe('activateUserHandler', () => {
   let database: Database<StoredEvent<UserEvent>, Promise<void>, Promise<StoredEvent<UserEvent>[]>>
   let eventStore: EventStore<UserEvent, Promise<void>, Promise<UserEvent[]>>
   let repository: Repository<UserEvent, Promise<UserState>>
+  let outbox: InMemoryOutbox
   let createUserHandler: CreateUserHandler
   let activateUserHandler: ActivateUserHandler
   const createUserCommand = createRegisterUserCommand(randomUUID(), {
@@ -28,11 +30,12 @@ describe('activateUserHandler', () => {
 
   beforeEach(async () => {
     database = new SimpleDatabase()
-    eventStore = new SimpleEventStore(database)
+    outbox = new InMemoryOutbox()
+    eventStore = new SimpleEventStore(database, outbox)
     repository = new SimpleRepository(eventStore, 'users', User.evolve, User.initialState)
-    createUserHandler = new CreateUserHandler(repository)
+    createUserHandler = new CreateUserHandler(repository, outbox)
     await createUserHandler.execute(createUserCommand)
-    activateUserHandler = new ActivateUserHandler(repository)
+    activateUserHandler = new ActivateUserHandler(repository, outbox)
 
     const events = await eventStore.load('users', <string>createUserCommand.aggregateId)
     const currentState = events.reduce(User.evolve, User.initialState(<string>createUserCommand.aggregateId))

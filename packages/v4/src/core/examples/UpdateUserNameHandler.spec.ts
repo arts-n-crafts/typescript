@@ -1,49 +1,47 @@
 import type { UserEvent, UserState } from '@domain/examples/User.ts'
-import type { Repository } from '@domain/Repository.ts'
-import type { Database } from '@infrastructure/Database/Database.ts'
-import type { EventStore } from '@infrastructure/EventStore/EventStore.ts'
 import type { StoredEvent } from '@infrastructure/EventStore/StoredEvent.ts'
 import { randomUUID } from 'node:crypto'
 import { createRegisterUserCommand } from '@core/examples/CreateUser.ts'
-import { CreateUserHandler } from '@core/examples/CreateUserHandler.ts'
-import { UpdateUserNameHandler } from '@core/examples/UpdateUserNameHandler.ts'
+import { createUpdateNameOfUserCommand } from '@core/examples/UpdateUserName.ts'
 import { User } from '@domain/examples/User.ts'
 import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
+import { InMemoryOutbox } from '@infrastructure/Outbox/implementations/InMemoryOutbox.ts'
 import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
+import { beforeEach, describe, expect, it } from 'vitest'
+import { CreateUserHandler } from './CreateUserHandler.ts'
+import { UpdateUserNameHandler } from './UpdateUserNameHandler.ts'
 
 describe('updateUserNameHandler', () => {
-  let database: Database<StoredEvent<UserEvent>, Promise<void>, Promise<StoredEvent<UserEvent>[]>>
-  let eventStore: EventStore<UserEvent, Promise<void>, Promise<UserEvent[]>>
-  let repository: Repository<UserEvent, Promise<UserState>>
-  let updateUserNameHandler: UpdateUserNameHandler
-  let createUserHandler: CreateUserHandler
-  const createUserCommand = createRegisterUserCommand(randomUUID(), {
-    name: 'Elon',
-    email: 'musk@x.com',
-    age: 52,
-  })
+  const aggregateId = randomUUID()
+  let outbox: InMemoryOutbox
+  let createHandler: CreateUserHandler
+  let updateHandler: UpdateUserNameHandler
 
   beforeEach(async () => {
-    database = new SimpleDatabase()
-    eventStore = new SimpleEventStore(database)
-    repository = new SimpleRepository(eventStore, 'users', User.evolve, User.initialState)
-    updateUserNameHandler = new UpdateUserNameHandler(repository)
-    createUserHandler = new CreateUserHandler(repository)
-    await createUserHandler.execute(createUserCommand)
+    const database = new SimpleDatabase<StoredEvent<UserEvent>>()
+    outbox = new InMemoryOutbox()
+    const eventStore = new SimpleEventStore<UserEvent>(database, outbox)
+    const repository = new SimpleRepository<UserState, UserEvent, UserEvent>(eventStore, 'users', User.evolve, User.initialState)
+    createHandler = new CreateUserHandler(repository, outbox)
+    updateHandler = new UpdateUserNameHandler(repository, outbox)
+
+    await createHandler.execute(createRegisterUserCommand(aggregateId, { name: 'Elon', email: 'elon@boring.com' }))
+    const pending = await outbox.getPending()
+    await outbox.markAsPublished(pending[0].id)
   })
 
-  it('should be defined', () => {
-    expect(UpdateUserNameHandler).toBeDefined()
+  it('should store a UserNameUpdated event when name changes', async () => {
+    await updateHandler.execute(createUpdateNameOfUserCommand(aggregateId, { name: 'Donald' }))
+    const pending = await outbox.getPending()
+    expect(pending).toHaveLength(1)
+    expect(pending[0].event.type).toBe('UserNameUpdated')
+    expect(pending[0].event.metadata.outcome).toBe('accepted')
   })
 
-  it('should do nothing on rejection', async () => {
-    // @ts-expect-error should do nothing on rejection
-    const result = await updateUserNameHandler.execute(createUserCommand)
-    const events = await eventStore.load('users', <string>createUserCommand.aggregateId)
-    const currentState = events.reduce(User.evolve, User.initialState(<string>createUserCommand.aggregateId))
-    expect(events).toHaveLength(1)
-    expect(currentState.prospect).toBe(true)
-    expect(result).toBeUndefined()
+  it('should store no event when name is unchanged', async () => {
+    await updateHandler.execute(createUpdateNameOfUserCommand(aggregateId, { name: 'Elon' }))
+    const pending = await outbox.getPending()
+    expect(pending).toHaveLength(0)
   })
 })

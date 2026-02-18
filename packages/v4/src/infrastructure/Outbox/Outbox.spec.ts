@@ -25,7 +25,11 @@ describe('inMemoryOutbox', () => {
     await outbox.enqueue(sampleEvent)
     const pending = await outbox.getPending()
     expect(pending).toHaveLength(1)
-    expect(pending[0].event).toEqual(sampleEvent)
+    // outbox converts DomainEvent to IntegrationEvent before storing
+    expect(pending[0].event.kind).toBe('integration')
+    expect(pending[0].event.type).toBe(sampleEvent.type)
+    expect(pending[0].event.payload).toEqual(sampleEvent.payload)
+    expect(pending[0].event.metadata.outcome).toBe('accepted')
     expect(pending[0].published).toBe(false)
     expect(pending[0].retryCount).toBe(0)
   })

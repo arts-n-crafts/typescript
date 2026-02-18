@@ -1,5 +1,6 @@
 import type { UserEvent } from '@domain/examples/User.ts'
 import type { EventConsumer, EventProducer } from '@infrastructure/EventBus/EventBus.ts'
+import type { IntegrationEvent } from '@infrastructure/EventBus/IntegrationEvent.ts'
 import type { Outbox } from './Outbox.ts'
 import { createDomainEvent } from '@domain/utils/createDomainEvent.ts'
 import { SimpleEventBus } from '@infrastructure/EventBus/implementations/SimpleEventBus.ts'
@@ -31,7 +32,12 @@ describe('outboxWorker with InMemoryEventBus', () => {
     await worker.tick()
 
     expect(handler.handle).toHaveBeenCalledTimes(1)
-    expect(handler.handle).toHaveBeenCalledWith(event)
+    // outbox converts DomainEvent → IntegrationEvent before publishing
+    const published = handler.handle.mock.calls[0][0] as IntegrationEvent
+    expect(published.kind).toBe('integration')
+    expect(published.type).toBe(event.type)
+    expect(published.payload).toEqual(event.payload)
+    expect(published.metadata.outcome).toBe('accepted')
 
     const pending = await outbox.getPending()
     expect(pending).toHaveLength(0)

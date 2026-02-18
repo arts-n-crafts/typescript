@@ -10,6 +10,7 @@ import { User } from '@domain/examples/User.ts'
 import { isDomainEvent } from '@domain/utils/isDomainEvent.ts'
 import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
 import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
+import { InMemoryOutbox } from '@infrastructure/Outbox/implementations/InMemoryOutbox.ts'
 import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
 import { CreateUserHandler } from './examples/CreateUserHandler.ts'
 import { UpdateUserNameHandler } from './examples/UpdateUserNameHandler.ts'
@@ -19,6 +20,7 @@ describe('commandHandler', async () => {
   let eventStore: EventStore<UserEvent, Promise<void>, Promise<UserEvent[]>>
   let repository: Repository<UserEvent, Promise<UserState>>
   let createUserHandler: CreateUserHandler
+  let outbox: InMemoryOutbox
   const command = createRegisterUserCommand(randomUUID(), {
     name: 'Elon',
     email: 'musk@x.com',
@@ -27,9 +29,10 @@ describe('commandHandler', async () => {
 
   beforeEach(async () => {
     database = new SimpleDatabase()
-    eventStore = new SimpleEventStore(database)
+    outbox = new InMemoryOutbox()
+    eventStore = new SimpleEventStore(database, outbox)
     repository = new SimpleRepository(eventStore, 'users', User.evolve, User.initialState)
-    createUserHandler = new CreateUserHandler(repository)
+    createUserHandler = new CreateUserHandler(repository, outbox)
     await createUserHandler.execute(command)
   })
 
@@ -46,7 +49,7 @@ describe('commandHandler', async () => {
   })
 
   it('should process the MockUpdateUserName Command and emit the MockUserNameUpdated Event', async () => {
-    const updateUserNameHandler = new UpdateUserNameHandler(repository)
+    const updateUserNameHandler = new UpdateUserNameHandler(repository, outbox)
     const updateUserNameCommand = createUpdateNameOfUserCommand(<string>command.aggregateId, { name: 'test' })
     await updateUserNameHandler.execute(updateUserNameCommand)
     const events = await eventStore.load('users', <string>command.aggregateId)

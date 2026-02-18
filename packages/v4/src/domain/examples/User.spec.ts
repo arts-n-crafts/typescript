@@ -32,9 +32,11 @@ describe('user decider', () => {
       const currentState = pastEvents.reduce(User.evolve, User.initialState(<string>createCommand.aggregateId))
 
       const decide = User.decide(createCommand, currentState)
-      const event = decide.at(0)
+      expect(Array.isArray(decide)).toBe(true)
+      const events = decide as UserEvent[]
+      const event = events.at(0)
 
-      expect(decide).toHaveLength(1)
+      expect(events).toHaveLength(1)
       expect(event).toStrictEqual({
         ...userCreated,
         // eslint-disable-next-line ts/no-unsafe-assignment
@@ -50,8 +52,7 @@ describe('user decider', () => {
       const dirtyState = { id: 'abc-123', name: 'NotInitial', email: 'AlsoNotInitial', prospect: false }
       const currentState = pastEvents.reduce(User.evolve, dirtyState)
       const decision = User.decide(createCommand, currentState)
-      expect(decision).toHaveLength(1)
-      expect(isRejection(decision[0])).toBeTruthy()
+      expect(decision).toMatchObject({ reasonCode: 'ALREADY_EXISTS', commandType: 'CreateUser' })
     })
   })
 
@@ -60,7 +61,7 @@ describe('user decider', () => {
       pastEvents = [userCreated]
       const currentState = pastEvents.reduce(User.evolve, User.initialState(<string>createCommand.aggregateId))
 
-      const decide = User.decide(updateUserName, currentState)
+      const decide = User.decide(updateUserName, currentState) as UserEvent[]
       const event = decide.at(0)
 
       expect(decide).toHaveLength(1)

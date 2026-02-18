@@ -1,9 +1,12 @@
 import type { Rejection } from '@domain/Rejection.ts'
-import { isEvent } from './isEvent.ts'
 
-export function isRejection(event: unknown): event is Rejection {
-  return isEvent(event)
-    && 'commandId' in event
-    && 'reasonCode' in event
-    && event.kind === 'rejection'
+export function isRejection(candidate: unknown): candidate is Rejection {
+  if (candidate === null || typeof candidate !== 'object')
+    return false
+  return (
+    'commandId' in candidate
+    && 'commandType' in candidate
+    && 'reasonCode' in candidate
+    && 'timestamp' in candidate
+  )
 }
