@@ -13,5 +13,6 @@ export function convertRejectionToIntegrationEvent(rejection: Rejection): Integr
       commandType: rejection.commandType,
       commandId: rejection.commandId,
     },
+    new Date(rejection.timestamp).toISOString(),
   )
 }

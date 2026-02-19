@@ -7,5 +7,5 @@ export function convertDomainEventToIntegrationEvent(event: DomainEvent): Integr
     outcome: 'accepted',
     aggregateType: event.aggregateType,
     aggregateId: event.aggregateId,
-  })
+  }, new Date(event.timestamp).toISOString())
 }
