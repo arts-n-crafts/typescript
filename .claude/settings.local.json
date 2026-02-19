@@ -10,7 +10,8 @@
       "Bash(bun run test:*)",
       "Bash(bun run check-exports:*)",
       "mcp__plugin_qmd-plugin_qmd__status",
-      "Bash(webstorm:*)"
+      "Bash(webstorm:*)",
+      "Bash(open -a WebStorm:*)"
     ]
   }
 }
