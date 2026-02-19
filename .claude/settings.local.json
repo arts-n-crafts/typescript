@@ -8,7 +8,8 @@
       "Bash(bun run typecheck:*)",
       "Bash(bun run coverage:*)",
       "Bash(bun run test:*)",
-      "Bash(bun run check-exports:*)"
+      "Bash(bun run check-exports:*)",
+      "mcp__plugin_qmd-plugin_qmd__status"
     ]
   }
 }
