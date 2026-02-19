@@ -13,8 +13,6 @@ export * from './EventBus/utils/createExternalEvent.ts'
 export * from './EventBus/utils/createIntegrationEvent.ts'
 export * from './EventBus/utils/isExternalEvent.ts'
 export * from './EventBus/utils/isIntegrationEvent.ts'
-export * from './EventBus/utils/mapDomainEventToIntegrationEvent.ts'
-export * from './EventBus/utils/mapRejectionToIntegrationEvent.ts'
 
 export * from './EventStore/EventStore.ts'
 export * from './EventStore/implementations/SimpleEventStore.ts'
