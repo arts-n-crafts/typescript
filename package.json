@@ -75,11 +75,22 @@
         "default": "./packages/v4/dist/index.cjs"
       }
     },
+    "./v5": {
+      "import": {
+        "types": "./packages/v5/dist/index.d.ts",
+        "default": "./packages/v5/dist/index.js"
+      },
+      "require": {
+        "types": "./packages/v5/dist/index.d.cts",
+        "default": "./packages/v5/dist/index.cjs"
+      }
+    },
     "./package.json": "./package.json"
   },
   "files": [
     "packages/v3/dist",
     "packages/v4/dist",
+    "packages/v5/dist",
     "package.json",
     "README.md",
     "LICENSE"
