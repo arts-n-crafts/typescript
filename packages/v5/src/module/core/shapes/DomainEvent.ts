@@ -4,25 +4,11 @@
  * context directly; map them to IntegrationEvents when publishing externally.
  */
 
-import type { Metadata } from './Metadata.ts'
-import type { WithIdentifier } from './WithIdentifier.ts'
+import type { Message } from './Message.ts'
 
-export interface DomainEvent<TPayload = unknown> extends WithIdentifier {
-  /** Event type, e.g., "OrderCreated". */
-  type: string
-  /** Aggregate type, e.g., "Order". */
-  aggregateType: string
-  /** Aggregate id. */
-  aggregateId: string
-  /** Event payload (state change details). */
-  payload: TPayload
-  /**
-   * Event time in epoch milliseconds (internal consistency for ES and sorting).
-   * Prefer number internally; convert to ISO for outbound messages.
-   */
-  timestamp: number
-  /** Optional metadata; keep it small and stable. */
-  metadata: Metadata
-  /** Discriminator for the message intent. */
+export interface DomainEvent<TType = string, TPayload = unknown> extends Message<TType, TPayload> {
   kind: 'domain'
+  aggregateType: string
+  aggregateId: string
+  aggregateVersion: number
 }
