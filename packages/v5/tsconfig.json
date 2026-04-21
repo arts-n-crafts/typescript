@@ -12,10 +12,10 @@
     // Bundler mode
     "moduleResolution": "NodeNext",
     "paths": {
-      "@domain/*": ["src/domain/*"],
-      "@core/*": ["src/core/*"],
-      "@infrastructure/*": ["src/infrastructure/*"],
-      "@utils/*": ["src/utils/*"]
+      "@core/*": ["src/module/core/*"],
+      "@useCases/*": ["src/module/useCases/*"],
+      "@adapters/*": ["src/module/adapters/*"],
+      "@shell/*": ["src/shell/*"]
     },
     "types": ["vitest/globals", "bun"],
     "allowImportingTsExtensions": true,
@@ -33,6 +33,6 @@
     "skipLibCheck": true
   },
   "include": [
-		"./src/**/*", "vitest.config.ts", "tsup.config.ts"],
+		"./src/**/*", "./examples/**/*", "vitest.config.ts", "tsup.config.ts"],
   "exclude": ["dist", "coverage", ".husky", ".github", "node_modules"]
 }
