@@ -7,7 +7,6 @@
     "moduleDetection": "force",
 
     // Path
-    "baseUrl": "./",
     "module": "NodeNext",
     // Bundler mode
     "moduleResolution": "NodeNext",
