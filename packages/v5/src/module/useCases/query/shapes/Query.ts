@@ -1,5 +1,5 @@
-import type { Message } from 'src/module/core/shapes/Message.ts'
+import type { Message } from "src/module/core/shapes/Message.ts";
 
 export interface Query<TType = string, TPayload = unknown> extends Message<TType, TPayload> {
-  kind: 'query'
+  kind: "query";
 }

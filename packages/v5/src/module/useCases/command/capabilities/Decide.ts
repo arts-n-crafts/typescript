@@ -1,7 +1,12 @@
-import type { DomainEvent } from 'src/module/core/shapes/DomainEvent.ts'
-import type { Intent } from 'src/module/core/shapes/Intent.ts'
-import type { Decision } from '../shapes/Decision.ts'
+import type { DomainEvent } from "src/module/core/shapes/DomainEvent.ts";
+import type { Intent } from "src/module/core/shapes/Intent.ts";
+import type { Decision } from "../shapes/Decision.ts";
 
-export interface Decide<TCommand, TState, TEvent extends DomainEvent, TIntent extends Intent = never> {
-  decide(command: TCommand, currentState: TState): Decision<TEvent, TIntent>
+export interface Decide<
+  TCommand,
+  TState,
+  TEvent extends DomainEvent,
+  TIntent extends Intent = never,
+> {
+  decide(command: TCommand, currentState: TState): Decision<TEvent, TIntent>;
 }

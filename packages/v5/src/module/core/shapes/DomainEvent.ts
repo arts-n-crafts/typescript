@@ -4,11 +4,11 @@
  * context directly; map them to IntegrationEvents when publishing externally.
  */
 
-import type { Message } from './Message.ts'
+import type { Message } from "./Message.ts";
 
 export interface DomainEvent<TType = string, TPayload = unknown> extends Message<TType, TPayload> {
-  kind: 'domain'
-  aggregateType: string
-  aggregateId: string
-  aggregateVersion: number
+  kind: "domain";
+  aggregateType: string;
+  aggregateId: string;
+  aggregateVersion: number;
 }

@@ -1,3 +1,3 @@
 export interface HandlesQuery<TQuery, TData = Promise<object>> {
-  handle(input: TQuery): TData
+  handle(input: TQuery): TData;
 }

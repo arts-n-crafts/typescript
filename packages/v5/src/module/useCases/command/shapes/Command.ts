@@ -1,8 +1,8 @@
-import type { Message } from 'src/module/core/shapes/Message.ts'
+import type { Message } from "src/module/core/shapes/Message.ts";
 
 export interface Command<TType = string, TPayload = unknown> extends Message<TType, TPayload> {
-  kind: 'command'
-  aggregateType?: string
-  aggregateId?: string
-  expectedVersion?: number
+  kind: "command";
+  aggregateType?: string;
+  aggregateId?: string;
+  expectedVersion?: number;
 }
