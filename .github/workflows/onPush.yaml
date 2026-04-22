@@ -21,8 +21,10 @@ jobs:
           bun-version: latest
       - name: 📦 Install Dependencies
         run: bun install
-      - name: 🧹 Format
+      - name: 📏 Lint
         run: bun run lint
+      - name: 🧹 Format
+        run: bun run fmt
       - name: 🛠️ Typecheck
         run: bun run typecheck
       - name: 📋 Coverage
