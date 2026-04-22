@@ -1,52 +1,51 @@
 {
-	"name": "@arts-n-crafts/ts-v5-package",
-	"version": "5.0.0",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/arts-n-crafts/typescript.git"
-	},
-	"private": true,
-	"main": "./dist/index.cjs",
-	"module": "./dist/index.js",
-	"files": [
-		"dist"
-	],
-	"devDependencies": {
-		"@antfu/eslint-config": "^8.2.0",
-		"@arethetypeswrong/cli": "^0.18.2",
-		"@commitlint/cli": "^20.5.0",
-		"@commitlint/config-conventional": "^20.5.0",
-		"@eslint/js": "^10.0.1",
-		"@release-it/bumper": "^7.0.5",
-		"@stylistic/eslint-plugin": "^5.10.0",
-		"@types/bun": "^1.3.12",
-		"@vitest/coverage-istanbul": "^4.1.5",
-		"@vitest/ui": "^4.1.5",
-		"changelogen": "^0.6.2",
-		"commitizen": "^4.3.1",
-		"cz-conventional-changelog": "^3.3.0",
-		"eslint": "^10.2.1",
-		"globals": "^17.5.0",
-		"husky": "^9.1.7",
-		"oxide.ts": "^1.1.0",
-		"rimraf": "^6.1.3",
-		"tsup": "^8.5.1",
-		"typescript-eslint": "^8.59.0",
-		"vite-tsconfig-paths": "^6.1.1",
-		"vitest": "^4.1.5"
-	},
-	"peerDependencies": {
-		"typescript": "^6.0.3"
-	},
-	"scripts": {
-		"lint": "eslint src/",
-		"lint:fix": "eslint --fix src/",
-		"test": "NODE_ENV=test vitest",
-		"test:watch": "NODE_ENV=test vitest --coverage --watch",
-		"test:ui": "NODE_ENV=test vitest --watch --coverage --ui",
-		"coverage": "NODE_ENV=test vitest --coverage",
-		"typecheck": "tsc --noEmit",
-		"build": "rimraf dist && tsup"
-	},
-	"type": "module"
+  "name": "@arts-n-crafts/ts-v5-package",
+  "version": "5.0.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arts-n-crafts/typescript.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "scripts": {
+    "lint": "oxlint src/",
+    "lint:fix": "oxlint --fix src/",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "test": "NODE_ENV=test vitest",
+    "test:watch": "NODE_ENV=test vitest --coverage --watch",
+    "test:ui": "NODE_ENV=test vitest --watch --coverage --ui",
+    "coverage": "NODE_ENV=test vitest --coverage",
+    "typecheck": "tsc --noEmit",
+    "build": "rimraf dist && tsup"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.2",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "@release-it/bumper": "^7.0.5",
+    "@types/bun": "^1.3.12",
+    "@vitest/coverage-istanbul": "^4.1.5",
+    "@vitest/ui": "^4.1.5",
+    "changelogen": "^0.6.2",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "globals": "^17.5.0",
+    "husky": "^9.1.7",
+    "oxfmt": "^0.46.0",
+    "oxlint": "^1.61.0",
+    "oxide.ts": "^1.1.0",
+    "rimraf": "^6.1.3",
+    "tsup": "^8.5.1",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.5"
+  },
+  "peerDependencies": {
+    "typescript": "^6.0.3"
+  }
 }
