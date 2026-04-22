@@ -52,8 +52,8 @@ empty `when` throws immediately in `then`.
 ## Interface
 
 ```typescript
-type WhenInput = Command | Query | DomainEvent | IntegrationEvent | ExternalEvent
-type ThenInput = DomainEvent | Rejection | Array<Record<string, unknown>>
+type WhenInput = Command | Query | DomainEvent | IntegrationEvent | ExternalEvent;
+type ThenInput = DomainEvent | Rejection | Array<Record<string, unknown>>;
 
 class ScenarioTest<TState, TEvent extends DomainEvent> {
   constructor(
@@ -67,8 +67,15 @@ class ScenarioTest<TState, TEvent extends DomainEvent> {
     outbox: Outbox,
   ) {}
 
-  given(...events: DomainEvent[]): { when(action: WhenInput): { then(outcome: ThenInput): Promise<void> }, then(outcome: ThenInput): Promise<void> } { return null! }
-  when(action: WhenInput): { then(outcome: ThenInput): Promise<void> } { return null! }
+  given(...events: DomainEvent[]): {
+    when(action: WhenInput): { then(outcome: ThenInput): Promise<void> };
+    then(outcome: ThenInput): Promise<void>;
+  } {
+    return null!;
+  }
+  when(action: WhenInput): { then(outcome: ThenInput): Promise<void> } {
+    return null!;
+  }
   async then(outcome: ThenInput): Promise<void> {}
 }
 ```
@@ -76,10 +83,10 @@ class ScenarioTest<TState, TEvent extends DomainEvent> {
 ## Usage
 
 ```typescript
-import { ScenarioTest } from '@infrastructure/ScenarioTest/ScenarioTest.ts'
+import { ScenarioTest } from "@infrastructure/ScenarioTest/ScenarioTest.ts";
 
 const scenario = new ScenarioTest(
-  'users',
+  "users",
   eventBus,
   eventStore,
   commandBus,
@@ -87,31 +94,39 @@ const scenario = new ScenarioTest(
   repository,
   outboxWorker,
   outbox,
-)
+);
 
 // Command → DomainEvent
 await scenario
-  .given(createUserCreatedEvent(id, { name: 'Alice', email: 'alice@example.com' }))
-  .when(createUpdateNameOfUserCommand(id, { name: 'Bob' }))
-  .then(createUserNameUpdatedEvent(id, { name: 'Bob' }))
+  .given(createUserCreatedEvent(id, { name: "Alice", email: "alice@example.com" }))
+  .when(createUpdateNameOfUserCommand(id, { name: "Bob" }))
+  .then(createUserNameUpdatedEvent(id, { name: "Bob" }));
 
 // Command → Rejection
 await scenario
-  .given(createUserCreatedEvent(id, { name: 'Alice', email: 'alice@example.com' }))
-  .when(createRegisterUserCommand(id, { name: 'Alice', email: 'alice@example.com' }))
-  .then({ id: randomUUID(), kind: 'rejection', type: 'CreateUserRejected', commandId: randomUUID(), commandType: 'CreateUser', reasonCode: 'ALREADY_EXISTS', timestamp: Date.now() })
+  .given(createUserCreatedEvent(id, { name: "Alice", email: "alice@example.com" }))
+  .when(createRegisterUserCommand(id, { name: "Alice", email: "alice@example.com" }))
+  .then({
+    id: randomUUID(),
+    kind: "rejection",
+    type: "CreateUserRejected",
+    commandId: randomUUID(),
+    commandType: "CreateUser",
+    reasonCode: "ALREADY_EXISTS",
+    timestamp: Date.now(),
+  });
 
 // Query
 await scenario
-  .given(createUserCreatedEvent(id, { name: 'Alice', email: 'alice@example.com' }))
-  .when(createGetUserByEmailQuery({ email: 'alice@example.com' }))
-  .then([{ id, name: 'Alice', email: 'alice@example.com' }])
+  .given(createUserCreatedEvent(id, { name: "Alice", email: "alice@example.com" }))
+  .when(createGetUserByEmailQuery({ email: "alice@example.com" }))
+  .then([{ id, name: "Alice", email: "alice@example.com" }]);
 
 // Integration event triggering a command
 await scenario
-  .given(createUserCreatedEvent(id, { name: 'Alice', email: 'alice@example.com' }))
-  .when(createContractSigned({ userId: id, product: '1' }))
-  .then(createUserActivatedEvent(id, {}))
+  .given(createUserCreatedEvent(id, { name: "Alice", email: "alice@example.com" }))
+  .when(createContractSigned({ userId: id, product: "1" }))
+  .then(createUserActivatedEvent(id, {}));
 ```
 
 ## Diagrams

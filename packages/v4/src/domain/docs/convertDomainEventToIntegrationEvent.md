@@ -34,7 +34,7 @@ owns the schema mapping. This follows the **Single Responsibility Principle**.
 ## Interface
 
 ```typescript
-export function convertDomainEventToIntegrationEvent(event: DomainEvent): IntegrationEvent
+export function convertDomainEventToIntegrationEvent(event: DomainEvent): IntegrationEvent;
 ```
 
 ## Usage
@@ -42,24 +42,24 @@ export function convertDomainEventToIntegrationEvent(event: DomainEvent): Integr
 In an `OutboxWorker` or `CommandHandler` after saving events:
 
 ```typescript
-import { convertDomainEventToIntegrationEvent } from '@domain/utils/convertDomainEventToIntegrationEvent.ts'
+import { convertDomainEventToIntegrationEvent } from "@domain/utils/convertDomainEventToIntegrationEvent.ts";
 
 for (const event of domainEvents) {
-  const integrationEvent = convertDomainEventToIntegrationEvent(event)
-  await eventBus.publish(integrationEvent)
+  const integrationEvent = convertDomainEventToIntegrationEvent(event);
+  await eventBus.publish(integrationEvent);
 }
 ```
 
 The resulting `IntegrationEvent` will have:
 
-| Field | Value |
-|---|---|
-| `type` | same as `DomainEvent.type` |
-| `payload` | same as `DomainEvent.payload` |
-| `kind` | `'integration'` |
-| `metadata.outcome` | `'accepted'` |
+| Field                    | Value                            |
+| ------------------------ | -------------------------------- |
+| `type`                   | same as `DomainEvent.type`       |
+| `payload`                | same as `DomainEvent.payload`    |
+| `kind`                   | `'integration'`                  |
+| `metadata.outcome`       | `'accepted'`                     |
 | `metadata.aggregateType` | from `DomainEvent.aggregateType` |
-| `metadata.aggregateId` | from `DomainEvent.aggregateId` |
+| `metadata.aggregateId`   | from `DomainEvent.aggregateId`   |
 
 ## Related
 

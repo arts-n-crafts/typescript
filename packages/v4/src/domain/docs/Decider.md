@@ -39,9 +39,9 @@ prefer class-based domain modeling.
 
 ```typescript
 export interface Decider<TState, TCommand, TEvent extends DomainEvent> {
-  decide(this: void, command: TCommand, currentState: TState): TEvent[] | Rejection
-  evolve(this: void, currentState: TState, event: TEvent): TState
-  initialState(this: void, id: string): TState
+  decide(this: void, command: TCommand, currentState: TState): TEvent[] | Rejection;
+  evolve(this: void, currentState: TState, event: TEvent): TState;
+  initialState(this: void, id: string): TState;
 }
 ```
 
@@ -50,58 +50,57 @@ export interface Decider<TState, TCommand, TEvent extends DomainEvent> {
 A complete `Decider` (from `examples/User.ts`):
 
 ```typescript
-import type { Decider } from '@domain/Decider.ts'
+import type { Decider } from "@domain/Decider.ts";
 
 export const User: Decider<UserState, UserCommand, UserEvent> = {
-  initialState: id => ({ id, name: '', email: '', prospect: true }),
+  initialState: (id) => ({ id, name: "", email: "", prospect: true }),
 
   evolve: (currentState, event) => {
     switch (event.type) {
-      case 'UserCreated':
-        return { ...currentState, ...event.payload }
-      case 'UserNameUpdated':
-        return { ...currentState, name: event.payload.name }
-      case 'UserActivated':
-        return { ...currentState, prospect: false }
+      case "UserCreated":
+        return { ...currentState, ...event.payload };
+      case "UserNameUpdated":
+        return { ...currentState, name: event.payload.name };
+      case "UserActivated":
+        return { ...currentState, prospect: false };
       default:
-        return currentState
+        return currentState;
     }
   },
 
   decide: (command, currentState) => {
     switch (command.type) {
-      case 'CreateUser': {
-        if (currentState.name !== '') {
+      case "CreateUser": {
+        if (currentState.name !== "") {
           return {
             id: command.id,
-            type: 'CreateUserRejected',
-            kind: 'rejection',
+            type: "CreateUserRejected",
+            kind: "rejection",
             commandId: command.id,
             commandType: command.type,
-            reasonCode: 'ALREADY_EXISTS',
-            classification: 'business',
+            reasonCode: "ALREADY_EXISTS",
+            classification: "business",
             retryable: false,
             timestamp: command.timestamp,
-          }
+          };
         }
-        return [createUserCreatedEvent(command.aggregateId, command.payload)]
+        return [createUserCreatedEvent(command.aggregateId, command.payload)];
       }
-      case 'UpdateUserName': {
-        if (currentState.name === command.payload.name)
-          return []
-        return [createUserNameUpdatedEvent(command.aggregateId, command.payload)]
+      case "UpdateUserName": {
+        if (currentState.name === command.payload.name) return [];
+        return [createUserNameUpdatedEvent(command.aggregateId, command.payload)];
       }
     }
   },
-}
+};
 ```
 
 Reconstructing state and deciding in a test (no mocks needed):
 
 ```typescript
-const pastEvents = [userCreatedEvent]
-const currentState = pastEvents.reduce(User.evolve, User.initialState(aggregateId))
-const decision = User.decide(updateNameCommand, currentState)
+const pastEvents = [userCreatedEvent];
+const currentState = pastEvents.reduce(User.evolve, User.initialState(aggregateId));
+const decision = User.decide(updateNameCommand, currentState);
 // decision is UserEvent[] or Rejection — plain values, fully assertable
 ```
 

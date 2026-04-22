@@ -1,4 +1,4 @@
-import type { BaseMetadata } from '@core/types/BaseMetadata.ts'
+import type { BaseMetadata } from "@core/types/BaseMetadata.ts";
 
 /**
  * Rejection models a failed command decision. It is NOT part of the aggregate
@@ -7,44 +7,44 @@ import type { BaseMetadata } from '@core/types/BaseMetadata.ts'
  */
 export interface RejectionMetadata extends BaseMetadata {
   /** Aggregate type when known (for correlation). */
-  aggregateType?: string
+  aggregateType?: string;
   /** Aggregate id when known (for correlation/partitioning). */
-  aggregateId?: string
+  aggregateId?: string;
 }
 
 export interface Rejection<TDetails = object> {
   /** Unique id; derive from commandId if possible for dedupe. */
-  id: string
+  id: string;
   /** Rejection type, format e.g., "{commandType}Rejected", "{commandType}Failed". Example "CreateUserRejected" */
-  type: string
+  type: string;
   /** Discriminator for the message intent. */
-  kind: 'rejection'
+  kind: "rejection";
 
   /** The command that was rejected. */
-  commandId: string
+  commandId: string;
   /** The command type, e.g., "CreateOrder". */
-  commandType: string
+  commandType: string;
   /** Short machine-readable code, e.g., "VERSION_CONFLICT", "VALIDATION_FAILED". */
-  reasonCode: string | 'VERSION_CONFLICT' | 'VALIDATION_FAILED'
+  reasonCode: string | "VERSION_CONFLICT" | "VALIDATION_FAILED";
   /** Human-readable summary (avoid PII if externalized). */
-  reason?: string
+  reason?: string;
   /** Classification for routing/metrics. */
-  classification?: 'business' | 'validation' | 'concurrency' | 'technical'
+  classification?: "business" | "validation" | "concurrency" | "technical";
   /** Hint to infra/ops whether retry makes sense. */
-  retryable?: boolean
+  retryable?: boolean;
   /** Structured details specific to this rejection. */
-  details?: TDetails
+  details?: TDetails;
   /**
    * Only for VALIDATION_FAILED: list of field-level errors.
    */
   validationErrors?: Array<{
-    field?: string
-    code: string
-    message?: string
-  }>
+    field?: string;
+    code: string;
+    message?: string;
+  }>;
   /** ISO timestamp for external consistency. */
-  timestamp: number
+  timestamp: number;
 
   /** Optional metadata (trace/correlation/tenant). */
-  metadata?: RejectionMetadata
+  metadata?: RejectionMetadata;
 }

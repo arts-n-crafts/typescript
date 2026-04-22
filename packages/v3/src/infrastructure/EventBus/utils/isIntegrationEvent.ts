@@ -1,7 +1,6 @@
-import type { IntegrationEvent } from '../IntegrationEvent.ts'
-import { isEvent } from '@domain/utils/isEvent.ts'
+import type { IntegrationEvent } from "../IntegrationEvent.ts";
+import { isEvent } from "@domain/utils/isEvent.ts";
 
 export function isIntegrationEvent<TPayload>(event: unknown): event is IntegrationEvent<TPayload> {
-  return isEvent(event)
-    && event.source === 'external'
+  return isEvent(event) && event.source === "external";
 }

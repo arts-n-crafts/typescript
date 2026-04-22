@@ -44,7 +44,7 @@ export interface EventHandler<
   TEvent extends DomainEvent | IntegrationEvent | ExternalEvent,
   TReturnType = Promise<void>,
 > {
-  handle(anEvent: TEvent): TReturnType
+  handle(anEvent: TEvent): TReturnType;
 }
 ```
 
@@ -53,29 +53,31 @@ export interface EventHandler<
 A projection handler (from `examples/UserCreatedEventHandler.ts`):
 
 ```typescript
-import type { EventHandler } from '@core/EventHandler.ts'
-import type { DomainEvent } from '@domain/DomainEvent.ts'
-import type { ExternalEvent } from '@infrastructure/EventBus/ExternalEvent.ts'
-import type { IntegrationEvent } from '@infrastructure/EventBus/IntegrationEvent.ts'
-import { createUserRegistrationEmailSent } from '@domain/examples/UserRegistrationEmailSent.ts'
+import type { EventHandler } from "@core/EventHandler.ts";
+import type { DomainEvent } from "@domain/DomainEvent.ts";
+import type { ExternalEvent } from "@infrastructure/EventBus/ExternalEvent.ts";
+import type { IntegrationEvent } from "@infrastructure/EventBus/IntegrationEvent.ts";
+import { createUserRegistrationEmailSent } from "@domain/examples/UserRegistrationEmailSent.ts";
 
 export class UserCreatedEventHandler implements EventHandler<UserCreatedEvent> {
-  constructor(private readonly repository: Repository<UserEvent, Promise<UserState>, Promise<void>>) {}
+  constructor(
+    private readonly repository: Repository<UserEvent, Promise<UserState>, Promise<void>>,
+  ) {}
 
   isUserCreatedEvent(
     anEvent: DomainEvent | IntegrationEvent | ExternalEvent,
   ): anEvent is UserCreatedEvent {
-    return anEvent.type === 'UserCreated'
+    return anEvent.type === "UserCreated";
   }
 
   async handle(anEvent: DomainEvent | IntegrationEvent | ExternalEvent): Promise<void> {
     if (this.isUserCreatedEvent(anEvent)) {
       const emailSentEvent = createUserRegistrationEmailSent(
         anEvent.aggregateId,
-        { status: 'SUCCESS' },
+        { status: "SUCCESS" },
         { causationId: anEvent.id },
-      )
-      await this.repository.store([emailSentEvent])
+      );
+      await this.repository.store([emailSentEvent]);
     }
   }
 }
@@ -88,9 +90,9 @@ export class ContractSignedHandler implements EventHandler<ContractSignedEvent> 
   constructor(private readonly commandBus: CommandBus<UserCommand>) {}
 
   async handle(anEvent: DomainEvent | IntegrationEvent | ExternalEvent): Promise<void> {
-    if (anEvent.type === 'createContractSigned') {
-      const command = createActivateUserCommand(anEvent.payload.userId, {})
-      await this.commandBus.execute(command)
+    if (anEvent.type === "createContractSigned") {
+      const command = createActivateUserCommand(anEvent.payload.userId, {});
+      await this.commandBus.execute(command);
     }
   }
 }

@@ -33,7 +33,7 @@ export function createIntegrationEvent<TPayload = unknown>(
   type: string,
   payload: TPayload,
   metadata?: Partial<IntegrationEventMetadata>,
-): IntegrationEvent<TPayload>
+): IntegrationEvent<TPayload>;
 ```
 
 ## Usage
@@ -41,18 +41,21 @@ export function createIntegrationEvent<TPayload = unknown>(
 Typically wrapped in a named factory per event type:
 
 ```typescript
-import type { IntegrationEvent, IntegrationEventMetadata } from '@infrastructure/EventBus/IntegrationEvent.ts'
-import { createIntegrationEvent } from '@infrastructure/EventBus/utils/createIntegrationEvent.ts'
+import type {
+  IntegrationEvent,
+  IntegrationEventMetadata,
+} from "@infrastructure/EventBus/IntegrationEvent.ts";
+import { createIntegrationEvent } from "@infrastructure/EventBus/utils/createIntegrationEvent.ts";
 
 export interface CreateUserRejectedPayload {
-  userEmail: string
+  userEmail: string;
 }
 
 export function createUserRejected(
   props: CreateUserRejectedPayload,
   metadata?: Partial<IntegrationEventMetadata>,
 ): IntegrationEvent<CreateUserRejectedPayload> {
-  return createIntegrationEvent('CreateUserRejected', props, metadata)
+  return createIntegrationEvent("CreateUserRejected", props, metadata);
 }
 ```
 
@@ -61,10 +64,10 @@ Or called directly by a conversion utility:
 ```typescript
 // inside convertDomainEventToIntegrationEvent
 return createIntegrationEvent(event.type, event.payload, {
-  outcome: 'accepted',
+  outcome: "accepted",
   aggregateType: event.aggregateType,
   aggregateId: event.aggregateId,
-})
+});
 ```
 
 ## Related

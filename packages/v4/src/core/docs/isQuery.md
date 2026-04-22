@@ -21,26 +21,26 @@ enough for use in any routing context.
 ## Interface
 
 ```typescript
-export function isQuery(candidate: unknown): candidate is Query<unknown>
+export function isQuery(candidate: unknown): candidate is Query<unknown>;
 ```
 
 ## Usage
 
 ```typescript
-import { isCommand } from '@core/utils/isCommand.ts'
-import { isQuery } from '@core/utils/isQuery.ts'
+import { isCommand } from "@core/utils/isCommand.ts";
+import { isQuery } from "@core/utils/isQuery.ts";
 
 function dispatch(message: unknown): void {
   if (isCommand(message)) {
-    return commandBus.execute(message)
+    return commandBus.execute(message);
   }
 
   if (isQuery(message)) {
     // message is narrowed to Query<unknown>
-    return queryBus.execute(message)
+    return queryBus.execute(message);
   }
 
-  throw new Error(`Unknown message type`)
+  throw new Error(`Unknown message type`);
 }
 ```
 

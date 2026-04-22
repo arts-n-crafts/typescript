@@ -1,8 +1,6 @@
-import type { DomainEvent } from '../DomainEvent.ts'
-import { isEvent } from './isEvent.ts'
+import type { DomainEvent } from "../DomainEvent.ts";
+import { isEvent } from "./isEvent.ts";
 
 export function isDomainEvent(event: unknown): event is DomainEvent {
-  return isEvent(event)
-    && 'aggregateId' in event
-    && event.source === 'internal'
+  return isEvent(event) && "aggregateId" in event && event.source === "internal";
 }

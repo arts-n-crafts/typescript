@@ -22,13 +22,13 @@ Pair it with [`fail`](../../fail/docs/fail.md) to produce typed, descriptive
 errors without boilerplate:
 
 ```typescript
-invariant(order.isPending, fail(new Error('Order is no longer pending')))
+invariant(order.isPending, fail(new Error("Order is no longer pending")));
 ```
 
 ## Interface
 
 ```typescript
-export function invariant(condition: boolean, onInvalid: () => never): asserts condition
+export function invariant(condition: boolean, onInvalid: () => never): asserts condition;
 ```
 
 The `asserts condition` return type integrates with TypeScript's control-flow
@@ -38,17 +38,17 @@ is `true`.
 ## Usage
 
 ```typescript
-import { fail } from '@utils/fail/fail.ts'
-import { invariant } from '@utils/invariant/invariant.ts'
+import { fail } from "@utils/fail/fail.ts";
+import { invariant } from "@utils/invariant/invariant.ts";
 
 function activateUser(user: User | null): ActiveUser {
-  invariant(user !== null, fail(new Error('User not found')))
+  invariant(user !== null, fail(new Error("User not found")));
   // TypeScript now knows user is User (not null)
 
-  invariant(user.status === 'pending', fail(new Error('User cannot be activated')))
+  invariant(user.status === "pending", fail(new Error("User cannot be activated")));
   // TypeScript now knows user.status === 'pending'
 
-  return user.activate()
+  return user.activate();
 }
 ```
 

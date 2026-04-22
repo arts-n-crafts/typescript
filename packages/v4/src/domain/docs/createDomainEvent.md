@@ -33,7 +33,7 @@ export function createDomainEvent<TPayload = unknown>(
   aggregateType: string,
   payload: TPayload,
   metadata?: Partial<DomainEventMetadata>,
-): DomainEvent<TPayload>
+): DomainEvent<TPayload>;
 ```
 
 ## Usage
@@ -41,29 +41,35 @@ export function createDomainEvent<TPayload = unknown>(
 Define a typed event factory (from `examples/UserCreated.ts`):
 
 ```typescript
-import type { DomainEvent, DomainEventMetadata } from '@domain/DomainEvent.ts'
-import { createDomainEvent } from '@domain/utils/createDomainEvent.ts'
+import type { DomainEvent, DomainEventMetadata } from "@domain/DomainEvent.ts";
+import { createDomainEvent } from "@domain/utils/createDomainEvent.ts";
 
 export interface UserCreatedPayload {
-  name: string
-  email: string
-  age?: number
-  prospect: boolean
+  name: string;
+  email: string;
+  age?: number;
+  prospect: boolean;
 }
 
 export function createUserCreatedEvent(
   aggregateId: string,
-  payload: Omit<UserCreatedPayload, 'prospect'>,
+  payload: Omit<UserCreatedPayload, "prospect">,
   metadata?: Partial<DomainEventMetadata>,
 ): DomainEvent<UserCreatedPayload> {
-  return createDomainEvent('UserCreated', aggregateId, 'User', { prospect: true, ...payload }, metadata)
+  return createDomainEvent(
+    "UserCreated",
+    aggregateId,
+    "User",
+    { prospect: true, ...payload },
+    metadata,
+  );
 }
 ```
 
 Then inside a `Decider.decide()`:
 
 ```typescript
-return [createUserCreatedEvent(command.aggregateId, command.payload)]
+return [createUserCreatedEvent(command.aggregateId, command.payload)];
 ```
 
 ## Related

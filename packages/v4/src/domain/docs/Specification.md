@@ -15,6 +15,7 @@ Use this when you only need in-memory filtering.
 
 **`CompositeSpecification<T>`** — an abstract class that implements
 `Specification<T>` and adds:
+
 - `.and(other)` — both criteria must be satisfied
 - `.or(other)` — either criterion must be satisfied
 - `.not()` — the criterion must not be satisfied
@@ -26,7 +27,7 @@ a [`Database`](../../infrastructure/docs/Database.md) implementation receives a
 get a structured, backend-agnostic description of the filter, then translates it
 to its native query mechanism (SQL `WHERE`, MongoDB filter, in-memory predicate,
 etc.). This is the **sans-I/O** principle applied to querying: domain logic
-expresses *what* to find using plain value objects; infrastructure decides *how*
+expresses _what_ to find using plain value objects; infrastructure decides _how_
 to find it.
 
 Concrete specifications extend `CompositeSpecification` and implement
@@ -42,23 +43,23 @@ structure of composed specifications.
 
 ```typescript
 export interface Specification<T> {
-  isSatisfiedBy(entity: T): boolean
+  isSatisfiedBy(entity: T): boolean;
 }
 
 export abstract class CompositeSpecification<T> implements Specification<T> {
-  abstract isSatisfiedBy(entity: T): boolean
-  abstract toQuery(): QueryNode
+  abstract isSatisfiedBy(entity: T): boolean;
+  abstract toQuery(): QueryNode;
 
-  and(other: CompositeSpecification<T>): CompositeSpecification<T>
-  or(other: CompositeSpecification<T>): CompositeSpecification<T>
-  not(): CompositeSpecification<T>
+  and(other: CompositeSpecification<T>): CompositeSpecification<T>;
+  or(other: CompositeSpecification<T>): CompositeSpecification<T>;
+  not(): CompositeSpecification<T>;
 }
 
 // QueryNode — the serialised form
-export type QueryNode
-  = | { type: 'eq' | 'gt' | 'lt', field: string | number | symbol, value: Primitive }
-    | { type: 'and' | 'or', nodes: QueryNode[] }
-    | { type: 'not', node: QueryNode }
+export type QueryNode =
+  | { type: "eq" | "gt" | "lt"; field: string | number | symbol; value: Primitive }
+  | { type: "and" | "or"; nodes: QueryNode[] }
+  | { type: "not"; node: QueryNode };
 ```
 
 ## Usage
@@ -66,19 +67,19 @@ export type QueryNode
 Building and composing specifications:
 
 ```typescript
-import { FieldEquals } from '@domain/Specification/implementations/FieldEquals.specification.ts'
-import { FieldGreaterThan } from '@domain/Specification/implementations/FieldGreaterThan.specification.ts'
+import { FieldEquals } from "@domain/Specification/implementations/FieldEquals.specification.ts";
+import { FieldGreaterThan } from "@domain/Specification/implementations/FieldGreaterThan.specification.ts";
 
-const isActive = new FieldEquals<User>('status', 'active')
-const isAdult = new FieldGreaterThan<User>('age', 17)
+const isActive = new FieldEquals<User>("status", "active");
+const isAdult = new FieldGreaterThan<User>("age", 17);
 
 // In-memory filtering
-const spec = isActive.and(isAdult)
-spec.isSatisfiedBy({ status: 'active', age: 18 }) // true
-spec.isSatisfiedBy({ status: 'active', age: 16 }) // false
+const spec = isActive.and(isAdult);
+spec.isSatisfiedBy({ status: "active", age: 18 }); // true
+spec.isSatisfiedBy({ status: "active", age: 16 }); // false
 
 // Serialised to QueryNode for database translation
-spec.toQuery()
+spec.toQuery();
 // {
 //   type: 'and',
 //   nodes: [
@@ -91,8 +92,8 @@ spec.toQuery()
 Passing a specification to a `Database`:
 
 ```typescript
-const spec = new FieldEquals('email', query.payload.email)
-const results = await database.query('users', spec)
+const spec = new FieldEquals("email", query.payload.email);
+const results = await database.query("users", spec);
 ```
 
 ## Diagram

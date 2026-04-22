@@ -34,7 +34,7 @@ by query type — **SOLID** Open/Closed in action.
 
 ```typescript
 export interface QueryHandler<TQuery extends Query, TProjection = Promise<unknown>> {
-  execute(aQuery: TQuery): TProjection
+  execute(aQuery: TQuery): TProjection;
 }
 ```
 
@@ -43,27 +43,33 @@ export interface QueryHandler<TQuery extends Query, TProjection = Promise<unknow
 A complete query handler (from `examples/GetUserByEmailHandler.ts`):
 
 ```typescript
-import type { GetUserByEmail } from '@core/examples/GetUserByEmail.ts'
-import type { QueryHandler } from '@core/QueryHandler.ts'
-import type { WithIdentifier } from '@core/types/WithIdentifier.ts'
-import type { UserCreatedPayload } from '@domain/examples/UserCreated.ts'
-import type { Database } from '@infrastructure/Database/Database.ts'
-import { FieldEquals } from '@domain/Specification/implementations/FieldEquals.specification.ts'
+import type { GetUserByEmail } from "@core/examples/GetUserByEmail.ts";
+import type { QueryHandler } from "@core/QueryHandler.ts";
+import type { WithIdentifier } from "@core/types/WithIdentifier.ts";
+import type { UserCreatedPayload } from "@domain/examples/UserCreated.ts";
+import type { Database } from "@infrastructure/Database/Database.ts";
+import { FieldEquals } from "@domain/Specification/implementations/FieldEquals.specification.ts";
 
 export interface GetUserByEmailResult {
-  id: string
-  email: string
+  id: string;
+  email: string;
 }
 
-export class GetUserByEmailHandler
-implements QueryHandler<GetUserByEmail, Promise<GetUserByEmailResult[]>> {
+export class GetUserByEmailHandler implements QueryHandler<
+  GetUserByEmail,
+  Promise<GetUserByEmailResult[]>
+> {
   constructor(
-    private readonly database: Database<WithIdentifier<UserCreatedPayload>, Promise<void>, Promise<WithIdentifier<UserCreatedPayload>[]>>,
+    private readonly database: Database<
+      WithIdentifier<UserCreatedPayload>,
+      Promise<void>,
+      Promise<WithIdentifier<UserCreatedPayload>[]>
+    >,
   ) {}
 
   async execute(aQuery: GetUserByEmail): Promise<GetUserByEmailResult[]> {
-    const specification = new FieldEquals('email', aQuery.payload.email)
-    return this.database.query('users', specification)
+    const specification = new FieldEquals("email", aQuery.payload.email);
+    return this.database.query("users", specification);
   }
 }
 ```
@@ -71,7 +77,7 @@ implements QueryHandler<GetUserByEmail, Promise<GetUserByEmailResult[]>> {
 Registered on the `QueryBus`:
 
 ```typescript
-queryBus.register('GetUserByEmail', new GetUserByEmailHandler(database))
+queryBus.register("GetUserByEmail", new GetUserByEmailHandler(database));
 ```
 
 ## Related

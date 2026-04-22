@@ -30,17 +30,17 @@ interval from silently dying.
 ## Usage
 
 ```typescript
-import { GenericOutboxWorker } from '@infrastructure/Outbox/implementations/GenericOutboxWorker.ts'
-import { InMemoryOutbox } from '@infrastructure/Outbox/implementations/InMemoryOutbox.ts'
+import { GenericOutboxWorker } from "@infrastructure/Outbox/implementations/GenericOutboxWorker.ts";
+import { InMemoryOutbox } from "@infrastructure/Outbox/implementations/InMemoryOutbox.ts";
 
-const outbox = new InMemoryOutbox()
-const worker = new GenericOutboxWorker(outbox, eventBus, 'users')
+const outbox = new InMemoryOutbox();
+const worker = new GenericOutboxWorker(outbox, eventBus, "users");
 
 // Single drain (e.g. in a test or cron trigger):
-await worker.runOnce()
+await worker.runOnce();
 
 // Continuous background loop:
-worker.start(1000) // polls every 1 second
+worker.start(1000); // polls every 1 second
 ```
 
 ## Related

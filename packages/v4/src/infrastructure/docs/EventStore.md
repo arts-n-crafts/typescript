@@ -32,6 +32,7 @@ it — coupling the write and the outbox enqueue in a single operation. This is
 the standard wiring for the Outbox pattern.
 
 The `EventStore` interface is generic over three parameters:
+
 - `TEvent` — the domain event union
 - `TAppendReturnType` — defaults to `Promise<void>`
 - `TLoadReturnType` — defaults to `Promise<TEvent[]>`
@@ -44,24 +45,24 @@ export interface EventStore<
   TAppendReturnType = Promise<void>,
   TLoadReturnType = Promise<TEvent[]>,
 > {
-  load(streamName: string, aggregateId: string): TLoadReturnType
-  append(streamName: string, events: TEvent[]): TAppendReturnType
+  load(streamName: string, aggregateId: string): TLoadReturnType;
+  append(streamName: string, events: TEvent[]): TAppendReturnType;
 }
 ```
 
 ## Usage
 
 ```typescript
-import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
+import { SimpleEventStore } from "@infrastructure/EventStore/implementations/SimpleEventStore.ts";
 
-const eventStore = new SimpleEventStore(database, outbox)
+const eventStore = new SimpleEventStore(database, outbox);
 
 // Load all events for an aggregate:
-const pastEvents = await eventStore.load('users', aggregateId)
-const currentState = pastEvents.reduce(User.evolve, User.initialState(aggregateId))
+const pastEvents = await eventStore.load("users", aggregateId);
+const currentState = pastEvents.reduce(User.evolve, User.initialState(aggregateId));
 
 // Append new events:
-await eventStore.append('users', [userCreatedEvent])
+await eventStore.append("users", [userCreatedEvent]);
 ```
 
 ## Diagram

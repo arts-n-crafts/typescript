@@ -27,24 +27,24 @@ entry is delivered to `eventBus.publish(stream, entry.event)` — the
 
 ```typescript
 export interface OutboxWorker {
-  runOnce(): Promise<void>
-  tick(): Promise<void>
-  start(intervalMs: number): void
+  runOnce(): Promise<void>;
+  tick(): Promise<void>;
+  start(intervalMs: number): void;
 }
 ```
 
 ## Usage
 
 ```typescript
-import { GenericOutboxWorker } from '@infrastructure/Outbox/implementations/GenericOutboxWorker.ts'
+import { GenericOutboxWorker } from "@infrastructure/Outbox/implementations/GenericOutboxWorker.ts";
 
-const worker = new GenericOutboxWorker(outbox, eventBus, 'users')
+const worker = new GenericOutboxWorker(outbox, eventBus, "users");
 
 // Run once (e.g. in a test or cron trigger):
-await worker.runOnce()
+await worker.runOnce();
 
 // Or start a continuous background loop:
-worker.start(1000) // polls every 1 second
+worker.start(1000); // polls every 1 second
 ```
 
 ## Related

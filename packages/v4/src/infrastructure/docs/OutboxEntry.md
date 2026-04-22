@@ -22,11 +22,11 @@ domain or application layers.
 
 ```typescript
 export interface OutboxEntry {
-  id: string
-  event: IntegrationEvent
-  published: boolean
-  retryCount: number
-  lastAttemptAt?: number
+  id: string;
+  event: IntegrationEvent;
+  published: boolean;
+  retryCount: number;
+  lastAttemptAt?: number;
 }
 ```
 

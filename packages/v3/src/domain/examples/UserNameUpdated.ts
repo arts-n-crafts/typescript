@@ -1,12 +1,16 @@
-import type { DomainEvent, DomainEventMetadata } from '@domain/DomainEvent.ts'
-import { createDomainEvent } from '@domain/utils/createDomainEvent.ts'
+import type { DomainEvent, DomainEventMetadata } from "@domain/DomainEvent.ts";
+import { createDomainEvent } from "@domain/utils/createDomainEvent.ts";
 
 export interface UserNameUpdatedPayload {
-  name: string
+  name: string;
 }
 
-export function createUserNameUpdatedEvent(aggregateId: string, props: UserNameUpdatedPayload, metadata?: Partial<DomainEventMetadata>): DomainEvent<UserNameUpdatedPayload> {
-  return createDomainEvent('UserNameUpdated', aggregateId, props, metadata)
+export function createUserNameUpdatedEvent(
+  aggregateId: string,
+  props: UserNameUpdatedPayload,
+  metadata?: Partial<DomainEventMetadata>,
+): DomainEvent<UserNameUpdatedPayload> {
+  return createDomainEvent("UserNameUpdated", aggregateId, props, metadata);
 }
 
-export type UserNameUpdatedEvent = ReturnType<typeof createUserNameUpdatedEvent>
+export type UserNameUpdatedEvent = ReturnType<typeof createUserNameUpdatedEvent>;

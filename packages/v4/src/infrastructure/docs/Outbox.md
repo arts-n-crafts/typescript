@@ -39,27 +39,27 @@ export interface Outbox<
   TMarkAsPublishedReturnType = Promise<void>,
   TMarkAsFailedReturnType = Promise<void>,
 > {
-  enqueue(event: DomainEvent | Rejection): TEnqueueReturnType
-  getPending(limit?: number): TGetPendingReturnType
-  markAsPublished(id: string): TMarkAsPublishedReturnType
-  markAsFailed(id: string): TMarkAsFailedReturnType
+  enqueue(event: DomainEvent | Rejection): TEnqueueReturnType;
+  getPending(limit?: number): TGetPendingReturnType;
+  markAsPublished(id: string): TMarkAsPublishedReturnType;
+  markAsFailed(id: string): TMarkAsFailedReturnType;
 }
 ```
 
 ## Usage
 
 ```typescript
-import { GenericOutboxWorker } from '@infrastructure/Outbox/implementations/GenericOutboxWorker.ts'
-import { InMemoryOutbox } from '@infrastructure/Outbox/implementations/InMemoryOutbox.ts'
+import { GenericOutboxWorker } from "@infrastructure/Outbox/implementations/GenericOutboxWorker.ts";
+import { InMemoryOutbox } from "@infrastructure/Outbox/implementations/InMemoryOutbox.ts";
 
-const outbox = new InMemoryOutbox()
-const worker = new GenericOutboxWorker(outbox, eventBus, 'users')
+const outbox = new InMemoryOutbox();
+const worker = new GenericOutboxWorker(outbox, eventBus, "users");
 
 // In a CommandHandler after a rejection:
-await outbox.enqueue(rejection)
+await outbox.enqueue(rejection);
 
 // Worker drains the buffer periodically:
-worker.start(1000) // runs every 1 second
+worker.start(1000); // runs every 1 second
 ```
 
 ## Diagram

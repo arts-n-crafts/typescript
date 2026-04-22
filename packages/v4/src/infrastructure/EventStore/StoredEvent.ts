@@ -1,4 +1,4 @@
-import type { StreamKey } from '@utils/streamKey/StreamKey.ts'
+import type { StreamKey } from "@utils/streamKey/StreamKey.ts";
 
 /**
  * StoredEvent wraps a DomainEvent for persistence in the event store with its
@@ -6,13 +6,13 @@ import type { StreamKey } from '@utils/streamKey/StreamKey.ts'
  */
 export interface StoredEvent<TEvent> {
   /** Same as DomainEvent.id. */
-  id: string
+  id: string;
   /** Stream key, e.g., `${aggregateType}#${aggregateId}`. */
-  streamKey: StreamKey
+  streamKey: StreamKey;
   /** Aggregate version after applying this event. */
-  version: number
+  version: number;
   /** Epoch millis for write-time ordering. */
-  timestamp: number
+  timestamp: number;
   /** The actual domain event. */
-  event: TEvent
+  event: TEvent;
 }

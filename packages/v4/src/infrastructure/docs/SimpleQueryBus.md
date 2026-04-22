@@ -24,13 +24,13 @@ For typed, exception-free error handling see [`ResultedQueryBus`](./ResultedQuer
 ## Usage
 
 ```typescript
-import { SimpleQueryBus } from '@infrastructure/QueryBus/implementations/SimpleQueryBus.ts'
+import { SimpleQueryBus } from "@infrastructure/QueryBus/implementations/SimpleQueryBus.ts";
 
-const bus = new SimpleQueryBus<UserQuery, UserView>()
+const bus = new SimpleQueryBus<UserQuery, UserView>();
 
-bus.register('GetUser', getUserHandler)
+bus.register("GetUser", getUserHandler);
 
-const user = await bus.execute({ type: 'GetUser', payload: { id: '123' } })
+const user = await bus.execute({ type: "GetUser", payload: { id: "123" } });
 ```
 
 ## Related

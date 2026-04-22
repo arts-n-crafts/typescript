@@ -22,7 +22,7 @@ notification before translating it into an internal
 ## Interface
 
 ```typescript
-export function isExternalEvent<TPayload>(event: unknown): event is ExternalEvent<TPayload>
+export function isExternalEvent<TPayload>(event: unknown): event is ExternalEvent<TPayload>;
 ```
 
 ## Usage
@@ -30,13 +30,13 @@ export function isExternalEvent<TPayload>(event: unknown): event is ExternalEven
 In an event bus subscriber that translates external events into commands:
 
 ```typescript
-import { isExternalEvent } from '@infrastructure/EventBus/utils/isExternalEvent.ts'
+import { isExternalEvent } from "@infrastructure/EventBus/utils/isExternalEvent.ts";
 
 function onMessage(message: unknown): void {
-  if (isExternalEvent(message) && message.type === 'ContractSigned') {
+  if (isExternalEvent(message) && message.type === "ContractSigned") {
     // translate to an internal command — Anti-Corruption Layer
-    const command = createActivateUserCommand(message.payload.userId)
-    commandBus.execute(command)
+    const command = createActivateUserCommand(message.payload.userId);
+    commandBus.execute(command);
   }
 }
 ```

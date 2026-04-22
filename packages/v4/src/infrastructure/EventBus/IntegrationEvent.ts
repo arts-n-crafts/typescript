@@ -1,5 +1,5 @@
-import type { BaseMetadata } from '@core/types/BaseMetadata.ts'
-import type { ISODateTime } from '@core/types/ISODateTime.ts'
+import type { BaseMetadata } from "@core/types/BaseMetadata.ts";
+import type { ISODateTime } from "@core/types/ISODateTime.ts";
 
 /**
  * Integration events are the wire contract you publish externally (Kafka, audit,
@@ -8,28 +8,28 @@ import type { ISODateTime } from '@core/types/ISODateTime.ts'
  */
 export interface IntegrationEventMetadata extends BaseMetadata {
   /** Outcome of the decision. */
-  outcome?: 'accepted' | 'rejected'
+  outcome?: "accepted" | "rejected";
 
   /** Correlation and routing fields. */
-  aggregateType?: string
-  aggregateId?: string
-  commandType?: string
-  commandId?: string
-  expectedVersion?: number
-  currentVersion?: number
+  aggregateType?: string;
+  aggregateId?: string;
+  commandType?: string;
+  commandId?: string;
+  expectedVersion?: number;
+  currentVersion?: number;
 }
 
 export interface IntegrationEvent<TPayload = unknown> {
   /** Stable id for idempotency. */
-  id: string
+  id: string;
   /** Event type, e.g., "OrderCreated" or "CreateOrderRejected". */
-  type: string
+  type: string;
   /** Event payload. For rejections include reasonCode and related info. */
-  payload: TPayload
+  payload: TPayload;
   /** ISO timestamp (external consistency). */
-  timestamp: ISODateTime
+  timestamp: ISODateTime;
   /** Standardized, extensible metadata. */
-  metadata: Partial<IntegrationEventMetadata>
+  metadata: Partial<IntegrationEventMetadata>;
   /** Discriminator for the message intent. */
-  kind: 'integration'
+  kind: "integration";
 }

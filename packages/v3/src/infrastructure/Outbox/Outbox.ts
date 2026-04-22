@@ -1,7 +1,7 @@
-import type { OutboxEntry } from '@infrastructure/Outbox/OutboxEntry.ts'
+import type { OutboxEntry } from "@infrastructure/Outbox/OutboxEntry.ts";
 
 interface Queueable<TReturnType = Promise<void>> {
-  enqueue(event: OutboxEntry['event']): TReturnType
+  enqueue(event: OutboxEntry["event"]): TReturnType;
 }
 
 export interface Outbox<
@@ -9,10 +9,8 @@ export interface Outbox<
   TGetPendingReturnType = Promise<OutboxEntry[]>,
   TMarkAsPublishedReturnType = Promise<void>,
   TMarkAsFailedReturnType = Promise<void>,
->
-  extends Queueable<TEnqueueReturnType>
-{
-  getPending(limit?: number): TGetPendingReturnType
-  markAsPublished(id: string): TMarkAsPublishedReturnType
-  markAsFailed(id: string): TMarkAsFailedReturnType
+> extends Queueable<TEnqueueReturnType> {
+  getPending(limit?: number): TGetPendingReturnType;
+  markAsPublished(id: string): TMarkAsPublishedReturnType;
+  markAsFailed(id: string): TMarkAsFailedReturnType;
 }

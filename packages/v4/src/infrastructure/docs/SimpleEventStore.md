@@ -26,15 +26,15 @@ single-writer scenarios.
 ## Usage
 
 ```typescript
-import { SimpleEventStore } from '@infrastructure/EventStore/implementations/SimpleEventStore.ts'
+import { SimpleEventStore } from "@infrastructure/EventStore/implementations/SimpleEventStore.ts";
 
-const eventStore = new SimpleEventStore(database, outbox)
+const eventStore = new SimpleEventStore(database, outbox);
 
 // Replay history:
-const events = await eventStore.load('users', aggregateId)
+const events = await eventStore.load("users", aggregateId);
 
 // Persist new events:
-await eventStore.append('users', [userCreatedEvent])
+await eventStore.append("users", [userCreatedEvent]);
 ```
 
 ## Related

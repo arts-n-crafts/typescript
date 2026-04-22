@@ -16,7 +16,7 @@ Key architectural roles:
   handlers read from whatever read model or database is optimised for querying
   (a projection, a search index, a denormalised table), independent of the
   event-sourced write model.
-- **Hexagonal / clean architecture**: `Query` is a *port* on the read side —
+- **Hexagonal / clean architecture**: `Query` is a _port_ on the read side —
   a plain data object defined in the core layer, free of any I/O or framework
   dependency. The [`QueryBus`](../../infrastructure/docs/QueryBus.md) routes it
   to the appropriate [`QueryHandler`](./QueryHandler.md), which performs the
@@ -38,11 +38,11 @@ discriminator.
 export interface QueryMetadata extends BaseMetadata {}
 
 export interface Query<TType = string, TPayload = unknown> extends WithIdentifier {
-  type: TType
-  payload: TPayload
-  timestamp: number
-  metadata: Partial<QueryMetadata>
-  kind: 'query'
+  type: TType;
+  payload: TPayload;
+  timestamp: number;
+  metadata: Partial<QueryMetadata>;
+  kind: "query";
 }
 ```
 
@@ -51,33 +51,41 @@ export interface Query<TType = string, TPayload = unknown> extends WithIdentifie
 Define a typed query (from `examples/GetUserByEmail.ts`):
 
 ```typescript
-import type { Query, QueryMetadata } from '@core/Query.ts'
-import { createQuery } from '@core/utils/createQuery.ts'
+import type { Query, QueryMetadata } from "@core/Query.ts";
+import { createQuery } from "@core/utils/createQuery.ts";
 
 export interface GetUserByEmailProps {
-  email: string
+  email: string;
 }
 
 export function createGetUserByEmailQuery(
   payload: GetUserByEmailProps,
   metadata?: Partial<QueryMetadata>,
-): Query<'GetUserByEmail', GetUserByEmailProps> {
-  return createQuery('GetUserByEmail', payload, metadata)
+): Query<"GetUserByEmail", GetUserByEmailProps> {
+  return createQuery("GetUserByEmail", payload, metadata);
 }
 
-export type GetUserByEmail = ReturnType<typeof createGetUserByEmailQuery>
+export type GetUserByEmail = ReturnType<typeof createGetUserByEmailQuery>;
 ```
 
 The corresponding handler:
 
 ```typescript
-export class GetUserByEmailHandler
-implements QueryHandler<GetUserByEmail, Promise<GetUserByEmailResult[]>> {
-  constructor(private readonly database: Database<WithIdentifier<UserCreatedPayload>, Promise<void>, Promise<WithIdentifier<UserCreatedPayload>[]>>) {}
+export class GetUserByEmailHandler implements QueryHandler<
+  GetUserByEmail,
+  Promise<GetUserByEmailResult[]>
+> {
+  constructor(
+    private readonly database: Database<
+      WithIdentifier<UserCreatedPayload>,
+      Promise<void>,
+      Promise<WithIdentifier<UserCreatedPayload>[]>
+    >,
+  ) {}
 
   async execute(query: GetUserByEmail): Promise<GetUserByEmailResult[]> {
-    const spec = new FieldEquals('email', query.payload.email)
-    return this.database.query('users', spec)
+    const spec = new FieldEquals("email", query.payload.email);
+    return this.database.query("users", spec);
   }
 }
 ```

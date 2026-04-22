@@ -22,14 +22,14 @@ exceptions. For typed, exception-free error handling see
 ## Usage
 
 ```typescript
-import { SimpleCommandBus } from '@infrastructure/CommandBus/implementations/SimpleCommandBus.ts'
+import { SimpleCommandBus } from "@infrastructure/CommandBus/implementations/SimpleCommandBus.ts";
 
-const bus = new SimpleCommandBus<UserCommand>()
+const bus = new SimpleCommandBus<UserCommand>();
 
-bus.register('CreateUser', createUserHandler)
-bus.register('DeleteUser', deleteUserHandler)
+bus.register("CreateUser", createUserHandler);
+bus.register("DeleteUser", deleteUserHandler);
 
-await bus.execute({ type: 'CreateUser', payload: { name: 'Alice' } })
+await bus.execute({ type: "CreateUser", payload: { name: "Alice" } });
 ```
 
 ## Related

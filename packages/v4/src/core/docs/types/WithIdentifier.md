@@ -25,25 +25,25 @@ to locate the right aggregate stream.
 
 ```typescript
 export type WithIdentifier<T = object> = {
-  id: string
-} & T
+  id: string;
+} & T;
 ```
 
 ## Usage
 
 ```typescript
-import type { WithIdentifier } from '@core/types/WithIdentifier.ts'
+import type { WithIdentifier } from "@core/types/WithIdentifier.ts";
 
 // A query result that must carry an id
 type UserRecord = WithIdentifier<{
-  email: string
-  name: string
-}>
+  email: string;
+  name: string;
+}>;
 // → { id: string; email: string; name: string }
 
 // Narrowing an unknown record to one with an id
 function hasId(value: object): value is WithIdentifier {
-  return 'id' in value && typeof (value as WithIdentifier).id === 'string'
+  return "id" in value && typeof (value as WithIdentifier).id === "string";
 }
 ```
 

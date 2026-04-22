@@ -1,77 +1,77 @@
-import type { UserEvent } from '@domain/examples/User.ts'
-import type { EventConsumer, EventProducer } from '@infrastructure/EventBus/EventBus.ts'
-import type { IntegrationEvent } from '@infrastructure/EventBus/IntegrationEvent.ts'
-import type { Outbox } from './Outbox.ts'
-import { createDomainEvent } from '@domain/utils/createDomainEvent.ts'
-import { SimpleEventBus } from '@infrastructure/EventBus/implementations/SimpleEventBus.ts'
-import { GenericOutboxWorker } from './implementations/GenericOutboxWorker.ts'
-import { InMemoryOutbox } from './implementations/InMemoryOutbox.ts'
+import type { UserEvent } from "@domain/examples/User.ts";
+import type { EventConsumer, EventProducer } from "@infrastructure/EventBus/EventBus.ts";
+import type { IntegrationEvent } from "@infrastructure/EventBus/IntegrationEvent.ts";
+import type { Outbox } from "./Outbox.ts";
+import { createDomainEvent } from "@domain/utils/createDomainEvent.ts";
+import { SimpleEventBus } from "@infrastructure/EventBus/implementations/SimpleEventBus.ts";
+import { GenericOutboxWorker } from "./implementations/GenericOutboxWorker.ts";
+import { InMemoryOutbox } from "./implementations/InMemoryOutbox.ts";
 
-describe('outboxWorker with InMemoryEventBus', () => {
-  let outbox: Outbox
-  let eventBus: EventConsumer<UserEvent> & EventProducer<UserEvent>
-  let worker: GenericOutboxWorker
+describe("outboxWorker with InMemoryEventBus", () => {
+  let outbox: Outbox;
+  let eventBus: EventConsumer<UserEvent> & EventProducer<UserEvent>;
+  let worker: GenericOutboxWorker;
   const handler = {
     handle: vi.fn().mockResolvedValue(undefined),
     start: vi.fn().mockResolvedValue(undefined),
-  }
+  };
 
   beforeEach(() => {
-    outbox = new InMemoryOutbox()
-    eventBus = new SimpleEventBus()
-    worker = new GenericOutboxWorker(outbox, eventBus, 'users')
-    handler.handle.mockClear()
-  })
+    outbox = new InMemoryOutbox();
+    eventBus = new SimpleEventBus();
+    worker = new GenericOutboxWorker(outbox, eventBus, "users");
+    handler.handle.mockClear();
+  });
 
-  it('publishes outbox events and calls subscribed handlers', async () => {
-    eventBus.subscribe('users', handler)
+  it("publishes outbox events and calls subscribed handlers", async () => {
+    eventBus.subscribe("users", handler);
 
-    const event = createDomainEvent('MyEvent', 'agg-1', 'TestAggregate', { foo: 'bar' })
-    await outbox.enqueue(event)
+    const event = createDomainEvent("MyEvent", "agg-1", "TestAggregate", { foo: "bar" });
+    await outbox.enqueue(event);
 
-    await worker.tick()
+    await worker.tick();
 
-    expect(handler.handle).toHaveBeenCalledTimes(1)
+    expect(handler.handle).toHaveBeenCalledTimes(1);
     // outbox converts DomainEvent → IntegrationEvent before publishing
-    const published = handler.handle.mock.calls[0][0] as IntegrationEvent
-    expect(published.kind).toBe('integration')
-    expect(published.type).toBe(event.type)
-    expect(published.payload).toEqual(event.payload)
-    expect(published.metadata.outcome).toBe('accepted')
+    const published = handler.handle.mock.calls[0][0] as IntegrationEvent;
+    expect(published.kind).toBe("integration");
+    expect(published.type).toBe(event.type);
+    expect(published.payload).toEqual(event.payload);
+    expect(published.metadata.outcome).toBe("accepted");
 
-    const pending = await outbox.getPending()
-    expect(pending).toHaveLength(0)
-  })
+    const pending = await outbox.getPending();
+    expect(pending).toHaveLength(0);
+  });
 
-  it('marks failed events and increments retry count', async () => {
-    eventBus.subscribe('users', {
-      handle: vi.fn().mockRejectedValue(new Error('fail')),
-    })
+  it("marks failed events and increments retry count", async () => {
+    eventBus.subscribe("users", {
+      handle: vi.fn().mockRejectedValue(new Error("fail")),
+    });
 
-    const event = createDomainEvent('FailEvent', 'agg-2', 'TestAggregate', {})
-    await outbox.enqueue(event)
+    const event = createDomainEvent("FailEvent", "agg-2", "TestAggregate", {});
+    await outbox.enqueue(event);
 
-    await worker.tick()
+    await worker.tick();
 
-    const [entry] = await outbox.getPending()
-    expect(entry.retryCount).toBe(1)
-    expect(entry.published).toBe(false)
-  })
+    const [entry] = await outbox.getPending();
+    expect(entry.retryCount).toBe(1);
+    expect(entry.published).toBe(false);
+  });
 
-  it('start() runs tick periodically', async () => {
-    vi.useFakeTimers()
-    eventBus.subscribe('users', handler)
+  it("start() runs tick periodically", async () => {
+    vi.useFakeTimers();
+    eventBus.subscribe("users", handler);
 
-    const event = createDomainEvent('IntervalEvent', 'agg-3', 'TestAggregate', {})
-    await outbox.enqueue(event)
+    const event = createDomainEvent("IntervalEvent", "agg-3", "TestAggregate", {});
+    await outbox.enqueue(event);
 
-    worker.start(1000)
+    worker.start(1000);
 
-    vi.advanceTimersByTime(1000)
-    vi.runAllTicks()
-    await Promise.resolve()
+    vi.advanceTimersByTime(1000);
+    vi.runAllTicks();
+    await Promise.resolve();
 
-    expect(handler.handle).toHaveBeenCalledTimes(1)
-    vi.useRealTimers()
-  })
-})
+    expect(handler.handle).toHaveBeenCalledTimes(1);
+    vi.useRealTimers();
+  });
+});

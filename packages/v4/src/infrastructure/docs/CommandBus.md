@@ -18,11 +18,13 @@ command never touches existing handlers or controllers — only a new handler is
 registered. This is the **SOLID** Open/Closed Principle applied to routing.
 
 The interface is generic over three parameters:
+
 - `TCommand` — the union of command types this bus handles
 - `TExecutionResult` — return type of `execute` (defaults to `Promise<void>`; `ResultedCommandBus` uses `Promise<Result<void, Error>>`)
 - `TRegisterResult` — return type of `register` (defaults to `void`)
 
 Two implementations ship with the library:
+
 - **`SimpleCommandBus`** — returns `Promise<void>`, throws on missing/duplicate handler
 - **`ResultedCommandBus`** — returns `Promise<Result<void, Error>>` for typed error handling
 
@@ -34,22 +36,22 @@ export interface CommandBus<
   TExecutionResult = Promise<void>,
   TRegisterResult = void,
 > {
-  register(aTypeOfCommand: TCommand['type'], anHandler: CommandHandler<TCommand>): TRegisterResult
-  execute(aCommand: TCommand): TExecutionResult
+  register(aTypeOfCommand: TCommand["type"], anHandler: CommandHandler<TCommand>): TRegisterResult;
+  execute(aCommand: TCommand): TExecutionResult;
 }
 ```
 
 ## Usage
 
 ```typescript
-import { SimpleCommandBus } from '@infrastructure/CommandBus/implementations/SimpleCommandBus.ts'
+import { SimpleCommandBus } from "@infrastructure/CommandBus/implementations/SimpleCommandBus.ts";
 
-const commandBus = new SimpleCommandBus<UserCommand>()
-commandBus.register('RegisterUser', new CreateUserHandler(repository, outbox))
-commandBus.register('UpdateUserName', new UpdateUserNameHandler(repository))
+const commandBus = new SimpleCommandBus<UserCommand>();
+commandBus.register("RegisterUser", new CreateUserHandler(repository, outbox));
+commandBus.register("UpdateUserName", new UpdateUserNameHandler(repository));
 
 // In a controller or test:
-await commandBus.execute(createRegisterUserCommand(aggregateId, payload))
+await commandBus.execute(createRegisterUserCommand(aggregateId, payload));
 ```
 
 ## Related

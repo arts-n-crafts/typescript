@@ -1,1 +1,1 @@
-export type Module = Record<symbol, unknown>
+export type Module = Record<symbol, unknown>;

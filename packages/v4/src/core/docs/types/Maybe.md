@@ -23,26 +23,26 @@ set to null, as distinct from missing), see [`Nullable<T>`](./Nullable.md).
 ## Interface
 
 ```typescript
-export type Maybe<T> = T | null | undefined
+export type Maybe<T> = T | null | undefined;
 ```
 
 ## Usage
 
 ```typescript
-import type { Maybe } from '@core/types/Maybe.ts'
+import type { Maybe } from "@core/types/Maybe.ts";
 
 interface UserRepository {
-  findById(id: string): Promise<Maybe<User>>
+  findById(id: string): Promise<Maybe<User>>;
 }
 
 async function getUser(id: string): Promise<User> {
-  const user = await repository.findById(id)
+  const user = await repository.findById(id);
 
   if (user == null) {
-    throw new Error(`User ${id} not found`)
+    throw new Error(`User ${id} not found`);
   }
 
-  return user // narrowed to User
+  return user; // narrowed to User
 }
 ```
 

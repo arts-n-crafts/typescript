@@ -1,7 +1,7 @@
-import type { BaseEvent } from '@domain/BaseEvent.ts'
-import type { EventProducer } from '@infrastructure/EventBus/EventBus.js'
-import type { OutboxWorker } from '@infrastructure/Outbox/OutboxWorker.ts'
-import type { Outbox } from '../Outbox.ts'
+import type { BaseEvent } from "@domain/BaseEvent.ts";
+import type { EventProducer } from "@infrastructure/EventBus/EventBus.js";
+import type { OutboxWorker } from "@infrastructure/Outbox/OutboxWorker.ts";
+import type { Outbox } from "../Outbox.ts";
 
 export class GenericOutboxWorker implements OutboxWorker {
   constructor(
@@ -11,26 +11,27 @@ export class GenericOutboxWorker implements OutboxWorker {
   ) {}
 
   async runOnce(): Promise<void> {
-    const pending = await this.outbox.getPending()
+    const pending = await this.outbox.getPending();
 
-    await Promise.all(pending.map(async (entry) => {
-      try {
-        await this.eventBus.publish(this.stream, entry.event)
-        await this.outbox.markAsPublished(entry.id)
-      }
-      catch {
-        await this.outbox.markAsFailed(entry.id)
-      }
-    }))
+    await Promise.all(
+      pending.map(async (entry) => {
+        try {
+          await this.eventBus.publish(this.stream, entry.event);
+          await this.outbox.markAsPublished(entry.id);
+        } catch {
+          await this.outbox.markAsFailed(entry.id);
+        }
+      }),
+    );
   }
 
   async tick(): Promise<void> {
-    await this.runOnce()
+    await this.runOnce();
   }
 
   start(intervalMs: number): void {
     setInterval(() => {
-      void this.tick().catch(console.error)
-    }, intervalMs)
+      void this.tick().catch(console.error);
+    }, intervalMs);
   }
 }

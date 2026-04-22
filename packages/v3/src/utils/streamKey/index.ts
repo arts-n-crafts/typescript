@@ -1,2 +1,2 @@
-export * from './makeStreamKey.ts'
-export * from './StreamKey.ts'
+export * from "./makeStreamKey.ts";
+export * from "./StreamKey.ts";

@@ -25,19 +25,19 @@ payloads as plain data objects.
 ## Interface
 
 ```typescript
-export function isEqual<T>(a: T, b: T): boolean
+export function isEqual<T>(a: T, b: T): boolean;
 ```
 
 ## Usage
 
 ```typescript
-import { isEqual } from '@utils/isEqual/isEqual.ts'
+import { isEqual } from "@utils/isEqual/isEqual.ts";
 
-isEqual(1, 1) // true
-isEqual({ id: 'a' }, { id: 'a' }) // true
-isEqual({ id: 'a' }, { id: 'b' }) // false
-isEqual([1, { x: 2 }], [1, { x: 2 }]) // true
-isEqual([1, { x: 2 }], [1, { x: 3 }]) // false
+isEqual(1, 1); // true
+isEqual({ id: "a" }, { id: "a" }); // true
+isEqual({ id: "a" }, { id: "b" }); // false
+isEqual([1, { x: 2 }], [1, { x: 2 }]); // true
+isEqual([1, { x: 2 }], [1, { x: 3 }]); // false
 ```
 
 ## Related

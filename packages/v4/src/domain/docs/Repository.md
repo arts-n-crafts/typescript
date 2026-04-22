@@ -10,10 +10,10 @@ operations: `load` — reconstruct the current state of an aggregate from its
 event history — and `store` — append new events to the stream. The `streamName`
 property identifies which event stream the repository manages.
 
-In **hexagonal architecture**, `Repository` is an *output port* defined in the
+In **hexagonal architecture**, `Repository` is an _output port_ defined in the
 domain layer. The domain does not import anything from infrastructure; it only
 depends on this interface. The infrastructure layer provides the concrete
-implementation (`SimpleRepository`, `ResultedRepository`) as a *driven adapter*,
+implementation (`SimpleRepository`, `ResultedRepository`) as a _driven adapter_,
 injected into the application layer via the constructor. This keeps the domain
 pure and testable in isolation.
 
@@ -36,9 +36,9 @@ infrastructure layer.
 
 ```typescript
 export interface Repository<TEvent, TLoadReturnType, TStoreReturnType = Promise<void>> {
-  readonly streamName: string
-  load(aggregateId: string): TLoadReturnType
-  store(events: TEvent[]): TStoreReturnType
+  readonly streamName: string;
+  load(aggregateId: string): TLoadReturnType;
+  store(events: TEvent[]): TStoreReturnType;
 }
 ```
 
@@ -47,20 +47,20 @@ export interface Repository<TEvent, TLoadReturnType, TStoreReturnType = Promise<
 Constructing a `SimpleRepository` in a command handler or test:
 
 ```typescript
-import { User } from '@domain/examples/User.ts'
-import { SimpleRepository } from '@infrastructure/Repository/implementations/SimpleRepository.ts'
+import { User } from "@domain/examples/User.ts";
+import { SimpleRepository } from "@infrastructure/Repository/implementations/SimpleRepository.ts";
 
 const repository = new SimpleRepository(
   eventStore,
-  'users', // streamName
+  "users", // streamName
   User.evolve, // fold function: (state, event) => state
   User.initialState, // () => initial state value
-)
+);
 
 // In a CommandHandler:
-const currentState = await repository.load(command.aggregateId)
-const events = User.decide(command, currentState)
-await repository.store(events)
+const currentState = await repository.load(command.aggregateId);
+const events = User.decide(command, currentState);
+await repository.store(events);
 ```
 
 ## Diagram

@@ -1,18 +1,18 @@
-import type { Rejection, RejectionMetadata } from '@domain/Rejection.ts'
-import { randomUUID } from 'node:crypto'
-import { getTimestamp } from '@core/utils/getTimestamp.ts'
+import type { Rejection, RejectionMetadata } from "@domain/Rejection.ts";
+import { randomUUID } from "node:crypto";
+import { getTimestamp } from "@core/utils/getTimestamp.ts";
 
 export function createRejection<TDetails = unknown>(
   rejectionSpecifics: {
-    commandId: Rejection['commandId']
-    commandType: Rejection['commandType']
-    reasonCode: Rejection['reasonCode']
-    reason?: Rejection['reason']
-    classification: Rejection['classification']
-    retryable?: Rejection['retryable']
-    validationErrors?: Rejection['validationErrors']
-    type: 'Failed' | 'Rejected' | string
-    details?: TDetails
+    commandId: Rejection["commandId"];
+    commandType: Rejection["commandType"];
+    reasonCode: Rejection["reasonCode"];
+    reason?: Rejection["reason"];
+    classification: Rejection["classification"];
+    retryable?: Rejection["retryable"];
+    validationErrors?: Rejection["validationErrors"];
+    type: "Failed" | "Rejected" | string;
+    details?: TDetails;
   },
   metadata: Partial<RejectionMetadata> = {},
 ): Rejection<TDetails> {
@@ -27,8 +27,8 @@ export function createRejection<TDetails = unknown>(
     validationErrors: rejectionSpecifics.validationErrors,
     type: `${rejectionSpecifics.commandType}${rejectionSpecifics.type}`,
     details: rejectionSpecifics.details,
-    kind: 'rejection',
+    kind: "rejection",
     timestamp: getTimestamp(),
     metadata,
-  })
+  });
 }

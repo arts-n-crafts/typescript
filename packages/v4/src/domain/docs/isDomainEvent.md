@@ -26,7 +26,7 @@ use `isDomainEvent`.
 ## Interface
 
 ```typescript
-export function isDomainEvent(event: unknown): event is DomainEvent
+export function isDomainEvent(event: unknown): event is DomainEvent;
 ```
 
 ## Usage
@@ -34,16 +34,16 @@ export function isDomainEvent(event: unknown): event is DomainEvent
 In a projection handler (from `examples/UserProjection.ts`):
 
 ```typescript
-import { isDomainEvent } from '@domain/utils/isDomainEvent.ts'
+import { isDomainEvent } from "@domain/utils/isDomainEvent.ts";
 
 class UserProjection {
   async handle(anEvent: DomainEvent | IntegrationEvent | ExternalEvent): Promise<void> {
-    if (isDomainEvent(anEvent) && anEvent.type === 'UserCreated') {
+    if (isDomainEvent(anEvent) && anEvent.type === "UserCreated") {
       // anEvent is narrowed to DomainEvent — aggregateId is guaranteed
-      await this.database.execute('users', {
+      await this.database.execute("users", {
         operation: Operation.CREATE,
         payload: { id: anEvent.aggregateId, ...anEvent.payload },
-      })
+      });
     }
   }
 }

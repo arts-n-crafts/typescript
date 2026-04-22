@@ -21,41 +21,41 @@ The interface combines two narrower contracts:
 
 The four `Statement` types encode the semantics of each operation:
 
-| Operation | Payload constraint | Semantics |
-|-----------|-------------------|-----------|
-| `CREATE`  | `TModel` | Insert a new record |
-| `PUT`     | `TModel` | Replace an existing record entirely |
+| Operation | Payload constraint                | Semantics                                                    |
+| --------- | --------------------------------- | ------------------------------------------------------------ |
+| `CREATE`  | `TModel`                          | Insert a new record                                          |
+| `PUT`     | `TModel`                          | Replace an existing record entirely                          |
 | `PATCH`   | `WithIdentifier<Partial<TModel>>` | Partial update — `id` is required, all other fields optional |
-| `DELETE`  | `WithIdentifier` | Remove by `id` only |
+| `DELETE`  | `WithIdentifier`                  | Remove by `id` only                                          |
 
 ## Interface
 
 ```typescript
 export enum Operation {
-  CREATE = 'CREATE',
-  PUT = 'PUT',
-  PATCH = 'PATCH',
-  DELETE = 'DELETE',
+  CREATE = "CREATE",
+  PUT = "PUT",
+  PATCH = "PATCH",
+  DELETE = "DELETE",
 }
 
 export interface CreateStatement<TModel> {
-  operation: Operation.CREATE
-  payload: TModel
+  operation: Operation.CREATE;
+  payload: TModel;
 }
 
 export interface PutStatement<TModel> {
-  operation: Operation.PUT
-  payload: TModel
+  operation: Operation.PUT;
+  payload: TModel;
 }
 
 export interface PatchStatement<TModel> {
-  operation: Operation.PATCH
-  payload: WithIdentifier<Partial<TModel>>
+  operation: Operation.PATCH;
+  payload: WithIdentifier<Partial<TModel>>;
 }
 
 export interface DeleteStatement {
-  operation: Operation.DELETE
-  payload: WithIdentifier
+  operation: Operation.DELETE;
+  payload: WithIdentifier;
 }
 
 export interface Database<
@@ -63,33 +63,36 @@ export interface Database<
   TExecuteReturnType = Promise<void>,
   TQueryReturnType = Promise<TModel[]>,
 > {
-  execute(tableName: string, statement: CreateStatement<TModel>): TExecuteReturnType
-  execute(tableName: string, statement: PutStatement<TModel>): TExecuteReturnType
-  execute(tableName: string, statement: PatchStatement<TModel>): TExecuteReturnType
-  execute(tableName: string, statement: DeleteStatement): TExecuteReturnType
-  query(collectionName: string, specification: CompositeSpecification<TModel>): TQueryReturnType
+  execute(tableName: string, statement: CreateStatement<TModel>): TExecuteReturnType;
+  execute(tableName: string, statement: PutStatement<TModel>): TExecuteReturnType;
+  execute(tableName: string, statement: PatchStatement<TModel>): TExecuteReturnType;
+  execute(tableName: string, statement: DeleteStatement): TExecuteReturnType;
+  query(collectionName: string, specification: CompositeSpecification<TModel>): TQueryReturnType;
 }
 ```
 
 ## Usage
 
 ```typescript
-import { Operation } from '@infrastructure/Database/Database.ts'
-import { SimpleDatabase } from '@infrastructure/Database/implementations/SimpleDatabase.ts'
+import { Operation } from "@infrastructure/Database/Database.ts";
+import { SimpleDatabase } from "@infrastructure/Database/implementations/SimpleDatabase.ts";
 
-const db = new SimpleDatabase<User>()
+const db = new SimpleDatabase<User>();
 
 // Insert a record:
-await db.execute('users', { operation: Operation.CREATE, payload: user })
+await db.execute("users", { operation: Operation.CREATE, payload: user });
 
 // Partial update:
-await db.execute('users', { operation: Operation.PATCH, payload: { id: user.id, email: 'new@example.com' } })
+await db.execute("users", {
+  operation: Operation.PATCH,
+  payload: { id: user.id, email: "new@example.com" },
+});
 
 // Delete by id:
-await db.execute('users', { operation: Operation.DELETE, payload: { id: user.id } })
+await db.execute("users", { operation: Operation.DELETE, payload: { id: user.id } });
 
 // Query with a specification:
-const activeUsers = await db.query('users', new ActiveUserSpecification())
+const activeUsers = await db.query("users", new ActiveUserSpecification());
 ```
 
 ## Related

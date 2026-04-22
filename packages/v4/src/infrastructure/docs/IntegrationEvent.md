@@ -46,22 +46,22 @@ plain TypeScript.
 
 ```typescript
 export interface IntegrationEventMetadata extends BaseMetadata {
-  outcome?: 'accepted' | 'rejected'
-  aggregateType?: string
-  aggregateId?: string
-  commandType?: string
-  commandId?: string
-  expectedVersion?: number
-  currentVersion?: number
+  outcome?: "accepted" | "rejected";
+  aggregateType?: string;
+  aggregateId?: string;
+  commandType?: string;
+  commandId?: string;
+  expectedVersion?: number;
+  currentVersion?: number;
 }
 
 export interface IntegrationEvent<TPayload = unknown> {
-  id: string
-  type: string
-  payload: TPayload
-  timestamp: ISODateTime
-  metadata: Partial<IntegrationEventMetadata>
-  kind: 'integration'
+  id: string;
+  type: string;
+  payload: TPayload;
+  timestamp: ISODateTime;
+  metadata: Partial<IntegrationEventMetadata>;
+  kind: "integration";
 }
 ```
 
@@ -70,21 +70,24 @@ export interface IntegrationEvent<TPayload = unknown> {
 Define a typed integration event factory (from `examples/CreateUserRejected.ts`):
 
 ```typescript
-import type { IntegrationEvent, IntegrationEventMetadata } from '@infrastructure/EventBus/IntegrationEvent.ts'
-import { createIntegrationEvent } from '@infrastructure/EventBus/utils/createIntegrationEvent.ts'
+import type {
+  IntegrationEvent,
+  IntegrationEventMetadata,
+} from "@infrastructure/EventBus/IntegrationEvent.ts";
+import { createIntegrationEvent } from "@infrastructure/EventBus/utils/createIntegrationEvent.ts";
 
 export interface CreateUserRejectedPayload {
-  userEmail: string
+  userEmail: string;
 }
 
 export function createUserRejected(
   props: CreateUserRejectedPayload,
   metadata?: Partial<IntegrationEventMetadata>,
 ): IntegrationEvent<CreateUserRejectedPayload> {
-  return createIntegrationEvent('CreateUserRejected', props, metadata)
+  return createIntegrationEvent("CreateUserRejected", props, metadata);
 }
 
-export type CreateUserRejected = ReturnType<typeof createUserRejected>
+export type CreateUserRejected = ReturnType<typeof createUserRejected>;
 ```
 
 ## Diagram

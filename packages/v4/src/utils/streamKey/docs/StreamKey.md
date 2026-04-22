@@ -5,7 +5,7 @@
 ## What it is
 
 In **Event Sourcing**, every aggregate has its own ordered sequence of domain
-events — its *event stream*. To load or append to that stream, the
+events — its _event stream_. To load or append to that stream, the
 `EventStore` needs an unambiguous key that encodes both the aggregate type
 and its identity.
 
@@ -32,22 +32,22 @@ in hand, you already know both the aggregate type and its id.
 
 ```typescript
 // Type
-export type StreamKey = `${string}#${string}`
+export type StreamKey = `${string}#${string}`;
 
 // Factory
-export function makeStreamKey(streamName: string, aggregateId: string): StreamKey
+export function makeStreamKey(streamName: string, aggregateId: string): StreamKey;
 ```
 
 ## Usage
 
 ```typescript
-import { makeStreamKey } from '@utils/streamKey/makeStreamKey.ts'
+import { makeStreamKey } from "@utils/streamKey/makeStreamKey.ts";
 
-const key = makeStreamKey('users', user.id)
+const key = makeStreamKey("users", user.id);
 // → 'users#550e8400-e29b-41d4-a716-446655440000'
 
-const events = await eventStore.load(key)
-await eventStore.save(key, newEvents)
+const events = await eventStore.load(key);
+await eventStore.save(key, newEvents);
 ```
 
 ## Diagram

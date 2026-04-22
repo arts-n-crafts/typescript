@@ -23,26 +23,26 @@ specific command's payload type.
 ## Interface
 
 ```typescript
-export function isCommand(candidate: unknown): candidate is Command<string, unknown>
+export function isCommand(candidate: unknown): candidate is Command<string, unknown>;
 ```
 
 ## Usage
 
 ```typescript
-import { isCommand } from '@core/utils/isCommand.ts'
+import { isCommand } from "@core/utils/isCommand.ts";
 
 // In a multi-message dispatcher
 function dispatch(message: unknown): void {
   if (isCommand(message)) {
     // message is narrowed to Command<string, unknown>
-    return commandBus.execute(message)
+    return commandBus.execute(message);
   }
 
   if (isQuery(message)) {
-    return queryBus.execute(message)
+    return queryBus.execute(message);
   }
 
-  throw new Error(`Unknown message type: ${JSON.stringify(message)}`)
+  throw new Error(`Unknown message type: ${JSON.stringify(message)}`);
 }
 ```
 

@@ -24,14 +24,14 @@ returned rather than thrown.
 ## Usage
 
 ```typescript
-import { SimpleEventBus } from '@infrastructure/EventBus/implementations/SimpleEventBus.ts'
+import { SimpleEventBus } from "@infrastructure/EventBus/implementations/SimpleEventBus.ts";
 
-const bus = new SimpleEventBus<UserEvent>()
+const bus = new SimpleEventBus<UserEvent>();
 
-bus.subscribe('users', userProjectionHandler)
-bus.subscribe('users', auditLogHandler)
+bus.subscribe("users", userProjectionHandler);
+bus.subscribe("users", auditLogHandler);
 
-await bus.publish('users', userCreatedEvent)
+await bus.publish("users", userCreatedEvent);
 ```
 
 ## Related

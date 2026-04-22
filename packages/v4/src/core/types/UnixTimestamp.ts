@@ -11,4 +11,4 @@
  * - Prefer milliseconds for higher resolution; use seconds when interoperating
  *   with systems/APIs that expect second precision.
  */
-export type UnixTimestampInSeconds = number
+export type UnixTimestampInSeconds = number;

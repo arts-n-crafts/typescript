@@ -1,4 +1,4 @@
-import type { BaseMetadata } from '@core/types/BaseMetadata.ts'
+import type { BaseMetadata } from "@core/types/BaseMetadata.ts";
 /**
  * Domain events are internal, immutable, state-changing facts appended to the
  * aggregate event stream (event sourcing). They do not leave the bounded
@@ -7,29 +7,29 @@ import type { BaseMetadata } from '@core/types/BaseMetadata.ts'
 
 export interface DomainEventMetadata extends BaseMetadata {
   /** The command that was triggered to emit this DomainEvent. */
-  commandId?: string
+  commandId?: string;
   /** The command type, e.g., "CreateOrder". */
-  commandType?: string
+  commandType?: string;
 }
 
 export interface DomainEvent<TPayload = unknown> {
   /** Unique id for this domain event. */
-  id: string
+  id: string;
   /** Event type, e.g., "OrderCreated". */
-  type: string
+  type: string;
   /** Aggregate type, e.g., "Order". */
-  aggregateType: string
+  aggregateType: string;
   /** Aggregate id. */
-  aggregateId: string
+  aggregateId: string;
   /** Event payload (state change details). */
-  payload: TPayload
+  payload: TPayload;
   /**
    * Event time in epoch milliseconds (internal consistency for ES and sorting).
    * Prefer number internally; convert to ISO for outbound messages.
    */
-  timestamp: number
+  timestamp: number;
   /** Optional metadata; keep it small and stable. */
-  metadata: Partial<DomainEventMetadata>
+  metadata: Partial<DomainEventMetadata>;
   /** Discriminator for the message intent. */
-  kind: 'domain'
+  kind: "domain";
 }

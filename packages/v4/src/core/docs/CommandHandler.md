@@ -20,7 +20,7 @@ write operation. It is responsible for:
    via the repository, or routing a [`Rejection`](../../domain/docs/Rejection.md)
    to the [`Outbox`](../../infrastructure/docs/Outbox.md)
 
-The handler itself contains *no business logic* — all decisions live in the
+The handler itself contains _no business logic_ — all decisions live in the
 pure `decide()` function. This is the **Thin Application Layer** pattern: the
 handler is pure coordination, the domain is pure logic. It is also the
 **sans-I/O** boundary: the domain `Decider` is free of I/O; the handler is
@@ -35,7 +35,7 @@ a new handler class, not modifying existing routing logic.
 
 ```typescript
 export interface CommandHandler<CommandType extends Command, TReturnType = Promise<void>> {
-  execute(aCommand: CommandType): TReturnType
+  execute(aCommand: CommandType): TReturnType;
 }
 ```
 
@@ -44,13 +44,13 @@ export interface CommandHandler<CommandType extends Command, TReturnType = Promi
 A complete command handler (from `examples/CreateUserHandler.ts`):
 
 ```typescript
-import type { CommandHandler } from '@core/CommandHandler.ts'
-import type { RegisterUserCommand } from '@core/examples/CreateUser.ts'
-import type { UserEvent, UserState } from '@domain/examples/User.ts'
-import type { Repository } from '@domain/Repository.ts'
-import type { Outbox } from '@infrastructure/Outbox/Outbox.ts'
-import { User } from '@domain/examples/User.ts'
-import { isRejection } from '@domain/utils/isRejection.ts'
+import type { CommandHandler } from "@core/CommandHandler.ts";
+import type { RegisterUserCommand } from "@core/examples/CreateUser.ts";
+import type { UserEvent, UserState } from "@domain/examples/User.ts";
+import type { Repository } from "@domain/Repository.ts";
+import type { Outbox } from "@infrastructure/Outbox/Outbox.ts";
+import { User } from "@domain/examples/User.ts";
+import { isRejection } from "@domain/utils/isRejection.ts";
 
 export class CreateUserHandler implements CommandHandler<RegisterUserCommand> {
   constructor(
@@ -59,12 +59,12 @@ export class CreateUserHandler implements CommandHandler<RegisterUserCommand> {
   ) {}
 
   async execute(aCommand: RegisterUserCommand): Promise<void> {
-    const currentState = await this.repository.load(aCommand.aggregateId as string)
-    const decision = User.decide(aCommand, currentState)
+    const currentState = await this.repository.load(aCommand.aggregateId as string);
+    const decision = User.decide(aCommand, currentState);
     if (!isRejection(decision)) {
-      return this.repository.store(decision)
+      return this.repository.store(decision);
     }
-    await this.outbox.enqueue(decision)
+    await this.outbox.enqueue(decision);
   }
 }
 ```
@@ -72,7 +72,7 @@ export class CreateUserHandler implements CommandHandler<RegisterUserCommand> {
 Registered on the `CommandBus`:
 
 ```typescript
-commandBus.register('RegisterUser', new CreateUserHandler(repository, outbox))
+commandBus.register("RegisterUser", new CreateUserHandler(repository, outbox));
 ```
 
 ## Diagram

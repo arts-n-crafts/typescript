@@ -1,1 +1,1 @@
-export type StreamKey = `${string}#${string}`
+export type StreamKey = `${string}#${string}`;

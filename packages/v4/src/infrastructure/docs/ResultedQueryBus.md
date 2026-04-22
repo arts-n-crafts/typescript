@@ -20,15 +20,15 @@ the `Result` pattern used throughout the `Resulted*` implementations.
 ## Usage
 
 ```typescript
-import { ResultedQueryBus } from '@infrastructure/QueryBus/implementations/ResultedQueryBus.ts'
+import { ResultedQueryBus } from "@infrastructure/QueryBus/implementations/ResultedQueryBus.ts";
 
-const bus = new ResultedQueryBus<UserQuery, UserView>()
+const bus = new ResultedQueryBus<UserQuery, UserView>();
 
-bus.register('GetUser', getUserHandler)
+bus.register("GetUser", getUserHandler);
 
-const result = await bus.execute({ type: 'GetUser', payload: { id: '123' } })
+const result = await bus.execute({ type: "GetUser", payload: { id: "123" } });
 if (result.isOk()) {
-  const user = result.unwrap()
+  const user = result.unwrap();
 }
 ```
 

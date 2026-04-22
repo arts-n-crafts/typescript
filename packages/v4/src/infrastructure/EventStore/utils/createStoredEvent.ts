@@ -1,7 +1,7 @@
-import type { DomainEvent } from '@domain/DomainEvent.ts'
-import type { StoredEvent } from '../StoredEvent.ts'
-import { getTimestamp } from '@core/utils/getTimestamp.ts'
-import { makeStreamKey } from '@utils/index.ts'
+import type { DomainEvent } from "@domain/DomainEvent.ts";
+import type { StoredEvent } from "../StoredEvent.ts";
+import { getTimestamp } from "@core/utils/getTimestamp.ts";
+import { makeStreamKey } from "@utils/index.ts";
 
 export function createStoredEvent<TEvent extends DomainEvent>(
   streamName: string,
@@ -14,5 +14,5 @@ export function createStoredEvent<TEvent extends DomainEvent>(
     version,
     timestamp: getTimestamp(),
     event,
-  })
+  });
 }

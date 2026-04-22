@@ -1,5 +1,5 @@
-import type { DomainEvent } from "src/module/core/shapes/DomainEvent.ts";
-import type { Intent } from "src/module/core/shapes/Intent.ts";
+import type { DomainEvent } from "@core/shapes/DomainEvent.ts";
+import type { Intent } from "@core/shapes/Intent.ts";
 import type { Decision } from "../shapes/Decision.ts";
 
 export interface Decide<

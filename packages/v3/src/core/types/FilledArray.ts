@@ -1,1 +1,1 @@
-export type FilledArray = [Record<string, unknown>, ...Record<string, unknown>[]]
+export type FilledArray = [Record<string, unknown>, ...Record<string, unknown>[]];

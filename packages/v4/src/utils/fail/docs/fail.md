@@ -18,29 +18,25 @@ scattering `if (!condition) throw new Error(...)` blocks through business logic.
 ## Interface
 
 ```typescript
-export function fail(anExpression: Error): () => never
+export function fail(anExpression: Error): () => never;
 ```
 
 ## Usage
 
 ```typescript
-import { fail } from '@utils/fail/fail.ts'
-import { invariant } from '@utils/invariant/invariant.ts'
+import { fail } from "@utils/fail/fail.ts";
+import { invariant } from "@utils/invariant/invariant.ts";
 
 // Assert a condition; throw a typed error if it is not met
-invariant(
-  user.isActive,
-  fail(new Error('Cannot place order for inactive user')),
-)
+invariant(user.isActive, fail(new Error("Cannot place order for inactive user")));
 ```
 
 `fail` can also be called directly when a throw-expression would otherwise be
 needed in a position that requires an expression, not a statement:
 
 ```typescript
-const handler
-  = handlerMap.get(command.type)
-    ?? fail(new Error(`No handler registered for ${command.type}`))()
+const handler =
+  handlerMap.get(command.type) ?? fail(new Error(`No handler registered for ${command.type}`))();
 ```
 
 ## Related

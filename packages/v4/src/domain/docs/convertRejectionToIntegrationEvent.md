@@ -34,7 +34,7 @@ exists, making those fields optional.
 ## Interface
 
 ```typescript
-export function convertRejectionToIntegrationEvent(rejection: Rejection): IntegrationEvent
+export function convertRejectionToIntegrationEvent(rejection: Rejection): IntegrationEvent;
 ```
 
 ## Usage
@@ -42,24 +42,24 @@ export function convertRejectionToIntegrationEvent(rejection: Rejection): Integr
 In an `OutboxWorker` or `CommandHandler` after a rejection:
 
 ```typescript
-import { convertRejectionToIntegrationEvent } from '@domain/utils/convertRejectionToIntegrationEvent.ts'
+import { convertRejectionToIntegrationEvent } from "@domain/utils/convertRejectionToIntegrationEvent.ts";
 
-const integrationEvent = convertRejectionToIntegrationEvent(rejection)
-await eventBus.publish(integrationEvent)
+const integrationEvent = convertRejectionToIntegrationEvent(rejection);
+await eventBus.publish(integrationEvent);
 ```
 
 The resulting `IntegrationEvent` will have:
 
-| Field | Value |
-|---|---|
-| `type` | `rejection.commandType` (e.g. `'CreateUser'`) |
-| `payload` | `{ ...rejection.details, reasonCode: rejection.reasonCode }` |
-| `kind` | `'integration'` |
-| `metadata.outcome` | `'rejected'` |
-| `metadata.commandType` | from `rejection.commandType` |
-| `metadata.commandId` | from `rejection.commandId` |
-| `metadata.aggregateType` | from `rejection.metadata.aggregateType` |
-| `metadata.aggregateId` | from `rejection.metadata.aggregateId` |
+| Field                    | Value                                                        |
+| ------------------------ | ------------------------------------------------------------ |
+| `type`                   | `rejection.commandType` (e.g. `'CreateUser'`)                |
+| `payload`                | `{ ...rejection.details, reasonCode: rejection.reasonCode }` |
+| `kind`                   | `'integration'`                                              |
+| `metadata.outcome`       | `'rejected'`                                                 |
+| `metadata.commandType`   | from `rejection.commandType`                                 |
+| `metadata.commandId`     | from `rejection.commandId`                                   |
+| `metadata.aggregateType` | from `rejection.metadata.aggregateType`                      |
+| `metadata.aggregateId`   | from `rejection.metadata.aggregateId`                        |
 
 ## Related
 

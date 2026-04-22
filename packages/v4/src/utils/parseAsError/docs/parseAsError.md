@@ -11,12 +11,12 @@ was thrown.
 
 The conversion rules are:
 
-| Input type | Result |
-|------------|--------|
-| `Error` instance | returned as-is (no wrapping) |
-| `string` | `new Error(value)` |
-| JSON-serialisable value | `new Error(JSON.stringify(value))` |
-| circular / non-serialisable | `new Error('Unknown error')` |
+| Input type                  | Result                             |
+| --------------------------- | ---------------------------------- |
+| `Error` instance            | returned as-is (no wrapping)       |
+| `string`                    | `new Error(value)`                 |
+| JSON-serialisable value     | `new Error(JSON.stringify(value))` |
+| circular / non-serialisable | `new Error('Unknown error')`       |
 
 In a **hexagonal / clean architecture** the infrastructure layer is the only
 place I/O — and therefore exceptions — originate. `parseAsError` lives at that
@@ -27,30 +27,29 @@ rest of the application expects.
 ## Interface
 
 ```typescript
-export function parseAsError(value: unknown): Error
+export function parseAsError(value: unknown): Error;
 ```
 
 ## Usage
 
 ```typescript
-import { parseAsError } from '@utils/parseAsError/parseAsError.ts'
+import { parseAsError } from "@utils/parseAsError/parseAsError.ts";
 
 try {
-  await externalService.call()
-}
-catch (err) {
-  const error = parseAsError(err)
-  logger.error(error.message)
-  throw error
+  await externalService.call();
+} catch (err) {
+  const error = parseAsError(err);
+  logger.error(error.message);
+  throw error;
 }
 ```
 
 Also useful when mapping `Result` errors from oxide.ts or similar:
 
 ```typescript
-const result = await someOperation()
+const result = await someOperation();
 if (result.isErr()) {
-  throw parseAsError(result.unwrapErr())
+  throw parseAsError(result.unwrapErr());
 }
 ```
 

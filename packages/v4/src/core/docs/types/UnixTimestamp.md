@@ -19,18 +19,18 @@ calculations or when sub-second resolution matters, use milliseconds directly
 ## Interface
 
 ```typescript
-export type UnixTimestampInSeconds = number
+export type UnixTimestampInSeconds = number;
 ```
 
 ## Usage
 
 ```typescript
-import type { UnixTimestampInSeconds } from '@core/types/UnixTimestamp.ts'
+import type { UnixTimestampInSeconds } from "@core/types/UnixTimestamp.ts";
 
-const now: UnixTimestampInSeconds = Math.floor(Date.now() / 1000)
+const now: UnixTimestampInSeconds = Math.floor(Date.now() / 1000);
 
 // JWT-style expiry: 1 hour from now
-const exp: UnixTimestampInSeconds = now + 3600
+const exp: UnixTimestampInSeconds = now + 3600;
 ```
 
 ## Related

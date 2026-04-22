@@ -31,7 +31,7 @@ both success and failure as plain values rather than exceptions.
 ## Interface
 
 ```typescript
-export function isRejection(candidate: unknown): candidate is Rejection
+export function isRejection(candidate: unknown): candidate is Rejection;
 ```
 
 ## Usage
@@ -39,15 +39,14 @@ export function isRejection(candidate: unknown): candidate is Rejection
 Handling the result of a `decide()` call in a `CommandHandler`:
 
 ```typescript
-import { isRejection } from '@domain/utils/isRejection.ts'
+import { isRejection } from "@domain/utils/isRejection.ts";
 
-const result = User.decide(command, state)
+const result = User.decide(command, state);
 
 if (isRejection(result)) {
-  await this.outbox.enqueue(result) // publish as IntegrationEvent outcome='rejected'
-}
-else {
-  await this.repository.store(result) // save events to EventStore
+  await this.outbox.enqueue(result); // publish as IntegrationEvent outcome='rejected'
+} else {
+  await this.repository.store(result); // save events to EventStore
 }
 ```
 

@@ -21,23 +21,23 @@ systems that demand numeric timestamps.
 ## Interface
 
 ```typescript
-export type ISODateTime = string
+export type ISODateTime = string;
 ```
 
 ## Usage
 
 ```typescript
-import type { ISODateTime } from '@core/types/ISODateTime.ts'
+import type { ISODateTime } from "@core/types/ISODateTime.ts";
 
 interface AuditEntry {
-  occurredAt: ISODateTime
-  action: string
+  occurredAt: ISODateTime;
+  action: string;
 }
 
 const entry: AuditEntry = {
   occurredAt: new Date().toISOString(), // "2025-12-20T13:59:59.123Z"
-  action: 'user.login',
-}
+  action: "user.login",
+};
 ```
 
 ## Related

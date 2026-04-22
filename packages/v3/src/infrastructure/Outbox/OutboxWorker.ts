@@ -1,15 +1,13 @@
 interface Runnable<TReturnType = Promise<void>> {
-  runOnce(): TReturnType
+  runOnce(): TReturnType;
 }
 
 interface Tickable<TReturnType = Promise<void>> {
-  tick(): TReturnType
+  tick(): TReturnType;
 }
 
 interface Startable<TReturnType = void> {
-  start(intervalMs: number): TReturnType
+  start(intervalMs: number): TReturnType;
 }
 
-export interface OutboxWorker
-  extends Runnable, Tickable, Startable
-{ }
+export interface OutboxWorker extends Runnable, Tickable, Startable {}

@@ -33,18 +33,18 @@ modified after creation, consistent with the rest of the library's value objects
 ```typescript
 export function createRejection<TDetails = unknown>(
   rejectionSpecifics: {
-    commandId: string
-    commandType: string
-    reasonCode: string | 'VERSION_CONFLICT' | 'VALIDATION_FAILED'
-    reason?: string
-    classification: 'business' | 'validation' | 'concurrency' | 'technical'
-    retryable?: boolean
-    validationErrors?: Array<{ field?: string, code: string, message?: string }>
-    type: 'Failed' | 'Rejected' | string
-    details?: TDetails
+    commandId: string;
+    commandType: string;
+    reasonCode: string | "VERSION_CONFLICT" | "VALIDATION_FAILED";
+    reason?: string;
+    classification: "business" | "validation" | "concurrency" | "technical";
+    retryable?: boolean;
+    validationErrors?: Array<{ field?: string; code: string; message?: string }>;
+    type: "Failed" | "Rejected" | string;
+    details?: TDetails;
   },
   metadata?: Partial<RejectionMetadata>,
-): Rejection<TDetails>
+): Rejection<TDetails>;
 ```
 
 ## Usage
@@ -52,25 +52,28 @@ export function createRejection<TDetails = unknown>(
 Define a typed rejection factory (from `examples/UserAlreadyExists.ts`):
 
 ```typescript
-import type { CreateUserProps, RegisterUserCommand } from '@core/examples/CreateUser.ts'
-import type { Rejection, RejectionMetadata } from '@domain/Rejection.ts'
-import { createRejection } from '@domain/utils/createRejection.ts'
+import type { CreateUserProps, RegisterUserCommand } from "@core/examples/CreateUser.ts";
+import type { Rejection, RejectionMetadata } from "@domain/Rejection.ts";
+import { createRejection } from "@domain/utils/createRejection.ts";
 
 export function createUserAlreadyExistsRejection(
   command: RegisterUserCommand,
   metadata?: Partial<RejectionMetadata>,
 ): Rejection<CreateUserProps> {
-  return createRejection({
-    classification: 'business',
-    commandId: command.id,
-    commandType: command.type,
-    reasonCode: 'ALREADY_EXISTS',
-    type: 'Rejected',
-    details: command.payload,
-  }, metadata)
+  return createRejection(
+    {
+      classification: "business",
+      commandId: command.id,
+      commandType: command.type,
+      reasonCode: "ALREADY_EXISTS",
+      type: "Rejected",
+      details: command.payload,
+    },
+    metadata,
+  );
 }
 
-export type UserAlreadyExistsRejection = ReturnType<typeof createUserAlreadyExistsRejection>
+export type UserAlreadyExistsRejection = ReturnType<typeof createUserAlreadyExistsRejection>;
 ```
 
 `commandType: 'RegisterUser'` + `type: 'Rejected'` → `rejection.type === 'RegisterUserRejected'`.
@@ -78,7 +81,7 @@ export type UserAlreadyExistsRejection = ReturnType<typeof createUserAlreadyExis
 Then inside a `Decider.decide()`:
 
 ```typescript
-return createUserAlreadyExistsRejection(command)
+return createUserAlreadyExistsRejection(command);
 ```
 
 ## Related

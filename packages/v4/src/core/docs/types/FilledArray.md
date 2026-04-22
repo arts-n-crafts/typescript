@@ -25,24 +25,24 @@ type FilledArray = [first, ...rest]
 ## Interface
 
 ```typescript
-export type FilledArray = [Record<string, unknown>, ...Record<string, unknown>[]]
+export type FilledArray = [Record<string, unknown>, ...Record<string, unknown>[]];
 ```
 
 ## Usage
 
 ```typescript
-import type { FilledArray } from '@core/types/FilledArray.ts'
+import type { FilledArray } from "@core/types/FilledArray.ts";
 
 function batchInsert(records: FilledArray): Promise<void> {
   // TypeScript guarantees records.length >= 1 — no defensive empty-check needed
 }
 
 // ✅ valid
-batchInsert([{ id: '1', name: 'Alice' }])
-batchInsert([{ id: '1' }, { id: '2' }])
+batchInsert([{ id: "1", name: "Alice" }]);
+batchInsert([{ id: "1" }, { id: "2" }]);
 
 // ✗ compile error — argument of type '[]' is not assignable to FilledArray
-batchInsert([])
+batchInsert([]);
 ```
 
 ## Related

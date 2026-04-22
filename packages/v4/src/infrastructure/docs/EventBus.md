@@ -12,11 +12,13 @@ consumers (projection handlers, saga handlers, ACL adapters) via named streams.
 The interface is split into two composable sub-interfaces:
 
 **`EventProducer`** — publishes an event to a stream:
+
 ```
 publish(stream, event) → TReturnType
 ```
 
 **`EventConsumer`** — subscribes handlers to a stream and delivers events to them:
+
 ```
 subscribe(stream, handler) → TSubscribeReturnType
 consume(stream, event)    → TConsumeReturnType
@@ -32,11 +34,13 @@ stream name acts as the routing key — handlers subscribe to a stream (e.g.
 `'users'`) and receive all events published to it.
 
 In **Event Sourcing / EDA**, the typical flow is:
+
 1. `CommandHandler` saves events to the `EventStore` and enqueues them to the `Outbox`
 2. `OutboxWorker` dequeues entries and calls `eventBus.publish(stream, integrationEvent)`
 3. Subscribed `EventHandler`s react — updating projections, triggering sagas, etc.
 
 Two implementations ship:
+
 - **`SimpleEventBus`** — `Promise<void>`, throws if a handler errors
 - **`ResultedEventBus`** — aggregates handler errors into a `Result`
 
@@ -47,7 +51,7 @@ export interface EventProducer<
   TEvent extends DomainEvent | IntegrationEvent | ExternalEvent,
   TReturnType = Promise<void>,
 > {
-  publish(stream: string, anEvent: TEvent): TReturnType
+  publish(stream: string, anEvent: TEvent): TReturnType;
 }
 
 export interface EventConsumer<
@@ -56,21 +60,21 @@ export interface EventConsumer<
   TConsumeReturnType = Promise<void>,
   TSubscribeReturnType = void,
 > {
-  subscribe(stream: string, handler: TEventHandler): TSubscribeReturnType
-  consume(stream: string, anEvent: TEvent): TConsumeReturnType
+  subscribe(stream: string, handler: TEventHandler): TSubscribeReturnType;
+  consume(stream: string, anEvent: TEvent): TConsumeReturnType;
 }
 ```
 
 ## Usage
 
 ```typescript
-import { SimpleEventBus } from '@infrastructure/EventBus/implementations/SimpleEventBus.ts'
+import { SimpleEventBus } from "@infrastructure/EventBus/implementations/SimpleEventBus.ts";
 
-const eventBus = new SimpleEventBus<UserEvent>()
-eventBus.subscribe('users', new UserCreatedEventHandler(repository))
+const eventBus = new SimpleEventBus<UserEvent>();
+eventBus.subscribe("users", new UserCreatedEventHandler(repository));
 
 // Publishing triggers all subscribed handlers:
-await eventBus.publish('users', userCreatedEvent)
+await eventBus.publish("users", userCreatedEvent);
 ```
 
 ## Diagram

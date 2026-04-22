@@ -29,11 +29,11 @@ the domain free of storage metadata.
 
 ```typescript
 export interface StoredEvent<TEvent> {
-  id: string
-  streamKey: StreamKey
-  version: number
-  timestamp: number
-  event: TEvent
+  id: string;
+  streamKey: StreamKey;
+  version: number;
+  timestamp: number;
+  event: TEvent;
 }
 ```
 
@@ -43,9 +43,9 @@ export interface StoredEvent<TEvent> {
 `createStoredEvent` and is never instantiated directly by application code:
 
 ```typescript
-import { createStoredEvent } from '@infrastructure/EventStore/utils/createStoredEvent.ts'
+import { createStoredEvent } from "@infrastructure/EventStore/utils/createStoredEvent.ts";
 
-const stored = createStoredEvent('users', currentVersion + 1, domainEvent)
+const stored = createStoredEvent("users", currentVersion + 1, domainEvent);
 // stored.streamKey === 'users#<aggregateId>'
 // stored.version  === currentVersion + 1
 // stored.event    === domainEvent

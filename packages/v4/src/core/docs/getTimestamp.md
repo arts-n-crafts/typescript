@@ -28,19 +28,19 @@ second-precision timestamps, divide by 1000 and floor — see
 ## Interface
 
 ```typescript
-export const getTimestamp = (date: Date = new Date()): number => date.getTime()
+export const getTimestamp = (date: Date = new Date()): number => date.getTime();
 ```
 
 ## Usage
 
 ```typescript
-import { getTimestamp } from '@core/utils/getTimestamp.ts'
+import { getTimestamp } from "@core/utils/getTimestamp.ts";
 
 // Current time (typical usage inside factories)
-const timestamp = getTimestamp() // e.g. 1734000000000
+const timestamp = getTimestamp(); // e.g. 1734000000000
 
 // Deterministic timestamp for tests
-const timestamp = getTimestamp(new Date('2012-12-12T00:00:00Z')) // 1355270400000
+const timestamp = getTimestamp(new Date("2012-12-12T00:00:00Z")); // 1355270400000
 ```
 
 ## Related

@@ -21,18 +21,18 @@ results are themselves `Result`-typed and must be unwrapped before use.
 ## Usage
 
 ```typescript
-import { ResultedEventStore } from '@infrastructure/EventStore/implementations/ResultedEventStore.ts'
+import { ResultedEventStore } from "@infrastructure/EventStore/implementations/ResultedEventStore.ts";
 
-const eventStore = new ResultedEventStore(resultedDatabase, outbox)
+const eventStore = new ResultedEventStore(resultedDatabase, outbox);
 
 // Replay history:
-const loaded = await eventStore.load('users', aggregateId)
-const events = loaded.unwrap()
+const loaded = await eventStore.load("users", aggregateId);
+const events = loaded.unwrap();
 
 // Persist new events:
-const appended = await eventStore.append('users', [userCreatedEvent])
+const appended = await eventStore.append("users", [userCreatedEvent]);
 if (appended.isErr()) {
-  console.error(appended.unwrapErr())
+  console.error(appended.unwrapErr());
 }
 ```
 

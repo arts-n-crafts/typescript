@@ -24,21 +24,21 @@ directly unwraps `Result`-typed load responses.
 ## Usage
 
 ```typescript
-import { ResultedRepository } from '@infrastructure/Repository/implementations/ResultedRepository.ts'
+import { ResultedRepository } from "@infrastructure/Repository/implementations/ResultedRepository.ts";
 
 const repository = new ResultedRepository(
   resultedEventStore,
-  'users',
+  "users",
   User.evolve,
   User.initialState,
-)
+);
 
-const loaded = await repository.load(aggregateId)
-const state = loaded.unwrap()
+const loaded = await repository.load(aggregateId);
+const state = loaded.unwrap();
 
-const stored = await repository.store([userCreatedEvent])
+const stored = await repository.store([userCreatedEvent]);
 if (stored.isErr()) {
-  console.error(stored.unwrapErr())
+  console.error(stored.unwrapErr());
 }
 ```
 

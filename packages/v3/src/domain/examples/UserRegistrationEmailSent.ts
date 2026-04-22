@@ -1,8 +1,8 @@
-import type { DomainEvent, DomainEventMetadata } from '@domain/DomainEvent.ts'
-import { createDomainEvent } from '@domain/utils/createDomainEvent.ts'
+import type { DomainEvent, DomainEventMetadata } from "@domain/DomainEvent.ts";
+import { createDomainEvent } from "@domain/utils/createDomainEvent.ts";
 
 export interface UserRegistrationEmailSentPayload {
-  status: 'SUCCESS' | 'FAILED'
+  status: "SUCCESS" | "FAILED";
 }
 
 export function createUserRegistrationEmailSent(
@@ -10,7 +10,7 @@ export function createUserRegistrationEmailSent(
   props: UserRegistrationEmailSentPayload,
   metadata?: Partial<DomainEventMetadata>,
 ): DomainEvent<UserRegistrationEmailSentPayload> {
-  return createDomainEvent('UserRegistrationEmailSent', aggregateId, props, metadata)
+  return createDomainEvent("UserRegistrationEmailSent", aggregateId, props, metadata);
 }
 
-export type UserRegistrationEmailSentEvent = ReturnType<typeof createUserRegistrationEmailSent>
+export type UserRegistrationEmailSentEvent = ReturnType<typeof createUserRegistrationEmailSent>;

@@ -17,7 +17,7 @@ Several architectural principles converge on this type:
 - **DDD**: Commands target a specific aggregate, identified by `aggregateId`
   and `aggregateType`. The aggregate is the consistency boundary responsible
   for deciding whether the command is valid.
-- **Hexagonal / clean architecture**: The `Command` interface is a *port* — a
+- **Hexagonal / clean architecture**: The `Command` interface is a _port_ — a
   plain data object defined in the core layer that the application layer
   receives from the outside world (HTTP, CLI, message broker) and hands to the
   domain layer for processing. No framework or I/O dependency leaks in.
@@ -35,15 +35,15 @@ freezes the object and stamps it with an `id`, `timestamp`, and
 export interface CommandMetadata extends BaseMetadata {}
 
 export interface Command<TType = string, TPayload = unknown> extends WithIdentifier {
-  id: string
-  type: TType
-  aggregateType?: string
-  aggregateId?: string
-  payload: TPayload
-  timestamp: number
-  expectedVersion?: number
-  metadata?: Partial<CommandMetadata>
-  kind: 'command'
+  id: string;
+  type: TType;
+  aggregateType?: string;
+  aggregateId?: string;
+  payload: TPayload;
+  timestamp: number;
+  expectedVersion?: number;
+  metadata?: Partial<CommandMetadata>;
+  kind: "command";
 }
 ```
 
@@ -52,23 +52,23 @@ export interface Command<TType = string, TPayload = unknown> extends WithIdentif
 Define a typed command (from `examples/CreateUser.ts`):
 
 ```typescript
-import type { Command, CommandMetadata } from '@core/Command.ts'
-import { createCommand } from '@core/utils/createCommand.ts'
+import type { Command, CommandMetadata } from "@core/Command.ts";
+import { createCommand } from "@core/utils/createCommand.ts";
 
 export interface CreateUserProps {
-  name: string
-  email: string
+  name: string;
+  email: string;
 }
 
 export function createRegisterUserCommand(
   aggregateId: string,
   payload: CreateUserProps,
   metadata?: Partial<CommandMetadata>,
-): Command<'CreateUser', CreateUserProps> {
-  return createCommand('CreateUser', aggregateId, 'User', payload, metadata)
+): Command<"CreateUser", CreateUserProps> {
+  return createCommand("CreateUser", aggregateId, "User", payload, metadata);
 }
 
-export type RegisterUserCommand = ReturnType<typeof createRegisterUserCommand>
+export type RegisterUserCommand = ReturnType<typeof createRegisterUserCommand>;
 ```
 
 ## Diagram

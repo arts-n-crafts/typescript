@@ -33,7 +33,7 @@ export function createCommand<TType extends string, TPayload>(
   aggregateType: string,
   payload: TPayload,
   metadata?: Partial<CommandMetadata>,
-): Command<TType, TPayload>
+): Command<TType, TPayload>;
 ```
 
 ## Usage
@@ -41,21 +41,21 @@ export function createCommand<TType extends string, TPayload>(
 Define a typed command factory (from `examples/CreateUser.ts`):
 
 ```typescript
-import type { Command, CommandMetadata } from '@core/Command.ts'
-import { createCommand } from '@core/utils/createCommand.ts'
+import type { Command, CommandMetadata } from "@core/Command.ts";
+import { createCommand } from "@core/utils/createCommand.ts";
 
 export interface CreateUserProps {
-  name: string
-  email: string
-  age?: number
+  name: string;
+  email: string;
+  age?: number;
 }
 
 export function createRegisterUserCommand(
   aggregateId: string,
   payload: CreateUserProps,
   metadata?: Partial<CommandMetadata>,
-): Command<'CreateUser', CreateUserProps> {
-  return createCommand('CreateUser', aggregateId, 'User', payload, metadata)
+): Command<"CreateUser", CreateUserProps> {
+  return createCommand("CreateUser", aggregateId, "User", payload, metadata);
 }
 ```
 
@@ -63,11 +63,11 @@ Then at the call site:
 
 ```typescript
 const cmd = createRegisterUserCommand(randomUUID(), {
-  name: 'Alice',
-  email: 'alice@example.com',
-})
+  name: "Alice",
+  email: "alice@example.com",
+});
 
-await commandBus.execute(cmd)
+await commandBus.execute(cmd);
 ```
 
 ## Related

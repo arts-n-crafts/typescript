@@ -23,7 +23,7 @@ they are looking at an outbound integration envelope before accessing
 ## Interface
 
 ```typescript
-export function isIntegrationEvent<TPayload>(event: unknown): event is IntegrationEvent<TPayload>
+export function isIntegrationEvent<TPayload>(event: unknown): event is IntegrationEvent<TPayload>;
 ```
 
 ## Usage
@@ -31,12 +31,12 @@ export function isIntegrationEvent<TPayload>(event: unknown): event is Integrati
 In an event bus subscriber:
 
 ```typescript
-import { isIntegrationEvent } from '@infrastructure/EventBus/utils/isIntegrationEvent.ts'
+import { isIntegrationEvent } from "@infrastructure/EventBus/utils/isIntegrationEvent.ts";
 
 function onMessage(message: unknown): void {
-  if (isIntegrationEvent(message) && message.metadata.outcome === 'accepted') {
+  if (isIntegrationEvent(message) && message.metadata.outcome === "accepted") {
     // message is narrowed to IntegrationEvent
-    logger.info('Accepted event received', { type: message.type })
+    logger.info("Accepted event received", { type: message.type });
   }
 }
 ```

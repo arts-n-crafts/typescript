@@ -23,17 +23,17 @@ Return types:
 ## Usage
 
 ```typescript
-import { ResultedEventBus } from '@infrastructure/EventBus/implementations/ResultedEventBus.ts'
+import { ResultedEventBus } from "@infrastructure/EventBus/implementations/ResultedEventBus.ts";
 
-const bus = new ResultedEventBus<UserEvent>()
+const bus = new ResultedEventBus<UserEvent>();
 
-bus.subscribe('users', userProjectionHandler)
-bus.subscribe('users', auditLogHandler)
+bus.subscribe("users", userProjectionHandler);
+bus.subscribe("users", auditLogHandler);
 
-const result = await bus.publish('users', userCreatedEvent)
+const result = await bus.publish("users", userCreatedEvent);
 if (result.isErr()) {
   // AggregateError — one or more handlers failed
-  console.error(result.unwrapErr())
+  console.error(result.unwrapErr());
 }
 ```
 

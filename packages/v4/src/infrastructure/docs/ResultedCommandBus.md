@@ -20,18 +20,18 @@ This makes error handling explicit and composable with the `Result` pattern used
 ## Usage
 
 ```typescript
-import { ResultedCommandBus } from '@infrastructure/CommandBus/implementations/ResultedCommandBus.ts'
+import { ResultedCommandBus } from "@infrastructure/CommandBus/implementations/ResultedCommandBus.ts";
 
-const bus = new ResultedCommandBus<UserCommand>()
+const bus = new ResultedCommandBus<UserCommand>();
 
-const registered = bus.register('CreateUser', createUserHandler)
+const registered = bus.register("CreateUser", createUserHandler);
 if (registered.isErr()) {
-  console.error(registered.unwrapErr())
+  console.error(registered.unwrapErr());
 }
 
-const result = await bus.execute({ type: 'CreateUser', payload: { name: 'Alice' } })
+const result = await bus.execute({ type: "CreateUser", payload: { name: "Alice" } });
 if (result.isErr()) {
-  console.error(result.unwrapErr())
+  console.error(result.unwrapErr());
 }
 ```
 

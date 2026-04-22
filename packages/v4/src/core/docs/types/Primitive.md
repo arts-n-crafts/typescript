@@ -23,23 +23,23 @@ predicate).
 ## Interface
 
 ```typescript
-export type Primitive = string | number | boolean | bigint | symbol | null | undefined
+export type Primitive = string | number | boolean | bigint | symbol | null | undefined;
 ```
 
 ## Usage
 
 ```typescript
-import type { Primitive } from '@core/types/Primitive.ts'
+import type { Primitive } from "@core/types/Primitive.ts";
 
 // Accept any scalar comparison value
 function eq(field: string, value: Primitive): QueryNode {
-  return { type: 'eq', field, value }
+  return { type: "eq", field, value };
 }
 
-eq('status', 'active') // ✅ string
-eq('age', 30) // ✅ number
-eq('verified', true) // ✅ boolean
-eq('score', { avg: 5 }) // ✗ compile error — object is not Primitive
+eq("status", "active"); // ✅ string
+eq("age", 30); // ✅ number
+eq("verified", true); // ✅ boolean
+eq("score", { avg: 5 }); // ✗ compile error — object is not Primitive
 ```
 
 ## Related

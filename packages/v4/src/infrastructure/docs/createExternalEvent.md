@@ -28,7 +28,7 @@ export function createExternalEvent<TPayload = unknown>(
   type: string,
   payload: TPayload,
   metadata?: Partial<ExternalEventMetadata>,
-): ExternalEvent<TPayload>
+): ExternalEvent<TPayload>;
 ```
 
 ## Usage
@@ -36,22 +36,25 @@ export function createExternalEvent<TPayload = unknown>(
 Define a typed external event factory (from `examples/CreateContractSigned.ts`):
 
 ```typescript
-import type { ExternalEvent, ExternalEventMetadata } from '@infrastructure/EventBus/ExternalEvent.ts'
-import { createExternalEvent } from '@infrastructure/EventBus/utils/createExternalEvent.ts'
+import type {
+  ExternalEvent,
+  ExternalEventMetadata,
+} from "@infrastructure/EventBus/ExternalEvent.ts";
+import { createExternalEvent } from "@infrastructure/EventBus/utils/createExternalEvent.ts";
 
 export interface ContractSignedPayload {
-  userId: string
-  product: '1' | '2' | '3'
+  userId: string;
+  product: "1" | "2" | "3";
 }
 
 export function createContractSigned(
   props: ContractSignedPayload,
   metadata?: Partial<ExternalEventMetadata>,
 ): ExternalEvent<ContractSignedPayload> {
-  return createExternalEvent('createContractSigned', props, metadata)
+  return createExternalEvent("createContractSigned", props, metadata);
 }
 
-export type ContractSignedEvent = ReturnType<typeof createContractSigned>
+export type ContractSignedEvent = ReturnType<typeof createContractSigned>;
 ```
 
 ## Related

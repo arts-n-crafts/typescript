@@ -28,17 +28,17 @@ The four operations map directly to the [`Outbox`](./Outbox.md) interface:
 ## Usage
 
 ```typescript
-import { GenericOutboxWorker } from '@infrastructure/Outbox/implementations/GenericOutboxWorker.ts'
-import { InMemoryOutbox } from '@infrastructure/Outbox/implementations/InMemoryOutbox.ts'
+import { GenericOutboxWorker } from "@infrastructure/Outbox/implementations/GenericOutboxWorker.ts";
+import { InMemoryOutbox } from "@infrastructure/Outbox/implementations/InMemoryOutbox.ts";
 
-const outbox = new InMemoryOutbox()
-const worker = new GenericOutboxWorker(outbox, eventBus, 'users')
+const outbox = new InMemoryOutbox();
+const worker = new GenericOutboxWorker(outbox, eventBus, "users");
 
 // Enqueue after a command handler produces a domain event:
-await outbox.enqueue(userCreatedEvent)
+await outbox.enqueue(userCreatedEvent);
 
 // Worker drains pending entries:
-await worker.runOnce()
+await worker.runOnce();
 ```
 
 ## Related

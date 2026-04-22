@@ -9,12 +9,12 @@ has the same in-memory `Map` storage and `goOffline()` test helper as
 [`SimpleDatabase`](./SimpleDatabase.md), but never throws. Every error condition is returned as
 `Err`:
 
-| Condition | Returned |
-|-----------|----------|
-| `goOffline()` active | `Err(DatabaseOfflineException)` |
-| `CREATE` with duplicate `id` | `Err(DuplicateRecordException)` |
-| `PUT`/`PATCH`/`DELETE` with missing `id` | `Err(RecordNotFoundException)` |
-| Any success | `Ok({ id })` from `execute`; `Ok(records[])` from `query` |
+| Condition                                | Returned                                                  |
+| ---------------------------------------- | --------------------------------------------------------- |
+| `goOffline()` active                     | `Err(DatabaseOfflineException)`                           |
+| `CREATE` with duplicate `id`             | `Err(DuplicateRecordException)`                           |
+| `PUT`/`PATCH`/`DELETE` with missing `id` | `Err(RecordNotFoundException)`                            |
+| Any success                              | `Ok({ id })` from `execute`; `Ok(records[])` from `query` |
 
 `execute` returns `Promise<Result<{ id: string }, Error>>` — on success the affected record's `id`
 is returned inside `Ok`, giving callers a confirmation without needing to re-query.
@@ -26,18 +26,18 @@ responses directly.
 ## Usage
 
 ```typescript
-import { Operation } from '@infrastructure/Database/Database.ts'
-import { ResultedDatabase } from '@infrastructure/Database/implementations/ResultedDatabase.ts'
+import { Operation } from "@infrastructure/Database/Database.ts";
+import { ResultedDatabase } from "@infrastructure/Database/implementations/ResultedDatabase.ts";
 
-const db = new ResultedDatabase<User>()
+const db = new ResultedDatabase<User>();
 
-const created = await db.execute('users', { operation: Operation.CREATE, payload: user })
+const created = await db.execute("users", { operation: Operation.CREATE, payload: user });
 if (created.isErr()) {
-  console.error(created.unwrapErr()) // DuplicateRecordException
+  console.error(created.unwrapErr()); // DuplicateRecordException
 }
 
-const queried = await db.query('users', new ActiveUserSpecification())
-const users = queried.unwrap()
+const queried = await db.query("users", new ActiveUserSpecification());
+const users = queried.unwrap();
 ```
 
 ## Related

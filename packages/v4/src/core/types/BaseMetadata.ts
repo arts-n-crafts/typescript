@@ -1,22 +1,22 @@
 export interface BaseMetadata {
   /** Correlates a flow across services (end-to-end). */
-  correlationId?: string
+  correlationId?: string;
   /** Points to the immediate cause (often previous message id). */
-  causationId?: string
+  causationId?: string;
   /** Trace identifier for distributed tracing. */
-  traceId?: string
+  traceId?: string;
   /** Schema version of this event's metadata/payload. */
-  schemaVersion?: number
+  schemaVersion?: number;
   /** Tenant identifier for multi-tenant systems. */
-  tenantId?: string
+  tenantId?: string;
   /** Actor or user responsible for the change. */
-  userId?: string
+  userId?: string;
   /** Marker: domain events originate internally. */
   /**
    * Producer identifier. Prefer your service name, e.g., "orders-service".
    */
-  source?: string
+  source?: string;
 
   /** Room for additive extensions. */
-  [key: string]: unknown
+  [key: string]: unknown;
 }

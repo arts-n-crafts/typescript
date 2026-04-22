@@ -38,7 +38,7 @@ type union. A rejection is not an event — it is a refused command decision.
 ## Interface
 
 ```typescript
-export function isEvent(event: unknown): event is DomainEvent | IntegrationEvent | ExternalEvent
+export function isEvent(event: unknown): event is DomainEvent | IntegrationEvent | ExternalEvent;
 ```
 
 ## Usage
@@ -46,28 +46,26 @@ export function isEvent(event: unknown): event is DomainEvent | IntegrationEvent
 In a generic event middleware or logger:
 
 ```typescript
-import { isEvent } from '@domain/utils/isEvent.ts'
+import { isEvent } from "@domain/utils/isEvent.ts";
 
 function onMessage(message: unknown): void {
   if (!isEvent(message)) {
-    logger.warn('Received non-event message', { message })
-    return
+    logger.warn("Received non-event message", { message });
+    return;
   }
   // message is narrowed to DomainEvent | IntegrationEvent | ExternalEvent
-  logger.info('Received event', { type: message.type, kind: message.kind })
+  logger.info("Received event", { type: message.type, kind: message.kind });
 }
 ```
 
 In a narrower guard that delegates to `isEvent` first:
 
 ```typescript
-import type { DomainEvent } from '@domain/DomainEvent.ts'
-import { isEvent } from './isEvent.ts'
+import type { DomainEvent } from "@domain/DomainEvent.ts";
+import { isEvent } from "./isEvent.ts";
 
 export function isDomainEvent(event: unknown): event is DomainEvent {
-  return isEvent(event)
-    && 'aggregateId' in event
-    && event.kind === 'domain'
+  return isEvent(event) && "aggregateId" in event && event.kind === "domain";
 }
 ```
 

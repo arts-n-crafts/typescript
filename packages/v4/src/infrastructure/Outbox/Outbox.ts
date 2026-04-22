@@ -1,9 +1,9 @@
-import type { DomainEvent } from '@domain/DomainEvent.ts'
-import type { Rejection } from '@domain/Rejection.ts'
-import type { OutboxEntry } from '@infrastructure/Outbox/OutboxEntry.ts'
+import type { DomainEvent } from "@domain/DomainEvent.ts";
+import type { Rejection } from "@domain/Rejection.ts";
+import type { OutboxEntry } from "@infrastructure/Outbox/OutboxEntry.ts";
 
 interface Queueable<TReturnType = Promise<void>> {
-  enqueue(event: DomainEvent | Rejection): TReturnType
+  enqueue(event: DomainEvent | Rejection): TReturnType;
 }
 
 export interface Outbox<
@@ -11,10 +11,8 @@ export interface Outbox<
   TGetPendingReturnType = Promise<OutboxEntry[]>,
   TMarkAsPublishedReturnType = Promise<void>,
   TMarkAsFailedReturnType = Promise<void>,
->
-  extends Queueable<TEnqueueReturnType>
-{
-  getPending(limit?: number): TGetPendingReturnType
-  markAsPublished(id: string): TMarkAsPublishedReturnType
-  markAsFailed(id: string): TMarkAsFailedReturnType
+> extends Queueable<TEnqueueReturnType> {
+  getPending(limit?: number): TGetPendingReturnType;
+  markAsPublished(id: string): TMarkAsPublishedReturnType;
+  markAsFailed(id: string): TMarkAsFailedReturnType;
 }

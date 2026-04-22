@@ -7,15 +7,14 @@
     "moduleDetection": "force",
 
     // Path
-    "baseUrl": "./",
     "module": "NodeNext",
     // Bundler mode
     "moduleResolution": "NodeNext",
     "paths": {
-      "@domain/*": ["src/domain/*"],
-      "@core/*": ["src/core/*"],
-      "@infrastructure/*": ["src/infrastructure/*"],
-      "@utils/*": ["src/utils/*"]
+      "@domain/*": ["./src/domain/*"],
+      "@core/*": ["./src/core/*"],
+      "@infrastructure/*": ["./src/infrastructure/*"],
+      "@utils/*": ["./src/utils/*"]
     },
     "types": ["vitest/globals", "bun"],
     "allowImportingTsExtensions": true,
@@ -32,7 +31,6 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true
   },
-  "include": [
-		"./src/**/*", "vitest.config.ts", "tsup.config.ts"],
+  "include": ["./src/**/*", "vitest.config.ts", "tsup.config.ts"],
   "exclude": ["dist", "coverage", ".husky", ".github", "node_modules"]
 }

@@ -1,12 +1,12 @@
-import { isEqual } from './isEqual.ts'
+import { isEqual } from "./isEqual.ts";
 
 const testValues: [unknown, unknown, boolean][] = [
   [null, null, true],
   [undefined, undefined, true],
   [null, undefined, false],
   [undefined, null, false],
-  ['undefined', undefined, false],
-  ['undefined', 'undefined', true],
+  ["undefined", undefined, false],
+  ["undefined", "undefined", true],
   [1, 1, true],
   [1, 4, false],
   [3.123, 3.123, true],
@@ -18,28 +18,21 @@ const testValues: [unknown, unknown, boolean][] = [
   [[], [], true],
   [[], [1], false],
   [[1], [1], true],
-  [[1, 2, 3], [1, 3, 'string'], false],
-  [[1, 2, 'string'], [1, 3, 'string'], false],
-  [[1, '2', null, { object: 1 }], [1, '2', null, { object: 1 }], true],
-  [[1, 2, { object: 1 }], [1, 2, { object: 'string' }], false],
+  [[1, 2, 3], [1, 3, "string"], false],
+  [[1, 2, "string"], [1, 3, "string"], false],
+  [[1, "2", null, { object: 1 }], [1, "2", null, { object: 1 }], true],
+  [[1, 2, { object: 1 }], [1, 2, { object: "string" }], false],
   [{}, {}, true],
   [{}, { test: 1 }, false],
   [{ test: 1 }, {}, false],
   [{ test: 1 }, { test: 1 }, true],
   [{ test: 1 }, { test: 2 }, false],
   [{ test: 1, deep: { test: 2 } }, { test: 1, deep: { test: 2 } }, true],
-  [
-    { test: 1, deep: { test: 'string' } },
-    { test: 1, deep: { test: 2 } },
-    false,
-  ],
-]
+  [{ test: 1, deep: { test: "string" } }, { test: 1, deep: { test: 2 } }, false],
+];
 
-describe('isEqual', () => {
-  it.each(testValues)(
-    'should compare %s and %s (%s)',
-    (a, b, expectedResult) => {
-      expect(isEqual(a, b)).toEqual(expectedResult)
-    },
-  )
-})
+describe("isEqual", () => {
+  it.each(testValues)("should compare %s and %s (%s)", (a, b, expectedResult) => {
+    expect(isEqual(a, b)).toEqual(expectedResult);
+  });
+});

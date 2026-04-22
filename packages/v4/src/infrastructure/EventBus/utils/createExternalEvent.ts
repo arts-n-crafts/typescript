@@ -1,7 +1,11 @@
-import type { ExternalEvent, ExternalEventMetadata } from '../ExternalEvent.ts'
-import { randomUUID } from 'node:crypto'
+import type { ExternalEvent, ExternalEventMetadata } from "../ExternalEvent.ts";
+import { randomUUID } from "node:crypto";
 
-export function createExternalEvent<TPayload = unknown>(type: string, payload: TPayload, metadata?: Partial<ExternalEventMetadata>): ExternalEvent<TPayload> {
+export function createExternalEvent<TPayload = unknown>(
+  type: string,
+  payload: TPayload,
+  metadata?: Partial<ExternalEventMetadata>,
+): ExternalEvent<TPayload> {
   return Object.freeze({
     id: randomUUID(),
     type,
@@ -10,6 +14,6 @@ export function createExternalEvent<TPayload = unknown>(type: string, payload: T
     metadata: {
       ...metadata,
     },
-    kind: 'external',
-  })
+    kind: "external",
+  });
 }

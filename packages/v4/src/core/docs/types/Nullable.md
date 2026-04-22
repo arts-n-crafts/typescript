@@ -27,27 +27,27 @@ being passed inward.
 
 ```typescript
 export type Nullable<T> = {
-  [P in keyof T]: T[P] | null
-}
+  [P in keyof T]: T[P] | null;
+};
 ```
 
 ## Usage
 
 ```typescript
-import type { Nullable } from '@core/types/Nullable.ts'
+import type { Nullable } from "@core/types/Nullable.ts";
 
 interface UserRecord {
-  id: string
-  name: string
-  deletedAt: string
+  id: string;
+  name: string;
+  deletedAt: string;
 }
 
 // A row from the database where deletedAt may be NULL
-type UserRow = Nullable<UserRecord>
+type UserRow = Nullable<UserRecord>;
 // → { id: string | null; name: string | null; deletedAt: string | null }
 
 // More commonly, apply only to the nullable columns:
-type UserRow = Omit<UserRecord, 'deletedAt'> & Nullable<Pick<UserRecord, 'deletedAt'>>
+type UserRow = Omit<UserRecord, "deletedAt"> & Nullable<Pick<UserRecord, "deletedAt">>;
 // → { id: string; name: string; deletedAt: string | null }
 ```
 

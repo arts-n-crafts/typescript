@@ -1,5 +1,5 @@
-import type { DomainEvent, DomainEventMetadata } from '@domain/DomainEvent.ts'
-import { randomUUID } from 'node:crypto'
+import type { DomainEvent, DomainEventMetadata } from "@domain/DomainEvent.ts";
+import { randomUUID } from "node:crypto";
 
 export function createDomainEvent<TPayload = unknown>(
   type: string,
@@ -12,8 +12,8 @@ export function createDomainEvent<TPayload = unknown>(
     type,
     aggregateId,
     payload,
-    source: 'internal',
+    source: "internal",
     timestamp: new Date().toISOString(),
     metadata,
-  })
+  });
 }
